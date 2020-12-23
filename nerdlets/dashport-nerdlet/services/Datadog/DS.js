@@ -200,7 +200,6 @@ const _parseDashboars = async (
         }
       }
     }
-    debugger;
   } catch (error) {
     const response = {
       message: error.message,

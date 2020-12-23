@@ -1,7 +1,6 @@
 .mainModal {
     display: grid;
     grid-template: 10% 90% /1fr;
-    height: 150px;
 }
 .modal__closeIcon {
     display: flex;
@@ -34,7 +33,7 @@
     font-family: Open Sans;
     font-style: normal;
     font-weight: bold;
-    font-size:12px;
+    font-size: 12px;
     line-height: 16px;
     display: flex;
     height: 70%;
@@ -88,4 +87,19 @@
     height: 85%;
     row-gap: 15px;
     grid-template: 20% 40% 40% / 1fr;
+}
+.modal__infoAditional {
+    display: grid;
+    grid-template: 5% 85% 10% / 1fr;
+}
+.infoAditional--title {
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 19px;
+    color: #007e8a;
+}
+.w90{
+    width: 90%;
 }
