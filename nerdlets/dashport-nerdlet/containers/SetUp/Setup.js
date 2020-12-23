@@ -225,25 +225,27 @@ export default class Setup extends React.Component {
         )
       case 2:
         return (
-          setupComplete ?
+          lastUpdate === 'never' ?
             <div className="apiKeys__stepTwo">
               < div className="stepTwo--title" > Fetch Datadog Elements</div >
               <div className="stepTwo__fetchSection">
                 <div className="flex flexCenterHorizontal flexCenterVertical">
-                  <ProgressBar bgcolor="#007E8A" completed={100} />
+                  {fetchingData && (<ProgressBar bgcolor="#007E8A" completed={completed} />)}
                 </div>
-                <Button
-                  onClick={() => {
-                    fetchData();
-                  }}
-                  type={Button.TYPE.PRIMARY}
-                  iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__REFRESH}
-                  loading={fetchingData}
-                  className="fetchSection--buttonFetch"
-                  disabled={!(apikey !== '' && appkey !== '') || enableDownload}
-                >
-                  Fetch Elements
+                <div className="flex flexCenterHorizontal flexCenterVertical">
+                  <Button
+                    onClick={() => {
+                      fetchData();
+                    }}
+                    type={Button.TYPE.PRIMARY}
+                    iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__REFRESH}
+                    loading={fetchingData}
+                    className="fetchSection--buttonFetch"
+                    disabled={!(apikey !== '' && appkey !== '') || enableDownload}
+                  >
+                    Fetch Elements
                     </Button>
+                </div>
                 <div className="flex flexCenterHorizontal">
                   <div className="fetchSection--lastUpdate">
                     {'Last update: '}
@@ -257,9 +259,7 @@ export default class Setup extends React.Component {
               <div className="stepTwo--title">Fetch Datadog Elements</div>
               <div className="stepTwo__fetchSection">
                 <div className="flex flexCenterHorizontal flexCenterVertical">
-                  {fetchingData && (
-                    <ProgressBar bgcolor="#007E8A" completed={completed} />
-                  )}
+                  <ProgressBar bgcolor="#007E8A" completed={100} />
                 </div>
                 <div className="flex flexCenterHorizontal">
                   <div className="fetchSection--lastUpdate">
