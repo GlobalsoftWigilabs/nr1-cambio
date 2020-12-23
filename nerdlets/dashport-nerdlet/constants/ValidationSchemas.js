@@ -10,8 +10,7 @@ const DatadogSchema = Yup.object().shape({
   appkey: Yup.string()
     .min(20, 'should be at least 20 characters')
     .max(50, 'should not be more than 50 characters')
-    .required('Required'),
-  apiserver: Yup.bool().required('Required')
+    .required('Required')
 });
 
 /**
@@ -23,8 +22,7 @@ const DatadogTempSchema = Yup.object().shape({
     .required('Required'),
   appkey: Yup.string()
     .max(50, 'should not be more than 50 characters')
-    .required('Required'),
-  apiserver: Yup.bool().required('Required')
+    .required('Required')
 });
 
 export { DatadogSchema, DatadogTempSchema };

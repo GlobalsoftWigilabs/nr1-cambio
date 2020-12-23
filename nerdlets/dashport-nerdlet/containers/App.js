@@ -1477,6 +1477,7 @@ export default class App extends React.Component {
    * @memberof Dashport
    */
   writeSetup = async values => {
+    debugger;
     try {
       this.setState({ writingSetup: true });
       const { accountId } = this.state;
@@ -1496,7 +1497,6 @@ export default class App extends React.Component {
           //guardar en el vault
           const saveApiKey = await writeSecretKey("apikey", apikey);
           const saveAppKey = await writeSecretKey("appkey", appkey);
-          console.log(saveApiKey, saveAppKey)
           if ((saveApiKey && saveApiKey.status !== "SUCCESS") || (saveAppKey && saveAppKey.status !== "SUCCESS")) {
             Toast.showToast({
               title: 'FAILED',
