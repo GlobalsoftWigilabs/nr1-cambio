@@ -281,7 +281,7 @@ export default class Sample extends React.Component {
                                                 {
                                                     Header: () => (
                                                         <div className="table__headerSticky">
-                                                            <div className="pointer flex flexCenterHorizontal" onClick={() => { this.setSortColumn('name') }}>
+                                                            <div className="pointer flex flexCenterHorizontal" style={{ marginLeft: "5px" }} onClick={() => { this.setSortColumn('name') }}>
                                                                 NAME
                                                                     <div className="flexColumn table__sort">
                                                                     <ArrowTop color={sortColumn.column === 'name' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
@@ -292,7 +292,6 @@ export default class Sample extends React.Component {
                                                     ),
                                                     headerClassName: 'stycky w100I',
                                                     className: ' stycky table__cellSticky h100 w100I',
-                                                    // Header: "Creation",
                                                     accessor: 'name',
                                                     sortable: false,
                                                     Cell: props => {
@@ -300,10 +299,9 @@ export default class Sample extends React.Component {
                                                             <div
                                                                 className="h100 flex flexCenterVertical"
                                                                 style={{
-                                                                    marginLeft: "5px",
                                                                     background: props.index % 2 ? "#F7F7F8" : "white"
                                                                 }}>
-                                                                {props.value}
+                                                                <span style={{ marginLeft: "5px" }}>{props.value}</span>
                                                             </div>
                                                         )
                                                     }
