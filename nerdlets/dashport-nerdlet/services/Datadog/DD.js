@@ -62,6 +62,11 @@ const callApis = async (cfg, callbackDataWritter, reportLog) => {
                 const resultado = await getMonitorsPage(list[i], pag, reportLog);
                 monitors.push(resultado.data);
               }
+              for (const monitor of monitors) {
+                const responseDetailsMonitorPages = await getMonitorDetails(monitor.id,reportLog);
+                monitor.created=responseDetailsMonitorPages.data.created;
+                monitor.multi=responseDetailsMonitorPages.data.multi;
+              }
               await callbackDataWritter(`Monitor Search Pages`, monitors);
             } else {
               const countData = {
@@ -69,6 +74,11 @@ const callApis = async (cfg, callbackDataWritter, reportLog) => {
                 countsType: obj.data.counts.type,
                 totalPages: 0
               };
+              for (const monitor of obj.data.monitors) {
+                const responseDetailsMonitor = await getMonitorDetails(monitor.id,reportLog);
+                monitor.created=responseDetailsMonitor.data.created;
+                monitor.multi=responseDetailsMonitor.data.multi;
+              }
               await callbackDataWritter('Monitors meta', countData);
               await callbackDataWritter(
                 'Monitor Search Pages',
@@ -402,6 +412,68 @@ const getManualDashboard = async (id, reportLog) => {
       // that falls out of the range of 2xx
       console.log(error.response)
         ; if (error.response.status >= 400 && error.response.status <= 499) {
+          const response = {
+            message: error.response.data.errors
+              ? error.response.data.errors[0]
+              : `${error.response.status} - ${info.pathname}`,
+            type: 'Warning',
+            event: 'Fetch',
+            date: new Date().toLocaleString()
+          };
+          await reportLog(response);
+        }
+      if (error.response.status >= 500) {
+        const response = {
+          message: error.response.data.errors
+            ? error.response.data.errors[0]
+            : `${error.response.status} - ${info.pathname}`,
+          type: 'Error',
+          event: 'Fetch',
+          date: new Date().toLocaleString()
+        };
+        await reportLog(response);
+      }
+    } else if (error.request) {
+      // The request was made but no response was received
+    } else {
+      // Something happened in setting up the request that triggered an Error
+    }
+  });
+  return ret;
+};
+
+const getMonitorDetails = async (id, reportLog) => {
+  const proxyUrl = 'https://long-meadow-1713.rsamanez.workers.dev/?';
+  let ret = null;
+  let endpoint = "https://api.datadoghq.com/api/v1/monitor/{{monitor_id}}"
+  endpoint = endpoint.replace('{{monitor_id}}', id);
+  const headers = [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    },
+    {
+      "key": "DD-API-KEY",
+      "value": "{{datadog_api_key}}"
+    },
+    {
+      "key": "DD-APPLICATION-KEY",
+      "value": "{{datadog_application_key}}"
+    }
+  ]
+  const options = {
+    baseURL: `${proxyUrl}${endpoint.replace(
+      '{{datadog_site}}',
+      config.API_SITE
+    )}`,
+    headers: _setHttpHeaders(headers),
+    method: 'get'
+  };
+  ret = await axios(options).catch(async error => {
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+        if (error.response.status >= 400 && error.response.status <= 499) {
           const response = {
             message: error.response.data.errors
               ? error.response.data.errors[0]
