@@ -1,0 +1,7 @@
+{
+    "schemaType": "LAUNCHER",
+    "id": "dashport-launcher",
+    "displayName": "nr-cambio",
+    "description": "Datadog new relic migration",
+    "rootNerdletId": "dashport-nerdlet"
+}

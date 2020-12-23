@@ -1,0 +1,302 @@
+[
+    {
+        "name": "Authentication Check",
+        "enable": false
+    },
+    {
+        "name": "Get Dashboards Manual",
+        "enable": true
+    },
+    {
+        "name": "Get a Dashboard",
+        "parent": "Get all Dashboards",
+        "variable": ":DASHBOARD_ID",
+        "parent_obj": "dashboards",
+        "parent_value": "id",
+        "enable": true
+    },
+    {
+        "name": "Get all Dashboards",
+        "enable": true
+    },
+    {
+        "name": "Get a Dashboard List",
+        "parent": "Get all Dashboard Lists",
+        "variable": ":DASHBOARD_LIST_ID",
+        "parent_obj": "dashboard_lists",
+        "parent_value": "id",
+        "enable": true
+    },
+    {
+        "name": "Get all Dashboard Lists",
+        "enable": true
+    },
+    {
+        "name": "Get Items of a Dashboard List",
+        "parent": "Get all Dashboard Lists",
+        "variable": ":DASHBOARD_LIST_ID",
+        "parent_obj": "dashboard_lists",
+        "parent_value": "id",
+        "enable": true
+    },
+    {
+        "name": "Get a monitor downtime",
+        "enable": false
+    },
+    {
+        "name": "Get all mointor downtimes",
+        "enable": false
+    },
+    {
+        "name": "Get all embeddable graphs",
+        "enable": true
+    },
+    {
+        "name": "Get a specific embed",
+        "parent": "Get all embeddable graphs",
+        "variable": ":EMBED_ID",
+        "parent_obj": "embedded_graphs",
+        "parent_value": "embed_id",
+        "enable": false
+    },
+    {
+        "name": "Enable embed",
+        "enable": false
+    },
+    {
+        "name": "Revoke embed",
+        "enable": false
+    },
+    {
+        "name": "Get an Event",
+        "enable": false
+    },
+    {
+        "name": "Query the event stream",
+        "enable": false
+    },
+    {
+        "name": "Graph a Snapshot",
+        "enable": false
+    },
+    {
+        "name": "Search hosts",
+        "enable": true
+    },
+    {
+        "name": "Host totals",
+        "enable": true
+    },
+    {
+        "name": "List all AWS Logs integrations",
+        "enable": false
+    },
+    {
+        "name": "Get list of AWS log ready services",
+        "enable": false
+    },
+    {
+        "name": "List available namespace rules",
+        "enable": false
+    },
+    {
+        "name": "List AWS Filtering rules",
+        "enable": false
+    },
+    {
+        "name": "List AWS Accounts",
+        "enable": false
+    },
+    {
+        "name": "List Azure Account",
+        "enable": false
+    },
+    {
+        "name": "List GCP Accounts",
+        "enable": false
+    },
+    {
+        "name": "Get PagerDuty Configuration",
+        "enable": false
+    },
+    {
+        "name": "Get Slack Configuration Details",
+        "enable": false
+    },
+    {
+        "name": "Get all Webhook Configurations",
+        "enable": false
+    },
+    {
+        "name": "Get all API Keys",
+        "enable": false
+    },
+    {
+        "name": "Get a given API Key",
+        "enable": false
+    },
+    {
+        "name": "Get all Application Keys",
+        "enable": false
+    },
+    {
+        "name": "Get a given Application Key",
+        "enable": false
+    },
+    {
+        "name": "Get all indexes",
+        "enable": true
+    },
+    {
+        "name": "Get an Index",
+        "parent": "Get all indexes",
+        "variable": ":INDEX_NAME",
+        "parent_obj": "indexes",
+        "parent_value": "name",
+        "enable": false
+    },
+    {
+        "name": "Get indexes order",
+        "enable": true
+    },
+    {
+        "name": "Get Pipeline Order",
+        "enable": true
+    },
+    {
+        "name": "Get all Pipelines",
+        "enable": true
+    },
+    {
+        "name": "Get a Pipeline",
+        "parent": "Get all Pipelines",
+        "variable": ":PIPELINE_ID",
+        "parent_value": "id",
+        "enable": false
+    },
+    {
+        "name": "Get All Active Metrics",
+        "query_filtering": "&host=%3CHOSTNAME%3E",
+        "enable": true
+    },
+    {
+        "name": "Query Time Series Points",
+        "enable": false
+    },
+    {
+        "name": "View Metric Metadata",
+        "enable": false
+    },
+    {
+        "name": "Search Metrics",
+        "enable": false
+    },
+    {
+        "name": "Get a Monitor's Details",
+        "enable": false
+    },
+    {
+        "name": "Can delete a Monitor",
+        "enable": false
+    },
+    {
+        "name": "Monitor Search",
+        "enable": true
+    },
+    {
+        "name": "Monitor Group Search",
+        "enable": true
+    },
+    {
+        "name": "Get Organization",
+        "enable": false
+    },
+    {
+        "name": "Get All Organizations",
+        "enable": false
+    },
+    {
+        "name": "Get all test results",
+        "enable": false
+    },
+    {
+        "name": "Get a specific test result",
+        "enable": false
+    },
+    {
+        "name": "Get all tests",
+        "enable": true
+    },
+    {
+        "name": "Get a test",
+        "enable": false
+    },
+    {
+        "name": "Get devices for browser checks",
+        "enable": true
+    },
+    {
+        "name": "Get available locations",
+        "enable": true
+    },
+    {
+        "name": "Get Tags",
+        "enable": true
+    },
+    {
+        "name": "Get host tags",
+        "enable": false
+    },
+    {
+        "name": "Get  Hosts and Containers hourly usage",
+        "enable": false
+    },
+    {
+        "name": "Get Logs hourly Usage",
+        "enable": false
+    },
+    {
+        "name": "Get  Custom Metrics hourly usage",
+        "enable": false
+    },
+    {
+        "name": "Get Top 500 Custom Metrics by hourly average",
+        "enable": false
+    },
+    {
+        "name": "Get Multi-Org Usage Details",
+        "enable": false
+    },
+    {
+        "name": "Get Trace Search hourly usage",
+        "enable": false
+    },
+    {
+        "name": "Get Synthetics hourly usage",
+        "enable": false
+    },
+    {
+        "name": "Get Fargate hourly usage",
+        "enable": false
+    },
+    {
+        "name": "Get all users",
+        "enable": true
+    },
+    {
+        "name": "Get a user",
+        "enable": false
+    },
+    {
+        "name": "Get a user organisation",
+        "enable": false
+    },
+    {
+        "name": "Get a user permission set",
+        "enable": false
+    },
+    {
+        "name": "Get a user invitation",
+        "enable": false
+    }
+]

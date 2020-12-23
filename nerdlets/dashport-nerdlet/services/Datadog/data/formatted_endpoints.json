@@ -1,0 +1,1356 @@
+[
+    {
+        "name": "Get Dashboards Manual",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v2/dashboard/lists/manual",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v2/dashboard/lists/manual",
+        "search": "",
+        "headers": [
+            {
+                "key": "Content-Type",
+                "value": "application/json"
+            },
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Authentication Check",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/validate",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/validate",
+        "search": "",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get a Dashboard",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/dashboard/:DASHBOARD_ID",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/dashboard/:DASHBOARD_ID",
+        "search": "",
+        "headers": [
+            {
+                "key": "Content-Type",
+                "value": "application/json"
+            },
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get all Dashboards",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/dashboard",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/dashboard",
+        "search": "",
+        "headers": [
+            {
+                "key": "Content-Type",
+                "value": "application/json"
+            },
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get a Dashboard List",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/dashboard/lists/manual/:DASHBOARD_LIST_ID",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/dashboard/lists/manual/:DASHBOARD_LIST_ID",
+        "search": "",
+        "headers": [
+            {
+                "key": "Content-Type",
+                "value": "application/json"
+            },
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get all Dashboard Lists",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/dashboard/lists/manual",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/dashboard/lists/manual",
+        "search": "",
+        "headers": [
+            {
+                "key": "Content-Type",
+                "value": "application/json"
+            },
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get Items of a Dashboard List",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/dashboard/lists/manual/:DASHBOARD_LIST_ID/dashboards",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/dashboard/lists/manual/:DASHBOARD_LIST_ID/dashboards",
+        "search": "",
+        "headers": [
+            {
+                "key": "Content-Type",
+                "value": "application/json"
+            },
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get a monitor downtime",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/downtime/:DOWNTIME_ID",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/downtime/:DOWNTIME_ID",
+        "search": "",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get all mointor downtimes",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/downtime",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/downtime",
+        "search": "",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get all embeddable graphs",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/graph/embed",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/graph/embed",
+        "search": "",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get a specific embed",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/graph/embed/:EMBED_ID",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/graph/embed/:EMBED_ID",
+        "search": "",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Enable embed",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/graph/embed/:EMBED_ID/enable",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/graph/embed/:EMBED_ID/enable",
+        "search": "",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Revoke embed",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/graph/embed/:EMBED_ID/revoke",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/graph/embed/:EMBED_ID/revoke",
+        "search": "",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get an Event",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/events/:EVENT_ID",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/events/:EVENT_ID",
+        "search": "",
+        "headers": [
+            {
+                "key": "Content-Type",
+                "value": "application/json"
+            },
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Query the event stream",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/events?start={{from_ts}}&end={{to_ts}}",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/events",
+        "search": "?start={{from_ts}}&end={{to_ts}}",
+        "headers": [
+            {
+                "key": "Content-Type",
+                "value": "application/json"
+            },
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Graph a Snapshot",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/graph/snapshot?metric_query=system.load.1{*}by{host}&start={{from_ts}}&end={{to_ts}}&title=Snapshot of system load by host",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/graph/snapshot",
+        "search": "?metric_query=system.load.1{*}by{host}&start={{from_ts}}&end={{to_ts}}&title=Snapshot%20of%20system%20load%20by%20host",
+        "headers": [
+            {
+                "key": "Content-Type",
+                "value": "application/json"
+            },
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Search hosts",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/hosts?sort_field=cpu&sort_dir=desc",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/hosts",
+        "search": "?sort_field=cpu&sort_dir=desc",
+        "headers": [
+            {
+                "key": "Content-Type",
+                "value": "application/json"
+            },
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Host totals",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/hosts/totals",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/hosts/totals",
+        "search": "",
+        "headers": [
+            {
+                "key": "Content-Type",
+                "value": "application/json"
+            },
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "List all AWS Logs integrations",
+        "url": "https://api.datadoghq.{{datadog_site}}/v1/integration/aws/logs",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/v1/integration/aws/logs",
+        "search": "",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get list of AWS log ready services",
+        "url": "https://api.datadoghq.{{datadog_site}}/v1/integration/aws/logs/services",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/v1/integration/aws/logs/services",
+        "search": "",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            },
+            {
+                "key": "",
+                "value": ""
+            }
+        ]
+    },
+    {
+        "name": "List available namespace rules",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/integration/aws/available_namespace_rules",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/integration/aws/available_namespace_rules",
+        "search": "",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "List AWS Filtering rules",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/integration/aws/filtering",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/integration/aws/filtering",
+        "search": "",
+        "headers": [
+            {
+                "key": "Content-Type",
+                "value": "application/json"
+            },
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "List AWS Accounts",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/integration/aws",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/integration/aws",
+        "search": "",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "List Azure Account",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/integration/azure",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/integration/azure",
+        "search": "",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "List GCP Accounts",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/integration/gcp",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/integration/gcp",
+        "search": "",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get PagerDuty Configuration",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/integration/pagerduty",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/integration/pagerduty",
+        "search": "",
+        "headers": [
+            {
+                "key": "Content-Type",
+                "value": "application/json"
+            },
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get Slack Configuration Details",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/integration/slack",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/integration/slack",
+        "search": "",
+        "headers": [
+            {
+                "key": "Content-Type",
+                "value": "application/json"
+            },
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get all Webhook Configurations",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/integration/webhooks",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/integration/webhooks",
+        "search": "",
+        "headers": [
+            {
+                "key": "Content-Type",
+                "value": "application/json"
+            },
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get all API Keys",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/api_key",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/api_key",
+        "search": "",
+        "headers": [
+            {
+                "key": "Content-Type",
+                "value": "application/json"
+            },
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get a given API Key",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/api_key/:DD_API_KEY",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/api_key/:DD_API_KEY",
+        "search": "",
+        "headers": [
+            {
+                "key": "Content-Type",
+                "value": "application/json"
+            },
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get all Application Keys",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/application_key",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/application_key",
+        "search": "",
+        "headers": [
+            {
+                "key": "Content-Type",
+                "value": "application/json"
+            },
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get a given Application Key",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/application_key/:DD_APPLICATION_KEY",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/application_key/:DD_APPLICATION_KEY",
+        "search": "",
+        "headers": [
+            {
+                "key": "Content-Type",
+                "value": "application/json"
+            },
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get all indexes",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/logs/config/indexes",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/logs/config/indexes",
+        "search": "",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get an Index",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/logs/config/indexes/:INDEX_NAME",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/logs/config/indexes/:INDEX_NAME",
+        "search": "",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get indexes order",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/logs/config/index-order",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/logs/config/index-order",
+        "search": "",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get Pipeline Order",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/logs/config/pipeline-order",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/logs/config/pipeline-order",
+        "search": "",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get all Pipelines",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/logs/config/pipelines",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/logs/config/pipelines",
+        "search": "",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get a Pipeline",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/logs/config/pipelines/:PIPELINE_ID",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/logs/config/pipelines/:PIPELINE_ID",
+        "search": "",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get All Active Metrics",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/metrics?from={{from_ts}}&host=<HOSTNAME>",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/metrics",
+        "search": "?from={{from_ts}}&host=%3CHOSTNAME%3E",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Query Time Series Points",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/query?from={{from_ts}}&to={{to_ts}}&query=system.cpu.idle{*}by{host}",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/query",
+        "search": "?from={{from_ts}}&to={{to_ts}}&query=system.cpu.idle{*}by{host}",
+        "headers": [
+            {
+                "key": "Content-Type",
+                "value": "application/json"
+            },
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "View Metric Metadata",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/metrics/:METRIC_NAME",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/metrics/:METRIC_NAME",
+        "search": "",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Search Metrics",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/search?q=metrics:<METRIC_NAME>",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/search",
+        "search": "?q=metrics:%3CMETRIC_NAME%3E",
+        "headers": [
+            {
+                "key": "Content-Type",
+                "value": "application/json"
+            },
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get a Monitor's Details",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/monitor/:MONITOR_ID",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/monitor/:MONITOR_ID",
+        "search": "",
+        "headers": [
+            {
+                "key": "Content-Type",
+                "value": "application/json"
+            },
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Can delete a Monitor",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/monitor/can_delete?monitor_id=<MONITOR_ID>",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/monitor/can_delete",
+        "search": "?monitor_id=%3CMONITOR_ID%3E",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Monitor Search",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/monitor/search?",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/monitor/search",
+        "search": "",
+        "headers": [
+            {
+                "key": "Content-Type",
+                "value": "application/json"
+            },
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Monitor Group Search",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/monitor/groups/search",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/monitor/groups/search",
+        "search": "",
+        "headers": [
+            {
+                "key": "Content-Type",
+                "value": "application/json"
+            },
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get Organization",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/org/:PUBLIC_ID",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/org/:PUBLIC_ID",
+        "search": "",
+        "headers": [
+            {
+                "key": "Content-Type",
+                "value": "application/json"
+            },
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get All Organizations",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/org",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/org",
+        "search": "",
+        "headers": [
+            {
+                "key": "Content-Type",
+                "value": "application/json"
+            },
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get all test results",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/synthetics/tests/:PUBLIC_ID/results",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/synthetics/tests/:PUBLIC_ID/results",
+        "search": "",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get a specific test result",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/synthetics/tests/:PUBLIC_ID/results/:RESULT_ID",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/synthetics/tests/:PUBLIC_ID/results/:RESULT_ID",
+        "search": "",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get all tests",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/synthetics/tests",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/synthetics/tests",
+        "search": "",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get a test",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/synthetics/tests/:PUBLIC_ID",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/synthetics/tests/:PUBLIC_ID",
+        "search": "",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get devices for browser checks",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/synthetics/browser/devices",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/synthetics/browser/devices",
+        "search": "",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get available locations",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/synthetics/locations",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/synthetics/locations",
+        "search": "",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get Tags",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/tags/hosts",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/tags/hosts",
+        "search": "",
+        "headers": [
+            {
+                "key": "Content-Type",
+                "value": "application/json"
+            },
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get host tags",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/tags/hosts/:HOSTNAME",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/tags/hosts/:HOSTNAME",
+        "search": "",
+        "headers": [
+            {
+                "key": "Content-Type",
+                "value": "application/json"
+            },
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get  Hosts and Containers hourly usage",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/usage/hosts?start_hr=yyyy-MM-ddThh",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/usage/hosts",
+        "search": "?start_hr=yyyy-MM-ddThh",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get Logs hourly Usage",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/usage/logs?start_hr=yyyy-MM-ddThh",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/usage/logs",
+        "search": "?start_hr=yyyy-MM-ddThh",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get  Custom Metrics hourly usage",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/usage/timeseries?start_hr=yyyy-MM-ddThh",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/usage/timeseries",
+        "search": "?start_hr=yyyy-MM-ddThh",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get Top 500 Custom Metrics by hourly average",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/usage/top_avg_metrics?month=yyyy-MM",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/usage/top_avg_metrics",
+        "search": "?month=yyyy-MM",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get Multi-Org Usage Details",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/usage/summary?start_month=yyyy-MM",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/usage/summary",
+        "search": "?start_month=yyyy-MM",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get Trace Search hourly usage",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/usage/traces?start_hr=yyyy-MM-ddTHH",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/usage/traces",
+        "search": "?start_hr=yyyy-MM-ddTHH",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get Synthetics hourly usage",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/usage/synthetics?start_hr=yyyy-MM-ddTHH",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/usage/synthetics",
+        "search": "?start_hr=yyyy-MM-ddTHH",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get Fargate hourly usage",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v1/usage/synthetics?start_hr=yyyy-MM-ddTHH",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v1/usage/synthetics",
+        "search": "?start_hr=yyyy-MM-ddTHH",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get all users",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v2/users",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v2/users",
+        "search": "",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get a user",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v2/users/:DATADOG_USER_UUID",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v2/users/:DATADOG_USER_UUID",
+        "search": "",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get a user organisation",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v2/users/:USER_UUID/orgs",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v2/users/:USER_UUID/orgs",
+        "search": "",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get a user permission set",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v2/users/:USER_UUID/permissions",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v2/users/:USER_UUID/permissions",
+        "search": "",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get a user invitation",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v2/user_invitations/:USER_INVITATION_UUID",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v2/user_invitations/:USER_INVITATION_UUID",
+        "search": "",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    }
+]

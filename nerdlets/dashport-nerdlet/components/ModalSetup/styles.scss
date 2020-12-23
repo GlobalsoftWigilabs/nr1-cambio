@@ -1,0 +1,122 @@
+.mainModalSetup {
+    display: grid;
+    grid-template: 10% 90% /1fr;
+}
+.question {
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 0.71vw;
+    line-height: 16px;
+    /* #0078BF */
+    color: #007e8a;
+}
+.wSetup{
+    width: 530px !important;
+}
+.answer {
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 0.71vw;
+    line-height: 16px;
+    /* #333333 */
+    color: #333333;
+}
+.modal__closeIcon {
+    display: flex;
+    justify-content: flex-end;
+}
+.modal__content {
+    padding: 10px;
+    display: grid;
+    grid-template: 60% 40% / 1fr;
+}
+.content__buttons {
+    display: grid;
+    column-gap: 10px;
+    grid-template: 1fr / 50% 50%;
+}
+.content__title {
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 19px;
+    /* identical to box height */
+    text-align: center;
+    /* Gray-textos */
+    color: #333333;
+}
+.buttons__buttonConfirm {
+    background: #007e8a;
+    color: white;
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 16px;
+    display: flex;
+    height: 70%;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.buttons__buttonCancel {
+    background: #e0e0e0;
+    color: black;
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 16px;
+    display: flex;
+    height: 70%;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+.modal__contentAddList {
+    padding: 10px;
+    display: grid;
+    grid-template: 30% 70% / 1fr;
+}
+.contentAddList__listButton {
+    display: grid;
+    grid-template: 50% 50% /1fr;
+    row-gap: 15px;
+}
+.listButton__buttonAdd {
+    background: #007e8a;
+    color: white;
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 85%;
+    width: 150px;
+}
+.modal__contentDowload {
+    padding: 10px;
+    display: grid;
+    height: 85%;
+    row-gap: 15px;
+    grid-template: 20% 40% 40% / 1fr;
+}
+.question--title {
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 0.71vw;
+    line-height: 16px;
+    text-transform: uppercase;
+    /* Gray-textos */
+    color: #333333;
+    margin-left: 20px;
+}
