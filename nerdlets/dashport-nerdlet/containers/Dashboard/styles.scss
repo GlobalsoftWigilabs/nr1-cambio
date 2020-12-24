@@ -14,7 +14,7 @@
     grid-template: 15% 15% 15% 55% /1fr;
 }
 .filterOptions__boxDashboards {
-    border-bottom: 1px solid #bdbdbd; 
+    border-bottom: 1px solid #bdbdbd;
     align-items: center;
     display: grid;
     grid-template: 20% 80% / 1fr;
@@ -425,4 +425,25 @@
 }
 .red {
     background-color: red;
+}
+////MODAL WIDGETS
+.modal__infoAditional {
+    display: grid;
+    grid-template: 10% 90%/ 1fr;
+}
+.infoAditional__header {
+    display: flex;
+    justify-content: space-between;
+}
+.infoAditional--title {
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 19px;
+    color: #007e8a;
+}
+.modalWidgets__closeIcon {
+    display: flex;
+    justify-content: space-between;
 }

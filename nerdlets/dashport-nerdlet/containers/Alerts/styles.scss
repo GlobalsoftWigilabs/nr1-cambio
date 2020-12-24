@@ -238,6 +238,12 @@
     font-size: 0.81vw;
 }
 
+.box-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 .graphsBarAlert__containeScroll {
     overflow: auto;
     align-items: center;

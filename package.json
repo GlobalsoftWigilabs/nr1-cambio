@@ -17,6 +17,7 @@
         "formik": "^1.5.7",
         "json-2-csv": "^3.7.8",
         "jszip": "^3.5.0",
+        "moment": "^2.29.1",
         "prop-types": "^15.7.2",
         "react": "^16.6.3",
         "react-bootstrap": "^0.33.1",

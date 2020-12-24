@@ -147,7 +147,6 @@ export default class App extends React.Component {
    * @memberof Dashport
    */
   handleChangeMenu = value => {
-    console.log(value);
     const { fetchingData } = this.state;
     if (fetchingData) {
       Toast.showToast({
@@ -155,7 +154,13 @@ export default class App extends React.Component {
         description: 'Please wait until the search is over',
         type: Toast.TYPE.NORMAL
       });
-    } else if (value === 0 || value === 1 || value === 2 || value === 3 || value === 4 || value === 6) {
+    } else if (
+      value === 0 ||
+      value === 1 ||
+      value === 2 ||
+      value === 3 ||
+      value === 4
+    ) {
       this.setState({ selectedMenu: value });
     } else {
       Toast.showToast({
@@ -190,8 +195,10 @@ export default class App extends React.Component {
       'datadog',
       this.reportLogFetch
     );
-    let retrys = 0, keyApi = null, keyApp = null;
-    const keysName = ["apikey", "appkey"];
+    let retrys = 0,
+      keyApi = null,
+      keyApp = null;
+    const keysName = ['apikey', 'appkey'];
     while (retrys !== 10) {
       keyApi = await readSingleSecretKey(keysName[0]);
       keyApp = await readSingleSecretKey(keysName[1]);
@@ -201,7 +208,7 @@ export default class App extends React.Component {
         retrys += 1;
       }
     }
-    if (dataSetup !== null && (keyApi && keyApp)) {
+    if (dataSetup !== null && keyApi && keyApp) {
       this.setState({
         setupComplete: true,
         apikey: keyApi,
@@ -233,8 +240,9 @@ export default class App extends React.Component {
   cancel = () => {
     console.log('Now aborting');
     // Abort.
-    controller.abort()
-  }
+    controller.abort();
+  };
+
   /**
    * Method that loads the data from NerdStorage
    * @memberof App
@@ -295,13 +303,21 @@ export default class App extends React.Component {
         }
         data.data.total = total;
         const alertsData = [];
-        for (const type of data.data.type) {
-          alertsData.push({
-            name: type.name,
-            uv: Math.abs(type.count),
-            pv: Math.abs(data.data.total - type.count)
-          });
+        for (const monitor of data.data.monitors) {
+          const index = alertsData.findIndex(
+            element => element.name === monitor.type
+          );
+          if (index !== -1) {
+            alertsData[index].uv = alertsData[index].uv + 1;
+          } else {
+            alertsData.push({
+              name: monitor.type,
+              pv: data.data.monitors.length,
+              uv: 1
+            });
+          }
         }
+
         this.setState({
           alertsTotal: data.data.total,
           alertsData: alertsData,
@@ -678,7 +694,9 @@ export default class App extends React.Component {
           const listDashboards = data.data.list;
           data.data.list = [];
           const dashBoardObj = data.data;
-          listDashboards.length > 0 ? dashBoardObj.status = "OK" : dashBoardObj.status = "EMPTY";
+          listDashboards.length > 0
+            ? (dashBoardObj.status = 'OK')
+            : (dashBoardObj.status = 'EMPTY');
           await writeNerdStorage(
             accountId,
             collectionName,
@@ -944,10 +962,10 @@ export default class App extends React.Component {
     });
   };
 
-  viewKeyAction = async (keyInput) => {
-    let { apikeyS, appkeyS } = this.state;
-    if (keyInput === "apikey") {
-      if (apikeyS && apikeyS[0] === "*") {
+  viewKeyAction = async keyInput => {
+    const { apikeyS, appkeyS } = this.state;
+    if (keyInput === 'apikey') {
+      if (apikeyS && apikeyS[0] === '*') {
         const keyRecove = await readSingleSecretKey(keyInput);
         if (keyRecove) {
           this.setState({
@@ -959,8 +977,9 @@ export default class App extends React.Component {
           apikeyS: '*'.repeat(apikeyS.length)
         });
       }
-    } else if (keyInput = "appkey") {
-      if (appkeyS && appkeyS[0] === "*") {
+      // eslint-disable-next-line no-constant-condition
+    } else if ((keyInput = 'appkey')) {
+      if (appkeyS && appkeyS[0] === '*') {
         const keyRecove = await readSingleSecretKey(keyInput);
         if (keyRecove) {
           this.setState({
@@ -972,9 +991,8 @@ export default class App extends React.Component {
           appkeyS: '*'.repeat(appkeyS.length)
         });
       }
-
     }
-  }
+  };
 
   async sendLogs() {
     const { logs, accountId } = this.state;
@@ -1046,7 +1064,6 @@ export default class App extends React.Component {
         break;
       case 'Get Items of a Dashboard List':
         {
-          console.log(documentData);
           const pagesDashboardList = this.pagesOfData(documentData);
           for (const keyItemDashboard in pagesDashboardList) {
             if (pagesDashboardList[keyItemDashboard]) {
@@ -1208,7 +1225,6 @@ export default class App extends React.Component {
         break;
       case 'Get All Active Metrics':
         {
-          console.log('write metrics....',documentData);
           const metricsList = documentData.metrics;
           documentData.metrics = [];
           const metricObj = documentData;
@@ -1478,7 +1494,6 @@ export default class App extends React.Component {
    * @memberof Dashport
    */
   writeSetup = async values => {
-    debugger;
     try {
       this.setState({ writingSetup: true });
       const { accountId } = this.state;
@@ -1490,15 +1505,18 @@ export default class App extends React.Component {
       const data = {
         apiserver: region,
         apikeyS: '*'.repeat(apikey.length),
-        appkeyS: '*'.repeat(appkey.length),
+        appkeyS: '*'.repeat(appkey.length)
       };
       const validKeys = await DD.validateKeys(apikey, appkey);
       if (validKeys.apikey) {
         if (validKeys.appkey) {
-          //guardar en el vault
-          const saveApiKey = await writeSecretKey("apikey", apikey);
-          const saveAppKey = await writeSecretKey("appkey", appkey);
-          if ((saveApiKey && saveApiKey.status !== "SUCCESS") || (saveAppKey && saveAppKey.status !== "SUCCESS")) {
+          // guardar en el vault
+          const saveApiKey = await writeSecretKey('apikey', apikey);
+          const saveAppKey = await writeSecretKey('appkey', appkey);
+          if (
+            (saveApiKey && saveApiKey.status !== 'SUCCESS') ||
+            (saveAppKey && saveAppKey.status !== 'SUCCESS')
+          ) {
             Toast.showToast({
               title: 'FAILED',
               description: 'something went wrong please retry',
@@ -1676,9 +1694,7 @@ export default class App extends React.Component {
           />
         );
       case 1:
-        return (
-          <Data />
-        )
+        return <Data />;
       case 2:
         return (
           <Dashboard
@@ -1690,27 +1706,24 @@ export default class App extends React.Component {
         );
       case 3:
         return (
-          <Sample />
-          // <Alerts
-          //   alertsData={alertsData}
-          //   alertsTotal={alertsTotal}
-          //   monitorsData={monitorsData}
-          //   verticalBarchart={verticalBarchart}
-          // />
+          // <Sample />
+          <Alerts
+            alertsData={alertsData}
+            alertsTotal={alertsTotal}
+            monitorsData={monitorsData}
+          />
         );
       case 4:
-        return (<Infrastructure
-          infrastructureData={infrastructureData}
-          infrastructureTotal={infrastructureTotal}
-        />)
+        return (
+          <Infrastructure
+            infrastructureData={infrastructureData}
+            infrastructureTotal={infrastructureTotal}
+          />
+        );
       case 5:
-        return (
-          <Logs logsTotal={logsTotal} />
-        );
+        return <Logs logsTotal={logsTotal} />;
       case 6:
-        return (
-          <Metrics metrics={metrics} metricsTotal={metricsTotal} />
-        );
+        return <Metrics metrics={metrics} metricsTotal={metricsTotal} />;
       case 7:
         return (
           <Synthetics
@@ -1723,8 +1736,8 @@ export default class App extends React.Component {
         <Accounts
           accountsTotal={accountsTotal}
           dataTableAccounts={dataTableAccounts}
-        />
-        return
+        />;
+        return;
       case 9:
         return (
           <Migration
@@ -1746,28 +1759,28 @@ export default class App extends React.Component {
         {loadingContent ? (
           <Spinner type={Spinner.TYPE.DOT} />
         ) : (
-            <>
-              <div className="sidebar-container">
-                <Menu
-                  lastUpdate={lastUpdate}
-                  selectedMenu={selectedMenu}
-                  handleChangeMenu={this.handleChangeMenu}
-                />
+          <>
+            <div className="sidebar-container">
+              <Menu
+                lastUpdate={lastUpdate}
+                selectedMenu={selectedMenu}
+                handleChangeMenu={this.handleChangeMenu}
+              />
+            </div>
+            <div>
+              <div
+                style={{
+                  paddingTop: '1%',
+                  paddingRight: '1%',
+                  paddingLeft: '1%',
+                  height: '96%'
+                }}
+              >
+                {this.renderContent()}
               </div>
-              <div>
-                <div
-                  style={{
-                    paddingTop: '1%',
-                    paddingRight: '1%',
-                    paddingLeft: '1%',
-                    height: '96%'
-                  }}
-                >
-                  {this.renderContent()}
-                </div>
-              </div>
-            </>
-          )}
+            </div>
+          </>
+        )}
       </div>
     );
   }
