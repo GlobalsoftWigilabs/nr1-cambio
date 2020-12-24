@@ -13,7 +13,7 @@ import Infrastructure from './Infraestructure/Infrastructure';
 import Synthetics from './Synthetics';
 import Accounts from './Accounts';
 import Logs from './Logs/Logs';
-import Metrics from './Metrics';
+import Metrics from './Metrics/Metrics';
 const controller = new AbortController();
 const signal = controller.signal;
 // services
@@ -155,7 +155,7 @@ export default class App extends React.Component {
         description: 'Please wait until the search is over',
         type: Toast.TYPE.NORMAL
       });
-    } else if (value === 0 || value === 1 || value === 2 || value === 3 || value === 4) {
+    } else if (value === 0 || value === 1 || value === 2 || value === 3 || value === 4 || value === 6) {
       this.setState({ selectedMenu: value });
     } else {
       Toast.showToast({
@@ -1208,6 +1208,7 @@ export default class App extends React.Component {
         break;
       case 'Get All Active Metrics':
         {
+          console.log('write metrics....',documentData);
           const metricsList = documentData.metrics;
           documentData.metrics = [];
           const metricObj = documentData;

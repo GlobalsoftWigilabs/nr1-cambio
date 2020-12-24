@@ -10,7 +10,6 @@ const config = {
   APP_KEY: null,
   API_SITE: null
 };
-
 const ENABLE_LOAD_TEST = false;
 
 const callApis = async (cfg, callbackDataWritter, reportLog) => {
@@ -33,7 +32,21 @@ const callApis = async (cfg, callbackDataWritter, reportLog) => {
         const obj = await _callApi(list[i], reportLog);
         // if obj is different of null
         if (obj) {
-          if (list[i].name === 'Get Dashboards Manual') {
+          if (list[i].name === 'Get All Active Metrics') {
+            let data=[];
+            for(const metric of obj.data.metrics){
+              const metricDetail= await getMetricDetails(metric,reportLog);
+              data.push({
+                name:metric,
+                integration:metricDetail.data.integration,
+                type:metricDetail.data.type,
+                unit:metricDetail.data.unit,
+                host :'All'
+              });
+            }
+            obj.data.metrics=data;
+            await callbackDataWritter(list[i].name, obj.data);
+          } else if (list[i].name === 'Get Dashboards Manual') {
             for (let j = 0; j < obj.data.dashboard_lists.length; j++) {
               const response=await getManualDashboard(obj.data.dashboard_lists[j].id, reportLog);
               if(response){
@@ -484,6 +497,67 @@ const getMonitorDetails = async (id, reportLog) => {
           };
           await reportLog(response);
         }
+      if (error.response.status >= 500) {
+        const response = {
+          message: error.response.data.errors
+            ? error.response.data.errors[0]
+            : `${error.response.status} - ${info.pathname}`,
+          type: 'Error',
+          event: 'Fetch',
+          date: new Date().toLocaleString()
+        };
+        await reportLog(response);
+      }
+    } else if (error.request) {
+      // The request was made but no response was received
+    } else {
+      // Something happened in setting up the request that triggered an Error
+    }
+  });
+  return ret;
+};
+const getMetricDetails = async (metricName, reportLog) => {
+  const proxyUrl = 'https://long-meadow-1713.rsamanez.workers.dev/?';
+  let ret = null;
+  let endpoint = "https://api.datadoghq.com/api/v1/metrics/{metric_name}"
+  endpoint = endpoint.replace('{metric_name}', metricName);
+  const headers = [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    },
+    {
+      "key": "DD-API-KEY",
+      "value": "{{datadog_api_key}}"
+    },
+    {
+      "key": "DD-APPLICATION-KEY",
+      "value": "{{datadog_application_key}}"
+    }
+  ]
+  const options = {
+    baseURL: `${proxyUrl}${endpoint.replace(
+      '{{datadog_site}}',
+      config.API_SITE
+    )}`,
+    headers: _setHttpHeaders(headers),
+    method: 'get'
+  };
+  ret = await axios(options).catch(async error => {
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      if (error.response.status >= 400 && error.response.status <= 499) {
+        const response = {
+          message: error.response.data.errors
+            ? error.response.data.errors[0]
+            : `${error.response.status} - ${info.pathname}`,
+          type: 'Warning',
+          event: 'Fetch',
+          date: new Date().toLocaleString()
+        };
+        await reportLog(response);
+      }
       if (error.response.status >= 500) {
         const response = {
           message: error.response.data.errors

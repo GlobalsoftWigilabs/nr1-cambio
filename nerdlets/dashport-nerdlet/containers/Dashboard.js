@@ -93,10 +93,9 @@ export default class Dashboard extends React.Component {
           `dashboards-${i}`,
           this.reportLogFetch
         );
-        
+
         console.log(page)
         if(page){
-          console.log("aasdfaslidjfalisodhfalksuehk")
           for (const iterator of page) {
             list.push(iterator);
           }
@@ -845,7 +844,7 @@ export default class Dashboard extends React.Component {
                           <TableRowCell>{item.popularity}</TableRowCell>
                       </TableRow>
                   )}
-                   
+
               </Table>
                   }
                 </div>
