@@ -105,7 +105,9 @@ export default class Alerts extends React.Component {
         no_data_timeframe: element.no_data_timeframe,
         notify_audit: element.notify_audit,
         notify_no_data: element.notify_no_data,
-        thresholds: element.thresholds
+        thresholds: element.thresholds,
+        min_location_failed: element.min_location_failed,
+        min_failure_duration: element.min_failure_duration
       });
     });
     this.calcTable(data);
