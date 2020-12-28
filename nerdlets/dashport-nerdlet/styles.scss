@@ -13,13 +13,16 @@
 @import "./containers/Menu/styles.scss";
 @import "./containers/Metrics/styles.scss";
 
-
 @import "./components/Modal/styles.scss";
 @import "./components/Checkbox/style.scss";
 @import "./components/ModalSupport/style.scss";
 @import "./components//Pagination/style.scss";
 @import "./components/ModalSetup/styles.scss";
 /////////////STYLES COMMON
+input[type="search"] {
+  background: white !important;
+}
+
 .flex {
   display: flex;
 }
@@ -103,6 +106,7 @@
 }
 
 .table__cellSticky {
+  width: 100%;
   display: block;
   font-size: 0.72vw;
   align-items: center;

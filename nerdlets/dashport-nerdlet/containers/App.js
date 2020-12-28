@@ -954,7 +954,6 @@ export default class App extends React.Component {
     await this.loadViewData();
     Toast.showToast({
       title: 'STEPS TO COMPLETE',
-      description: 'Agent configuration.',
       type: Toast.TYPE.NORMAL
     });
     this.setState({
