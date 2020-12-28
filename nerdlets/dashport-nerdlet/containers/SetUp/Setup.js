@@ -225,7 +225,7 @@ export default class Setup extends React.Component {
         )
       case 2:
         return (
-          lastUpdate !== 'never' ?
+          lastUpdate === 'never' ?
             <div className="apiKeys__stepTwo">
               < div className="stepTwo--title" > Fetch Datadog Elements</div >
               <div className="stepTwo__fetchSection">
