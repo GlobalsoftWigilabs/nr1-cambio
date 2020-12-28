@@ -76,8 +76,16 @@ const callApis = async (cfg, callbackDataWritter, reportLog) => {
                 monitors.push(resultado.data);
               }
               for (const monitor of monitors) {
-                const responseDetailsMonitorPages = await getMonitorDetails(monitor.id,reportLog);
+                const responseDetailsMonitorPages = await getMonitorDetails(monitor.id,reportLog);               
                 monitor.created=responseDetailsMonitorPages.data.created;
+                monitor.aggregation=responseDetailsMonitorPages.data.options.aggregation ? responseDetailsMonitorPages.data.options.aggregation : null;
+                monitor.evaluation_delay=responseDetailsMonitorPages.data.options.evaluation_delay ? responseDetailsMonitorPages.data.options.evaluation_delay : null;
+                monitor.new_host_delay=responseDetailsMonitorPages.data.options.new_host_delay ? responseDetailsMonitorPages.data.options.new_host_delay : null;
+                monitor.no_data_timeframe=responseDetailsMonitorPages.data.options.no_data_timeframe ? responseDetailsMonitorPages.data.options.no_data_timeframe : null;
+                monitor.notify_audit=responseDetailsMonitorPages.data.options.notify_audit ? responseDetailsMonitorPages.data.options.notify_audit : null;
+                monitor.notify_no_data=responseDetailsMonitorPages.data.options.notify_no_data ? responseDetailsMonitorPages.data.options.notify_no_data : null;
+                monitor.thresholds=responseDetailsMonitorPages.data.options.thresholds ? responseDetailsMonitorPages.data.options.thresholds : null;
+                monitor.message=responseDetailsMonitorPages.data.message;
                 monitor.multi=responseDetailsMonitorPages.data.multi;
               }
               await callbackDataWritter(`Monitor Search Pages`, monitors);
@@ -88,8 +96,16 @@ const callApis = async (cfg, callbackDataWritter, reportLog) => {
                 totalPages: 0
               };
               for (const monitor of obj.data.monitors) {
-                const responseDetailsMonitor = await getMonitorDetails(monitor.id,reportLog);
+                const responseDetailsMonitor = await getMonitorDetails(monitor.id,reportLog);           
                 monitor.created=responseDetailsMonitor.data.created;
+                monitor.aggregation=responseDetailsMonitor.data.options.aggregation ? responseDetailsMonitor.data.options.aggregation : null;
+                monitor.evaluation_delay=responseDetailsMonitor.data.options.evaluation_delay ? responseDetailsMonitor.data.options.evaluation_delay : null;
+                monitor.new_host_delay=responseDetailsMonitor.data.options.new_host_delay ? responseDetailsMonitor.data.options.new_host_delay : null;
+                monitor.no_data_timeframe=responseDetailsMonitor.data.options.no_data_timeframe ? responseDetailsMonitor.data.options.no_data_timeframe : null;
+                monitor.notify_audit=responseDetailsMonitor.data.options.notify_audit ? responseDetailsMonitor.data.options.notify_audit : null;
+                monitor.notify_no_data=responseDetailsMonitor.data.options.notify_no_data ? responseDetailsMonitor.data.options.notify_no_data : null;
+                monitor.thresholds=responseDetailsMonitor.data.options.thresholds ? responseDetailsMonitor.data.options.thresholds : null;
+                monitor.message=responseDetailsMonitor.data.message;
                 monitor.multi=responseDetailsMonitor.data.multi;
               }
               await callbackDataWritter('Monitors meta', countData);
