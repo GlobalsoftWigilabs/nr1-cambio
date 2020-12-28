@@ -10,6 +10,9 @@ import ModalAlert from './ModalAlert';
 import ReactTable from 'react-table-v6';
 import Pagination from '../../components/Pagination/Pagination';
 import PropTypes from 'prop-types';
+import jsoncsv from 'json-2-csv';
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
 import Bar from '../../components/Bar';
 
 const greenColor = '#007E8A';
@@ -170,6 +173,26 @@ export default class Alerts extends React.Component {
         column: column,
         order: order
       }
+    });
+  };
+
+  downloadData = async () => {
+    const { data } = this.state;
+    const date = new Date();
+    const zip = new JSZip();
+    jsoncsv.json2csv(data, (err, csv) => {
+      if (err) {
+        throw err;
+      }
+      zip.file(`Alerts.csv`, csv);
+      zip.generateAsync({ type: 'blob' }).then(function(content) {
+        // see FileSaver.js
+        saveAs(
+          content,
+          `Alerts ${date.getDate()}-${date.getMonth() +
+            1}-${date.getFullYear()}.zip`
+        );
+      });
     });
   };
 
@@ -433,7 +456,7 @@ export default class Alerts extends React.Component {
                   }
                   onClick={() => {
                     // eslint-disable-next-line no-alert
-                    if (data.length !== 0) alert('download data...');
+                    if (data.length !== 0) this.downloadData();
                   }}
                 >
                   <img
