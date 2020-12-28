@@ -1,0 +1,21 @@
+.tableContent__filterMetric {
+    display: grid;
+    grid-template: 1fr / 40% 12.5% 12.5% 5% 30%;
+    -moz-column-gap: 5px;
+    column-gap: 5px;
+    width: 98%;
+}
+.buttonFetchMetric {
+    background: #007e8a;
+    width: 100%;
+    height: 100%;
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 0.71vw;
+    line-height: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+}

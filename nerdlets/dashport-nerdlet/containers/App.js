@@ -156,10 +156,9 @@ export default class App extends React.Component {
       });
     } else if (
       value === 0 ||
-      value === 1 ||
       value === 2 ||
       value === 3 ||
-      value === 4
+      value === 6
     ) {
       this.setState({ selectedMenu: value });
     } else {
@@ -392,6 +391,7 @@ export default class App extends React.Component {
         'data',
         this.reportLogFetch
       );
+      console.log('logs ', logs)
       if (logs) {
         const { indexes, pipelines } = logs.data;
         this.setState({
@@ -1723,7 +1723,10 @@ export default class App extends React.Component {
       case 5:
         return <Logs logsTotal={logsTotal} />;
       case 6:
-        return <Metrics metrics={metrics} metricsTotal={metricsTotal} />;
+        return <Metrics
+          accountId={accountId}
+          metrics={metrics}
+          metricsTotal={metricsTotal} />;
       case 7:
         return (
           <Synthetics
@@ -1759,28 +1762,28 @@ export default class App extends React.Component {
         {loadingContent ? (
           <Spinner type={Spinner.TYPE.DOT} />
         ) : (
-          <>
-            <div className="sidebar-container">
-              <Menu
-                lastUpdate={lastUpdate}
-                selectedMenu={selectedMenu}
-                handleChangeMenu={this.handleChangeMenu}
-              />
-            </div>
-            <div>
-              <div
-                style={{
-                  paddingTop: '1%',
-                  paddingRight: '1%',
-                  paddingLeft: '1%',
-                  height: '96%'
-                }}
-              >
-                {this.renderContent()}
+            <>
+              <div className="sidebar-container">
+                <Menu
+                  lastUpdate={lastUpdate}
+                  selectedMenu={selectedMenu}
+                  handleChangeMenu={this.handleChangeMenu}
+                />
               </div>
-            </div>
-          </>
-        )}
+              <div>
+                <div
+                  style={{
+                    paddingTop: '1%',
+                    paddingRight: '1%',
+                    paddingLeft: '1%',
+                    height: '96%'
+                  }}
+                >
+                  {this.renderContent()}
+                </div>
+              </div>
+            </>
+          )}
       </div>
     );
   }

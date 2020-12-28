@@ -32,25 +32,11 @@ const callApis = async (cfg, callbackDataWritter, reportLog) => {
         const obj = await _callApi(list[i], reportLog);
         // if obj is different of null
         if (obj) {
-          if (list[i].name === 'Get All Active Metrics') {
-            let data=[];
-            for(const metric of obj.data.metrics){
-              const metricDetail= await getMetricDetails(metric,reportLog);
-              data.push({
-                name:metric,
-                integration:metricDetail.data.integration,
-                type:metricDetail.data.type,
-                unit:metricDetail.data.unit,
-                host :'All'
-              });
-            }
-            obj.data.metrics=data;
-            await callbackDataWritter(list[i].name, obj.data);
-          } else if (list[i].name === 'Get Dashboards Manual') {
+          if (list[i].name === 'Get Dashboards Manual') {
             for (let j = 0; j < obj.data.dashboard_lists.length; j++) {
-              const response=await getManualDashboard(obj.data.dashboard_lists[j].id, reportLog);
-              if(response){
-                obj.data.dashboard_lists[j].dashboards=response.data.dashboards;
+              const response = await getManualDashboard(obj.data.dashboard_lists[j].id, reportLog);
+              if (response) {
+                obj.data.dashboard_lists[j].dashboards = response.data.dashboards;
               }
             }
             await callbackDataWritter(list[i].name, obj.data);
@@ -76,17 +62,17 @@ const callApis = async (cfg, callbackDataWritter, reportLog) => {
                 monitors.push(resultado.data);
               }
               for (const monitor of monitors) {
-                const responseDetailsMonitorPages = await getMonitorDetails(monitor.id,reportLog);               
-                monitor.created=responseDetailsMonitorPages.data.created;
-                monitor.aggregation=responseDetailsMonitorPages.data.options.aggregation ? responseDetailsMonitorPages.data.options.aggregation : null;
-                monitor.evaluation_delay=responseDetailsMonitorPages.data.options.evaluation_delay ? responseDetailsMonitorPages.data.options.evaluation_delay : null;
-                monitor.new_host_delay=responseDetailsMonitorPages.data.options.new_host_delay ? responseDetailsMonitorPages.data.options.new_host_delay : null;
-                monitor.no_data_timeframe=responseDetailsMonitorPages.data.options.no_data_timeframe ? responseDetailsMonitorPages.data.options.no_data_timeframe : null;
-                monitor.notify_audit=responseDetailsMonitorPages.data.options.notify_audit ? responseDetailsMonitorPages.data.options.notify_audit : null;
-                monitor.notify_no_data=responseDetailsMonitorPages.data.options.notify_no_data ? responseDetailsMonitorPages.data.options.notify_no_data : null;
-                monitor.thresholds=responseDetailsMonitorPages.data.options.thresholds ? responseDetailsMonitorPages.data.options.thresholds : null;
-                monitor.message=responseDetailsMonitorPages.data.message;
-                monitor.multi=responseDetailsMonitorPages.data.multi;
+                const responseDetailsMonitorPages = await getMonitorDetails(monitor.id, reportLog);
+                monitor.created = responseDetailsMonitorPages.data.created;
+                monitor.aggregation = responseDetailsMonitorPages.data.options.aggregation ? responseDetailsMonitorPages.data.options.aggregation : null;
+                monitor.evaluation_delay = responseDetailsMonitorPages.data.options.evaluation_delay ? responseDetailsMonitorPages.data.options.evaluation_delay : null;
+                monitor.new_host_delay = responseDetailsMonitorPages.data.options.new_host_delay ? responseDetailsMonitorPages.data.options.new_host_delay : null;
+                monitor.no_data_timeframe = responseDetailsMonitorPages.data.options.no_data_timeframe ? responseDetailsMonitorPages.data.options.no_data_timeframe : null;
+                monitor.notify_audit = responseDetailsMonitorPages.data.options.notify_audit ? responseDetailsMonitorPages.data.options.notify_audit : null;
+                monitor.notify_no_data = responseDetailsMonitorPages.data.options.notify_no_data ? responseDetailsMonitorPages.data.options.notify_no_data : null;
+                monitor.thresholds = responseDetailsMonitorPages.data.options.thresholds ? responseDetailsMonitorPages.data.options.thresholds : null;
+                monitor.message = responseDetailsMonitorPages.data.message;
+                monitor.multi = responseDetailsMonitorPages.data.multi;
               }
               await callbackDataWritter(`Monitor Search Pages`, monitors);
             } else {
@@ -96,17 +82,17 @@ const callApis = async (cfg, callbackDataWritter, reportLog) => {
                 totalPages: 0
               };
               for (const monitor of obj.data.monitors) {
-                const responseDetailsMonitor = await getMonitorDetails(monitor.id,reportLog);           
-                monitor.created=responseDetailsMonitor.data.created;
-                monitor.aggregation=responseDetailsMonitor.data.options.aggregation ? responseDetailsMonitor.data.options.aggregation : null;
-                monitor.evaluation_delay=responseDetailsMonitor.data.options.evaluation_delay ? responseDetailsMonitor.data.options.evaluation_delay : null;
-                monitor.new_host_delay=responseDetailsMonitor.data.options.new_host_delay ? responseDetailsMonitor.data.options.new_host_delay : null;
-                monitor.no_data_timeframe=responseDetailsMonitor.data.options.no_data_timeframe ? responseDetailsMonitor.data.options.no_data_timeframe : null;
-                monitor.notify_audit=responseDetailsMonitor.data.options.notify_audit ? responseDetailsMonitor.data.options.notify_audit : null;
-                monitor.notify_no_data=responseDetailsMonitor.data.options.notify_no_data ? responseDetailsMonitor.data.options.notify_no_data : null;
-                monitor.thresholds=responseDetailsMonitor.data.options.thresholds ? responseDetailsMonitor.data.options.thresholds : null;
-                monitor.message=responseDetailsMonitor.data.message;
-                monitor.multi=responseDetailsMonitor.data.multi;
+                const responseDetailsMonitor = await getMonitorDetails(monitor.id, reportLog);
+                monitor.created = responseDetailsMonitor.data.created;
+                monitor.aggregation = responseDetailsMonitor.data.options.aggregation ? responseDetailsMonitor.data.options.aggregation : null;
+                monitor.evaluation_delay = responseDetailsMonitor.data.options.evaluation_delay ? responseDetailsMonitor.data.options.evaluation_delay : null;
+                monitor.new_host_delay = responseDetailsMonitor.data.options.new_host_delay ? responseDetailsMonitor.data.options.new_host_delay : null;
+                monitor.no_data_timeframe = responseDetailsMonitor.data.options.no_data_timeframe ? responseDetailsMonitor.data.options.no_data_timeframe : null;
+                monitor.notify_audit = responseDetailsMonitor.data.options.notify_audit ? responseDetailsMonitor.data.options.notify_audit : null;
+                monitor.notify_no_data = responseDetailsMonitor.data.options.notify_no_data ? responseDetailsMonitor.data.options.notify_no_data : null;
+                monitor.thresholds = responseDetailsMonitor.data.options.thresholds ? responseDetailsMonitor.data.options.thresholds : null;
+                monitor.message = responseDetailsMonitor.data.message;
+                monitor.multi = responseDetailsMonitor.data.multi;
               }
               await callbackDataWritter('Monitors meta', countData);
               await callbackDataWritter(
@@ -502,17 +488,17 @@ const getMonitorDetails = async (id, reportLog) => {
     if (error.response) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx
-        if (error.response.status >= 400 && error.response.status <= 499) {
-          const response = {
-            message: error.response.data.errors
-              ? error.response.data.errors[0]
-              : `${error.response.status} - ${info.pathname}`,
-            type: 'Warning',
-            event: 'Fetch',
-            date: new Date().toLocaleString()
-          };
-          await reportLog(response);
-        }
+      if (error.response.status >= 400 && error.response.status <= 499) {
+        const response = {
+          message: error.response.data.errors
+            ? error.response.data.errors[0]
+            : `${error.response.status} - ${info.pathname}`,
+          type: 'Warning',
+          event: 'Fetch',
+          date: new Date().toLocaleString()
+        };
+        await reportLog(response);
+      }
       if (error.response.status >= 500) {
         const response = {
           message: error.response.data.errors
