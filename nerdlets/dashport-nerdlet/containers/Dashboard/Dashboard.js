@@ -602,7 +602,7 @@ export default class Dashboard extends React.Component {
                                                                 background: rowInfo.index % 2 ? '#F7F7F8' : 'white',
                                                                 borderBottom: 'none',
                                                                 display: 'grid',
-                                                                gridTemplate: '1fr/ 15% repeat(5,5%) 20% 5% 20% 15%'
+                                                                gridTemplate: '1fr/ 8% repeat(5,6%) 20% 7% 20% 15%'
                                                             }
                                                         };
                                                     } else {
@@ -610,7 +610,7 @@ export default class Dashboard extends React.Component {
                                                             style: {
                                                                 borderBottom: 'none',
                                                                 display: 'grid',
-                                                                gridTemplate: '1fr/ 15% repeat(5,5%) 20% 5% 20% 15%'
+                                                                gridTemplate: '1fr/ 8% repeat(5,6%) 20% 7% 20% 15%'
                                                             }
                                                         };
                                                     }
@@ -638,7 +638,7 @@ export default class Dashboard extends React.Component {
                                                         color: '#333333',
                                                         fontWeight: 'bold',
                                                         display: 'grid',
-                                                        gridTemplate: '1fr/ 15% repeat(5,5%) 20% 5% 20% 15%'
+                                                        gridTemplate: '1fr/ 8% repeat(5,6%) 20% 7% 20% 15%'
                                                     }
                                                 };
                                             }}
@@ -646,7 +646,7 @@ export default class Dashboard extends React.Component {
                                                 {
                                                     Header: () => (
                                                         <div className="table__headerSticky">
-                                                            <div className="pointer flex flexCenterHorizontal" style={{ marginLeft: "5px" }} onClick={() => { this.setSortColumn('name') }}>
+                                                            <div className="pointer flex" style={{ marginLeft: "15px" }} onClick={() => { this.setSortColumn('name') }}>
                                                                 NAME
                                                                     <div className="flexColumn table__sort">
                                                                     <ArrowTop color={sortColumn.column === 'name' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
@@ -669,7 +669,7 @@ export default class Dashboard extends React.Component {
                                                                     color: "#0078BF"
                                                                 }}>
                                                                 <span style={{
-                                                                    marginLeft: "5px"
+                                                                    marginLeft: "15px"
                                                                 }}>{props.value}</span>
                                                             </div>
                                                         )
@@ -678,7 +678,7 @@ export default class Dashboard extends React.Component {
                                                 {
                                                     Header: () => (
                                                         <div className="table__header">
-                                                            <div className="pointer flex flexCenterHorizontal" onClick={() => { this.setSortColumn('autor') }}>
+                                                            <div className="pointer flex" onClick={() => { this.setSortColumn('autor') }}>
                                                                 AUTHOR
                                                                     <div className="flexColumn table__sort">
                                                                     <ArrowTop color={sortColumn.column === 'autor' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
@@ -689,16 +689,16 @@ export default class Dashboard extends React.Component {
                                                     ),
                                                     headerClassName: 'w100I',
                                                     accessor: 'autor',
-                                                    className: 'table__cell flex flexCenterHorizontal flexCenterVertical h100 w100I',
+                                                    className: 'table__cell flex flexCenterVertical h100 w100I',
                                                     sortable: false,
-                                                    Cell: props => <div className="h100 flex flexCenterVertical flexCenterHorizontal">
-                                                        {props.value !== '' ? props.value : '________'}
+                                                    Cell: props => <div className="h100 flex flexCenterVertical ">
+                                                        {props.value !== '' ? props.value : '--'}
                                                     </div>
                                                 },
                                                 {
                                                     Header: () => (
                                                         <div className="table__header">
-                                                            <div className="pointer flex flexCenterHorizontal" onClick={() => { this.setSortColumn('creation') }}>
+                                                            <div className="pointer flex " onClick={() => { this.setSortColumn('creation') }}>
                                                                 CREATION DATE
                                                                     <div className="flexColumn table__sort">
                                                                     <ArrowTop color={sortColumn.column === 'creation' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
@@ -709,16 +709,16 @@ export default class Dashboard extends React.Component {
                                                     ),
                                                     headerClassName: 'w100I',
                                                     accessor: 'creation',
-                                                    className: 'table__cell flex flexCenterHorizontal flexCenterVertical h100 w100I',
+                                                    className: 'table__cell flex flexCenterVertical h100 w100I',
                                                     sortable: false,
-                                                    Cell: props => <div className="h100 flex flexCenterVertical flexCenterHorizontal">
+                                                    Cell: props => <div className="h100 flex flexCenterVertical ">
                                                         {this.dateToYMD(new Date(props.value))}
                                                     </div>
                                                 },
                                                 {
                                                     Header: () => (
                                                         <div className="table__header">
-                                                            <div className="pointer flex flexCenterHorizontal" onClick={() => { this.setSortColumn('modified') }}>
+                                                            <div className="pointer flex " onClick={() => { this.setSortColumn('modified') }}>
                                                                 MOD DATE
                                                                     <div className="flexColumn table__sort">
                                                                     <ArrowTop color={sortColumn.column === 'modified' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
@@ -729,14 +729,14 @@ export default class Dashboard extends React.Component {
                                                     ),
                                                     headerClassName: 'w100I',
                                                     accessor: 'modified',
-                                                    className: 'table__cell flex flexCenterHorizontal flexCenterVertical h100 w100I',
+                                                    className: 'table__cell flex flexCenterVertical h100 w100I',
                                                     sortable: false,
-                                                    Cell: props => <div className="h100 flex flexCenterVertical flexCenterHorizontal">{this.dateToYMD(new Date(props.value))}</div>
+                                                    Cell: props => <div className="h100 flex flexCenterVertical ">{this.dateToYMD(new Date(props.value))}</div>
                                                 },
                                                 {
                                                     Header: () => (
                                                         <div className="table__header">
-                                                            <div className="pointer flex flexCenterHorizontal" onClick={() => { this.setSortColumn('popularity') }}>
+                                                            <div className="pointer flex " onClick={() => { this.setSortColumn('popularity') }}>
                                                                 POPULARITY
                                                                     <div className="flexColumn table__sort">
                                                                     <ArrowTop color={sortColumn.column === 'popularity' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
@@ -747,16 +747,16 @@ export default class Dashboard extends React.Component {
                                                     ),
                                                     headerClassName: 'w100I',
                                                     accessor: 'popularity',
-                                                    className: 'table__cell flex flexCenterHorizontal flexCenterVertical h100 w100I',
+                                                    className: 'table__cell flex flexCenterVertical h100 w100I',
                                                     sortable: false,
-                                                    Cell: props => <div className="h100 flex flexCenterVertical flexCenterHorizontal">
+                                                    Cell: props => <div className="h100 flex flexCenterVertical ">
                                                         {props.value ? props.value : 0}
                                                     </div>
                                                 },
                                                 {
                                                     Header: () => (
                                                         <div className="table__header">
-                                                            <div className="pointer flex flexCenterHorizontal" onClick={() => { this.setSortColumn('widgets') }}>
+                                                            <div className="pointer flex " onClick={() => { this.setSortColumn('widgets') }}>
                                                                 WIDGETS
                                                                     <div className="flexColumn table__sort">
                                                                     <ArrowTop color={sortColumn.column === 'widgets' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
@@ -767,14 +767,14 @@ export default class Dashboard extends React.Component {
                                                     ),
                                                     headerClassName: 'w100I',
                                                     accessor: 'widgets',
-                                                    className: 'table__cell flex flexCenterHorizontal flexCenterVertical h100 w100I',
+                                                    className: 'table__cell flex flexCenterVertical h100 w100I',
                                                     sortable: false,
-                                                    Cell: props => <div className="h100 flex flexCenterVertical flexCenterHorizontal">{props.value.length}</div>
+                                                    Cell: props => <div className="h100 flex flexCenterVertical ">{props.value.length}</div>
                                                 },
                                                 {
                                                     Header: () => (
                                                         <div className="table__header">
-                                                            <div className="pointer flex flexCenterHorizontal" onClick={() => { this.setSortColumn('description') }}>
+                                                            <div className="pointer flex " onClick={() => { this.setSortColumn('description') }}>
                                                                 DESCRIPTION
                                                                     <div className="flexColumn table__sort">
                                                                     <ArrowTop color={sortColumn.column === 'description' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
@@ -785,17 +785,17 @@ export default class Dashboard extends React.Component {
                                                     ),
                                                     headerClassName: 'w100I',
                                                     accessor: 'description',
-                                                    className: 'table__cellLongText table__cell flex flexCenterHorizontal flexCenterVertical h100 w100I',
+                                                    className: 'table__cellLongText table__cell flex flexCenterVertical h100 w100I',
                                                     sortable: false,
                                                     Cell: props => {
-                                                        let txtDescription = '________';
+                                                        let txtDescription = '--';
                                                         if (props.value) {
                                                             txtDescription = props.value;
                                                             if (txtDescription.length > 300) {
                                                                 txtDescription = `${txtDescription.substring(0, 301)}...`;
                                                             }
                                                         }
-                                                        return (<div className="h100 flex flexCenterVertical flexCenterHorizontal">
+                                                        return (<div className="h100 flex flexCenterVertical ">
                                                             {txtDescription}
                                                         </div>)
                                                     }
@@ -803,7 +803,7 @@ export default class Dashboard extends React.Component {
                                                 {
                                                     Header: () => (
                                                         <div className="table__header">
-                                                            <div className="pointer flex flexCenterHorizontal" onClick={() => { this.setSortColumn('layoutType') }}>
+                                                            <div className="pointer flex " onClick={() => { this.setSortColumn('layoutType') }}>
                                                                 LAYOUT TYPE
                                                                     <div className="flexColumn table__sort">
                                                                     <ArrowTop color={sortColumn.column === 'layoutType' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
@@ -814,14 +814,14 @@ export default class Dashboard extends React.Component {
                                                     ),
                                                     headerClassName: 'w100I',
                                                     accessor: 'layoutType',
-                                                    className: 'table__cell flex flexCenterHorizontal flexCenterVertical h100 w100I',
+                                                    className: 'table__cell flex flexCenterVertical h100 w100I',
                                                     sortable: false,
-                                                    Cell: props => <div className="h100 flex flexCenterVertical flexCenterHorizontal">{props.value}</div>
+                                                    Cell: props => <div className="h100 flex flexCenterVertical ">{props.value}</div>
                                                 },
                                                 {
                                                     Header: () => (
                                                         <div className="table__header">
-                                                            <div className="pointer flex flexCenterHorizontal" onClick={() => { this.setSortColumn('url') }}>
+                                                            <div className="pointer flex " onClick={() => { this.setSortColumn('url') }}>
                                                                 URL
                                                                     <div className="flexColumn table__sort">
                                                                     <ArrowTop color={sortColumn.column === 'url' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
@@ -834,12 +834,12 @@ export default class Dashboard extends React.Component {
                                                     accessor: 'url',
                                                     className: 'table__cell flex flexCenterVertical h100 w100I',
                                                     sortable: false,
-                                                    Cell: props => <div className="h100 flex flexCenterVertical flexCenterHorizontal">{props.value}</div>
+                                                    Cell: props => <div className="h100 flex flexCenterVertical ">{props.value}</div>
                                                 },
                                                 {
                                                     Header: () => (
                                                         <div className="table__header">
-                                                            <div className="pointer flex flexCenterHorizontal" onClick={() => { this.setSortColumn('dashboardList') }}>
+                                                            <div className="pointer flex " onClick={() => { this.setSortColumn('dashboardList') }}>
                                                                 DASHBOARD LIST
                                                                     <div className="flexColumn table__sort">
                                                                     <ArrowTop color={sortColumn.column === 'dashboardList' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
@@ -855,7 +855,7 @@ export default class Dashboard extends React.Component {
                                                     Cell: props => {
                                                         let dashboardsList = '';
                                                         if (props.value.length === 0) {
-                                                            dashboardsList = '________';
+                                                            dashboardsList = '--';
                                                         }
                                                         for (const iterator of props.value) {
                                                             dashboardsList += ` ${iterator} `;

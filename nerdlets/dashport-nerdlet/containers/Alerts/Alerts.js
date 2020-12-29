@@ -799,7 +799,7 @@ export default class Alerts extends React.Component {
                           <div className="h100 flex flexCenterVertical flexCenterHorizontal">
                             {props.value
                               ? moment.unix(props.value).format('MM/DD/YYYY')
-                              : '________'}
+                              : '--'}
                           </div>
                         )
                       },
@@ -925,7 +925,7 @@ export default class Alerts extends React.Component {
                         sortable: false,
                         Cell: props => (
                           <div className="h100 flex flexCenterVertical flexCenterHorizontal">
-                            {props.value ? props.value : '________'}
+                            {props.value ? props.value : '--'}
                           </div>
                         )
                       }

@@ -37,7 +37,7 @@ export default class ModalWidgets extends React.Component {
         for (const iterator of infoAditional.widgets) {
             data.push(
                 {
-                    title: iterator.definition.title ? iterator.definition.title : '________',
+                    title: iterator.definition.title ? iterator.definition.title : '--',
                     query: this.returnQuery(iterator.definition),
                     type: iterator.definition.type,
                     queryParameters: this.returnParams(iterator.definition),
@@ -192,11 +192,11 @@ export default class ModalWidgets extends React.Component {
             }
         } catch (err) {
             if (query === '')
-                query = '________';
+                query = '--';
             return query;
         }
         if (query === '')
-            query = '________';
+            query = '--';
         return query;
     }
 
@@ -207,10 +207,10 @@ export default class ModalWidgets extends React.Component {
             if (variables[4]) {
                 return variables[4];
             } else {
-                return '________';
+                return '--';
             }
         } else {
-            return '________';
+            return '--';
         }
     }
 
@@ -348,7 +348,7 @@ export default class ModalWidgets extends React.Component {
                                                         accessor: 'title',
                                                         sortable: false,
                                                         Cell: props => {
-                                                            let txtName = '________';
+                                                            let txtName = '--';
                                                             if (props.value.title) {
                                                                 txtName = props.value.title;
                                                                 if (txtName.length > 300) {

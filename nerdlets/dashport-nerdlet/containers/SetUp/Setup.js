@@ -103,141 +103,141 @@ export default class Setup extends React.Component {
     switch (step) {
       case 1:
         return (
-          <div className="apiKeys__stepOne">
-            <div className="stepOne__title">
-              <div className="stepOne--title">
-                Datadog API setup
+            <div className="apiKeys__stepOne">
+                <div className="stepOne__title">
+                    <div className="stepOne--title">
+                        Datadog API setup
+                    </div>
+                    <a href="https://docs.datadoghq.com/account_management/api-app-keys/" className="apiKeys--learnMore" target="_blank">Learn more</a>
                 </div>
-              <a href="https://docs.datadoghq.com/account_management/api-app-keys/" className="apiKeys--learnMore" target="_blank">Learn more</a>
+                <div className="stepOne__form">
+                    <Formik
+                        enableReinitialize
+                        initialValues={
+                        setupComplete
+                        ? {
+                            apikey: apikeyS,
+                            appkey: appkeyS
+                        }
+                        : {
+                            apikey,
+                            appkey
+                        }
+                        }
+                        validationSchema={
+                        setupComplete ? DatadogTempSchema : DatadogSchema
+                        }
+                        onSubmit={(values, actions) => writeSetup(values, actions)}
+                    >
+                        {({ errors, touched, submitForm, values, setFieldValue }) => (
+                            <Form className="form__setup" autoComplete="off">
+                                <div className="setup__textsFields">
+                                    <div className="setup__textfield">
+                                        <div className="setup__label">
+                                            API key
+                                            <div>
+                                                <a
+                                                    data-for="custom-class-2"
+                                                    data-tip="hover on me will keep the tooltip"
+                                                >
+                                                    <img height="10px" src={iconInformation} height="10px" className="apiKeys--iconInfo" />
+                                                </a>
+                                                <ReactTooltip
+                                                    id="custom-class-2"
+                                                    getContent={(dataTip) =>
+                                                        <p>
+                                                            An API key is required by the Datadog Api to get the elements of your account.&nbsp;
+                                                            <a onClick={() => this._onClose()} className="pointer" style={{ color: "yellow", textDecoration: "underline" }}>Learn more</a>
+                                                        </p>}
+                                                    className="tooltip"
+                                                    delayHide={1000}
+                                                    effect="solid"
+                                                />
+                                            </div>
+                                        </div>
+                                        <Field
+                                            name="apikey"
+                                            component={CustomInputComponent}
+                                            viewKeyAction={viewKeyAction}
+                                            disabled={setupComplete}
+                                        />
+                                        {errors.apikey && touched.apikey ? (
+                                            <div style={{ color: 'red' }}>{errors.apikey}</div>
+                                        ) : (
+                                            <div style={{ color: 'white' }}>....</div>
+                                        )}
+                                    </div>
+                                    <div className="setup__textfield">
+                                        <div className="setup__label">
+                                            Application key
+                                            <div>
+                                                <a
+                                                    data-for="custom-class"
+                                                    data-tip="hover on me will keep the tooltip"
+                                                >
+                                                    <img height="10px" src={iconInformation} height="10px" className="apiKeys--iconInfo" />
+                                                </a>
+                                                <ReactTooltip
+                                                    id="custom-class"
+                                                    getContent={(dataTip) =>
+                                                        <p>
+                                                            An Application key is required by the Datadog Api. It is used to log all requests made to the API.&nbsp;
+                                                            <a onClick={() => this._onClose()} className="pointer" style={{ color: "yellow", textDecoration: "underline" }}>Learn more</a>
+                                                        </p>}
+                                                    className="tooltip"
+                                                    delayHide={1000}
+                                                    effect="solid"
+                                                />
+                                            </div>
+                                        </div>
+                                        <Field
+                                            name="appkey"
+                                            component={CustomInputComponent}
+                                            viewKeyAction={viewKeyAction}
+                                            disabled={setupComplete}
+                                        />
+                                        {errors.appkey && touched.appkey ? (
+                                            <div style={{ color: 'red' }}>{errors.appkey}</div>
+                                        ) : (
+                                            <div style={{ color: 'white' }}>....</div>
+                                        )}
+                                    </div>
+                                </div>
+                                <div className="flex flexCenterHorizontal ">
+                                    {setupComplete ?
+                                     <Button
+                                         onClick={openToast}
+                                         type={Button.TYPE.DESTRUCTIVE}
+                                         loading={writingSetup || deleteSetup}
+                                         iconType={
+                                         Button.ICON_TYPE
+                                               .INTERFACE__OPERATIONS__REMOVE__V_ALTERNATE
+                                         }
+                                         className="buttonDelete"
+                                     >
+                                         Delete config
+                                     </Button> :
+                                     <Button
+                                         onClick={submitForm}
+                                         type={Button.TYPE.PRIMARY}
+                                         loading={writingSetup}
+                                         disabled={setupComplete ? true : false}
+                                         className="buttonsSetup__buttonSave"
+                                     >
+                                         Validate
+                                     </Button>
+                                    }
+                                </div>
+                                <div className="flex flexCenterVertical flexCenterHorizontal">
+                                    <div style={{ height: "23px", width: "33%" }}>
+                                        {setupComplete && <img src={sucess} />}
+                                    </div>
+                                </div>
+                            </Form>
+                        )}
+                    </Formik>
+                </div>
             </div>
-            <div className="stepOne__form">
-              <Formik
-                enableReinitialize
-                initialValues={
-                  setupComplete
-                    ? {
-                      apikey: apikeyS,
-                      appkey: appkeyS
-                    }
-                    : {
-                      apikey,
-                      appkey
-                    }
-                }
-                validationSchema={
-                  setupComplete ? DatadogTempSchema : DatadogSchema
-                }
-                onSubmit={(values, actions) => writeSetup(values, actions)}
-              >
-                {({ errors, touched, submitForm, values, setFieldValue }) => (
-                  <Form className="form__setup" autoComplete="off">
-                    <div className="setup__textsFields">
-                      <div className="setup__textfield">
-                        <div className="setup__label">
-                          API key
-                        <div>
-                            <a
-                              data-for="custom-class-2"
-                              data-tip="hover on me will keep the tooltip"
-                            >
-                              <img height="10px" src={iconInformation} height="10px" className="apiKeys--iconInfo" />
-                            </a>
-                            <ReactTooltip
-                              id="custom-class-2"
-                              getContent={(dataTip) =>
-                                <p>
-                                  An API key is required by the Datadog Api to get the elements of your account.
-                                  <a onClick={() => this._onClose()} className="pointer" style={{ color: "yellow", textDecoration: "underline" }}>Learn more</a>
-                                </p>}
-                              className="tooltip"
-                              delayHide={1000}
-                              effect="solid"
-                            />
-                          </div>
-                        </div>
-                        <Field
-                          name="apikey"
-                          component={CustomInputComponent}
-                          viewKeyAction={viewKeyAction}
-                          disabled={setupComplete}
-                        />
-                        {errors.apikey && touched.apikey ? (
-                          <div style={{ color: 'red' }}>{errors.apikey}</div>
-                        ) : (
-                            <div style={{ color: 'white' }}>....</div>
-                          )}
-                      </div>
-                      <div className="setup__textfield">
-                        <div className="setup__label">
-                          Application key
-                        <div>
-                            <a
-                              data-for="custom-class"
-                              data-tip="hover on me will keep the tooltip"
-                            >
-                              <img height="10px" src={iconInformation} height="10px" className="apiKeys--iconInfo" />
-                            </a>
-                            <ReactTooltip
-                              id="custom-class"
-                              getContent={(dataTip) =>
-                                <p>
-                                  An Application key is required by the Datadog Api. It is used to log all requests made to the API.
-                                <a onClick={() => this._onClose()} className="pointer" style={{ color: "yellow", textDecoration: "underline" }}>Learn more</a>
-                                </p>}
-                              className="tooltip"
-                              delayHide={1000}
-                              effect="solid"
-                            />
-                          </div>
-                        </div>
-                        <Field
-                          name="appkey"
-                          component={CustomInputComponent}
-                          viewKeyAction={viewKeyAction}
-                          disabled={setupComplete}
-                        />
-                        {errors.appkey && touched.appkey ? (
-                          <div style={{ color: 'red' }}>{errors.appkey}</div>
-                        ) : (
-                            <div style={{ color: 'white' }}>....</div>
-                          )}
-                      </div>
-                    </div>
-                    <div className="flex flexCenterHorizontal ">
-                      {setupComplete ?
-                        <Button
-                          onClick={openToast}
-                          type={Button.TYPE.DESTRUCTIVE}
-                          loading={writingSetup || deleteSetup}
-                          iconType={
-                            Button.ICON_TYPE
-                              .INTERFACE__OPERATIONS__REMOVE__V_ALTERNATE
-                          }
-                          className="buttonDelete"
-                        >
-                          Delete config
-                      </Button> :
-                        <Button
-                          onClick={submitForm}
-                          type={Button.TYPE.PRIMARY}
-                          loading={writingSetup}
-                          disabled={setupComplete ? true : false}
-                          className="buttonsSetup__buttonSave"
-                        >
-                          Validate
-                      </Button>
-                      }
-                    </div>
-                    <div className="flex flexCenterVertical flexCenterHorizontal">
-                      <div style={{ height: "23px", width: "33%" }}>
-                        {setupComplete && <img src={sucess} />}
-                      </div>
-                    </div>
-                  </Form>
-                )}
-              </Formik>
-            </div>
-          </div>
         )
       case 2:
         return (

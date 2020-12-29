@@ -1811,9 +1811,9 @@ export default class App extends React.Component {
             <div>
               <div
                 style={{
-                  paddingTop: '1%',
+                  paddingTop: '1.8%',
                   paddingRight: '1%',
-                  paddingLeft: '1%',
+                  paddingLeft: '1.8%',
                   height: '96%'
                 }}
               >
