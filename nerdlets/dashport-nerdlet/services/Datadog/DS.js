@@ -282,18 +282,21 @@ const _parseInfra = async (
     view: 'infrastructure',
     data: {
       total: 0,
-      cpuCount: 0,
-      platform: {
-        linux: {
-          count: 0,
-          versions: []
-        },
-        win: {
-          count: 0,
-          versions: []
-        }
-      }
-    }
+      hostList:[],
+      windowsCount:0,
+      linuxCount:0
+      // cpuCount: 0,
+      // platform: {
+      //   linux: {
+      //     count: 0,
+      //     versions: []
+      //   },
+      //   win: {
+      //     count: 0,
+      //     versions: []
+      //   }
+      // }
+    } 
   };
   const errors = [];
   try {
@@ -308,43 +311,46 @@ const _parseInfra = async (
       }
     }
     data.host_list = hostList;
+    obj.data.hostList=hostList;
     if (data && data.host_list && data.host_list instanceof Array) {
       for (const host of data.host_list) {
         if (Object.entries(host.meta).length !== 0) {
           obj.data.total++;
-          obj.data.cpuCount += host.meta.cpuCores;
-          let memoryTotal = JSON.parse(host.meta.gohai).memory.total;
-          memoryTotal = memoryTotal.substring(0, memoryTotal.length - 1);
-          memoryTotal = memoryTotal.substring(0, memoryTotal.length - 1);
-          const memoryGB = parseInt(memoryTotal) / 1e+6;
+          // obj.data.cpuCount += host.meta.cpuCores;
+          // let memoryTotal = JSON.parse(host.meta.gohai).memory.total;
+          // memoryTotal = memoryTotal.substring(0, memoryTotal.length - 1);
+          // memoryTotal = memoryTotal.substring(0, memoryTotal.length - 1);
+          // const memoryGB = parseInt(memoryTotal) / 1e+6;
           if (host.meta.platform === 'linux') {
-            obj.data.platform.linux.count++;
-            const version = `${host.meta.nixV[0]} ${host.meta.nixV[1]}`;
-            // const RAM=JSON.parse(host.meta.gohai).memory.total;
-            obj.data.platform.linux.versions.push({
-              name: version,
-              count: 1,
-              processorModel: host.meta.processor,
-              memory: `${memoryGB.toFixed(1)}GB`
-            });
+            obj.data.linuxCount++;
+            // obj.data.platform.linux.count++;
+            // const version = `${host.meta.nixV[0]} ${host.meta.nixV[1]}`;
+            // // const RAM=JSON.parse(host.meta.gohai).memory.total;
+            // obj.data.platform.linux.versions.push({
+            //   name: version,
+            //   count: 1,
+            //   processorModel: host.meta.processor,
+            //   memory: `${memoryGB.toFixed(1)}GB`
+            // });
           } else {
-            obj.data.platform.win.count++;
-            const version = `${host.meta.nixV[0]} ${host.meta.nixV[1]}`;
-            obj.data.platform.win.versions.push({
-              name: version,
-              count: 1,
-              processorModel: host.meta.processor,
-              memory: `${memoryGB.toFixed(1)}GB`
-            });
+            obj.data.windowsCount++;
+            // obj.data.platform.win.count++;
+            // const version = `${host.meta.nixV[0]} ${host.meta.nixV[1]}`;
+            // obj.data.platform.win.versions.push({
+            //   name: version,
+            //   count: 1,
+            //   processorModel: host.meta.processor,
+            //   memory: `${memoryGB.toFixed(1)}GB`
+            // });
           }
         }
       }
-      obj.data.platform.win.versions = agroupData(
-        obj.data.platform.win.versions
-      );
-      obj.data.platform.linux.versions = agroupData(
-        obj.data.platform.linux.versions
-      );
+      // obj.data.platform.win.versions = agroupData(
+      //   obj.data.platform.win.versions
+      // );
+      // obj.data.platform.linux.versions = agroupData(
+      //   obj.data.platform.linux.versions
+      // );
     }
   } catch (error) {
     const response = {

@@ -94,7 +94,8 @@ export default class Infrastructure extends React.Component {
    * @memberof Infrastructure
    */
   componentDidMount() {
-    const { infrastructureData } = this.props;
+    const { infrastructureDataGraph,infraestructureList } = this.props;
+    debugger;
     let avaliableSo = [];
     let soSelected = {};
     if (infrastructureData.length > 0) {
@@ -212,261 +213,264 @@ export default class Infrastructure extends React.Component {
   }
 
   render() {
-    const { infrastructureTotal, infrastructureData } = this.props;
-    const { checkVersionWin,versions,sortColumn, checkVersionlinux,pagePag,pages, complex,totalRows, textTag, avaliableSo, soSelected } = this.state;
-    const filteredHost = this.mainFiler();
-    return (
-      <div className="mainInfraestructure">
-        <div className="mainInfraestructure__filtersOptions">
-          <div className="filterOptions__boxInfraestructure">
-            <span className="boxInfraestructure--title">
-              Total Host
-            </span>
-            <span className="boxInfraestructure--quantity">
-              {infrastructureTotal.totalHosts}
-            </span>
-          </div>
-          <div className="filterOptions__boxInfraestructure">
-            <span className="boxInfraestructure--title">
-              CPU's Total
-            </span>
-            <span className="boxInfraestructure--quantity">
-              {infrastructureTotal.totalCpu}
-            </span>
-          </div>
-          <div className="filtersOptions__graphsBar flexColumn">
-            <div className="w100">
-              <div className="graphsBar__containTitle">
-                <span className="graphsBar--title">Platform</span>
-              </div>
-              {infrastructureData.map((data, index) => {
-                const { name, uv, pv } = data;
-                const total = (uv * 100) / (uv + pv);
-                return (
-                  <div key={index} className="w100" style={{ paddingBottom: '10px', paddingTop: '10px', width: '94%' }}>
-                    <Bar
-                      bgColor="#ECEEEE"
-                      bgcolorMain="#007E8A"
-                      title={name}
-                      quantityPercentage={total}
-                      quantity={uv}
-                      actionClick={() => { }}
-                    />
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-        </div>
-        <div className="mainInfraestructure__filterActives">
-          <Select
-            classNamePrefix="react-select"
-            styles={this.customStyles}
-            isSearchable={false}
-            options={avaliableSo}
-            onChange={this.handleSo}
-            value={soSelected}
-            placeholder="All"
-          />
-          <div className="filterActives__tags">
-            <div className="tags__actived">
-              <div className="tags__filter">
-                <div className="tags--nameTag">{textTag}</div>
-                {textTag === 'All' ? (
-                  <AiOutlineClose size="15px" />
-                ) : (
-                    <AiOutlineClose
-                      className="tags--closeTag"
-                      onClick={() => this.changeSelected(1)}
-                    />
-                  )}
-              </div>
-              {complex !== '' ? (
-                <div className="tags__filter" style={{ width: textTag === "Most visited" && this.returnComplex(complex) === "Medium" ? "45%" : "" }}>
-                  {/* <div className="tags--nameTag">{this.returnComplex(complex)}</div> */}
-                  <AiOutlineClose
-                    className="tags--closeTag"
-                    onClick={() => this.changeSelectedComplex('')}
-                  />
-                </div>
-              ) : null}
-            </div>
-          </div>
-        </div>
-        <div className="mainAlerts__tableContentAlert">
-          <div className="tableContentAlert__options">
-            <div className="options__searchAlerts">
-              <div className="options__divSearchAlert">
-                <BsSearch size="10px" color={"#767B7F"} />
-                <SearchInput
-                  className="options--searchInputAlerts"
-                  onChange={this.searchUpdated}
-                />
-              </div>
-            </div>
-            <Pagination
-              page={pagePag}
-              pages={pages}
-              upPage={this.upPage}
-              goToPage={this.changePage}
-              downPage={this.downPage}
-            />
-          </div>
-          <div className="tableContentAlert__tableContainerAlert">
-            <div className="tableContentAlert__tableAlert">
-              <div className="actions__buttons">
-                <div
-                  className={infrastructureData.length === 0 ? 'pointerBlock' : 'pointer'}
-                  onClick={() => {
-                    if (infrastructureData.length !== 0)
-                      this.saveAction('downloadInfo')
-                  }}
-                >
-                  <img src={iconDownload} style={{ marginLeft: "20px" }} height="18px" />
-                </div>
-                <div className='pointerBlock'>
-                  <img src={iconShare} style={{ marginLeft: "20px" }} height="18px" />
-                </div>
-              </div>
-              <div>
-                <ReactTable
-                  page={pagePag}
-                  resizable={false}
-                  data={versions}
-                  showPagination={false}
-                  defaultPageSize={totalRows}
-                  getTrProps={(state, rowInfo) => {
-                    if (rowInfo) {
-                      return {
-                        style: {
-                          background: rowInfo.index % 2 ? '#F7F7F8' : 'white',
-                          borderBottom: 'none',
-                          display: 'grid',
-                          gridTemplate: '1fr/ 14% 65% 10% 10%'
-                        }
-                      };
-                    } else {
-                      return {
-                        style: {
-                          borderBottom: 'none',
-                          display: 'grid',
-                          gridTemplate: '1fr/ 14% 65% 10% 10%'
-                        }
-                      };
-                    }
-                  }}
-                  getTrGroupProps={() => {
-                    return {
-                      style: {
-                        borderBottom: 'none'
-                      }
-                    };
-                  }}
-                  getNoDataProps={() => {
-                    return {
-                      style: {
-                        marginTop: '60px'
-                      }
-                    };
-                  }}
-                  getTheadTrProps={() => {
-                    return {
-                      style: {
-                        background: '#F7F7F8',
-                        paddingTop: '15px',
-                        height: '44px',
-                        color: '#333333',
-                        fontWeight: 'bold',
-                        display: 'grid',
-                        gridTemplate: '1fr/ 14% 65% 10% 10%'
-                      }
-                    };
-                  }}
-                  columns={[
-                    {
-                      headerClassName: 'w100I',
-                      className: 'tableAlert__cellClassification w100I',
-                      Header: () => (
-                        <div className="tableAlert__headerClassification">
-                          <div className="pointer flex w100" style={{ justifyContent: "center" }} onClick={() => { this.setSortColumn('classification') }}>
-                            VERSION
-                                    <div className="flexColumn table__sort">
-                              <ArrowTop color={sortColumn.column === 'classification' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
-                              <ArrowDown color={sortColumn.column === 'classification' && sortColumn.order === 'descent' ? "black" : "gray"} />
-                            </div>
-                          </div>
-                        </div>
-                      ),
-                      accessor: 'name',
-                      sortable: false,
-                      Cell: props => <div>{props.value}</div>
-                    },
-                    {
-                      headerClassName: 'w100I',
-                      className: 'tableAlert__cellName w100I',
-                      Header: () => (
-                        <div className="tableAlert__headerName">
-                          <div className="pointer flex w100" style={{ justifyContent: "center" }} onClick={() => { this.setSortColumn('name') }}>
-                          PROCESSOR
-                                    <div className="flexColumn table__sort">
-                              <ArrowTop color={sortColumn.column === 'name' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
-                              <ArrowDown color={sortColumn.column === 'name' && sortColumn.order === 'descent' ? "black" : "gray"} />
-                            </div>
-                          </div>
-                        </div>
-                      ),
-                      accessor: 'processorModel',
-                      sortable: false,
-                      Cell: props => <div>{props.value}</div>
-                    },
-                    {
-                      headerClassName: 'w100I',
-                      className: 'tableAlert__cellType w100I',
-                      Header: () => (
-                        <div className="tableAlert__headerType">
-                          <div className="pointer flex w100" style={{ justifyContent: "center" }} onClick={() => { this.setSortColumn('type') }}>
-                            RAM
-                                    <div className="flexColumn table__sort">
-                              <ArrowTop color={sortColumn.column === 'type' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
-                              <ArrowDown color={sortColumn.column === 'type' && sortColumn.order === 'descent' ? "black" : "gray"} />
-                            </div>
-                          </div>
-                        </div>
-                      ),
-                      accessor: 'memory',
-                      sortable: false,
-                      Cell: props => <div>{props.value}</div>
-                    },
-                    {
-                      headerClassName: 'w100I',
-                      className: 'tableAlert__cellType w100I',
-                      Header: () => (
-                        <div className="tableAlert__headerType">
-                          <div className="pointer flex w100" style={{ justifyContent: "center" }} onClick={() => { this.setSortColumn('type') }}>
-                            COUNT
-                                    <div className="flexColumn table__sort">
-                              <ArrowTop color={sortColumn.column === 'type' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
-                              <ArrowDown color={sortColumn.column === 'type' && sortColumn.order === 'descent' ? "black" : "gray"} />
-                            </div>
-                          </div>
-                        </div>
-                      ),
-                      accessor: 'count',
-                      sortable: false,
-                      Cell: props => <div>{props.value}</div>
-                    }
-                  ]}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+    return(
+      <div>Infra</div>
+    )
+    // const { infrastructureTotal, infrastructureData } = this.props;
+    // const { checkVersionWin,versions,sortColumn, checkVersionlinux,pagePag,pages, complex,totalRows, textTag, avaliableSo, soSelected } = this.state;
+    // const filteredHost = this.mainFiler();
+    // return (
+    //   <div className="mainInfraestructure">
+    //     <div className="mainInfraestructure__filtersOptions">
+    //       <div className="filterOptions__boxInfraestructure">
+    //         <span className="boxInfraestructure--title">
+    //           Total Host
+    //         </span>
+    //         <span className="boxInfraestructure--quantity">
+    //           {infrastructureTotal.totalHosts}
+    //         </span>
+    //       </div>
+    //       <div className="filterOptions__boxInfraestructure">
+    //         <span className="boxInfraestructure--title">
+    //           CPU's Total
+    //         </span>
+    //         <span className="boxInfraestructure--quantity">
+    //           {infrastructureTotal.totalCpu}
+    //         </span>
+    //       </div>
+    //       <div className="filtersOptions__graphsBar flexColumn">
+    //         <div className="w100">
+    //           <div className="graphsBar__containTitle">
+    //             <span className="graphsBar--title">Platform</span>
+    //           </div>
+    //           {infrastructureData.map((data, index) => {
+    //             const { name, uv, pv } = data;
+    //             const total = (uv * 100) / (uv + pv);
+    //             return (
+    //               <div key={index} className="w100" style={{ paddingBottom: '10px', paddingTop: '10px', width: '94%' }}>
+    //                 <Bar
+    //                   bgColor="#ECEEEE"
+    //                   bgcolorMain="#007E8A"
+    //                   title={name}
+    //                   quantityPercentage={total}
+    //                   quantity={uv}
+    //                   actionClick={() => { }}
+    //                 />
+    //               </div>
+    //             )
+    //           })}
+    //         </div>
+    //       </div>
+    //     </div>
+    //     <div className="mainInfraestructure__filterActives">
+    //       <Select
+    //         classNamePrefix="react-select"
+    //         styles={this.customStyles}
+    //         isSearchable={false}
+    //         options={avaliableSo}
+    //         onChange={this.handleSo}
+    //         value={soSelected}
+    //         placeholder="All"
+    //       />
+    //       <div className="filterActives__tags">
+    //         <div className="tags__actived">
+    //           <div className="tags__filter">
+    //             <div className="tags--nameTag">{textTag}</div>
+    //             {textTag === 'All' ? (
+    //               <AiOutlineClose size="15px" />
+    //             ) : (
+    //                 <AiOutlineClose
+    //                   className="tags--closeTag"
+    //                   onClick={() => this.changeSelected(1)}
+    //                 />
+    //               )}
+    //           </div>
+    //           {complex !== '' ? (
+    //             <div className="tags__filter" style={{ width: textTag === "Most visited" && this.returnComplex(complex) === "Medium" ? "45%" : "" }}>
+    //               {/* <div className="tags--nameTag">{this.returnComplex(complex)}</div> */}
+    //               <AiOutlineClose
+    //                 className="tags--closeTag"
+    //                 onClick={() => this.changeSelectedComplex('')}
+    //               />
+    //             </div>
+    //           ) : null}
+    //         </div>
+    //       </div>
+    //     </div>
+    //     <div className="mainAlerts__tableContentAlert">
+    //       <div className="tableContentAlert__options">
+    //         <div className="options__searchAlerts">
+    //           <div className="options__divSearchAlert">
+    //             <BsSearch size="10px" color={"#767B7F"} />
+    //             <SearchInput
+    //               className="options--searchInputAlerts"
+    //               onChange={this.searchUpdated}
+    //             />
+    //           </div>
+    //         </div>
+    //         <Pagination
+    //           page={pagePag}
+    //           pages={pages}
+    //           upPage={this.upPage}
+    //           goToPage={this.changePage}
+    //           downPage={this.downPage}
+    //         />
+    //       </div>
+    //       <div className="tableContentAlert__tableContainerAlert">
+    //         <div className="tableContentAlert__tableAlert">
+    //           <div className="actions__buttons">
+    //             <div
+    //               className={infrastructureData.length === 0 ? 'pointerBlock' : 'pointer'}
+    //               onClick={() => {
+    //                 if (infrastructureData.length !== 0)
+    //                   this.saveAction('downloadInfo')
+    //               }}
+    //             >
+    //               <img src={iconDownload} style={{ marginLeft: "20px" }} height="18px" />
+    //             </div>
+    //             <div className='pointerBlock'>
+    //               <img src={iconShare} style={{ marginLeft: "20px" }} height="18px" />
+    //             </div>
+    //           </div>
+    //           <div>
+    //             <ReactTable
+    //               page={pagePag}
+    //               resizable={false}
+    //               data={versions}
+    //               showPagination={false}
+    //               defaultPageSize={totalRows}
+    //               getTrProps={(state, rowInfo) => {
+    //                 if (rowInfo) {
+    //                   return {
+    //                     style: {
+    //                       background: rowInfo.index % 2 ? '#F7F7F8' : 'white',
+    //                       borderBottom: 'none',
+    //                       display: 'grid',
+    //                       gridTemplate: '1fr/ 14% 65% 10% 10%'
+    //                     }
+    //                   };
+    //                 } else {
+    //                   return {
+    //                     style: {
+    //                       borderBottom: 'none',
+    //                       display: 'grid',
+    //                       gridTemplate: '1fr/ 14% 65% 10% 10%'
+    //                     }
+    //                   };
+    //                 }
+    //               }}
+    //               getTrGroupProps={() => {
+    //                 return {
+    //                   style: {
+    //                     borderBottom: 'none'
+    //                   }
+    //                 };
+    //               }}
+    //               getNoDataProps={() => {
+    //                 return {
+    //                   style: {
+    //                     marginTop: '60px'
+    //                   }
+    //                 };
+    //               }}
+    //               getTheadTrProps={() => {
+    //                 return {
+    //                   style: {
+    //                     background: '#F7F7F8',
+    //                     paddingTop: '15px',
+    //                     height: '44px',
+    //                     color: '#333333',
+    //                     fontWeight: 'bold',
+    //                     display: 'grid',
+    //                     gridTemplate: '1fr/ 14% 65% 10% 10%'
+    //                   }
+    //                 };
+    //               }}
+    //               columns={[
+    //                 {
+    //                   headerClassName: 'w100I',
+    //                   className: 'tableAlert__cellClassification w100I',
+    //                   Header: () => (
+    //                     <div className="tableAlert__headerClassification">
+    //                       <div className="pointer flex w100" style={{ justifyContent: "center" }} onClick={() => { this.setSortColumn('classification') }}>
+    //                         VERSION
+    //                                 <div className="flexColumn table__sort">
+    //                           <ArrowTop color={sortColumn.column === 'classification' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
+    //                           <ArrowDown color={sortColumn.column === 'classification' && sortColumn.order === 'descent' ? "black" : "gray"} />
+    //                         </div>
+    //                       </div>
+    //                     </div>
+    //                   ),
+    //                   accessor: 'name',
+    //                   sortable: false,
+    //                   Cell: props => <div>{props.value}</div>
+    //                 },
+    //                 {
+    //                   headerClassName: 'w100I',
+    //                   className: 'tableAlert__cellName w100I',
+    //                   Header: () => (
+    //                     <div className="tableAlert__headerName">
+    //                       <div className="pointer flex w100" style={{ justifyContent: "center" }} onClick={() => { this.setSortColumn('name') }}>
+    //                       PROCESSOR
+    //                                 <div className="flexColumn table__sort">
+    //                           <ArrowTop color={sortColumn.column === 'name' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
+    //                           <ArrowDown color={sortColumn.column === 'name' && sortColumn.order === 'descent' ? "black" : "gray"} />
+    //                         </div>
+    //                       </div>
+    //                     </div>
+    //                   ),
+    //                   accessor: 'processorModel',
+    //                   sortable: false,
+    //                   Cell: props => <div>{props.value}</div>
+    //                 },
+    //                 {
+    //                   headerClassName: 'w100I',
+    //                   className: 'tableAlert__cellType w100I',
+    //                   Header: () => (
+    //                     <div className="tableAlert__headerType">
+    //                       <div className="pointer flex w100" style={{ justifyContent: "center" }} onClick={() => { this.setSortColumn('type') }}>
+    //                         RAM
+    //                                 <div className="flexColumn table__sort">
+    //                           <ArrowTop color={sortColumn.column === 'type' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
+    //                           <ArrowDown color={sortColumn.column === 'type' && sortColumn.order === 'descent' ? "black" : "gray"} />
+    //                         </div>
+    //                       </div>
+    //                     </div>
+    //                   ),
+    //                   accessor: 'memory',
+    //                   sortable: false,
+    //                   Cell: props => <div>{props.value}</div>
+    //                 },
+    //                 {
+    //                   headerClassName: 'w100I',
+    //                   className: 'tableAlert__cellType w100I',
+    //                   Header: () => (
+    //                     <div className="tableAlert__headerType">
+    //                       <div className="pointer flex w100" style={{ justifyContent: "center" }} onClick={() => { this.setSortColumn('type') }}>
+    //                         COUNT
+    //                                 <div className="flexColumn table__sort">
+    //                           <ArrowTop color={sortColumn.column === 'type' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
+    //                           <ArrowDown color={sortColumn.column === 'type' && sortColumn.order === 'descent' ? "black" : "gray"} />
+    //                         </div>
+    //                       </div>
+    //                     </div>
+    //                   ),
+    //                   accessor: 'count',
+    //                   sortable: false,
+    //                   Cell: props => <div>{props.value}</div>
+    //                 }
+    //               ]}
+    //             />
+    //           </div>
+    //         </div>
+    //       </div>
+    //     </div>
+    //   </div>
+    // );
   }
 }
 
 Infrastructure.propTypes = {
-  infrastructureTotal: PropTypes.object.isRequired,
-  infrastructureData: PropTypes.array.isRequired
+  infrastructureDataGraph: PropTypes.object.isRequired,
+  infraestructureList: PropTypes.array.isRequired
 };

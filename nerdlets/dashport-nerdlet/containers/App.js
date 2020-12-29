@@ -74,14 +74,8 @@ export default class App extends React.Component {
       ],
       monitorsData: [],
       // INFRASTRUCTURE
-      infrastructureData: [
-        { name: 'Windows', value: 0 },
-        { name: 'Linux', value: 0 }
-      ],
-      infrastructureTotal: {
-        totalHosts: 0,
-        totalCpu: 0
-      },
+      infrastructureDataGraph: [],
+      infraestructureList: [],
       // LOGS
       logsTotal: {
         indexes: 0,
@@ -99,7 +93,8 @@ export default class App extends React.Component {
       dataTableAccounts: [],
       // LogsDashport
       logs: [],
-      completed: 0
+      completed: 0,
+      deleteSetup: false
     };
   }
 
@@ -147,11 +142,17 @@ export default class App extends React.Component {
    * @memberof Dashport
    */
   handleChangeMenu = value => {
-    const { fetchingData } = this.state;
+    const { fetchingData, deleteSetup } = this.state;
     if (fetchingData) {
       Toast.showToast({
         title: 'WAIT..',
         description: 'Please wait until the search is over',
+        type: Toast.TYPE.NORMAL
+      });
+    } else if (deleteSetup) {
+      Toast.showToast({
+        title: 'WAIT..',
+        description: 'Please wait delete data',
         type: Toast.TYPE.NORMAL
       });
     } else if (
@@ -214,7 +215,6 @@ export default class App extends React.Component {
         retrys += 1;
       }
     }
-    console.log(retrys);
     if (dataSetup !== null && keyApi && keyApp) {
       this.setState({
         setupComplete: true,
@@ -345,38 +345,47 @@ export default class App extends React.Component {
     }
     // INFRASTRUCTURE
     try {
-      const infraestructure = await readNerdStorage(
+      const infraestructureObj = await readNerdStorage(
         accountId,
         'infraestructure',
-        'data',
+        'infraestructure-obj',
         this.reportLogFetch
       );
-      if (infraestructure) {
-        const { platform, total, cpuCount } = infraestructure.data;
+      if (infraestructureObj) {
+        const sizeInfraestructure = await readNerdStorageOnlyCollection(
+          accountId,
+          'infraestructure',
+          this.reportLogFetch
+        );
+        const hostList = [];
+        for (let i = 0; i < sizeInfraestructure.length - 1; i++) {
+          let page = [];
+          page = await readNerdStorage(
+            accountId,
+            'infraestructure',
+            `infraestructure-${i}`,
+            this.reportLogFetch
+          );
+          for (const iterator of page) {
+            hostList.push(iterator);
+          }
+        }
+        const { total, linuxCount, windowsCount } = infraestructureObj.data;
         const hostsData = [
           {
             name: 'linux',
-            value: platform.linux.count,
-            versions: platform.linux.versions,
-            processor: platform.linux.versions.processorModel,
-            uv: Math.abs(platform.linux.count),
-            pv: Math.abs(total - platform.linux.count)
+            uv: Math.abs(linuxCount),
+            pv: Math.abs(total - linuxCount)
           },
           {
             name: 'windows',
-            value: platform.win.count,
-            versions: platform.win.versions,
-            processor: platform.win.versions.processorModel,
-            uv: Math.abs(platform.win.count),
-            pv: Math.abs(total - platform.win.count)
+            uv: Math.abs(windowsCount),
+            pv: Math.abs(total - windowsCount)
           }
         ];
         this.setState({
-          infrastructureData: hostsData,
-          infrastructureTotal: {
-            totalHosts: total,
-            totalCpu: cpuCount
-          }
+          infrastructureDataGraph: hostsData,
+          infraestructureList: hostList
         });
       }
       if (fetchingData) {
@@ -727,13 +736,30 @@ export default class App extends React.Component {
         }
         break;
       case 'infraestructure':
-        await writeNerdStorage(
-          accountId,
-          collectionName,
-          'data',
-          data,
-          this.reportLogFetch
-        );
+        {
+          //guardar el objeto
+          //guardar la lista
+          const pagesHost = this.pagesOfData(data.data.hostList);
+          for (const keyHost in pagesHost) {
+            if (pagesHost[keyHost]) {
+              await writeNerdStorage(
+                accountId,
+                collectionName,
+                `${collectionName}-${keyHost}`,
+                pagesHost[keyHost],
+                this.reportLogFetch
+              );
+            }
+          }
+          data.data.hostList = [];
+          await writeNerdStorage(
+            accountId,
+            collectionName,
+            `${collectionName}-obj`,
+            data,
+            this.reportLogFetch
+          );
+        }
         break;
       case 'logs':
         await writeNerdStorage(
@@ -1612,22 +1638,24 @@ export default class App extends React.Component {
    */
   openToast = () => {
     const { accountId } = this.state;
+
     Toast.showToast({
       title: 'ALERT',
       description: '¿Are you sure to delete the datadog configuration?',
       actions: [
         {
           label: 'DELETE',
-          onClick: () => {
-            this.setState({ writingSetup: true });
-            deleteSetup(accountId);
+          onClick: async () => {
+            this.setState({ deleteSetup: true, writingSetup: true });
+            await deleteSetup(accountId);
             this.setState({
               apikey: '',
               appkey: '',
               apiserver: false,
               lastUpdate: '',
               setupComplete: false,
-              writingSetup: false
+              writingSetup: false,
+              deleteSetup: false
             });
           }
         }
@@ -1653,8 +1681,8 @@ export default class App extends React.Component {
       alertsData,
       alertsTotal,
       monitorsData,
-      infrastructureData,
-      infrastructureTotal,
+      infrastructureDataGraph,
+      infraestructureList,
       logsTotal,
       metricsTotal,
       metrics,
@@ -1674,7 +1702,8 @@ export default class App extends React.Component {
       lastUpdate,
       setupComplete,
       platformSelect,
-      completed
+      completed,
+      deleteSetup
     } = this.state;
     switch (selectedMenu) {
       case 0:
@@ -1683,6 +1712,7 @@ export default class App extends React.Component {
             completed={completed}
             platformSelect={platformSelect}
             setupComplete={setupComplete}
+            deleteSetup={deleteSetup}
             viewKeyAction={this.viewKeyAction}
             apikeyS={apikeyS}
             apiserver={apiserver}
@@ -1723,8 +1753,8 @@ export default class App extends React.Component {
       case 4:
         return (
           <Infrastructure
-            infrastructureData={infrastructureData}
-            infrastructureTotal={infrastructureTotal}
+            infrastructureDataGraph={infrastructureDataGraph}
+            infraestructureList={infraestructureList}
           />
         );
       case 5:
@@ -1743,7 +1773,7 @@ export default class App extends React.Component {
           />
         );
       case 8:
-        return(<Accounts
+        return (<Accounts
           accountsTotal={accountsTotal}
           dataTableAccounts={dataTableAccounts}
         />);
