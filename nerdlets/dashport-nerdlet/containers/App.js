@@ -156,8 +156,10 @@ export default class App extends React.Component {
       });
     } else if (
       value === 0 ||
+      value === 1 ||
       value === 2 ||
       value === 3 ||
+      value === 4 ||
       value === 6
     ) {
       this.setState({ selectedMenu: value });

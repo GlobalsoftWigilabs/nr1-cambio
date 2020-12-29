@@ -1,5 +1,8 @@
 import React from 'react';
-import { Spinner } from 'nr1';
+import { Spinner, Button } from 'nr1';
+import Popup from 'reactjs-popup';
+import information from '../../images/information.svg';
+import informationMetrics from '../../images/metrics.png';
 import PropTypes from 'prop-types';
 import SearchInput, { createFilter } from 'react-search-input';
 import { BsSearch } from 'react-icons/bs';
@@ -710,7 +713,16 @@ export default class Metrics extends React.Component {
                     style={{
                       color: greenColor
                     }}>
-                    Active Metrics
+                    Active Metrics <Popup
+                                          trigger={
+                                            <Button className="buttonMetrics">
+                                              <img alt="i" style={{ marginTop: 3 }} src={information} />
+                                            </Button>
+                                          }
+                                          modal={{ borderRadius: 15 }}
+                  >
+                      <img className="modalMetrics" src={informationMetrics} />
+                  </Popup>
                                     </span>
                   <div onClick={() => alert('Action')} className="pointer">
                     <span

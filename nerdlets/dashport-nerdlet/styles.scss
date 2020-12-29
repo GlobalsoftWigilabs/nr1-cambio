@@ -18,6 +18,22 @@
 @import "./components/ModalSupport/style.scss";
 @import "./components//Pagination/style.scss";
 @import "./components/ModalSetup/styles.scss";
+
+//////////////// Metrics
+.buttonMetrics{
+  background-color: (256,256,256,1) !important  ;
+}
+.modalMetrics{
+  background: #000000 0 0 no-repeat padding-box;
+  box-shadow: 0 3px 6px #00000029;
+  border-radius: 9px;
+  opacity: 1;
+  font-size: 12px;
+  top: 10% !important;
+  left: 15% !important;
+  width: 50% !important;
+  height: auto !important;
+}
 /////////////STYLES COMMON
 input[type="search"] {
   background: white !important;

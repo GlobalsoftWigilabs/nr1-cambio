@@ -29,7 +29,8 @@
         "react-table-v6": "^6.8.6",
         "react-tooltip": "^4.2.11",
         "recharts": "^1.8.5",
-        "yup": "^0.29.0"
+        "yup": "^0.29.0",
+        "reactjs-popup": "^1.5.0"
     },
     "browserslist": [
         "last 2 versions",
