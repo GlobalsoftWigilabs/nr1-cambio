@@ -11,7 +11,7 @@ import {
 import iconDownload from '../../images/download.svg';
 import ArrowDown from '../../components/ArrowsTable/ArrowDown';
 import ArrowTop from '../../components/ArrowsTable/ArrowTop';
-import ModalWidget from './ModalWidgets';
+import Modal from './Modal';
 
 import { Tooltip } from 'nr1';
 import { sendLogsSlack } from '../../services/Wigilabs/api';
@@ -446,7 +446,7 @@ export default class Dashboard extends React.Component {
         switch (action) {
             case 'infoAditional':
                 return (
-                    <ModalWidget infoAditional={infoAditional} />
+                    <Modal infoAditional={infoAditional} />
                 )
         }
     }
@@ -876,7 +876,7 @@ export default class Dashboard extends React.Component {
                         </div>
                     )}
                 {hidden &&
-                    <ModalWidget
+                    <Modal
                         hidden={hidden}
                         _onClose={this._onClose}
                         infoAditional={infoAditional} />}

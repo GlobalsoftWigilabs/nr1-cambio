@@ -141,6 +141,7 @@ const _parseDashboars = async (
           creation: new Date(data[i].data.created_at),
           modified: new Date(data[i].data.modified_at),
           widgets: data[i].data.widgets,
+          templateVariables: data[i].data.template_variables ? data[i].data.template_variables : [],
           description: data[i].data.description,
           layoutType: data[i].data.layout_type,
           url: `https://app.datadoghq.com${data[i].data.url}`,
@@ -382,7 +383,7 @@ function agroupData(dataRepeat) {
     }
     return [...acumu, valueActual];
   }, []);
-  filtrado.sort(function(a, b) {
+  filtrado.sort(function (a, b) {
     if (a.count < b.count) {
       return 1;
     }

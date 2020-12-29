@@ -444,6 +444,6 @@
     color: #007e8a;
 }
 .modalWidgets__closeIcon {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template: 1fr / 70% 30%;
 }
