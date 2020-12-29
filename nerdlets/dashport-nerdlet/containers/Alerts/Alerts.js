@@ -456,7 +456,7 @@ export default class Alerts extends React.Component {
                                 rowInfo.index % 2 ? '#F7F7F8' : 'white',
                               borderBottom: 'none',
                               display: 'grid',
-                              gridTemplate: '1fr/ 20% repeat(8,10%)'
+                              gridTemplate: '1fr / 16% repeat(4, 8%) repeat(4, 13%)'
                             }
                           };
                         } else {
@@ -464,7 +464,7 @@ export default class Alerts extends React.Component {
                             style: {
                               borderBottom: 'none',
                               display: 'grid',
-                              gridTemplate: '1fr/ 20% repeat(8,10%)'
+                              gridTemplate: '1fr / 16% repeat(4, 8%) repeat(4, 13%)'
                             }
                           };
                         }
@@ -491,7 +491,7 @@ export default class Alerts extends React.Component {
                           color: '#333333',
                           fontWeight: 'bold',
                           display: 'grid',
-                          gridTemplate: '1fr/ 20% repeat(8,10%)'
+                          gridTemplate: '1fr / 16% repeat(4, 8%) repeat(4, 13%)'
                         }
                       };
                     }}
@@ -500,8 +500,8 @@ export default class Alerts extends React.Component {
                         Header: () => (
                           <div className="table__headerSticky">
                             <div
-                              className="pointer flex flexCenterHorizontal"
-                              style={{ marginLeft: '5px' }}
+                              className="pointer flex "
+                              style={{ marginLeft: '15px' }}
                               onClick={() => {
                                 this.setSortColumn('name');
                               }}
@@ -545,7 +545,7 @@ export default class Alerts extends React.Component {
                                 color: '#0078BF'
                               }}
                             >
-                              <span style={{ marginLeft: '5px' }}>
+                              <span style={{ marginLeft: '15px' }}>
                                 {props.value}
                               </span>
                             </div>
@@ -556,7 +556,7 @@ export default class Alerts extends React.Component {
                         Header: () => (
                           <div className="table__header">
                             <div
-                              className="pointer flex flexCenterHorizontal"
+                              className="pointer flex "
                               onClick={() => {
                                 this.setSortColumn('classification');
                               }}
@@ -586,10 +586,10 @@ export default class Alerts extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'classification',
                         className:
-                          'table__cell flex flexCenterHorizontal flexCenterVertical h100 w100I',
+                          'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
-                          <div className="h100 flex flexCenterVertical flexCenterHorizontal">
+                          <div className="h100 flex flexCenterVertical ">
                             {props.value}
                           </div>
                         )
@@ -598,7 +598,7 @@ export default class Alerts extends React.Component {
                         Header: () => (
                           <div className="table__header">
                             <div
-                              className="pointer flex flexCenterHorizontal"
+                              className="pointer flex "
                               onClick={() => {
                                 this.setSortColumn('type');
                               }}
@@ -628,10 +628,10 @@ export default class Alerts extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'type',
                         className:
-                          'table__cell flex flexCenterHorizontal flexCenterVertical h100 w100I',
+                          'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
-                          <div className="h100 flex flexCenterVertical flexCenterHorizontal">
+                          <div className="h100 flex flexCenterVertical ">
                             {props.value}
                           </div>
                         )
@@ -640,7 +640,7 @@ export default class Alerts extends React.Component {
                         Header: () => (
                           <div className="table__header">
                             <div
-                              className="pointer flex flexCenterHorizontal"
+                              className="pointer flex "
                               onClick={() => {
                                 this.setSortColumn('author');
                               }}
@@ -670,10 +670,10 @@ export default class Alerts extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'author',
                         className:
-                          'table__cell flex flexCenterHorizontal flexCenterVertical h100 w100I',
+                          'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
-                          <div className="h100 flex flexCenterVertical flexCenterHorizontal">
+                          <div className="h100 flex flexCenterVertical ">
                             {props.value}
                           </div>
                         )
@@ -682,7 +682,7 @@ export default class Alerts extends React.Component {
                         Header: () => (
                           <div className="table__header">
                             <div
-                              className="pointer flex flexCenterHorizontal"
+                              className="pointer flex "
                               onClick={() => {
                                 this.setSortColumn('created');
                               }}
@@ -712,10 +712,10 @@ export default class Alerts extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'created',
                         className:
-                          'table__cell flex flexCenterHorizontal flexCenterVertical h100 w100I',
+                          'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
-                          <div className="h100 flex flexCenterVertical flexCenterHorizontal">
+                          <div className="h100 flex flexCenterVertical ">
                             {moment(props.value).format('MM/DD/YYYY')}
                           </div>
                         )
@@ -724,7 +724,7 @@ export default class Alerts extends React.Component {
                         Header: () => (
                           <div className="table__header">
                             <div
-                              className="pointer flex flexCenterHorizontal"
+                              className="pointer flex "
                               onClick={() => {
                                 this.setSortColumn('last_triggered_ts');
                               }}
@@ -754,10 +754,10 @@ export default class Alerts extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'last_triggered_ts',
                         className:
-                          'table__cell flex flexCenterHorizontal flexCenterVertical h100 w100I',
+                          'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
-                          <div className="h100 flex flexCenterVertical flexCenterHorizontal">
+                          <div className="h100 flex flexCenterVertical ">
                             {props.value
                               ? moment.unix(props.value).format('MM/DD/YYYY')
                               : '--'}
@@ -768,7 +768,7 @@ export default class Alerts extends React.Component {
                         Header: () => (
                           <div className="table__header">
                             <div
-                              className="pointer flex flexCenterHorizontal"
+                              className="pointer flex "
                               onClick={() => {
                                 this.setSortColumn('status');
                               }}
@@ -798,10 +798,10 @@ export default class Alerts extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'status',
                         className:
-                          'table__cell flex flexCenterHorizontal flexCenterVertical h100 w100I',
+                          'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
-                          <div className="h100 flex flexCenterVertical flexCenterHorizontal">
+                          <div className="h100 flex flexCenterVertical ">
                             {props.value}
                           </div>
                         )
@@ -810,7 +810,7 @@ export default class Alerts extends React.Component {
                         Header: () => (
                           <div className="table__header">
                             <div
-                              className="pointer flex flexCenterHorizontal"
+                              className="pointer flex "
                               onClick={() => {
                                 this.setSortColumn('multi');
                               }}
@@ -840,10 +840,10 @@ export default class Alerts extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'multi',
                         className:
-                          'table__cell flex flexCenterHorizontal flexCenterVertical h100 w100I',
+                          'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
-                          <div className="h100 flex flexCenterVertical flexCenterHorizontal">
+                          <div className="h100 flex flexCenterVertical ">
                             {props.value ? 'yes' : 'no'}
                           </div>
                         )
@@ -852,7 +852,7 @@ export default class Alerts extends React.Component {
                         Header: () => (
                           <div className="table__header">
                             <div
-                              className="pointer flex flexCenterHorizontal"
+                              className="pointer flex "
                               onClick={() => {
                                 this.setSortColumn('priority');
                               }}
@@ -882,10 +882,10 @@ export default class Alerts extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'priority',
                         className:
-                          'table__cell flex flexCenterHorizontal flexCenterVertical h100 w100I',
+                          'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
-                          <div className="h100 flex flexCenterVertical flexCenterHorizontal">
+                          <div className="h100 flex flexCenterVertical ">
                             {props.value ? props.value : '--'}
                           </div>
                         )

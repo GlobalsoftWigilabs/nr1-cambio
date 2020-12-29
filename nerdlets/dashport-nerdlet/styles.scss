@@ -159,7 +159,7 @@ input[type="search"] {
 //DISTRIBUTION CONTENT VIEWS
 .mainContent {
   display: grid;
-  grid-template: 1fr / 15% 85%;
+  grid-template: 1fr / 13% 87%;
   height: 100%;
   width: 97%;
   column-gap: 1.3%;
@@ -178,13 +178,13 @@ input[type="search"] {
   border-bottom: 1px solid #bdbdbd;
   align-items: center;
   display: grid;
-  grid-template: 20% 80% / 1fr;
+  grid-template: 40% 50% / 1fr;
 }
 .box--title {
   font-family: Open Sans;
   font-style: normal;
   font-weight: normal;
-  font-size: 0.81vw;
+  font-size: 0.89vw;
   line-height: 19px;
   /* identical to box height */
   text-align: center;

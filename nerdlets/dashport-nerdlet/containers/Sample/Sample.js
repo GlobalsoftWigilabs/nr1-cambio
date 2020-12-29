@@ -281,7 +281,7 @@ export default class Sample extends React.Component {
                                                 {
                                                     Header: () => (
                                                         <div className="table__headerSticky">
-                                                            <div className="pointer flex " style={{ marginLeft: "5px" }} onClick={() => { this.setSortColumn('name') }}>
+                                                            <div className="pointer flex " style={{ marginLeft: "15px" }} onClick={() => { this.setSortColumn('name') }}>
                                                                 NAME
                                                                     <div className="flexColumn table__sort">
                                                                     <ArrowTop color={sortColumn.column === 'name' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
