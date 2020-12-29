@@ -25,7 +25,7 @@ export default class Accounts extends React.Component {
     this.state = {
       selectedFilter: 'All',
       searchTermMetrics: ''
-    }
+    };
   }
 
   /**
@@ -60,7 +60,6 @@ export default class Accounts extends React.Component {
     })
   };
 
-
   /**
    *Method that capture filter change of component select
    *
@@ -76,9 +75,9 @@ export default class Accounts extends React.Component {
    * @param {String} term Term to filter
    * @memberof DashscanV1
    */
-  searchUpdated = (term) => {
+  searchUpdated = term => {
     this.setState({ searchTermMetrics: term });
-  }
+  };
 
   /**
    *Method that filter for catalago from select  component
@@ -101,16 +100,26 @@ export default class Accounts extends React.Component {
     const { dataTableAccounts } = this.props;
     let filteredAccounts = [];
     if (selectedFilter === 'All') {
-      filteredAccounts = dataTableAccounts.filter(createFilter(searchTermMetrics, KEYS_TO_FILTERS));
+      filteredAccounts = dataTableAccounts.filter(
+        createFilter(searchTermMetrics, KEYS_TO_FILTERS)
+      );
     } else {
       const categoryFilter = dataTableAccounts.filter(this.filterCateg);
-      filteredAccounts = categoryFilter.filter(createFilter(searchTermMetrics, KEYS_TO_FILTERS));
+      filteredAccounts = categoryFilter.filter(
+        createFilter(searchTermMetrics, KEYS_TO_FILTERS)
+      );
     }
     return filteredAccounts;
   }
 
   render() {
-    const { accountsTotal } = this.props;
+    const { accountsTotal, dataTableAccounts } = this.props;
+    console.log(
+      'accountsTotal',
+      accountsTotal,
+      'dataTableAccounts',
+      dataTableAccounts
+    );
     const filteredAccounts = this.mainFiler();
     return (
       <div className="divBoxLogs">
@@ -132,9 +141,9 @@ export default class Accounts extends React.Component {
                 { value: 'disabled', label: 'Disabled' }
               ]}
             />
-            <div className="searchAccounts" >
+            <div className="searchAccounts">
               <div className="divSearch">
-                <BsSearch size="10px" color={"#767B7F"} />
+                <BsSearch size="10px" color={'#767B7F'} />
                 <SearchInput
                   className="searchInput"
                   onChange={this.searchUpdated}
@@ -199,7 +208,9 @@ export default class Accounts extends React.Component {
                   Header: 'EMAIL',
                   accessor: 'name',
                   sortable: false,
-                  Cell: props => <div className="textTblEmail">{props.value}</div>
+                  Cell: props => (
+                    <div className="textTblEmail">{props.value}</div>
+                  )
                 },
                 {
                   headerStyle: {
@@ -210,7 +221,7 @@ export default class Accounts extends React.Component {
                     paddingLeft: '15px',
                     backgroundColor: '#F7F7F8',
                     display: 'flex',
-                    justifyContent: "center",
+                    justifyContent: 'center',
                     fontSize: '14px'
                   },
                   headerClassName: 'headerCompatibility headerAlerts',
@@ -218,7 +229,11 @@ export default class Accounts extends React.Component {
                   Header: 'USERNAME',
                   accessor: 'username',
                   sortable: false,
-                  Cell: props => <div className="textTblUsername headerCompatibility">{props.value}</div>
+                  Cell: props => (
+                    <div className="textTblUsername headerCompatibility">
+                      {props.value}
+                    </div>
+                  )
                 },
                 {
                   headerClassName: 'headerCompatibility headerAlerts',
@@ -226,7 +241,11 @@ export default class Accounts extends React.Component {
                   Header: 'STATUS',
                   accessor: 'status',
                   sortable: false,
-                  Cell: props => <div className="textTblStatus headerCompatibility">{props.value}</div>
+                  Cell: props => (
+                    <div className="textTblStatus headerCompatibility">
+                      {props.value}
+                    </div>
+                  )
                 }
               ]}
             />

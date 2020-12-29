@@ -285,11 +285,11 @@
     },
     {
         "name": "Get a user",
-        "enable": false
+        "enable": true
     },
     {
         "name": "Get a user organisation",
-        "enable": false
+        "enable": true
     },
     {
         "name": "Get a user permission set",

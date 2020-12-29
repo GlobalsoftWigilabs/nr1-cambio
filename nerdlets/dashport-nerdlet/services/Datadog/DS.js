@@ -195,8 +195,7 @@ const _parseDashboars = async (
     for (const list of other) {
       for (const dd of list.dashboards) {
         for (const ddObj of obj.data.list) {
-          if (dd.id === ddObj.id)
-            ddObj.dashboardList.push(list.name);
+          if (dd.id === ddObj.id) ddObj.dashboardList.push(list.name);
         }
       }
     }
@@ -282,9 +281,9 @@ const _parseInfra = async (
     view: 'infrastructure',
     data: {
       total: 0,
-      hostList:[],
-      windowsCount:0,
-      linuxCount:0
+      hostList: [],
+      windowsCount: 0,
+      linuxCount: 0
       // cpuCount: 0,
       // platform: {
       //   linux: {
@@ -296,7 +295,7 @@ const _parseInfra = async (
       //     versions: []
       //   }
       // }
-    } 
+    }
   };
   const errors = [];
   try {
@@ -311,7 +310,7 @@ const _parseInfra = async (
       }
     }
     data.host_list = hostList;
-    obj.data.hostList=hostList;
+    obj.data.hostList = hostList;
     if (data && data.host_list && data.host_list instanceof Array) {
       for (const host of data.host_list) {
         if (Object.entries(host.meta).length !== 0) {
@@ -383,7 +382,7 @@ function agroupData(dataRepeat) {
     }
     return [...acumu, valueActual];
   }, []);
-  filtrado.sort(function (a, b) {
+  filtrado.sort(function(a, b) {
     if (a.count < b.count) {
       return 1;
     }
@@ -607,7 +606,8 @@ const _parseAccounts = async (
             disabled: x.attributes.disabled,
             status: x.attributes.status,
             created_at: x.attributes.created_at,
-            roles:x.roles
+            roles: x.roles,
+            organizations: x.organizations
           };
         }
         return false;

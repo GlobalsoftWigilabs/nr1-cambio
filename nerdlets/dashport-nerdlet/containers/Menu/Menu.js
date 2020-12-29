@@ -190,7 +190,7 @@ class Menu extends React.Component {
                             identifier={8}
                             handleChangeMenu={handleChangeMenu}
                             selectedMenu={selectedMenu}
-                            text="Accounts"
+                            text="Users"
                             iconActive={accountsIconA}
                             iconInactive={accountsIcon}
                         />

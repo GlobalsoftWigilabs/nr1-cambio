@@ -11,7 +11,7 @@ import Alerts from './Alerts/Alerts';
 import Sample from './Sample/Sample.js';
 import Infrastructure from './Infraestructure/Infrastructure';
 import Synthetics from './Synthetics';
-import Accounts from './Accounts';
+import Accounts from './Accounts/Accounts';
 import Logs from './Logs/Logs';
 import Metrics from './Metrics/Metrics';
 const controller = new AbortController();
@@ -203,11 +203,9 @@ export default class App extends React.Component {
     let keyApp = null;
     const keysName = ['apikey', 'appkey'];
     while (retrys !== 10) {
-      if (!keyApi)
-        keyApi = await readSingleSecretKey(keysName[0]);
+      if (!keyApi) keyApi = await readSingleSecretKey(keysName[0]);
 
-      if (!keyApp)
-        keyApp = await readSingleSecretKey(keysName[1]);
+      if (!keyApp) keyApp = await readSingleSecretKey(keysName[1]);
 
       if (keyApi && keyApp) {
         retrys = 10;
@@ -408,7 +406,7 @@ export default class App extends React.Component {
         'data',
         this.reportLogFetch
       );
-      console.log('logs ', logs)
+      console.log('logs ', logs);
       if (logs) {
         const { indexes, pipelines } = logs.data;
         this.setState({
@@ -594,15 +592,14 @@ export default class App extends React.Component {
         }
         accounts.data.data = listUsers;
         const accountsArray = [];
-        countColor = 1;
         for (const account of accounts.data.data) {
           accountsArray.push({
-            name: account.email,
-            username: account.name,
+            name: account.name,
+            email: account.email,
             status: account.status,
-            color: countColor % 2 ? 'white' : '#F7F7F8'
+            roles: account.roles,
+            organizations: account.organizations
           });
-          countColor += 1;
         }
         this.setState({
           accountsTotal: accounts.data.total,
@@ -890,7 +887,7 @@ export default class App extends React.Component {
    * @memberof Dashport
    */
   reportLogFetch = async response => {
-    console.log(response)
+    console.log(response);
     const { logs } = this.state;
     const arrayLogs = logs;
     arrayLogs.push({
@@ -1705,6 +1702,7 @@ export default class App extends React.Component {
       completed,
       deleteSetup
     } = this.state;
+    // console.log('accountsTotal', accountsTotal, dataTableAccounts);
     switch (selectedMenu) {
       case 0:
         return (
@@ -1743,7 +1741,6 @@ export default class App extends React.Component {
         );
       case 3:
         return (
-          // <Sample />
           <Alerts
             alertsData={alertsData}
             alertsTotal={alertsTotal}
@@ -1760,10 +1757,13 @@ export default class App extends React.Component {
       case 5:
         return <Logs logsTotal={logsTotal} />;
       case 6:
-        return <Metrics
-          accountId={accountId}
-          metrics={metrics}
-          metricsTotal={metricsTotal} />;
+        return (
+          <Metrics
+            accountId={accountId}
+            metrics={metrics}
+            metricsTotal={metricsTotal}
+          />
+        );
       case 7:
         return (
           <Synthetics
@@ -1773,10 +1773,12 @@ export default class App extends React.Component {
           />
         );
       case 8:
-        return (<Accounts
-          accountsTotal={accountsTotal}
-          dataTableAccounts={dataTableAccounts}
-        />);
+        return (
+          <Accounts
+            accountsTotal={accountsTotal}
+            dataTableAccounts={dataTableAccounts}
+          />
+        );
       case 9:
         return (
           <Migration
@@ -1798,28 +1800,28 @@ export default class App extends React.Component {
         {loadingContent ? (
           <Spinner type={Spinner.TYPE.DOT} />
         ) : (
-            <>
-              <div className="sidebar-container">
-                <Menu
-                  lastUpdate={lastUpdate}
-                  selectedMenu={selectedMenu}
-                  handleChangeMenu={this.handleChangeMenu}
-                />
+          <>
+            <div className="sidebar-container">
+              <Menu
+                lastUpdate={lastUpdate}
+                selectedMenu={selectedMenu}
+                handleChangeMenu={this.handleChangeMenu}
+              />
+            </div>
+            <div>
+              <div
+                style={{
+                  paddingTop: '1%',
+                  paddingRight: '1%',
+                  paddingLeft: '1%',
+                  height: '96%'
+                }}
+              >
+                {this.renderContent()}
               </div>
-              <div>
-                <div
-                  style={{
-                    paddingTop: '1%',
-                    paddingRight: '1%',
-                    paddingLeft: '1%',
-                    height: '96%'
-                  }}
-                >
-                  {this.renderContent()}
-                </div>
-              </div>
-            </>
-          )}
+            </div>
+          </>
+        )}
       </div>
     );
   }

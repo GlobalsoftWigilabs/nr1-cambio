@@ -34,12 +34,13 @@ const callApis = async (cfg, callbackDataWritter, reportLog) => {
         if (obj) {
           if (list[i].name === 'Get all users') {
             //ROLES
-            for (const user of obj.data.data) {
+            for (const user of obj.data.data) {             
               user.roles = [];
               for (const rolId of user.relationships.roles.data) {
                 const role = obj.data.included.find(rolObj => rolObj.id === rolId.id);
                 user.roles.push(role.attributes.name);
               }
+              user.organizations = user.relationships.org.data.id;
             }
             //organizacion
             // for (const user of obj.data.data) {
