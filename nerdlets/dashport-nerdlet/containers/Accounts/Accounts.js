@@ -34,7 +34,7 @@ export default class Accounts extends React.Component {
   }
 
   componentDidMount() {
-    const { dataTableAccounts } = this.props;
+    const { dataTableAccounts = [] } = this.props;
     const data = [];
     dataTableAccounts.forEach(element => {
       let roles = '';
@@ -241,7 +241,7 @@ export default class Accounts extends React.Component {
       sortColumn,
       data
     } = this.state;
-    const { accountsTotal } = this.props;
+    const { accountsTotal = 0 } = this.props;
     return (
       <div className="h100">
         {loading ? (
