@@ -159,8 +159,9 @@ export default class App extends React.Component {
       value === 1 ||
       value === 2 ||
       value === 3 ||
+      value === 6 ||
       value === 4 ||
-      value === 6
+      value === 8
     ) {
       this.setState({ selectedMenu: value });
     } else {
@@ -196,19 +197,24 @@ export default class App extends React.Component {
       'datadog',
       this.reportLogFetch
     );
-    let retrys = 0,
-      keyApi = null,
-      keyApp = null;
+    let retrys = 0;
+    let keyApi = null;
+    let keyApp = null;
     const keysName = ['apikey', 'appkey'];
     while (retrys !== 10) {
-      keyApi = await readSingleSecretKey(keysName[0]);
-      keyApp = await readSingleSecretKey(keysName[1]);
+      if (!keyApi)
+        keyApi = await readSingleSecretKey(keysName[0]);
+
+      if (!keyApp)
+        keyApp = await readSingleSecretKey(keysName[1]);
+
       if (keyApi && keyApp) {
         retrys = 10;
       } else {
         retrys += 1;
       }
     }
+    console.log(retrys);
     if (dataSetup !== null && keyApi && keyApp) {
       this.setState({
         setupComplete: true,
@@ -1737,11 +1743,10 @@ export default class App extends React.Component {
           />
         );
       case 8:
-        <Accounts
+        return(<Accounts
           accountsTotal={accountsTotal}
           dataTableAccounts={dataTableAccounts}
-        />;
-        return;
+        />);
       case 9:
         return (
           <Migration
