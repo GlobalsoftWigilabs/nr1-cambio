@@ -32,7 +32,22 @@ const callApis = async (cfg, callbackDataWritter, reportLog) => {
         const obj = await _callApi(list[i], reportLog);
         // if obj is different of null
         if (obj) {
-          if (list[i].name === 'Get Dashboards Manual') {
+          if (list[i].name === 'Get all users') {
+            //ROLES
+            for (const user of obj.data.data) {
+              user.roles = [];
+              for (const rolId of user.relationships.roles.data) {
+                const role = obj.data.included.find(rolObj => rolObj.id === rolId.id);
+                user.roles.push(role.attributes.name);
+              }
+            }
+            //organizacion
+            // for (const user of obj.data.data) {
+            //   const userOr = await getOrganizationUser(user.id, reportLog);
+            //   //obj 
+            // }
+            await callbackDataWritter(list[i].name, obj.data);
+          } else if (list[i].name === 'Get Dashboards Manual') {
             for (let j = 0; j < obj.data.dashboard_lists.length; j++) {
               const response = await getManualDashboard(obj.data.dashboard_lists[j].id, reportLog);
               if (response) {
@@ -62,19 +77,19 @@ const callApis = async (cfg, callbackDataWritter, reportLog) => {
                 monitors.push(resultado.data);
               }
               for (const monitor of monitors) {
-                const responseDetailsMonitorPages = await getMonitorDetails(monitor.id,reportLog);               
-                monitor.created=responseDetailsMonitorPages.data.created;
-                monitor.aggregation=responseDetailsMonitorPages.data.options.aggregation ? responseDetailsMonitorPages.data.options.aggregation : null;
-                monitor.evaluation_delay=responseDetailsMonitorPages.data.options.evaluation_delay ? responseDetailsMonitorPages.data.options.evaluation_delay : null;
-                monitor.new_host_delay=responseDetailsMonitorPages.data.options.new_host_delay ? responseDetailsMonitorPages.data.options.new_host_delay : null;
-                monitor.no_data_timeframe=responseDetailsMonitorPages.data.options.no_data_timeframe ? responseDetailsMonitorPages.data.options.no_data_timeframe : null;
-                monitor.notify_audit=responseDetailsMonitorPages.data.options.notify_audit ? responseDetailsMonitorPages.data.options.notify_audit : null;
-                monitor.notify_no_data=responseDetailsMonitorPages.data.options.notify_no_data ? responseDetailsMonitorPages.data.options.notify_no_data : null;
-                monitor.thresholds=responseDetailsMonitorPages.data.options.thresholds ? responseDetailsMonitorPages.data.options.thresholds : null;
-                monitor.min_location_failed=responseDetailsMonitorPages.data.options.min_location_failed ? responseDetailsMonitorPages.data.options.min_location_failed : null;
-                monitor.min_failure_duration=responseDetailsMonitorPages.data.options.min_failure_duration ? responseDetailsMonitorPages.data.options.min_failure_duration : null;
-                monitor.message=responseDetailsMonitorPages.data.message;
-                monitor.multi=responseDetailsMonitorPages.data.multi;
+                const responseDetailsMonitorPages = await getMonitorDetails(monitor.id, reportLog);
+                monitor.created = responseDetailsMonitorPages.data.created;
+                monitor.aggregation = responseDetailsMonitorPages.data.options.aggregation ? responseDetailsMonitorPages.data.options.aggregation : null;
+                monitor.evaluation_delay = responseDetailsMonitorPages.data.options.evaluation_delay ? responseDetailsMonitorPages.data.options.evaluation_delay : null;
+                monitor.new_host_delay = responseDetailsMonitorPages.data.options.new_host_delay ? responseDetailsMonitorPages.data.options.new_host_delay : null;
+                monitor.no_data_timeframe = responseDetailsMonitorPages.data.options.no_data_timeframe ? responseDetailsMonitorPages.data.options.no_data_timeframe : null;
+                monitor.notify_audit = responseDetailsMonitorPages.data.options.notify_audit ? responseDetailsMonitorPages.data.options.notify_audit : null;
+                monitor.notify_no_data = responseDetailsMonitorPages.data.options.notify_no_data ? responseDetailsMonitorPages.data.options.notify_no_data : null;
+                monitor.thresholds = responseDetailsMonitorPages.data.options.thresholds ? responseDetailsMonitorPages.data.options.thresholds : null;
+                monitor.min_location_failed = responseDetailsMonitorPages.data.options.min_location_failed ? responseDetailsMonitorPages.data.options.min_location_failed : null;
+                monitor.min_failure_duration = responseDetailsMonitorPages.data.options.min_failure_duration ? responseDetailsMonitorPages.data.options.min_failure_duration : null;
+                monitor.message = responseDetailsMonitorPages.data.message;
+                monitor.multi = responseDetailsMonitorPages.data.multi;
               }
               await callbackDataWritter(`Monitor Search Pages`, monitors);
             } else {
@@ -84,19 +99,19 @@ const callApis = async (cfg, callbackDataWritter, reportLog) => {
                 totalPages: 0
               };
               for (const monitor of obj.data.monitors) {
-                const responseDetailsMonitor = await getMonitorDetails(monitor.id,reportLog);           
-                monitor.created=responseDetailsMonitor.data.created;
-                monitor.aggregation=responseDetailsMonitor.data.options.aggregation ? responseDetailsMonitor.data.options.aggregation : null;
-                monitor.evaluation_delay=responseDetailsMonitor.data.options.evaluation_delay ? responseDetailsMonitor.data.options.evaluation_delay : null;
-                monitor.new_host_delay=responseDetailsMonitor.data.options.new_host_delay ? responseDetailsMonitor.data.options.new_host_delay : null;
-                monitor.no_data_timeframe=responseDetailsMonitor.data.options.no_data_timeframe ? responseDetailsMonitor.data.options.no_data_timeframe : null;
-                monitor.notify_audit=responseDetailsMonitor.data.options.notify_audit ? responseDetailsMonitor.data.options.notify_audit : null;
-                monitor.notify_no_data=responseDetailsMonitor.data.options.notify_no_data ? responseDetailsMonitor.data.options.notify_no_data : null;
-                monitor.thresholds=responseDetailsMonitor.data.options.thresholds ? responseDetailsMonitor.data.options.thresholds : null;
-                monitor.min_location_failed=responseDetailsMonitor.data.options.min_location_failed ? responseDetailsMonitor.data.options.min_location_failed : null;
-                monitor.min_failure_duration=responseDetailsMonitor.data.options.min_failure_duration ? responseDetailsMonitor.data.options.min_failure_duration : null;
-                monitor.message=responseDetailsMonitor.data.message;
-                monitor.multi=responseDetailsMonitor.data.multi;
+                const responseDetailsMonitor = await getMonitorDetails(monitor.id, reportLog);
+                monitor.created = responseDetailsMonitor.data.created;
+                monitor.aggregation = responseDetailsMonitor.data.options.aggregation ? responseDetailsMonitor.data.options.aggregation : null;
+                monitor.evaluation_delay = responseDetailsMonitor.data.options.evaluation_delay ? responseDetailsMonitor.data.options.evaluation_delay : null;
+                monitor.new_host_delay = responseDetailsMonitor.data.options.new_host_delay ? responseDetailsMonitor.data.options.new_host_delay : null;
+                monitor.no_data_timeframe = responseDetailsMonitor.data.options.no_data_timeframe ? responseDetailsMonitor.data.options.no_data_timeframe : null;
+                monitor.notify_audit = responseDetailsMonitor.data.options.notify_audit ? responseDetailsMonitor.data.options.notify_audit : null;
+                monitor.notify_no_data = responseDetailsMonitor.data.options.notify_no_data ? responseDetailsMonitor.data.options.notify_no_data : null;
+                monitor.thresholds = responseDetailsMonitor.data.options.thresholds ? responseDetailsMonitor.data.options.thresholds : null;
+                monitor.min_location_failed = responseDetailsMonitor.data.options.min_location_failed ? responseDetailsMonitor.data.options.min_location_failed : null;
+                monitor.min_failure_duration = responseDetailsMonitor.data.options.min_failure_duration ? responseDetailsMonitor.data.options.min_failure_duration : null;
+                monitor.message = responseDetailsMonitor.data.message;
+                monitor.multi = responseDetailsMonitor.data.multi;
               }
               await callbackDataWritter('Monitors meta', countData);
               await callbackDataWritter(
@@ -402,6 +417,69 @@ const getManualDashboard = async (id, reportLog) => {
   const proxyUrl = 'https://long-meadow-1713.rsamanez.workers.dev/?';
   let ret = null;
   let endpoint = "https://api.datadoghq.{{datadog_site}}/api/v2/dashboard/lists/manual/{{id}}/dashboards"
+  endpoint = endpoint.replace('{{id}}', id)
+  const headers = [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    },
+    {
+      "key": "DD-API-KEY",
+      "value": "{{datadog_api_key}}"
+    },
+    {
+      "key": "DD-APPLICATION-KEY",
+      "value": "{{datadog_application_key}}"
+    }
+  ]
+  const options = {
+    baseURL: `${proxyUrl}${endpoint.replace(
+      '{{datadog_site}}',
+      config.API_SITE
+    )}`,
+    headers: _setHttpHeaders(headers),
+    method: 'get',
+  };
+  ret = await axios(options).catch(async error => {
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      console.log(error.response)
+        ; if (error.response.status >= 400 && error.response.status <= 499) {
+          const response = {
+            message: error.response.data.errors
+              ? error.response.data.errors[0]
+              : `${error.response.status} - ${info.pathname}`,
+            type: 'Warning',
+            event: 'Fetch',
+            date: new Date().toLocaleString()
+          };
+          await reportLog(response);
+        }
+      if (error.response.status >= 500) {
+        const response = {
+          message: error.response.data.errors
+            ? error.response.data.errors[0]
+            : `${error.response.status} - ${info.pathname}`,
+          type: 'Error',
+          event: 'Fetch',
+          date: new Date().toLocaleString()
+        };
+        await reportLog(response);
+      }
+    } else if (error.request) {
+      // The request was made but no response was received
+    } else {
+      // Something happened in setting up the request that triggered an Error
+    }
+  });
+  return ret;
+};
+
+const getOrganizationUser = async (id, reportLog) => {
+  const proxyUrl = 'https://long-meadow-1713.rsamanez.workers.dev/?';
+  let ret = null;
+  let endpoint = "https://api.datadoghq.{{datadog_site}}/api/v2/users/{{id}}/orgs"
   endpoint = endpoint.replace('{{id}}', id)
   const headers = [
     {

@@ -600,12 +600,12 @@ const _parseAccounts = async (
             verified: x.attributes.verified,
             disabled: x.attributes.disabled,
             status: x.attributes.status,
-            created_at: x.attributes.created_at
+            created_at: x.attributes.created_at,
+            roles:x.roles
           };
         }
         return false;
       });
-
       obj.data = {
         total: data.length,
         data: data
