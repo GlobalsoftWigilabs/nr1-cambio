@@ -35,59 +35,21 @@ export default class Alerts extends React.Component {
       data: [],
       searchAlerts: '',
       loading: false,
-      allChecked: false,
-      all: true,
-      favorite: false,
-      visited: false,
-      complex: '',
-      dashboards: [],
-      average: 0,
-      categorizedList: [],
-      avaliableList: [],
-      mostVisited: [],
-      favoriteDashboards: [],
       savingAllChecks: false,
-      logs: [],
-      selectedTag: 'all',
-      availableFilters: [
-        { value: 'All', label: 'All' },
-        { value: 'Favorites', label: 'Favorites' },
-        { value: 'MostVisited', label: 'Most visited' }
-      ],
-      listChecked: {
-        value: 'All',
-        label: 'All list',
-        id: 0,
-        dashboards: []
-      },
-      listPopUp: [],
-      valueListPopUp: {},
-      // Pagination
       pagePag: 0,
       pages: 0,
       totalRows: 10,
-      page: 1,
-      finalList: [],
-      textTag: '',
-      searchTermDashboards: '',
       sortColumn: {
         column: '',
         order: ''
       },
       hidden: false,
-      action: '',
-      checksDownload: [
-        { value: 'CSV', label: 'CSV' },
-        { value: 'JSON', label: 'JSON' }
-      ],
-      selectFormat: { value: 'CSV', label: 'CSV' },
-      emptyData: false,
       infoAditional: {}
     };
   }
 
   componentDidMount() {
-    const { monitorsData } = this.props;
+    const { monitorsData = [] } = this.props;
     const data = [];
     monitorsData.forEach(element => {
       data.push({
@@ -363,7 +325,7 @@ export default class Alerts extends React.Component {
       data,
       infoAditional
     } = this.state;
-    const { alertsData, alertsTotal } = this.props;
+    const { alertsData = [], alertsTotal = 0 } = this.props;
     return (
       <div className="h100">
         {loading ? (
@@ -455,7 +417,6 @@ export default class Alerts extends React.Component {
                       : 'pointer flex flexCenterVertical'
                   }
                   onClick={() => {
-                    // eslint-disable-next-line no-alert
                     if (data.length !== 0) this.downloadData();
                   }}
                 >
