@@ -15,7 +15,7 @@ import stepTwo from '../../images/stepTwoIndicator.svg';
 import stepOneDisabled from '../../images/stepOneIndicatorDisabled.svg';
 import stepTwoDisabled from '../../images/stepTwoIndicatorDisabled.svg';
 import eyeIcon from '../../images/eyeIconGray.svg';
-import { downloadJSON, downloadCSV } from '../../services/NerdStorage/api';
+import { downloadJSON, downloadCSV, deleteSetup } from '../../services/NerdStorage/api';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';
 import iconInformation from '../../images/information.svg';
 import ReactTooltip from "react-tooltip";
@@ -96,6 +96,8 @@ export default class Setup extends React.Component {
       lastUpdate,
       completed,
       viewKeyAction,
+      openToast,
+      deleteSetup
     } = this.props;
     const { enableDownload } = this.state;
     switch (step) {
@@ -201,16 +203,30 @@ export default class Setup extends React.Component {
                           )}
                       </div>
                     </div>
-                    <div className="flex flexCenterHorizontal">
-                      <Button
-                        onClick={submitForm}
-                        type={Button.TYPE.PRIMARY}
-                        loading={writingSetup}
-                        disabled={setupComplete ? true : false}
-                        className="buttonsSetup__buttonSave"
-                      >
-                        Validate
+                    <div className="flex flexCenterHorizontal ">
+                      {setupComplete ?
+                        <Button
+                          onClick={openToast}
+                          type={Button.TYPE.DESTRUCTIVE}
+                          loading={writingSetup || deleteSetup}
+                          iconType={
+                            Button.ICON_TYPE
+                              .INTERFACE__OPERATIONS__REMOVE__V_ALTERNATE
+                          }
+                          className="buttonDelete"
+                        >
+                          Delete config
+                      </Button> :
+                        <Button
+                          onClick={submitForm}
+                          type={Button.TYPE.PRIMARY}
+                          loading={writingSetup}
+                          disabled={setupComplete ? true : false}
+                          className="buttonsSetup__buttonSave"
+                        >
+                          Validate
                       </Button>
+                      }
                     </div>
                     <div className="flex flexCenterVertical flexCenterHorizontal">
                       <div style={{ height: "23px", width: "33%" }}>
@@ -284,7 +300,8 @@ export default class Setup extends React.Component {
       setupComplete,
       handleChangeMenu,
       lastUpdate,
-      fetchingData
+      fetchingData,
+      deleteSetup
     } = this.props;
     const { stepActive, hidden } = this.state;
     return (
@@ -301,7 +318,7 @@ export default class Setup extends React.Component {
               </span>
               <div
                 onClick={() => {
-                  if (setupComplete)
+                  if (setupComplete && !deleteSetup)
                     this.changeStep(2)
                 }}
                 className="pointer"
@@ -313,7 +330,10 @@ export default class Setup extends React.Component {
             <div className="content__information">
               <div className="information__step">
                 <span className="step--title">Step</span>
-                <div onClick={() => this.changeStep(1)} className="pointer">
+                <div onClick={() => {
+                  if (!fetchingData)
+                    this.changeStep(1)
+                }} className="pointer">
                   <img src={stepOneDisabled} height="35px" />
                 </div>
                 <img src={stepTwo} style={{ marginLeft: "15px" }} height="35px" />

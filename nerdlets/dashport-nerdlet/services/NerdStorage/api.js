@@ -273,8 +273,7 @@ async function readDocumentSetup(accountId) {
 /**
  * Method that deletes the setup, ddFetch,ddDashboards, and DashboardData collections from NerdStorage
  */
-async function deleteSetup() {
-  const accountId = await loadAccountId();
+const deleteSetup = async (accountId) => {
   // Delete setup
   await AccountStorageMutation.mutate({
     accountId: accountId,
@@ -343,7 +342,6 @@ async function deleteSetup() {
       collection: nameApi
     });
   }
-  console.log('finish');
 }
 
 const recoveDataDashboards = async (accountId) => {
