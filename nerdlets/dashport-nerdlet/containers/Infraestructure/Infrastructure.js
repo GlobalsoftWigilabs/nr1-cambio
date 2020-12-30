@@ -34,7 +34,7 @@ const greenColor = '#007E8A';
  * @class Infrastructure
  * @extends {React.Component}
  */
-export default class Infrastructure extends React.Component {
+export default class Infrastructure extends React.Component { 
   constructor(props) {
     super(props);
     this.state = {
