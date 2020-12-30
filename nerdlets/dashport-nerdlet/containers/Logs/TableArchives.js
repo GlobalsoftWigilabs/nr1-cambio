@@ -105,7 +105,25 @@ export default class TableArchives extends React.Component {
   };
 
   downloadData = async () => {
-    const { data } = this.state;
+    const { dataArchives = [] } = this.props;
+    const data = [];
+    if (dataArchives) {
+      dataArchives.forEach(element => {
+        let tags = '';
+        if (element.attributes.rehydration_tags) {
+          element.attributes.rehydration_tags.forEach(tag => {
+            tags = `${tags} ${tag} \n`;
+          });
+        }
+        data.push({
+          NAME: element.attributes.name,
+          DESTINATION: element.attributes.destination.type,
+          QUERY_USED: element.attributes.query,
+          TAGS: tags,
+          STATE: element.attributes.state
+        });
+      });
+    }
     const date = new Date();
     const zip = new JSZip();
     jsoncsv.json2csv(data, (err, csv) => {
@@ -431,8 +449,7 @@ export default class TableArchives extends React.Component {
                   ),
                   headerClassName: 'w100I',
                   accessor: 'destination',
-                  className:
-                    'table__cell flex flexCenterVertical h100 w100I',
+                  className: 'table__cell flex flexCenterVertical h100 w100I',
                   sortable: false,
                   Cell: props => (
                     <div className="h100 flex flexCenterVertical ">
@@ -473,8 +490,7 @@ export default class TableArchives extends React.Component {
                   ),
                   headerClassName: 'w100I',
                   accessor: 'query',
-                  className:
-                    'table__cell flex flexCenterVertical h100 w100I',
+                  className: 'table__cell flex flexCenterVertical h100 w100I',
                   sortable: false,
                   Cell: props => (
                     <div className="h100 flex flexCenterVertical ">
@@ -515,8 +531,7 @@ export default class TableArchives extends React.Component {
                   ),
                   headerClassName: 'w100I',
                   accessor: 'tags',
-                  className:
-                    'table__cell flex flexCenterVertical h100 w100I',
+                  className: 'table__cell flex flexCenterVertical h100 w100I',
                   sortable: false,
                   Cell: props => (
                     <div className="h100 flex flexCenterVertical ">
@@ -557,8 +572,7 @@ export default class TableArchives extends React.Component {
                   ),
                   headerClassName: 'w100I',
                   accessor: 'state',
-                  className:
-                    'table__cell flex flexCenterVertical h100 w100I',
+                  className: 'table__cell flex flexCenterVertical h100 w100I',
                   sortable: false,
                   Cell: props => (
                     <div className="h100 flex flexCenterVertical ">
