@@ -14,6 +14,9 @@ import Pagination from '../../components/Pagination/Pagination';
 import Bar from '../../components/Bar';
 import Select from 'react-select';
 import axios from 'axios';
+import iconInformation from '../../images/information.svg';
+import metricsData from '../../images/metricsData.svg';
+import ReactTooltip from 'react-tooltip';
 import {
   readNerdStorage,
   readSingleSecretKey,
@@ -28,6 +31,11 @@ import { saveAs } from 'file-saver';
 const greenColor = '#007E8A';
 
 const KEYS_TO_FILTERS = ['name', 'host', 'integration', 'type', 'unit'];
+
+const contentStyle = {
+  maxWidth: '600px',
+  width: '90%'
+};
 
 export default class Metrics extends React.Component {
   constructor(props) {
@@ -721,23 +729,85 @@ export default class Metrics extends React.Component {
                   }}
                 >
                   Active Metrics{' '}
-                  <Popup
-                    trigger={
-                      <Button
-                        className="buttonMetrics"
-                        style={{ backgroundColor: null }}
-                      >
-                        <img
-                          alt="i"
-                          style={{ marginTop: 3 }}
-                          src={information}
-                        />
-                      </Button>
-                    }
-                    modal={{ borderRadius: 15 }}
-                  >
-                    <img className="modalMetrics" src={informationMetrics} />
-                  </Popup>
+                  <div>
+                    <a
+                      data-for="custom-class-5"
+                      data-tip="hover on me will keep the tooltip"
+                    >
+                      <img
+                        height="10px"
+                        src={iconInformation}
+                        className="apiKeys--iconInfo"
+                      />
+                    </a>
+                    <ReactTooltip
+                      id="custom-class-5"
+                      backgroundColor="#333333"
+                      className="extraClass"
+                      // style={{ width: '380px' }}
+                      delayHide={1000}
+                      effect="solid"
+                      getContent={() => (
+                        <div>
+                          <div
+                            style={{
+                              textAlign: 'left',
+                              fontSize: '14px',
+                              lineHeight: '19px'
+                            }}
+                          >
+                            Metric Data:
+                          </div>
+                          <div
+                            style={{
+                              fontSize: '12px',
+                              lineHeight: '16px',
+                              textAlign: 'left',
+                              paddingTop: '5px'
+                            }}
+                          >
+                            <p>
+                              Metrics are provided over a set period of time. A
+                              30 minute default time range is used. Extend the
+                              time range up to 6 hours. Use the Fetch button to
+                              recollect the data.
+                            </p>
+                          </div>
+                          <div style={{ width: '340px' }}>
+                            <img src={metricsData} />
+                          </div>
+                          <div
+                            style={{
+                              textAlign: 'left',
+                              fontSize: '14px',
+                              lineHeight: '19px'
+                            }}
+                          >
+                            Custom Metrics:
+                          </div>
+                          <div
+                            style={{
+                              fontSize: '12px',
+                              lineHeight: '16px',
+                              textAlign: 'left',
+                              paddingTop: '5px'
+                            }}
+                          >
+                            <p>
+                              If a metric is not submitted from one of the
+                              Datadog integrations it’s considered a custom
+                              metric.
+                            </p>
+                            <b />
+                            <p>
+                              In general, any metric sent using DogStatsD or
+                              through a custom Agent Check is a custom metric.
+                            </p>
+                          </div>
+                        </div>
+                      )}
+                    />
+                  </div>
                 </span>
                 <div>
                   <span
