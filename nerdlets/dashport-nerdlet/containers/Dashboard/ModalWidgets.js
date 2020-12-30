@@ -334,7 +334,7 @@ export default class ModalWidgets extends React.Component {
                                                     {
                                                         Header: () => (
                                                             <div className="table__headerSticky">
-                                                                <div className="pointer flex flexCenterHorizontal" style={{ marginLeft: "15px" }} onClick={() => { this.setSortColumn('title') }}>
+                                                                <div className="pointer flex " style={{ marginLeft: "15px" }} onClick={() => { this.setSortColumn('title') }}>
                                                                     TITLE
                                                                     <div className="flexColumn table__sort">
                                                                         <ArrowTop color={sortColumn.column === 'title' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
@@ -361,7 +361,7 @@ export default class ModalWidgets extends React.Component {
                                                                     style={{
                                                                         background: props.index % 2 ? "#F7F7F8" : "white"
                                                                     }}>
-                                                                    <span style={{ marginLeft: "5px" }}>
+                                                                    <span style={{ marginLeft: "15px" }}>
                                                                         {txtName}
                                                                     </span>
                                                                 </div>
@@ -402,7 +402,7 @@ export default class ModalWidgets extends React.Component {
                                                         ),
                                                         headerClassName: 'w100I',
                                                         accessor: 'type',
-                                                        className: 'table__cell flex  flexCenterVertical flexCenterHorizontal  h100 w100I',
+                                                        className: 'table__cell flex  flexCenterVertical h100 w100I',
                                                         sortable: false,
                                                         Cell: props => <div className="h100 flex flexCenterVertical ">
                                                             {props.value}

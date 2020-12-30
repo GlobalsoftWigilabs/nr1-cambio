@@ -7,7 +7,6 @@ export default class Logs extends React.Component {
   }
   componentDidMount(){
     const { logsData } = this.props;
-    debugger;
   }
 
   render() {

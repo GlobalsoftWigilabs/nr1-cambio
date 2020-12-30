@@ -95,7 +95,6 @@ export default class Infrastructure extends React.Component {
    */
   componentDidMount() {
     const { infrastructureDataGraph,infraestructureList } = this.props;
-    debugger;
     let avaliableSo = [];
     let soSelected = {};
     if (infrastructureData.length > 0) {

@@ -407,7 +407,6 @@ export default class App extends React.Component {
         'logs-archives',
         this.reportLogFetch
       );
-      debugger;
       const archives = [];
       for (let i = 0; i < sizeArchives.length; i++) {
         let page = [];
@@ -427,7 +426,6 @@ export default class App extends React.Component {
         'logs-metrics',
         this.reportLogFetch
       );
-      debugger;
       const metricsLogs = [];
       for (let i = 0; i < sizeMetricLog.length; i++) {
         let page = [];
@@ -447,7 +445,6 @@ export default class App extends React.Component {
         'logs-pipelines',
         this.reportLogFetch
       );
-      debugger;
 
       const pipelines = [];
       for (let i = 0; i < sizePipelines.length; i++) {

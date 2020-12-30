@@ -371,7 +371,7 @@ export default class Accounts extends React.Component {
                         Header: () => (
                           <div className="table__headerSticky">
                             <div
-                              className="pointer flex flexCenterHorizontal"
+                              className="pointer flex "
                               style={{ marginLeft: '15px' }}
                               onClick={() => {
                                 this.setSortColumn('name');
@@ -412,7 +412,7 @@ export default class Accounts extends React.Component {
                                   props.index % 2 ? '#F7F7F8' : 'white'
                               }}
                             >
-                              <span style={{ marginLeft: '5px' }}>
+                              <span style={{ marginLeft: '15px' }}>
                                 {props.value ? props.value : '--'}
                               </span>
                             </div>
@@ -423,7 +423,7 @@ export default class Accounts extends React.Component {
                         Header: () => (
                           <div className="table__header">
                             <div
-                              className="pointer flex flexCenterHorizontal"
+                              className="pointer flex "
                               onClick={() => {
                                 this.setSortColumn('email');
                               }}
@@ -453,10 +453,10 @@ export default class Accounts extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'email',
                         className:
-                          'table__cell flex flexCenterHorizontal flexCenterVertical h100 w100I',
+                          'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
-                          <div className="h100 flex flexCenterVertical flexCenterHorizontal">
+                          <div className="h100 flex flexCenterVertical ">
                             {props.value ? props.value : '--'}
                           </div>
                         )
@@ -465,7 +465,7 @@ export default class Accounts extends React.Component {
                         Header: () => (
                           <div className="table__header">
                             <div
-                              className="pointer flex flexCenterHorizontal"
+                              className="pointer flex "
                               onClick={() => {
                                 this.setSortColumn('organizations');
                               }}
@@ -495,10 +495,10 @@ export default class Accounts extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'organizations',
                         className:
-                          'table__cell flex flexCenterHorizontal flexCenterVertical h100 w100I',
+                          'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
-                          <div className="h100 flex flexCenterVertical flexCenterHorizontal">
+                          <div className="h100 flex flexCenterVertical ">
                             {props.value ? props.value : '--'}
                           </div>
                         )
@@ -507,7 +507,7 @@ export default class Accounts extends React.Component {
                         Header: () => (
                           <div className="table__header">
                             <div
-                              className="pointer flex flexCenterHorizontal"
+                              className="pointer flex "
                               onClick={() => {
                                 this.setSortColumn('roles');
                               }}
@@ -537,10 +537,10 @@ export default class Accounts extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'roles',
                         className:
-                          'table__cell flex flexCenterHorizontal flexCenterVertical h100 w100I',
+                          'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
-                          <div className="h100 flex flexCenterVertical flexCenterHorizontal">
+                          <div className="h100 flex flexCenterVertical ">
                             {props.value}
                           </div>
                         )
@@ -549,7 +549,7 @@ export default class Accounts extends React.Component {
                         Header: () => (
                           <div className="table__header">
                             <div
-                              className="pointer flex flexCenterHorizontal"
+                              className="pointer flex "
                               onClick={() => {
                                 this.setSortColumn('status');
                               }}
@@ -579,10 +579,10 @@ export default class Accounts extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'status',
                         className:
-                          'table__cell flex flexCenterHorizontal flexCenterVertical h100 w100I',
+                          'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
-                          <div className="h100 flex flexCenterVertical flexCenterHorizontal">
+                          <div className="h100 flex flexCenterVertical ">
                             {props.value ? props.value : '--'}
                           </div>
                         )

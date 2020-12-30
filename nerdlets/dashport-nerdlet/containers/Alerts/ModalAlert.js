@@ -21,8 +21,8 @@ export default class ModalAlert extends React.Component {
             }}
           >
             <div
-              className="flex flexCenterHorizontal"
-              style={{ marginLeft: '5px' }}
+              className="flex "
+              style={{ marginLeft: '15px' }}
             >
               {cell}
             </div>
@@ -103,8 +103,8 @@ export default class ModalAlert extends React.Component {
                         }}
                       >
                         <div
-                          className="flex flexCenterHorizontal"
-                          style={{ marginLeft: '5px' }}
+                          className="flex "
+                          style={{ marginLeft: '15px' }}
                         >
                           MONITOR OPTIONS
                         </div>
