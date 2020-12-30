@@ -48,9 +48,9 @@ export default class TableVariables extends React.Component {
         for (const iterator of infoAditional.templateVariables) {
             data.push(
                 {
-                    default: iterator.default ? iterator.default : '--',
-                    name: iterator.name ? iterator.name : '--',
-                    prefix: iterator.prefix ? iterator.prefix : '--'
+                    default: iterator.default ? iterator.default : '-----',
+                    name: iterator.name ? iterator.name : '-----',
+                    prefix: iterator.prefix ? iterator.prefix : '-----'
                 }
             )
         }

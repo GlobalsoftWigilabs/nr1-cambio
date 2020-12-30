@@ -226,6 +226,20 @@ export default class Dashboard extends React.Component {
     for (const dd of dataDashboards) {
       dd.popularity = dd.popularity ? dd.popularity : 0;
       dd.widgetsCount = dd.widgets.length;
+      let dashboardList='';
+      if(dd.dashboardList){
+          if(dd.dashboardList.length===0){
+            dashboardList='-----';
+          }else{
+              const dataLimit=dd.dashboardList.slice(0,3);
+          for (const list of dataLimit) {
+              dashboardList = `${dashboardList} ${list} \n`;
+            }
+          if(dd.dashboardList.length>3)
+            dashboardList = `${dashboardList} ...`;
+          }
+      }
+      dd.dashboardList=dashboardList;
       quantityTotal += dd.widgets.length;
     }
     this.setState({
@@ -445,8 +459,10 @@ export default class Dashboard extends React.Component {
   };
 
   saveAction = async (action, infoAditional) => {
-    this._onClose();
-    this.setState({ action: action, infoAditional });
+    if(infoAditional.widgets.length!==0 || infoAditional.templateVariables.length!==0){
+        this._onClose();
+        this.setState({ action: action, infoAditional });
+    }
   };
 
   returnActionPopUp = action => {
@@ -767,7 +783,7 @@ export default class Dashboard extends React.Component {
                         sortable: false,
                         Cell: props => (
                           <div className="h100 flex flexCenterVertical ">
-                            {props.value !== '' ? props.value : '--'}
+                            {props.value !== '' ? props.value : '-----'}
                           </div>
                         )
                       },
@@ -976,7 +992,7 @@ export default class Dashboard extends React.Component {
                           'table__cellLongText table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => {
-                          let txtDescription = '--';
+                          let txtDescription = '-----';
                           if (props.value) {
                             txtDescription = props.value;
                             if (txtDescription.length > 300) {
@@ -1113,16 +1129,7 @@ export default class Dashboard extends React.Component {
                         className:
                           'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
-                        Cell: props => {
-                          let dashboardsList = '';
-                          if (props.value.length === 0) {
-                            dashboardsList = '--';
-                          }
-                          for (const iterator of props.value) {
-                            dashboardsList += ` ${iterator} `;
-                          }
-                          return <div>{dashboardsList}</div>;
-                        }
+                        Cell: props => <div>{props.value}</div>
                       }
                     ]}
                   />

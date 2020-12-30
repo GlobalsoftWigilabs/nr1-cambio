@@ -192,11 +192,11 @@ export default class ModalWidgets extends React.Component {
             }
         } catch (err) {
             if (query === '')
-                query = '--';
+                query = '-----';
             return query;
         }
         if (query === '')
-            query = '--';
+            query = '-----';
         return query;
     }
 
@@ -207,10 +207,10 @@ export default class ModalWidgets extends React.Component {
             if (variables[4]) {
                 return variables[4];
             } else {
-                return '--';
+                return '-----';
             }
         } else {
-            return '--';
+            return '-----';
         }
     }
 

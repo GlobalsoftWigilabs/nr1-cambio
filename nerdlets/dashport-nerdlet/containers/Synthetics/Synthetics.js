@@ -44,11 +44,18 @@ export default class Synthetics extends React.Component {
     for (const test of testList) {
       let loca = '';
       if (test.locations) {
-        const limitData = test.locations.splice(0, 3);
+        if(test.locations.length===0){
+          loca = '-----';
+        }else{
+          const limitData = test.locations.splice(0, 3);
         for (const location of limitData) {
           loca = ` ${loca} ${location} \n`;
         }
+        if(test.locations.length>3)
+          loca = `${loca} ...`;
+        }
       }
+      test.message=test.message !== '' ? test.message : '-----';
       test.location = loca;
       data.push(test);
     }
@@ -481,7 +488,7 @@ export default class Synthetics extends React.Component {
                         sortable: false,
                         Cell: props => (
                           <div className="h100 flex flexCenterVertical">
-                            {props.value ? props.value : 0}
+                            {props.value}
                           </div>
                         )
                       },
@@ -608,7 +615,7 @@ export default class Synthetics extends React.Component {
                         sortable: false,
                         Cell: props => (
                           <div className="h100 flex flexCenterVertical">
-                            {props.value !== '' ? props.value : '--'}
+                            {props.value}
                           </div>
                         )
                       }
