@@ -1,3 +1,11 @@
+.mainContent__infrastructure {
+  height: 100%;
+  background: #ffffff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  display: grid;
+  grid-template: 15% 15% 100% /1fr;
+}
 .mainInfraestructure {
     display: grid;
     grid-template: 1fr / 15% 20% 65%;
@@ -9,7 +17,7 @@
     height: 100%;
     background: #ffffff;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 4px; 
+    border-radius: 4px;
     display: grid;
     grid-template: 15% 15% 70% /1fr;
 }
