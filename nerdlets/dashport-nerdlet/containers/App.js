@@ -77,9 +77,10 @@ export default class App extends React.Component {
       infrastructureDataGraph: [],
       infraestructureList: [],
       // LOGS
-      logsTotal: {
-        indexes: 0,
-        pipelines: 0
+      logsData: {
+        archives: [],
+        pipelines: [],
+        metrics: []
       },
       // Metrics
       metricsTotal: 0,
@@ -162,7 +163,8 @@ export default class App extends React.Component {
       value === 3 ||
       value === 6 ||
       value === 4 ||
-      value === 8
+      value === 8 || 
+      value === 5
     ) {
       this.setState({ selectedMenu: value });
     } else {
@@ -400,22 +402,73 @@ export default class App extends React.Component {
     }
     // LOGS
     try {
-      const logs = await readNerdStorage(
+      const sizeArchives = await readNerdStorageOnlyCollection(
         accountId,
-        'logs',
-        'data',
+        'logs-archives',
         this.reportLogFetch
       );
-      console.log('logs ', logs);
-      if (logs) {
-        const { indexes, pipelines } = logs.data;
-        this.setState({
-          logsTotal: {
-            indexes: indexes,
-            pipelines: pipelines
-          }
-        });
+      debugger;
+      const archives = [];
+      for (let i = 0; i < sizeArchives.length; i++) {
+        let page = [];
+        page = await readNerdStorage(
+          accountId,
+          'logs-archives',
+          `logs-archives-${i}`,
+          this.reportLogFetch
+        );
+        for (const iterator of page) {
+          archives.push(iterator);
+        }
       }
+      //metric log
+      const sizeMetricLog = await readNerdStorageOnlyCollection(
+        accountId,
+        'logs-metrics',
+        this.reportLogFetch
+      );
+      debugger;
+      const metricsLogs = [];
+      for (let i = 0; i < sizeMetricLog.length; i++) {
+        let page = [];
+        page = await readNerdStorage(
+          accountId,
+          'logs-metrics',
+          `logs-metrics-${i}`,
+          this.reportLogFetch
+        );
+        for (const iterator of page) {
+          metricsLogs.push(iterator);
+        }
+      }
+      //Pipelines
+      const sizePipelines = await readNerdStorageOnlyCollection(
+        accountId,
+        'logs-pipelines',
+        this.reportLogFetch
+      );
+      debugger;
+
+      const pipelines = [];
+      for (let i = 0; i < sizePipelines.length; i++) {
+        let page = [];
+        page = await readNerdStorage(
+          accountId,
+          'logs-pipelines',
+          `logs-pipelines-${i}`,
+          this.reportLogFetch
+        );
+        for (const iterator of page) {
+          pipelines.push(iterator);
+        }
+      }
+      this.setState({
+        logsData: {
+          metrics: metricsLogs,
+          archives: archives,
+          pipelines: pipelines
+        }
+      });
       if (fetchingData) {
         this.setState(prevstate => ({ completed: prevstate.completed + 2 }));
       }
@@ -759,13 +812,46 @@ export default class App extends React.Component {
         }
         break;
       case 'logs':
-        await writeNerdStorage(
-          accountId,
-          collectionName,
-          'data',
-          data,
-          this.reportLogFetch
-        );
+        {
+          const pagesArchives = this.pagesOfData(data.data.archives);
+          for (const keyArchives in pagesArchives) {
+            if (pagesArchives[keyArchives]) {
+              await writeNerdStorage(
+                accountId,
+                `${collectionName}-archives`,
+                `${collectionName}-archives-${keyArchives}`,
+                pagesArchives[keyArchives],
+                this.reportLogFetch
+              );
+            }
+          }
+          ////////////////
+          const pagesMetricsLogs = this.pagesOfData(data.data.metricsLogs);
+          for (const keyMetricLog in pagesMetricsLogs) {
+            if (pagesMetricsLogs[keyMetricLog]) {
+              await writeNerdStorage(
+                accountId,
+                `${collectionName}-metrics`,
+                `${collectionName}-metrics-${keyMetricLog}`,
+                pagesMetricsLogs[keyMetricLog],
+                this.reportLogFetch
+              );
+            }
+          }
+          //////////////////////
+          const pagesPipelines = this.pagesOfData(data.data.pipelines);
+          for (const keyPipeline in pagesPipelines) {
+            if (pagesPipelines[keyPipeline]) {
+              await writeNerdStorage(
+                accountId,
+                `${collectionName}-pipelines`,
+                `${collectionName}-pipelines-${keyPipeline}`,
+                pagesPipelines[keyPipeline],
+                this.reportLogFetch
+              );
+            }
+          }
+        }
         break;
       case 'metrics':
         {
@@ -1070,6 +1156,38 @@ export default class App extends React.Component {
                 documentName,
                 `${documentName}-${keyAllDashboard}`,
                 pagesDashboards[keyAllDashboard],
+                this.reportLogFetch
+              );
+            }
+          }
+        }
+        break;
+      case 'Get all archives':
+        {
+          const pagesArchives = this.pagesOfData(documentData.data);
+          for (const keyArchives in pagesArchives) {
+            if (pagesArchives[keyArchives]) {
+              await writeNerdStorage(
+                accountId,
+                documentName,
+                `${documentName}-${keyArchives}`,
+                pagesArchives[keyArchives],
+                this.reportLogFetch
+              );
+            }
+          }
+        }
+        break;
+      case 'Get all log based metrics':
+        {
+          const pagesLogsMetrics = this.pagesOfData(documentData.data);
+          for (const keyLogsMetrics in pagesLogsMetrics) {
+            if (pagesLogsMetrics[keyLogsMetrics]) {
+              await writeNerdStorage(
+                accountId,
+                documentName,
+                `${documentName}-${keyLogsMetrics}`,
+                pagesLogsMetrics[keyLogsMetrics],
                 this.reportLogFetch
               );
             }
@@ -1680,7 +1798,6 @@ export default class App extends React.Component {
       monitorsData,
       infrastructureDataGraph,
       infraestructureList,
-      logsTotal,
       metricsTotal,
       metrics,
       syntheticsTotal,
@@ -1690,7 +1807,7 @@ export default class App extends React.Component {
       dataTableAccounts,
       fetchingData,
       writingSetup,
-      verticalBarchart,
+      logsData,
       apikey,
       apikeyS,
       appkey,
@@ -1755,11 +1872,12 @@ export default class App extends React.Component {
           />
         );
       case 5:
-        return <Logs logsTotal={logsTotal} />;
+        return <Logs logsData={logsData} />;
       case 6:
         return (
           <Metrics
             accountId={accountId}
+            infraestructureList={infraestructureList}
             metrics={metrics}
             metricsTotal={metricsTotal}
           />
@@ -1800,28 +1918,28 @@ export default class App extends React.Component {
         {loadingContent ? (
           <Spinner type={Spinner.TYPE.DOT} />
         ) : (
-          <>
-            <div className="sidebar-container">
-              <Menu
-                lastUpdate={lastUpdate}
-                selectedMenu={selectedMenu}
-                handleChangeMenu={this.handleChangeMenu}
-              />
-            </div>
-            <div>
-              <div
-                style={{
-                  paddingTop: '1.8%',
-                  paddingRight: '1%',
-                  paddingLeft: '1.8%',
-                  height: '96%'
-                }}
-              >
-                {this.renderContent()}
+            <>
+              <div className="sidebar-container">
+                <Menu
+                  lastUpdate={lastUpdate}
+                  selectedMenu={selectedMenu}
+                  handleChangeMenu={this.handleChangeMenu}
+                />
               </div>
-            </div>
-          </>
-        )}
+              <div>
+                <div
+                  style={{
+                    paddingTop: '1.8%',
+                    paddingRight: '1%',
+                    paddingLeft: '1.8%',
+                    height: '96%'
+                  }}
+                >
+                  {this.renderContent()}
+                </div>
+              </div>
+            </>
+          )}
       </div>
     );
   }

@@ -602,7 +602,7 @@ export default class Dashboard extends React.Component {
                                                                 background: rowInfo.index % 2 ? '#F7F7F8' : 'white',
                                                                 borderBottom: 'none',
                                                                 display: 'grid',
-                                                                gridTemplate: '1fr/ 8% repeat(5,6%) 20% 7% 20% 15%'
+                                                                gridTemplate: '1fr/ 8% repeat(5,5%) 23% 7% 22% 15%'
                                                             }
                                                         };
                                                     } else {
@@ -610,7 +610,7 @@ export default class Dashboard extends React.Component {
                                                             style: {
                                                                 borderBottom: 'none',
                                                                 display: 'grid',
-                                                                gridTemplate: '1fr/ 8% repeat(5,6%) 20% 7% 20% 15%'
+                                                                gridTemplate: '1fr/ 8% repeat(5,5%) 23% 7% 22% 15%'
                                                             }
                                                         };
                                                     }
@@ -638,7 +638,7 @@ export default class Dashboard extends React.Component {
                                                         color: '#333333',
                                                         fontWeight: 'bold',
                                                         display: 'grid',
-                                                        gridTemplate: '1fr/ 8% repeat(5,6%) 20% 7% 20% 15%'
+                                                        gridTemplate: '1fr/ 8% repeat(5,5%) 23% 7% 22% 15%'
                                                     }
                                                 };
                                             }}
@@ -735,10 +735,10 @@ export default class Dashboard extends React.Component {
                                                 },
                                                 {
                                                     Header: () => (
-                                                        <div className="table__header">
-                                                            <div className="pointer flex " onClick={() => { this.setSortColumn('popularity') }}>
+                                                            <div className="table__header flexCenterHorizontal">
+                                                            <div className="pointer flex" onClick={() => { this.setSortColumn('popularity') }}>
                                                                 POPULARITY
-                                                                    <div className="flexColumn table__sort">
+                                                            <div className="flexColumn table__sort ">
                                                                     <ArrowTop color={sortColumn.column === 'popularity' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
                                                                     <ArrowDown color={sortColumn.column === 'popularity' && sortColumn.order === 'descent' ? "black" : "gray"} />
                                                                 </div>
@@ -747,16 +747,16 @@ export default class Dashboard extends React.Component {
                                                     ),
                                                     headerClassName: 'w100I',
                                                     accessor: 'popularity',
-                                                    className: 'table__cell flex flexCenterVertical h100 w100I',
+                                                    className: 'table__cell flex flexCenterVertical h100 w100I flexCenterHorizontal',
                                                     sortable: false,
-                                                    Cell: props => <div className="h100 flex flexCenterVertical ">
+                                                    Cell: props => <div className="h100 flex flexCenterVertical flexCenterHorizontal">
                                                         {props.value ? props.value : 0}
                                                     </div>
                                                 },
                                                 {
                                                     Header: () => (
-                                                        <div className="table__header">
-                                                            <div className="pointer flex " onClick={() => { this.setSortColumn('widgets') }}>
+                                                            <div className="table__header flexCenterHorizontal">
+                                                            <div className="pointer flex" onClick={() => { this.setSortColumn('widgets') }}>
                                                                 WIDGETS
                                                                     <div className="flexColumn table__sort">
                                                                     <ArrowTop color={sortColumn.column === 'widgets' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
@@ -767,9 +767,9 @@ export default class Dashboard extends React.Component {
                                                     ),
                                                     headerClassName: 'w100I',
                                                     accessor: 'widgets',
-                                                    className: 'table__cell flex flexCenterVertical h100 w100I',
+                                                    className: 'table__cell flex flexCenterVertical h100 w100I flexCenterHorizontal',
                                                     sortable: false,
-                                                    Cell: props => <div className="h100 flex flexCenterVertical ">{props.value.length}</div>
+                                                    Cell: props => <div className="h100 flex flexCenterVertical flexCenterHorizontal">{props.value.length}</div>
                                                 },
                                                 {
                                                     Header: () => (

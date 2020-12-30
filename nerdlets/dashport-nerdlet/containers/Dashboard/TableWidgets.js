@@ -346,7 +346,7 @@ export default class TableWidgets extends React.Component {
                                     {
                                         Header: () => (
                                             <div className="table__headerSticky">
-                                                <div className="pointer flex flexCenterHorizontal" style={{ marginLeft: "5px" }} onClick={() => { this.setSortColumn('title') }}>
+                                                <div className="pointer flex flexCenterHorizontal" style={{ marginLeft: "15px" }} onClick={() => { this.setSortColumn('title') }}>
                                                     TITLE
                                                                     <div className="flexColumn table__sort">
                                                         <ArrowTop color={sortColumn.column === 'title' && sortColumn.order === 'ascendant' ? "black" : "gray"} />

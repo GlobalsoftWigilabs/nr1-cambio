@@ -177,7 +177,7 @@
     {
         "name": "Get All Active Metrics",
         "query_filtering": "&host=%3CHOSTNAME%3E",
-        "enable": true
+        "enable": false
     },
     {
         "name": "Query Time Series Points",
@@ -218,6 +218,14 @@
     {
         "name": "Get all test results",
         "enable": false
+    },
+    {
+        "name": "Get all archives",
+        "enable": true
+    },
+    {
+        "name": "Get all log based metrics",
+        "enable": true
     },
     {
         "name": "Get a specific test result",

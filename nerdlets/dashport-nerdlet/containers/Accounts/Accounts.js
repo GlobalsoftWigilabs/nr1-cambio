@@ -372,7 +372,7 @@ export default class Accounts extends React.Component {
                           <div className="table__headerSticky">
                             <div
                               className="pointer flex flexCenterHorizontal"
-                              style={{ marginLeft: '5px' }}
+                              style={{ marginLeft: '15px' }}
                               onClick={() => {
                                 this.setSortColumn('name');
                               }}
