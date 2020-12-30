@@ -220,7 +220,7 @@ export default class Dashboard extends React.Component {
    */
   async loadDashboards() {
     const { searchTermDashboards, sortColumn } = this.state;
-    const dataDashboards = await this.loadNerdData();
+    const {dataDashboards }=this.props;
     //average widgets
     let quantityTotal = 0;
     for (const dd of dataDashboards) {

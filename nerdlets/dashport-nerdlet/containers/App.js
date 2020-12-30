@@ -64,6 +64,9 @@ export default class App extends React.Component {
       writingSetup: false,
       fetchingData: false,
       verticalBarchart: false,
+      //DASHBOARDS
+      dataDashboards: [],
+      emptyData: false,
       // ALERTS
       alertsTotal: 0,
       alertsData: [
@@ -258,6 +261,50 @@ export default class App extends React.Component {
   async loadViewData() {
     const { accountId, fetchingData } = this.state;
     let countColor = 1;
+    //DASHBOARDS
+    try {
+      const list = [];
+      let emptyData = false;
+      const sizeList = await readNerdStorageOnlyCollection(
+        accountId,
+        'dashboards',
+        this.reportLogFetch
+      );
+      for (let i = 0; i < sizeList.length - 1; i++) {
+        const page = await readNerdStorage(
+          accountId,
+          'dashboards',
+          `dashboards-${i}`,
+          this.reportLogFetch
+        );
+        if (page) {
+          for (const iterator of page) {
+            list.push(iterator);
+          }
+        }
+      }
+      const dashboardObj = await readNerdStorage(
+        accountId,
+        'dashboards',
+        `dashboards-obj`,
+        this.reportLogFetch
+      );
+      if (dashboardObj.status === 'EMPTY') {
+        emptyData = true;
+      }
+      this.setState({
+        dataDashboards:list,
+        emptyData
+      })
+    } catch (err) {
+      const response = {
+        message: err.message,
+        type: 'Error',
+        event: `Recove alerts data`,
+        date: new Date().toLocaleString()
+      };
+      this.reportLogFetch(response);
+    }
     // ALERTS
     try {
       const data = await readNerdStorage(
@@ -1784,7 +1831,8 @@ export default class App extends React.Component {
       setupComplete,
       platformSelect,
       completed,
-      deleteSetup
+      deleteSetup,
+      dataDashboards
     } = this.state;
     // console.log('accountsTotal', accountsTotal, dataTableAccounts);
     switch (selectedMenu) {
@@ -1820,6 +1868,7 @@ export default class App extends React.Component {
             reportLogFetch={this.reportLogFetch}
             handleChangeMenu={this.handleChangeMenu}
             sendLogs={this.sendLogs}
+            dataDashboards={dataDashboards}
             accountId={accountId}
           />
         );
@@ -1845,8 +1894,8 @@ export default class App extends React.Component {
           <Metrics
             accountId={accountId}
             infraestructureList={infraestructureList}
-            // metrics={metrics}
-            // metricsTotal={metricsTotal}
+          // metrics={metrics}
+          // metricsTotal={metricsTotal}
           />
         );
       case 7:
@@ -1879,28 +1928,28 @@ export default class App extends React.Component {
         {loadingContent ? (
           <Spinner type={Spinner.TYPE.DOT} />
         ) : (
-          <>
-            <div className="sidebar-container">
-              <Menu
-                lastUpdate={lastUpdate}
-                selectedMenu={selectedMenu}
-                handleChangeMenu={this.handleChangeMenu}
-              />
-            </div>
-            <div>
-              <div
-                style={{
-                  paddingTop: '1.8%',
-                  paddingRight: '1%',
-                  paddingLeft: '1.8%',
-                  height: '96%'
-                }}
-              >
-                {this.renderContent()}
+            <>
+              <div className="sidebar-container">
+                <Menu
+                  lastUpdate={lastUpdate}
+                  selectedMenu={selectedMenu}
+                  handleChangeMenu={this.handleChangeMenu}
+                />
               </div>
-            </div>
-          </>
-        )}
+              <div>
+                <div
+                  style={{
+                    paddingTop: '1.8%',
+                    paddingRight: '1%',
+                    paddingLeft: '1.8%',
+                    height: '96%'
+                  }}
+                >
+                  {this.renderContent()}
+                </div>
+              </div>
+            </>
+          )}
       </div>
     );
   }
