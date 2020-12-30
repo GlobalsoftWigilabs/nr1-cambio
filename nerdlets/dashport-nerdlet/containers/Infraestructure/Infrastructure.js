@@ -178,15 +178,75 @@ export default class Infrastructure extends React.Component {
       case 'hostname':
         // eslint-disable-next-line no-case-declarations
         const sortName = finalList.sort(function(a, b) {
-          if (a.name > b.name) {
+          if (a.hostname > b.hostname) {
             return valueOne;
           }
-          if (a.name < b.name) {
+          if (a.hostname < b.hostname) {
             return valueTwo;
           }
           return 0;
         });
         return sortName;
+      case 'aliases':
+        // eslint-disable-next-line no-case-declarations
+        const sortAliases = finalList.sort(function(a, b) {
+          if (a.aliases > b.aliases) {
+            return valueOne;
+          }
+          if (a.aliases < b.aliases) {
+            return valueTwo;
+          }
+          return 0;
+        });
+        return sortAliases;
+      case 'apps':
+        // eslint-disable-next-line no-case-declarations
+        const sortApps = finalList.sort(function(a, b) {
+          if (a.apps > b.apps) {
+            return valueOne;
+          }
+          if (a.apps < b.apps) {
+            return valueTwo;
+          }
+          return 0;
+        });
+        return sortApps;
+      case 'sources':
+        // eslint-disable-next-line no-case-declarations
+        const sortSources = finalList.sort(function(a, b) {
+          if (a.sources > b.sources) {
+            return valueOne;
+          }
+          if (a.sources < b.sources) {
+            return valueTwo;
+          }
+          return 0;
+        });
+        return sortSources;
+      case 'muted':
+        // eslint-disable-next-line no-case-declarations
+        const sortMuted = finalList.sort(function(a, b) {
+          if (a.muted > b.muted) {
+            return valueOne;
+          }
+          if (a.muted < b.muted) {
+            return valueTwo;
+          }
+          return 0;
+        });
+        return sortMuted;
+      case 'tags':
+        // eslint-disable-next-line no-case-declarations
+        const sortTags = finalList.sort(function(a, b) {
+          if (a.tags > b.tags) {
+            return valueOne;
+          }
+          if (a.tags < b.tags) {
+            return valueTwo;
+          }
+          return 0;
+        });
+        return sortTags;
       default:
         return finalList;
     }
