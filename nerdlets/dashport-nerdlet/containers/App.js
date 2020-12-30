@@ -160,6 +160,7 @@ export default class App extends React.Component {
       value === 1 ||
       value === 2 ||
       value === 3 ||
+      value === 5 ||
       value === 6 ||
       value === 4 ||
       value === 8 ||
