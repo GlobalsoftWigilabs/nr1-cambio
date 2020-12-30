@@ -1,5 +1,5 @@
 import React from 'react';
-import { Spinner } from 'nr1';
+import { Spinner, Tooltip } from 'nr1';
 import SearchInput, { createFilter } from 'react-search-input';
 import { BsSearch } from 'react-icons/bs';
 import iconDownload from '../../images/download.svg';
@@ -287,15 +287,21 @@ export default class Accounts extends React.Component {
                       ? 'pointerBlock flex flexCenterVertical'
                       : 'pointer flex flexCenterVertical'
                   }
+                  style={{ width: '30%' }}
                   onClick={() => {
                     if (data.length !== 0) this.downloadData();
                   }}
                 >
-                  <img
-                    src={iconDownload}
-                    style={{ marginLeft: '20px' }}
-                    height="18px"
-                  />
+                  <Tooltip
+                    placementType={Tooltip.PLACEMENT_TYPE.BOTTOM}
+                    text="Download"
+                  >
+                    <img
+                      src={iconDownload}
+                      style={{ marginLeft: '20px' }}
+                      height="18px"
+                    />
+                  </Tooltip>
                 </div>
                 {data.length !== 0 && (
                   <Pagination

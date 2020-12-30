@@ -1,5 +1,5 @@
 import React from 'react';
-import { Spinner } from 'nr1';
+import { Spinner, Tooltip } from 'nr1';
 import moment from 'moment';
 import SearchInput, { createFilter } from 'react-search-input';
 import { BsSearch } from 'react-icons/bs';
@@ -38,7 +38,7 @@ export default class Alerts extends React.Component {
       savingAllChecks: false,
       pagePag: 0,
       pages: 0,
-      totalRows: 10,
+      totalRows: 6,
       sortColumn: {
         column: '',
         order: ''
@@ -52,6 +52,15 @@ export default class Alerts extends React.Component {
     const { monitorsData = [] } = this.props;
     const data = [];
     monitorsData.forEach(element => {
+      let thresholds = '--';
+      if (element.thresholds) {
+        if (element.thresholds.critical) {
+          thresholds = `critical: ${element.thresholds.critical}`;
+        }
+        if (element.thresholds.warning) {
+          thresholds = `${thresholds} \n warning: ${element.thresholds.warning}`;
+        }
+      }
       data.push({
         name: element.name,
         classification: element.classification,
@@ -70,7 +79,7 @@ export default class Alerts extends React.Component {
         no_data_timeframe: element.no_data_timeframe,
         notify_audit: element.notify_audit,
         notify_no_data: element.notify_no_data,
-        thresholds: element.thresholds,
+        thresholds: thresholds,
         min_location_failed: element.min_location_failed,
         min_failure_duration: element.min_failure_duration
       });
@@ -106,7 +115,7 @@ export default class Alerts extends React.Component {
 
   saveAction = async (action, infoAditional) => {
     this._onClose();
-    this.setState({ action: action, infoAditional });
+    this.setState({ infoAditional });
   };
 
   setSortColumn = column => {
@@ -416,15 +425,21 @@ export default class Alerts extends React.Component {
                       ? 'pointerBlock flex flexCenterVertical'
                       : 'pointer flex flexCenterVertical'
                   }
+                  style={{ width: '30%' }}
                   onClick={() => {
                     if (data.length !== 0) this.downloadData();
                   }}
                 >
-                  <img
-                    src={iconDownload}
-                    style={{ marginLeft: '20px' }}
-                    height="18px"
-                  />
+                  <Tooltip
+                    placementType={Tooltip.PLACEMENT_TYPE.BOTTOM}
+                    text="Download"
+                  >
+                    <img
+                      src={iconDownload}
+                      style={{ marginLeft: '20px' }}
+                      height="18px"
+                    />
+                  </Tooltip>
                 </div>
                 {data.length !== 0 && (
                   <Pagination
@@ -437,7 +452,7 @@ export default class Alerts extends React.Component {
                 )}
               </div>
               <div className="tableContent__table">
-                <div style={{ width: '2000px' }} className="h100">
+                <div style={{ width: '2500px' }} className="h100">
                   <ReactTable
                     loading={savingAllChecks}
                     loadingText="Processing..."
@@ -456,7 +471,8 @@ export default class Alerts extends React.Component {
                                 rowInfo.index % 2 ? '#F7F7F8' : 'white',
                               borderBottom: 'none',
                               display: 'grid',
-                              gridTemplate: '1fr / 16% repeat(4, 8%) repeat(4, 13%)'
+                              gridTemplate:
+                                '1fr / 16% repeat(3, 14.33%) 8% 9% repeat(3, 8%)'
                             }
                           };
                         } else {
@@ -464,7 +480,8 @@ export default class Alerts extends React.Component {
                             style: {
                               borderBottom: 'none',
                               display: 'grid',
-                              gridTemplate: '1fr / 16% repeat(4, 8%) repeat(4, 13%)'
+                              gridTemplate:
+                                '1fr / 16% repeat(3, 14.33%) 8% 9% repeat(3, 8%)'
                             }
                           };
                         }
@@ -491,7 +508,8 @@ export default class Alerts extends React.Component {
                           color: '#333333',
                           fontWeight: 'bold',
                           display: 'grid',
-                          gridTemplate: '1fr / 16% repeat(4, 8%) repeat(4, 13%)'
+                          gridTemplate:
+                            '1fr / 16% repeat(3, 14.33%) 8% 9% repeat(3, 8%)'
                         }
                       };
                     }}
@@ -538,7 +556,7 @@ export default class Alerts extends React.Component {
                               onClick={() =>
                                 this.saveAction('data', props.original)
                               }
-                              className="h100 flex flexCenterVertical pointer"
+                              className="h100 flex pointer flexCenterVertical flexCenterVertical"
                               style={{
                                 background:
                                   props.index % 2 ? '#F7F7F8' : 'white',
@@ -546,7 +564,7 @@ export default class Alerts extends React.Component {
                               }}
                             >
                               <span style={{ marginLeft: '15px' }}>
-                                {props.value}
+                                {`  ${props.value}`}
                               </span>
                             </div>
                           );

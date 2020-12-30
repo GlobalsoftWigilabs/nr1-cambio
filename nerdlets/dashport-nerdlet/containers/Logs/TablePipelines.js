@@ -39,8 +39,14 @@ export default class TablePipelines extends React.Component {
       if (element.processors) {
         const limitData = element.processors.slice(0, 3);
         for (const processor of limitData) {
-          if (processor.name !== '')
+          if (processor.name !== '') {
             processors = `${processors} ${processor.name} \n`;
+          } else {
+            processors = `${processors} ${processor.type} \n`;
+          }
+        }
+        if (limitData.length === 3) {
+          processors = `${processors} ...`;
         }
       }
       data.push({
@@ -294,7 +300,7 @@ export default class TablePipelines extends React.Component {
                         background: rowInfo.index % 2 ? '#F7F7F8' : 'white',
                         borderBottom: 'none',
                         display: 'grid',
-                        gridTemplate: '1fr/ 40% repeat(3,20%)'
+                        gridTemplate: '1fr / 25% 15% 15% 45%'
                       }
                     };
                   } else {
@@ -302,7 +308,7 @@ export default class TablePipelines extends React.Component {
                       style: {
                         borderBottom: 'none',
                         display: 'grid',
-                        gridTemplate: '1fr/ 40% repeat(3,20%)'
+                        gridTemplate: '1fr / 25% 15% 15% 45%'
                       }
                     };
                   }
@@ -329,7 +335,7 @@ export default class TablePipelines extends React.Component {
                     color: '#333333',
                     fontWeight: 'bold',
                     display: 'grid',
-                    gridTemplate: '1fr/ 40% repeat(3,20%)'
+                    gridTemplate: '1fr / 25% 15% 15% 45%'
                   }
                 };
               }}
@@ -339,7 +345,7 @@ export default class TablePipelines extends React.Component {
                     <div className="table__headerSticky">
                       <div
                         className="pointer flex"
-                        style={{ marginLeft: '5px' }}
+                        style={{ marginLeft: '15px' }}
                         onClick={() => {
                           this.setSortColumn('name');
                         }}
@@ -378,7 +384,7 @@ export default class TablePipelines extends React.Component {
                           background: props.index % 2 ? '#F7F7F8' : 'white'
                         }}
                       >
-                        <span style={{ marginLeft: '5px' }}>
+                        <span style={{ marginLeft: '15px' }}>
                           {props.value ? props.value : '--'}
                         </span>
                       </div>
