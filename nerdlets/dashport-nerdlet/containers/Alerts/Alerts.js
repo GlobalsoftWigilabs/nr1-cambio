@@ -52,7 +52,7 @@ export default class Alerts extends React.Component {
     const { monitorsData = [] } = this.props;
     const data = [];
     monitorsData.forEach(element => {
-      let thresholds = '--';
+      let thresholds = '-----';
       if (element.thresholds) {
         if (element.thresholds.critical) {
           thresholds = `critical: ${element.thresholds.critical}`;
@@ -778,7 +778,7 @@ export default class Alerts extends React.Component {
                           <div className="h100 flex flexCenterVertical ">
                             {props.value
                               ? moment.unix(props.value).format('MM/DD/YYYY')
-                              : '--'}
+                              : '-----'}
                           </div>
                         )
                       },
@@ -904,7 +904,7 @@ export default class Alerts extends React.Component {
                         sortable: false,
                         Cell: props => (
                           <div className="h100 flex flexCenterVertical ">
-                            {props.value ? props.value : '--'}
+                            {props.value ? props.value : '-----'}
                           </div>
                         )
                       }

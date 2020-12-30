@@ -84,21 +84,21 @@ export default class ModalInfrastructure extends React.Component {
                       'CPU',
                       infoAditional.metricsCpu
                         ? infoAditional.metricsCpu
-                        : '--',
+                        : '-----',
                       '#f7f7f8'
                     )}
                     {this.renderCelll(
                       'MESSAGE',
                       infoAditional.metricsIowait
                         ? infoAditional.metricsIowait
-                        : '--',
+                        : '-----',
                       'white'
                     )}
                     {this.renderCelll(
                       'MESSAGE',
                       infoAditional.metricsLoad
                         ? infoAditional.metricsLoad
-                        : '--',
+                        : '-----',
                       '#f7f7f8'
                     )}
                   </div>

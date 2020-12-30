@@ -590,7 +590,7 @@ export default class Infrastructure extends React.Component {
                         sortable: false,
                         Cell: props => (
                           <div className="h100 flex flexCenterVertical">
-                            {props.value ? props.value : '--'}
+                            {props.value ? props.value : '-----'}
                           </div>
                         )
                       },
@@ -632,7 +632,7 @@ export default class Infrastructure extends React.Component {
                         sortable: false,
                         Cell: props => (
                           <div className="h100 flex flexCenterVertical ">
-                            {props.value ? props.value : '--'}
+                            {props.value ? props.value : '-----'}
                           </div>
                         )
                       },
@@ -674,7 +674,7 @@ export default class Infrastructure extends React.Component {
                         sortable: false,
                         Cell: props => (
                           <div className="h100 flex flexCenterVertical">
-                            {props.value ? props.value : '--'}
+                            {props.value ? props.value : '-----'}
                           </div>
                         )
                       },

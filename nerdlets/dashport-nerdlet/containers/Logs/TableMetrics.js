@@ -423,7 +423,7 @@ export default class TableMetrics extends React.Component {
                         }}
                       >
                         <span style={{ marginLeft: '15px' }}>
-                          {props.value ? props.value : '--'}
+                          {props.value ? props.value : '-----'}
                         </span>
                       </div>
                     );
@@ -462,12 +462,11 @@ export default class TableMetrics extends React.Component {
                   ),
                   headerClassName: 'w100I',
                   accessor: 'aggrType',
-                  className:
-                    'table__cell flex flexCenterVertical h100 w100I',
+                  className: 'table__cell flex flexCenterVertical h100 w100I',
                   sortable: false,
                   Cell: props => (
                     <div className="h100 flex flexCenterVertical ">
-                      {props.value ? props.value : '--'}
+                      {props.value ? props.value : '-----'}
                     </div>
                   )
                 },
@@ -504,12 +503,11 @@ export default class TableMetrics extends React.Component {
                   ),
                   headerClassName: 'w100I',
                   accessor: 'path',
-                  className:
-                    'table__cell flex flexCenterVertical h100 w100I',
+                  className: 'table__cell flex flexCenterVertical h100 w100I',
                   sortable: false,
                   Cell: props => (
                     <div className="h100 flex flexCenterVertical ">
-                      {props.value ? props.value : '--'}
+                      {props.value ? props.value : '-----'}
                     </div>
                   )
                 },
@@ -546,12 +544,11 @@ export default class TableMetrics extends React.Component {
                   ),
                   headerClassName: 'w100I',
                   accessor: 'filterQuery',
-                  className:
-                    'table__cell flex flexCenterVertical h100 w100I',
+                  className: 'table__cell flex flexCenterVertical h100 w100I',
                   sortable: false,
                   Cell: props => (
                     <div className="h100 flex flexCenterVertical ">
-                      {props.value ? props.value : '--'}
+                      {props.value ? props.value : '-----'}
                     </div>
                   )
                 },
@@ -588,12 +585,11 @@ export default class TableMetrics extends React.Component {
                   ),
                   headerClassName: 'w100I',
                   accessor: 'groupByPath',
-                  className:
-                    'table__cell flex flexCenterVertical h100 w100I',
+                  className: 'table__cell flex flexCenterVertical h100 w100I',
                   sortable: false,
                   Cell: props => (
                     <div className="h100 flex flexCenterVertical ">
-                      {props.value ? props.value : '--'}
+                      {props.value ? props.value : '-----'}
                     </div>
                   )
                 },
@@ -630,12 +626,11 @@ export default class TableMetrics extends React.Component {
                   ),
                   headerClassName: 'w100I',
                   accessor: 'tagName',
-                  className:
-                    'table__cell flex flexCenterVertical h100 w100I',
+                  className: 'table__cell flex flexCenterVertical h100 w100I',
                   sortable: false,
                   Cell: props => (
                     <div className="h100 flex flexCenterVertical ">
-                      {props.value ? props.value : '--'}
+                      {props.value ? props.value : '-----'}
                     </div>
                   )
                 }
