@@ -490,7 +490,7 @@ export default class Infrastructure extends React.Component {
                                 rowInfo.index % 2 ? '#F7F7F8' : 'white',
                               borderBottom: 'none',
                               display: 'grid',
-                              gridTemplate: '1fr/ 20% 20% 20% 10% 10% 20%'
+                              gridTemplate: '1fr / 20% 30% 10% 10% 10% 20%'
                             }
                           };
                         } else {
@@ -498,7 +498,7 @@ export default class Infrastructure extends React.Component {
                             style: {
                               borderBottom: 'none',
                               display: 'grid',
-                              gridTemplate: '1fr/ 20% 20% 20% 10% 10% 20%'
+                              gridTemplate: '1fr / 20% 30% 10% 10% 10% 20%'
                             }
                           };
                         }
@@ -525,7 +525,7 @@ export default class Infrastructure extends React.Component {
                           color: '#333333',
                           fontWeight: 'bold',
                           display: 'grid',
-                          gridTemplate: '1fr/ 20% 20% 20% 10% 10% 20%'
+                          gridTemplate: '1fr / 20% 30% 10% 10% 10% 20%'
                         }
                       };
                     }}
@@ -535,7 +535,7 @@ export default class Infrastructure extends React.Component {
                           <div className="table__headerSticky">
                             <div
                               className="pointer flex"
-                              style={{ marginLeft: '5px' }}
+                              style={{ marginLeft: '15px' }}
                               onClick={() => {
                                 this.setSortColumn('hostname');
                               }}
@@ -579,7 +579,7 @@ export default class Infrastructure extends React.Component {
                                 color: '#0078BF'
                               }}
                             >
-                              <span style={{ marginLeft: '5px' }}>
+                              <span style={{ marginLeft: '15px' }}>
                                 {props.value}
                               </span>
                             </div>
@@ -632,13 +632,13 @@ export default class Infrastructure extends React.Component {
                         Header: () => (
                           <div className="table__header">
                             <div
-                              className="pointer flex flexCenterHorizontal"
+                              className="pointer flex "
                               onClick={() => {
                                 this.setSortColumn('apps');
                               }}
                             >
                               APPS
-                              <div className="flexColumn table__sort flexCenterHorizontal">
+                              <div className="flexColumn table__sort ">
                                 <ArrowTop
                                   color={
                                     sortColumn.column === 'apps' &&
@@ -662,10 +662,10 @@ export default class Infrastructure extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'apps',
                         className:
-                          'table__cell flex flexCenterHorizontal flexCenterVertical h100 w100I',
+                          'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
-                          <div className="h100 flex flexCenterVertical flexCenterHorizontal">
+                          <div className="h100 flex flexCenterVertical ">
                             {props.value ? props.value : '--'}
                           </div>
                         )

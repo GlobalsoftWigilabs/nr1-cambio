@@ -384,7 +384,7 @@ export default class Synthetics extends React.Component {
                                                                 background: rowInfo.index % 2 ? '#F7F7F8' : 'white',
                                                                 borderBottom: 'none',
                                                                 display: 'grid',
-                                                                gridTemplate: '1fr/ 40% 10% 10% 20% 20%'
+                                                                gridTemplate: '1fr/ 40% 10% 15% 10% 25%'
                                                             }
                                                         };
                                                     } else {
@@ -392,7 +392,7 @@ export default class Synthetics extends React.Component {
                                                             style: {
                                                                 borderBottom: 'none',
                                                                 display: 'grid',
-                                                                gridTemplate: '1fr/40% 10% 10% 20% 20%'
+                                                                gridTemplate: '1fr/ 40% 10% 15% 10% 25%'
                                                             }
                                                         };
                                                     }
@@ -420,7 +420,7 @@ export default class Synthetics extends React.Component {
                                                         color: '#333333',
                                                         fontWeight: 'bold',
                                                         display: 'grid',
-                                                        gridTemplate: '1fr/ 40% 10% 10% 20% 20%'
+                                                        gridTemplate: '1fr/ 40% 10% 15% 10% 25%'
                                                     }
                                                 };
                                             }}
@@ -449,7 +449,7 @@ export default class Synthetics extends React.Component {
                                                                     background: props.index % 2 ? "#F7F7F8" : "white",
                                                                     color: "#0078BF"
                                                                 }}>
-                                                                <span style={{ marginLeft: "5px" }}>{props.value}</span>
+                                                                <span style={{ marginLeft: "15px" }}>{props.value}</span>
                                                             </div>
                                                         )
                                                     }
@@ -532,7 +532,7 @@ export default class Synthetics extends React.Component {
                                                     className: 'table__cell flex flexCenterVertical h100 w100I',
                                                     sortable: false,
                                                     Cell: props => <div className="h100 flex flexCenterVertical">
-                                                        {props.value !== '' ? props.value : '___'}
+                                                        {props.value !== '' ? props.value : '--'}
                                                     </div>
                                                 }
                                             ]}

@@ -234,9 +234,9 @@ export default class Metrics extends React.Component {
           );
           const metricDetail = await this.getMetricDetails(info, metric.name);
           if (index !== -1) {
-            metrics[index].integration = metricDetail.data.integration ? metricDetail.data.integration : '___';
-            metrics[index].type = metricDetail.data.type ? metricDetail.data.type : '___';
-            metrics[index].unit = metricDetail.data.unit ? metricDetail.data.unit : '___';
+            metrics[index].integration = metricDetail.data.integration ? metricDetail.data.integration : '--';
+            metrics[index].type = metricDetail.data.type ? metricDetail.data.type : '--';
+            metrics[index].unit = metricDetail.data.unit ? metricDetail.data.unit : '--';
             metrics[index].agg = null
           }
         }
@@ -710,13 +710,14 @@ export default class Metrics extends React.Component {
               <div className="mainContent__information">
                 <div className="information__box">
                   <span
-                    className="box--title"
+                    className="box--title box--metrics"
                     style={{
-                      color: greenColor
+                        color: greenColor,
+                        position: 'relative'
                     }}>
                     Active Metrics <Popup
                       trigger={
-                        <Button className="buttonMetrics">
+                        <Button className="buttonMetrics" style={{ backgroundColor: null}}>
                           <img alt="i" style={{ marginTop: 3 }} src={information} />
                         </Button>
                       }
@@ -879,7 +880,7 @@ export default class Metrics extends React.Component {
                         {
                           Header: () => (
                             <div className="table__headerAlignRight">
-                              <div className="pointer flex flexCenterHorizontal" style={{ marginLeft: "5px" }} onClick={() => { this.setSortColumn('name') }}>
+                              <div className="pointer flex flexCenterHorizontal" style={{ marginLeft: "15px" }} onClick={() => { this.setSortColumn('name') }}>
                                 NAME
                               <div className="flexColumn table__sort">
                                   <ArrowTop color={sortColumn.column === 'name' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
@@ -899,7 +900,7 @@ export default class Metrics extends React.Component {
                                 style={{
                                   background: props.index % 2 ? "#F7F7F8" : "white"
                                 }}>
-                                <span style={{ marginLeft: "5px" }}>{props.value ? props.value : '___'}</span>
+                                <span style={{ marginLeft: "15px" }}>{props.value ? props.value : '--'}</span>
                               </div>
                             )
                           }
@@ -921,7 +922,7 @@ export default class Metrics extends React.Component {
                           className: 'table__cell flex flexCenterVertical h100 w100I',
                           sortable: false,
                           Cell: props => <div className="h100 flex flexCenterVertical">
-                            {props.value ? props.value : '___'}
+                            {props.value ? props.value : '--'}
                           </div>
                         },
                         {
@@ -941,7 +942,7 @@ export default class Metrics extends React.Component {
                           className: 'table__cell flex  flexCenterVertical h100 w100I',
                           sortable: false,
                           Cell: props => <div className="h100 flex flexCenterVertical ">
-                            {props.value ? props.value : '___'}
+                            {props.value ? props.value : '--'}
                           </div>
                         },
                         {
@@ -987,7 +988,7 @@ export default class Metrics extends React.Component {
                           className: 'table__cell flex  flexCenterVertical h100 w100I',
                           sortable: false,
                           Cell: props => <div className="h100 flex flexCenterVertical ">
-                            {props.value ? props.value : '___'}
+                            {props.value ? props.value : '--'}
                           </div>
                         },
                         {
@@ -1007,7 +1008,7 @@ export default class Metrics extends React.Component {
                           className: 'table__cell flex  flexCenterVertical h100 w100I',
                           sortable: false,
                           Cell: props => <div className="h100 flex flexCenterVertical ">
-                            {props.value ? props.value : '___'}
+                            {props.value ? props.value : '--'}
                           </div>
                         }
                       ]}
