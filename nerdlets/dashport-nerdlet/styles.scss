@@ -24,21 +24,21 @@
   background: none !important;
   border: none !important;
 }
-.box--metrics .popup-overlay  {
-    z-index: 999999 !important;
+.box--metrics .popup-overlay {
+  z-index: 999999 !important;
 }
-.buttonMetrics:hover{
-  background:none  !important;
+.buttonMetrics:hover {
+  background: none !important;
   border: none !important;
 }
-.buttonMetrics{
-  background:none  !important;
+.buttonMetrics {
+  background: none !important;
   border: none !important;
   position: absolute;
   right: -12px;
   top: -10px;
 }
-.modalMetrics{
+.modalMetrics {
   background: #000000 0 0 no-repeat padding-box;
   box-shadow: 0 3px 6px #00000029;
   border-radius: 9px;
@@ -52,6 +52,13 @@
 /////////////STYLES COMMON
 input[type="search"] {
   background: white !important;
+}
+
+a[target="_blank"]:after {
+  background-image: none !important;
+  margin-left: 0px !important;
+  position:unset !important;
+  width: 0px !important;
 }
 
 .flex {

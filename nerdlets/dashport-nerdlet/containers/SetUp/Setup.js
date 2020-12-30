@@ -284,11 +284,13 @@ export default class Setup extends React.Component {
           </div>
         );
       case 2:
-        return lastUpdate === 'never' ? (
+        return lastUpdate !== 'never' ? (
           <div className="apiKeys__stepTwo">
             <div className="stepTwo--title"> Fetch Datadog Elements</div>
             <div className="stepTwo__fetchSection">
-              <div className="flex flexCenterHorizontal flexCenterVertical">
+              <div className="flex flexCenterHorizontal flexCenterVertical"
+               style={{paddingLeft:"10px",paddingRight:"10px"}}
+              >
                 {fetchingData && (
                   <ProgressBar bgcolor="#007E8A" completed={completed} />
                 )}
@@ -319,7 +321,9 @@ export default class Setup extends React.Component {
           <div className="apiKeys__stepTwo">
             <div className="stepTwo--title">Fetch Datadog Elements</div>
             <div className="stepTwo__fetchSection">
-              <div className="flex flexCenterHorizontal flexCenterVertical">
+              <div className="flex flexCenterHorizontal flexCenterVertical"
+              style={{paddingLeft:"10px",paddingRight:"10px"}}
+              >
                 <ProgressBar bgcolor="#007E8A" completed={100} />
               </div>
               <div className="flex flexCenterHorizontal">
