@@ -816,6 +816,6 @@ export default class Infrastructure extends React.Component {
 }
 
 Infrastructure.propTypes = {
-  infrastructureDataGraph: PropTypes.number.isRequired,
+  infrastructureDataGraph: PropTypes.array.isRequired,
   infraestructureList: PropTypes.array.isRequired
 };

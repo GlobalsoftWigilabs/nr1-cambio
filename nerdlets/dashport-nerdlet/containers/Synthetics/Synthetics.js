@@ -94,9 +94,11 @@ export default class Synthetics extends React.Component {
         const data = [];
         for (const test of testList) {
             let loca = '';
+            if(test.locations){
             const limitData = test.locations.splice(0, 3);
-            for (const location of limitData) {
-                loca = ` ${loca} ${location} \n`;
+                for (const location of limitData) {
+                    loca = ` ${loca} ${location} \n`;
+                }
             }
             test.location = loca;
             data.push(test);
