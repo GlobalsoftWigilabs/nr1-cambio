@@ -419,7 +419,7 @@ export default class Accounts extends React.Component {
                               }}
                             >
                               <span style={{ marginLeft: '15px' }}>
-                                {props.value ? props.value : '----'}
+                                {props.value ? props.value : '-----'}
                               </span>
                             </div>
                           );
