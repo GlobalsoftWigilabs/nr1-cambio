@@ -7,17 +7,6 @@ import closeIcon from '../../images/close.svg';
 import { qregExr } from '../../dd2nr/transpiler/regexr';
 import { Modal } from 'react-bootstrap';
 
-const greenColor = '#007E8A';
-const textGray = '#767B7F';
-const grayColor = '#ADADAD';
-
-const DATA = [
-    { name: "pepe", age: 26, job: "farmer" },
-    { name: "pepe 2", age: 26, job: "farmer" },
-    { name: "pepe 3", age: 26, job: "farmer" },
-    { name: "pepe 4", age: 26, job: "farmer" },
-    { name: "pepe 5", age: 26, job: "farmer" }
-]
 
 export default class TableWidgets extends React.Component {
     constructor(props) {
