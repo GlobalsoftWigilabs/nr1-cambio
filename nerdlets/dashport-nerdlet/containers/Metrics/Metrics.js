@@ -163,7 +163,7 @@ export default class Metrics extends React.Component {
           listMetrics.push(iterator);
         }
       }
-      debugger
+      debugger;
       if (listMetrics.length === 0) {
         let date = new Date();
         date.setMinutes(date.getMinutes() - 60);
@@ -243,6 +243,7 @@ export default class Metrics extends React.Component {
 
       const { searchTermMetric, sortColumn } = this.state;
       const dataGraph = [];
+      // eslint-disable-next-line require-atomic-updates
       for (const metric of metrics) {
         if (metric.type) {
           const index = dataGraph.findIndex(
@@ -308,7 +309,8 @@ export default class Metrics extends React.Component {
     }
     switch (column) {
       case 'name':
-        const sortName = finalList.sort(function (a, b) {
+        // eslint-disable-next-line no-case-declarations
+        const sortName = finalList.sort(function(a, b) {
           if (a.name > b.name) {
             return valueOne;
           }
@@ -319,7 +321,8 @@ export default class Metrics extends React.Component {
         });
         return sortName;
       case 'host':
-        const sortHost = finalList.sort(function (a, b) {
+        // eslint-disable-next-line no-case-declarations
+        const sortHost = finalList.sort(function(a, b) {
           if (a.host > b.host) {
             return valueOne;
           }
@@ -330,7 +333,8 @@ export default class Metrics extends React.Component {
         });
         return sortHost;
       case 'integration':
-        const sortIntegration = finalList.sort(function (a, b) {
+        // eslint-disable-next-line no-case-declarations
+        const sortIntegration = finalList.sort(function(a, b) {
           if (a.integration > b.integration) {
             return valueOne;
           }
@@ -341,7 +345,8 @@ export default class Metrics extends React.Component {
         });
         return sortIntegration;
       case 'type':
-        const sortType = finalList.sort(function (a, b) {
+        // eslint-disable-next-line no-case-declarations
+        const sortType = finalList.sort(function(a, b) {
           if (a.type > b.type) {
             return valueOne;
           }
@@ -352,7 +357,8 @@ export default class Metrics extends React.Component {
         });
         return sortType;
       case 'unit':
-        const sortUnit = finalList.sort(function (a, b) {
+        // eslint-disable-next-line no-case-declarations
+        const sortUnit = finalList.sort(function(a, b) {
           if (a.unit > b.unit) {
             return valueOne;
           }
@@ -468,7 +474,7 @@ export default class Metrics extends React.Component {
   fetchData = async () => {
     this.setState({ loadingTable: true });
     const { rangeSelected } = this.state;
-    let date = new Date();
+    const date = new Date();
     switch (rangeSelected.value) {
       case '30 minutes':
         date.setMinutes(date.getMinutes() - 30);
@@ -675,12 +681,12 @@ export default class Metrics extends React.Component {
         throw err;
       }
       zip.file(`Metrics.csv`, csv);
-      zip.generateAsync({ type: 'blob' }).then(function (content) {
+      zip.generateAsync({ type: 'blob' }).then(function(content) {
         // see FileSaver.js
         saveAs(
           content,
           `Datadog ${date.getDate()}-${date.getMonth() +
-          1}-${date.getFullYear()}.zip`
+            1}-${date.getFullYear()}.zip`
         );
       });
     });
@@ -705,480 +711,481 @@ export default class Metrics extends React.Component {
         {loading ? (
           <Spinner type={Spinner.TYPE.DOT} />
         ) : (
-            <div className="mainContent">
-              <div className="mainContent__information">
-                <div className="information__box">
+          <div className="mainContent">
+            <div className="mainContent__information">
+              <div className="information__box">
+                <span
+                  className="box--title box--metrics"
+                  style={{
+                    color: greenColor,
+                    position: 'relative'
+                  }}
+                >
+                  Active Metrics{' '}
+                  <Popup
+                    trigger={
+                      <Button
+                        className="buttonMetrics"
+                        style={{ backgroundColor: null }}
+                      >
+                        <img
+                          alt="i"
+                          style={{ marginTop: 3 }}
+                          src={information}
+                        />
+                      </Button>
+                    }
+                    modal={{ borderRadius: 15 }}
+                  >
+                    <img className="modalMetrics" src={informationMetrics} />
+                  </Popup>
+                </span>
+                <div>
                   <span
-                    className="box--title box--metrics"
+                    className="box--quantity"
                     style={{
-                      color: greenColor,
-                      position: 'relative'
+                      color: greenColor
                     }}
                   >
-                    Active Metrics{' '}
-                    <Popup
-                      trigger={
-                        <Button
-                          className="buttonMetrics"
-                          style={{ backgroundColor: null }}
-                        >
-                          <img
-                            alt="i"
-                            style={{ marginTop: 3 }}
-                            src={information}
-                          />
-                        </Button>
-                      }
-                      modal={{ borderRadius: 15 }}
-                    >
-                      <img className="modalMetrics" src={informationMetrics} />
-                    </Popup>
+                    {metricsTotal}
                   </span>
-                  <div onClick={() => alert('Action')} className="pointer">
-                    <span
-                      className="box--quantity"
-                      style={{
-                        color: greenColor
-                      }}
-                    >
-                      {metricsTotal}
-                    </span>
-                  </div>
-                </div>
-                <div className="box-content">
-                  <div
-                    className="f14"
-                    style={{
-                      height: '50%',
-                      display: 'flex',
-                      alignItems: 'flex-end',
-                      justifyContent: 'center'
-                    }}
-                  >
-                    <span>{dataGraph.length !== 0 && 'Metrics by type'}</span>
-                  </div>
-                  <div
-                    style={{ height: '50%', width: '95%' }}
-                    className="graphsBarAlert__containeScroll"
-                  >
-                    {dataGraph &&
-                      dataGraph.map((data, index) => {
-                        const { name, uv, pv } = data;
-                        const total = (uv * 100) / (uv + pv);
-                        return (
-                          <div
-                            key={index}
-                            className="w100"
-                            style={{
-                              paddingBottom: '10px',
-                              paddingTop: '10px',
-                              width: '94%'
-                            }}
-                          >
-                            <Bar
-                              bgColor="#ECEEEE"
-                              bgcolorMain="#007E8A"
-                              title={name}
-                              quantityPercentage={total}
-                              quantity={uv}
-                            />
-                          </div>
-                        );
-                      })}
-                  </div>
                 </div>
               </div>
-              <div className="mainContent__tableContent">
-                <div className="tableContent__filterMetric">
-                  <div className="filters__search">
-                    <div className="search__content">
-                      <BsSearch size="10px" color={'#767B7F'} />
-                      <SearchInput
-                        className="filters--searchInput"
-                        onChange={this.searchUpdated}
-                      />
-                    </div>
-                  </div>
-                  <Select
-                    classNamePrefix="react-select"
-                    styles={this.customStyles}
-                    isSearchable={false}
-                    options={timeRanges}
-                    onChange={this.handleRange}
-                    value={rangeSelected}
-                    placeholder="All"
-                  />
-                  <div
-                    className="buttonFetchMetric pointer"
-                    onClick={() => this.fetchData()}
-                  >
-                    Fetch
+              <div className="box-content">
+                <div
+                  className="f14"
+                  style={{
+                    height: '50%',
+                    display: 'flex',
+                    alignItems: 'flex-end',
+                    justifyContent: 'center'
+                  }}
+                >
+                  <span>{dataGraph.length !== 0 && 'Metrics by type'}</span>
                 </div>
-                  <div
-                    className={
-                      finalList.length === 0
-                        ? 'pointerBlock flex flexCenterVertical'
-                        : 'pointer flex flexCenterVertical'
-                    }
-                    onClick={() => {
-                      if (finalList.length !== 0) this.downloadData();
-                    }}
-                  >
-                    <Tooltip
-                      placementType={Tooltip.PLACEMENT_TYPE.BOTTOM}
-                      text="Download"
-                    >
-                      <img
-                        src={iconDownload}
-                        style={{ marginLeft: '20px' }}
-                        height="18px"
-                      />
-                    </Tooltip>
-                  </div>
-                  {finalList.length !== 0 && (
-                    <Pagination
-                      page={pagePag}
-                      pages={pages}
-                      upPage={this.upPage}
-                      goToPage={this.changePage}
-                      downPage={this.downPage}
-                    />
-                  )}
-                </div>
-                <div className="tableContent__table">
-                  <div className="h100">
-                    <ReactTable
-                      loading={loadingTable}
-                      loadingText={'Processing...'}
-                      page={pagePag}
-                      showPagination={false}
-                      resizable={false}
-                      data={finalList}
-                      defaultPageSize={totalRows}
-                      getTrProps={(state, rowInfo) => {
-                        {
-                          if (rowInfo) {
-                            return {
-                              style: {
-                                background:
-                                  rowInfo.index % 2 ? '#F7F7F8' : 'white',
-                                borderBottom: 'none',
-                                display: 'grid',
-                                gridTemplate: '1fr/ 35% 15% 10% 15% 15% 10%'
-                              }
-                            };
-                          } else {
-                            return {
-                              style: {
-                                borderBottom: 'none',
-                                display: 'grid',
-                                gridTemplate: '1fr/ 35% 15% 10% 15% 15% 10%'
-                              }
-                            };
-                          }
-                        }
-                      }}
-                      getTrGroupProps={() => {
-                        return {
-                          style: {
-                            borderBottom: 'none'
-                          }
-                        };
-                      }}
-                      getNoDataProps={() => {
-                        return {
-                          style: {
-                            marginTop: '60px'
-                          }
-                        };
-                      }}
-                      getTheadTrProps={() => {
-                        return {
-                          style: {
-                            background: '#F7F7F8',
-                            color: '#333333',
-                            fontWeight: 'bold',
-                            display: 'grid',
-                            gridTemplate: ' 1fr/ 35% 15% 10% 15% 15% 10%'
-                          }
-                        };
-                      }}
-                      columns={[
-                        {
-                          Header: () => (
-                            <div className="table__headerAlignRight">
-                              <div
-                                className="pointer flex flexCenterHorizontal"
-                                style={{ marginLeft: '15px' }}
-                                onClick={() => {
-                                  this.setSortColumn('name');
-                                }}
-                              >
-                                NAME
-                              <div className="flexColumn table__sort">
-                                  <ArrowTop
-                                    color={
-                                      sortColumn.column === 'name' &&
-                                        sortColumn.order === 'ascendant'
-                                        ? 'black'
-                                        : 'gray'
-                                    }
-                                  />
-                                  <ArrowDown
-                                    color={
-                                      sortColumn.column === 'name' &&
-                                        sortColumn.order === 'descent'
-                                        ? 'black'
-                                        : 'gray'
-                                    }
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ),
-                          headerClassName: ' w100I',
-                          className: '  table__cell h100 w100I',
-                          accessor: 'name',
-                          sortable: false,
-                          Cell: props => {
-                            return (
-                              <div
-                                className="h100 flex flexCenterVertical"
-                                style={{
-                                  background:
-                                    props.index % 2 ? '#F7F7F8' : 'white'
-                                }}
-                              >
-                                <span style={{ marginLeft: '15px' }}>
-                                  {props.value ? props.value : '--'}
-                                </span>
-                              </div>
-                            );
-                          }
-                        },
-                        {
-                          Header: () => (
-                            <div className="table__headerAlignRight">
-                              <div
-                                className="pointer flex "
-                                onClick={() => {
-                                  this.setSortColumn('integration');
-                                }}
-                              >
-                                INTEGRATION
-                              <div className="flexColumn table__sort">
-                                  <ArrowTop
-                                    color={
-                                      sortColumn.column === 'integration' &&
-                                        sortColumn.order === 'ascendant'
-                                        ? 'black'
-                                        : 'gray'
-                                    }
-                                  />
-                                  <ArrowDown
-                                    color={
-                                      sortColumn.column === 'integration' &&
-                                        sortColumn.order === 'descent'
-                                        ? 'black'
-                                        : 'gray'
-                                    }
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ),
-                          headerClassName: 'w100I',
-                          accessor: 'integration',
-                          className:
-                            'table__cell flex flexCenterVertical h100 w100I',
-                          sortable: false,
-                          Cell: props => (
-                            <div className="h100 flex flexCenterVertical">
-                              {props.value ? props.value : '--'}
-                            </div>
-                          )
-                        },
-                        {
-                          Header: () => (
-                            <div className="table__headerAlignRight">
-                              <div
-                                className="pointer flex "
-                                onClick={() => {
-                                  this.setSortColumn('type');
-                                }}
-                              >
-                                TYPE
-                              <div className="flexColumn table__sort">
-                                  <ArrowTop
-                                    color={
-                                      sortColumn.column === 'type' &&
-                                        sortColumn.order === 'ascendant'
-                                        ? 'black'
-                                        : 'gray'
-                                    }
-                                  />
-                                  <ArrowDown
-                                    color={
-                                      sortColumn.column === 'type' &&
-                                        sortColumn.order === 'descent'
-                                        ? 'black'
-                                        : 'gray'
-                                    }
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ),
-                          headerClassName: 'w100I',
-                          accessor: 'type',
-                          className:
-                            'table__cell flex  flexCenterVertical h100 w100I',
-                          sortable: false,
-                          Cell: props => (
-                            <div className="h100 flex flexCenterVertical ">
-                              {props.value ? props.value : '--'}
-                            </div>
-                          )
-                        },
-                        {
-                          Header: () => (
-                            <div className="table__headerAlignRight">
-                              <div
-                                className="pointer flex "
-                                onClick={() => {
-                                  this.setSortColumn('host');
-                                }}
-                              >
-                                HOST
-                              <div className="flexColumn table__sort">
-                                  <ArrowTop
-                                    color={
-                                      sortColumn.column === 'host' &&
-                                        sortColumn.order === 'ascendant'
-                                        ? 'black'
-                                        : 'gray'
-                                    }
-                                  />
-                                  <ArrowDown
-                                    color={
-                                      sortColumn.column === 'host' &&
-                                        sortColumn.order === 'descent'
-                                        ? 'black'
-                                        : 'gray'
-                                    }
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ),
-                          headerClassName: 'w100I',
-                          accessor: 'host',
-                          className:
-                            'table__cell flex  flexCenterVertical h100 w100I',
-                          sortable: false,
-                          Cell: props => {
-                            let hosts = '';
-                            for (const host of props.value) {
-                              hosts = `${hosts} ${host} \n`;
-                            }
-                            return (
-                              <div className="h100 flex flexCenterVertical ">
-                                {hosts}
-                              </div>
-                            );
-                          }
-                        },
-                        {
-                          Header: () => (
-                            <div className="table__headerAlignRight">
-                              <div
-                                className="pointer flex "
-                                onClick={() => {
-                                  this.setSortColumn('unit');
-                                }}
-                              >
-                                UNIT
-                              <div className="flexColumn table__sort">
-                                  <ArrowTop
-                                    color={
-                                      sortColumn.column === 'unit' &&
-                                        sortColumn.order === 'ascendant'
-                                        ? 'black'
-                                        : 'gray'
-                                    }
-                                  />
-                                  <ArrowDown
-                                    color={
-                                      sortColumn.column === 'unit' &&
-                                        sortColumn.order === 'descent'
-                                        ? 'black'
-                                        : 'gray'
-                                    }
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ),
-                          headerClassName: 'w100I',
-                          accessor: 'unit',
-                          className:
-                            'table__cell flex  flexCenterVertical h100 w100I',
-                          sortable: false,
-                          Cell: props => (
-                            <div className="h100 flex flexCenterVertical ">
-                              {props.value ? props.value : '--'}
-                            </div>
-                          )
-                        },
-                        {
-                          Header: () => (
-                            <div className="table__headerAlignRight">
-                              <div
-                                className="pointer flex "
-                                onClick={() => {
-                                  this.setSortColumn('unit');
-                                }}
-                              >
-                                AGNN.TYPE
-                              <div className="flexColumn table__sort">
-                                  <ArrowTop
-                                    color={
-                                      sortColumn.column === 'unit' &&
-                                        sortColumn.order === 'ascendant'
-                                        ? 'black'
-                                        : 'gray'
-                                    }
-                                  />
-                                  <ArrowDown
-                                    color={
-                                      sortColumn.column === 'unit' &&
-                                        sortColumn.order === 'descent'
-                                        ? 'black'
-                                        : 'gray'
-                                    }
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          ),
-                          headerClassName: 'w100I',
-                          accessor: 'agg',
-                          className:
-                            'table__cell flex  flexCenterVertical h100 w100I',
-                          sortable: false,
-                          Cell: props => (
-                            <div className="h100 flex flexCenterVertical ">
-                              {props.value ? props.value : '--'}
-                            </div>
-                          )
-                        }
-                      ]}
-                    />
-                  </div>
+                <div
+                  style={{ height: '50%', width: '95%' }}
+                  className="graphsBarAlert__containeScroll"
+                >
+                  {dataGraph &&
+                    dataGraph.map((data, index) => {
+                      const { name, uv, pv } = data;
+                      const total = (uv * 100) / (uv + pv);
+                      return (
+                        <div
+                          key={index}
+                          className="w100"
+                          style={{
+                            paddingBottom: '10px',
+                            paddingTop: '10px',
+                            width: '94%'
+                          }}
+                        >
+                          <Bar
+                            bgColor="#ECEEEE"
+                            bgcolorMain="#007E8A"
+                            title={name}
+                            quantityPercentage={total}
+                            quantity={uv}
+                          />
+                        </div>
+                      );
+                    })}
                 </div>
               </div>
             </div>
-          )}
+            <div className="mainContent__tableContent">
+              <div className="tableContent__filterMetric">
+                <div className="filters__search">
+                  <div className="search__content">
+                    <BsSearch size="10px" color="#767B7F" />
+                    <SearchInput
+                      className="filters--searchInput"
+                      onChange={this.searchUpdated}
+                    />
+                  </div>
+                </div>
+                <Select
+                  classNamePrefix="react-select"
+                  styles={this.customStyles}
+                  isSearchable={false}
+                  options={timeRanges}
+                  onChange={this.handleRange}
+                  value={rangeSelected}
+                  placeholder="All"
+                />
+                <div
+                  className="buttonFetchMetric pointer"
+                  onClick={() => this.fetchData()}
+                >
+                  Fetch
+                </div>
+                <div
+                  className={
+                    finalList.length === 0
+                      ? 'pointerBlock flex flexCenterVertical'
+                      : 'pointer flex flexCenterVertical'
+                  }
+                  onClick={() => {
+                    if (finalList.length !== 0) this.downloadData();
+                  }}
+                >
+                  <Tooltip
+                    placementType={Tooltip.PLACEMENT_TYPE.BOTTOM}
+                    text="Download"
+                  >
+                    <img
+                      src={iconDownload}
+                      style={{ marginLeft: '20px' }}
+                      height="18px"
+                    />
+                  </Tooltip>
+                </div>
+                {finalList.length !== 0 && (
+                  <Pagination
+                    page={pagePag}
+                    pages={pages}
+                    upPage={this.upPage}
+                    goToPage={this.changePage}
+                    downPage={this.downPage}
+                  />
+                )}
+              </div>
+              <div className="tableContent__table">
+                <div className="h100">
+                  <ReactTable
+                    loading={loadingTable}
+                    loadingText="Processing..."
+                    page={pagePag}
+                    showPagination={false}
+                    resizable={false}
+                    data={finalList}
+                    defaultPageSize={totalRows}
+                    getTrProps={(state, rowInfo) => {
+                      // eslint-disable-next-line no-lone-blocks
+                      {
+                        if (rowInfo) {
+                          return {
+                            style: {
+                              background:
+                                rowInfo.index % 2 ? '#F7F7F8' : 'white',
+                              borderBottom: 'none',
+                              display: 'grid',
+                              gridTemplate: '1fr/ 35% 15% 10% 15% 15% 10%'
+                            }
+                          };
+                        } else {
+                          return {
+                            style: {
+                              borderBottom: 'none',
+                              display: 'grid',
+                              gridTemplate: '1fr/ 35% 15% 10% 15% 15% 10%'
+                            }
+                          };
+                        }
+                      }
+                    }}
+                    getTrGroupProps={() => {
+                      return {
+                        style: {
+                          borderBottom: 'none'
+                        }
+                      };
+                    }}
+                    getNoDataProps={() => {
+                      return {
+                        style: {
+                          marginTop: '60px'
+                        }
+                      };
+                    }}
+                    getTheadTrProps={() => {
+                      return {
+                        style: {
+                          background: '#F7F7F8',
+                          color: '#333333',
+                          fontWeight: 'bold',
+                          display: 'grid',
+                          gridTemplate: ' 1fr/ 35% 15% 10% 15% 15% 10%'
+                        }
+                      };
+                    }}
+                    columns={[
+                      {
+                        Header: () => (
+                          <div className="table__headerAlignRight">
+                            <div
+                              className="pointer flex flexCenterHorizontal"
+                              style={{ marginLeft: '15px' }}
+                              onClick={() => {
+                                this.setSortColumn('name');
+                              }}
+                            >
+                              NAME
+                              <div className="flexColumn table__sort">
+                                <ArrowTop
+                                  color={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'ascendant'
+                                      ? 'black'
+                                      : 'gray'
+                                  }
+                                />
+                                <ArrowDown
+                                  color={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'descent'
+                                      ? 'black'
+                                      : 'gray'
+                                  }
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        ),
+                        headerClassName: ' w100I',
+                        className: '  table__cell h100 w100I',
+                        accessor: 'name',
+                        sortable: false,
+                        Cell: props => {
+                          return (
+                            <div
+                              className="h100 flex flexCenterVertical"
+                              style={{
+                                background:
+                                  props.index % 2 ? '#F7F7F8' : 'white'
+                              }}
+                            >
+                              <span style={{ marginLeft: '15px' }}>
+                                {props.value ? props.value : '--'}
+                              </span>
+                            </div>
+                          );
+                        }
+                      },
+                      {
+                        Header: () => (
+                          <div className="table__headerAlignRight">
+                            <div
+                              className="pointer flex "
+                              onClick={() => {
+                                this.setSortColumn('integration');
+                              }}
+                            >
+                              INTEGRATION
+                              <div className="flexColumn table__sort">
+                                <ArrowTop
+                                  color={
+                                    sortColumn.column === 'integration' &&
+                                    sortColumn.order === 'ascendant'
+                                      ? 'black'
+                                      : 'gray'
+                                  }
+                                />
+                                <ArrowDown
+                                  color={
+                                    sortColumn.column === 'integration' &&
+                                    sortColumn.order === 'descent'
+                                      ? 'black'
+                                      : 'gray'
+                                  }
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        ),
+                        headerClassName: 'w100I',
+                        accessor: 'integration',
+                        className:
+                          'table__cell flex flexCenterVertical h100 w100I',
+                        sortable: false,
+                        Cell: props => (
+                          <div className="h100 flex flexCenterVertical">
+                            {props.value ? props.value : '--'}
+                          </div>
+                        )
+                      },
+                      {
+                        Header: () => (
+                          <div className="table__headerAlignRight">
+                            <div
+                              className="pointer flex "
+                              onClick={() => {
+                                this.setSortColumn('type');
+                              }}
+                            >
+                              TYPE
+                              <div className="flexColumn table__sort">
+                                <ArrowTop
+                                  color={
+                                    sortColumn.column === 'type' &&
+                                    sortColumn.order === 'ascendant'
+                                      ? 'black'
+                                      : 'gray'
+                                  }
+                                />
+                                <ArrowDown
+                                  color={
+                                    sortColumn.column === 'type' &&
+                                    sortColumn.order === 'descent'
+                                      ? 'black'
+                                      : 'gray'
+                                  }
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        ),
+                        headerClassName: 'w100I',
+                        accessor: 'type',
+                        className:
+                          'table__cell flex  flexCenterVertical h100 w100I',
+                        sortable: false,
+                        Cell: props => (
+                          <div className="h100 flex flexCenterVertical ">
+                            {props.value ? props.value : '--'}
+                          </div>
+                        )
+                      },
+                      {
+                        Header: () => (
+                          <div className="table__headerAlignRight">
+                            <div
+                              className="pointer flex "
+                              onClick={() => {
+                                this.setSortColumn('host');
+                              }}
+                            >
+                              HOST
+                              <div className="flexColumn table__sort">
+                                <ArrowTop
+                                  color={
+                                    sortColumn.column === 'host' &&
+                                    sortColumn.order === 'ascendant'
+                                      ? 'black'
+                                      : 'gray'
+                                  }
+                                />
+                                <ArrowDown
+                                  color={
+                                    sortColumn.column === 'host' &&
+                                    sortColumn.order === 'descent'
+                                      ? 'black'
+                                      : 'gray'
+                                  }
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        ),
+                        headerClassName: 'w100I',
+                        accessor: 'host',
+                        className:
+                          'table__cell flex  flexCenterVertical h100 w100I',
+                        sortable: false,
+                        Cell: props => {
+                          let hosts = '';
+                          for (const host of props.value) {
+                            hosts = `${hosts} ${host} \n`;
+                          }
+                          return (
+                            <div className="h100 flex flexCenterVertical ">
+                              {hosts}
+                            </div>
+                          );
+                        }
+                      },
+                      {
+                        Header: () => (
+                          <div className="table__headerAlignRight">
+                            <div
+                              className="pointer flex "
+                              onClick={() => {
+                                this.setSortColumn('unit');
+                              }}
+                            >
+                              UNIT
+                              <div className="flexColumn table__sort">
+                                <ArrowTop
+                                  color={
+                                    sortColumn.column === 'unit' &&
+                                    sortColumn.order === 'ascendant'
+                                      ? 'black'
+                                      : 'gray'
+                                  }
+                                />
+                                <ArrowDown
+                                  color={
+                                    sortColumn.column === 'unit' &&
+                                    sortColumn.order === 'descent'
+                                      ? 'black'
+                                      : 'gray'
+                                  }
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        ),
+                        headerClassName: 'w100I',
+                        accessor: 'unit',
+                        className:
+                          'table__cell flex  flexCenterVertical h100 w100I',
+                        sortable: false,
+                        Cell: props => (
+                          <div className="h100 flex flexCenterVertical ">
+                            {props.value ? props.value : '--'}
+                          </div>
+                        )
+                      },
+                      {
+                        Header: () => (
+                          <div className="table__headerAlignRight">
+                            <div
+                              className="pointer flex "
+                              onClick={() => {
+                                this.setSortColumn('unit');
+                              }}
+                            >
+                              AGNN.TYPE
+                              <div className="flexColumn table__sort">
+                                <ArrowTop
+                                  color={
+                                    sortColumn.column === 'unit' &&
+                                    sortColumn.order === 'ascendant'
+                                      ? 'black'
+                                      : 'gray'
+                                  }
+                                />
+                                <ArrowDown
+                                  color={
+                                    sortColumn.column === 'unit' &&
+                                    sortColumn.order === 'descent'
+                                      ? 'black'
+                                      : 'gray'
+                                  }
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        ),
+                        headerClassName: 'w100I',
+                        accessor: 'agg',
+                        className:
+                          'table__cell flex  flexCenterVertical h100 w100I',
+                        sortable: false,
+                        Cell: props => (
+                          <div className="h100 flex flexCenterVertical ">
+                            {props.value ? props.value : '--'}
+                          </div>
+                        )
+                      }
+                    ]}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }

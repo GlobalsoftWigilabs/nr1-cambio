@@ -7,33 +7,28 @@ export default class ModalAlert extends React.Component {
   renderCelll = (cell, content, color) => {
     return (
       <>
-        <div style={{ display: 'flex' }}>
+        <div
+          style={{
+            width: '100%',
+            backgroundColor: `${color}`,
+            height: '3vw',
+            alignItems: 'center',
+            display: 'flex'
+          }}
+        >
           <div
             style={{
-              width: '30%',
               color: '#333333',
               fontWeight: 'bold',
-              backgroundColor: `${color}`,
-              display: 'flex',
-              height: '3vw',
-              alignItems: 'center',
-              fontSize: '0.81vw'
+              fontSize: '0.81vw',
+              width: '30%'
             }}
           >
-            <div
-              className="flex "
-              style={{ marginLeft: '15px' }}
-            >
+            <div className="flex" style={{ marginLeft: '15px' }}>
               {cell}
             </div>
           </div>
-          <div
-            style={{
-              width: '70%',
-              backgroundColor: `${color}`,
-              display: 'flex'
-            }}
-          >
+          <div style={{ width: '70%' }}>
             <div className="h100 flex flexCenterVertical">{content}</div>
           </div>
         </div>
@@ -56,10 +51,13 @@ export default class ModalAlert extends React.Component {
             <Modal.Header>
               <div className=" modalWidgets__closeIcon">
                 <div className="infoAditional--title">{`${infoAditional.name}`}</div>
-                <div className="flex" style={{
+                <div
+                  className="flex"
+                  style={{
                     justifyContent: 'space-between'
-                }} >
-                  <div >&nbsp;</div>
+                  }}
+                >
+                  <div>&nbsp;</div>
                   <img
                     onClick={() => {
                       _onClose();
@@ -89,33 +87,29 @@ export default class ModalAlert extends React.Component {
                       '#f7f7f8'
                     )}
                     {this.renderCelll('QUERY', infoAditional.query, 'white')}
-                    <div style={{ display: 'flex' }}>
+
+                    <div
+                      style={{
+                        width: '100%',
+                        backgroundColor: '#f7f7f8',
+                        height: '3vw',
+                        alignItems: 'center',
+                        display: 'flex'
+                      }}
+                    >
                       <div
                         style={{
-                          width: '30%',
                           color: '#333333',
                           fontWeight: 'bold',
-                          backgroundColor: '#f7f7f8',
-                          display: 'flex',
-                          height: '3vw',
-                          alignItems: 'center',
-                          fontSize: '0.81vw'
+                          fontSize: '0.81vw',
+                          width: '30%'
                         }}
                       >
-                        <div
-                          className="flex "
-                          style={{ marginLeft: '15px' }}
-                        >
+                        <div className="flex " style={{ marginLeft: '15px' }}>
                           MONITOR OPTIONS
                         </div>
                       </div>
-                      <div
-                        style={{
-                          width: '70%',
-                          backgroundColor: '#f7f7f8',
-                          display: 'flex'
-                        }}
-                      >
+                      <div style={{ width: '70%' }}>
                         <div className="h100" />
                       </div>
                     </div>
@@ -175,15 +169,7 @@ export default class ModalAlert extends React.Component {
                       {this.renderCelll(
                         'THRESHOLDS',
                         infoAditional.thresholds
-                          ? `${
-                              infoAditional.thresholds.critical
-                                ? `critical: ${infoAditional.thresholds.critical}`
-                                : ''
-                            }  ${
-                              infoAditional.thresholds.warning
-                                ? `warning: ${infoAditional.thresholds.warning}`
-                                : ''
-                            }`
+                          ? infoAditional.thresholds
                           : '--',
                         '#f7f7f8'
                       )}
