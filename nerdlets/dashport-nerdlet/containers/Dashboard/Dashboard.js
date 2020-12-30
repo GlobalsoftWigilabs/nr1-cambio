@@ -995,10 +995,9 @@ export default class Dashboard extends React.Component {
                           let txtDescription = '-----';
                           if (props.value) {
                             txtDescription = props.value;
-                            if (txtDescription.length > 300) {
+                            if (txtDescription.length > 100) {
                               txtDescription = `${txtDescription.substring(
-                                0,
-                                301
+                                0,101
                               )}...`;
                             }
                           }
@@ -1011,7 +1010,7 @@ export default class Dashboard extends React.Component {
                       },
                       {
                         Header: () => (
-                          <div className="table__header">
+                          <div className="table__header flexCenterHorizontal">
                             <div
                               className="pointer flex "
                               onClick={() => {
@@ -1043,10 +1042,10 @@ export default class Dashboard extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'layoutType',
                         className:
-                          'table__cell flex flexCenterVertical h100 w100I',
+                          'table__cell flex flexCenterVertical flexCenterHorizontal h100 w100I',
                         sortable: false,
                         Cell: props => (
-                          <div className="h100 flex flexCenterVertical ">
+                          <div className="h100 flex flexCenterHorizontals flexCenterVertical ">
                             {props.value}
                           </div>
                         )
