@@ -532,13 +532,13 @@ const _parseSynthetics = async (
     view: 'synthetics',
     data: {
       count: 0,
-      list: [],
-      locations: []
+      test: []
     }
   };
   const errors = [];
 
   try {
+    // TEST
     let sizeData = await functionReaderCollection('Get all tests');
     let data = [];
     for (let i = 0; i < sizeData.length; i++) {
@@ -549,30 +549,26 @@ const _parseSynthetics = async (
       }
     }
     if (data && data instanceof Array) {
-      data = data.map(x => {
-        return {
-          url: x.config.request.url,
-          type: x.type
-        };
-      });
       obj.data.count = data.length;
-      obj.data.list = data;
+      obj.data.test = data;
     }
-    sizeData = await functionReaderCollection('Get available locations');
-    data = [];
-    for (let i = 0; i < sizeData.length; i++) {
-      let listo = [];
-      listo = await functionReader(
-        'Get available locations',
-        `Get available locations-${i}`
-      );
-      for (const iterator of listo) {
-        data.push(iterator);
-      }
-    }
-    if (data && data instanceof Array) {
-      obj.data.locations = data;
-    }
+    // sizeData = await functionReaderCollection('Get available locations');
+    // data = [];
+    // for (let i = 0; i < sizeData.length; i++) {
+    //   let listo = [];
+    //   listo = await functionReader(
+    //     'Get available locations',
+    //     `Get available locations-${i}`
+    //   );
+    //   for (const iterator of listo) {
+    //     data.push(iterator);
+    //   }
+    // }
+    // debugger
+    // if (data && data instanceof Array) {
+    //   obj.data.locations = data;
+    // }
+    // debugger
   } catch (error) {
     const response = {
       message: error.message,

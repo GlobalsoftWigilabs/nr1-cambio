@@ -10,7 +10,7 @@ import Status from './Status';
 import Alerts from './Alerts/Alerts';
 import Sample from './Sample/Sample.js';
 import Infrastructure from './Infraestructure/Infrastructure';
-import Synthetics from './Synthetics';
+import Synthetics from './Synthetics/Synthetics';
 import Accounts from './Accounts/Accounts';
 import Logs from './Logs/Logs';
 import Metrics from './Metrics/Metrics';
@@ -86,9 +86,8 @@ export default class App extends React.Component {
       metricsTotal: 0,
       metrics: [],
       // SYNTHETICS
-      syntheticsTotal: 0,
-      dataTableUrlService: [],
-      availableLocations: [],
+      testTotal: 0,
+      testList: [],
       // ACCOUNTS
       accountsTotal: 0,
       dataTableAccounts: [],
@@ -163,8 +162,9 @@ export default class App extends React.Component {
       value === 3 ||
       value === 6 ||
       value === 4 ||
-      value === 8 || 
-      value === 5
+      value === 8 ||
+      value === 5 || 
+      value === 7
     ) {
       this.setState({ selectedMenu: value });
     } else {
@@ -445,7 +445,6 @@ export default class App extends React.Component {
         'logs-pipelines',
         this.reportLogFetch
       );
-
       const pipelines = [];
       for (let i = 0; i < sizePipelines.length; i++) {
         let page = [];
@@ -550,55 +549,54 @@ export default class App extends React.Component {
             listSynthetics.push(iterator);
           }
         }
-        const sizeLocations = await readNerdStorageOnlyCollection(
-          accountId,
-          'synthetics-locations',
-          this.reportLogFetch
-        );
-        const listLocations = [];
-        for (let i = 0; i < sizeLocations.length; i++) {
-          let page = [];
-          page = await readNerdStorage(
-            accountId,
-            'synthetics-locations',
-            `synthetics-${i}`,
-            this.reportLogFetch
-          );
-          for (const iterator of page) {
-            listLocations.push(iterator);
-          }
-        }
+        // const sizeLocations = await readNerdStorageOnlyCollection(
+        //   accountId,
+        //   'synthetics-locations',
+        //   this.reportLogFetch
+        // );
+        // const listLocations = [];
+        // for (let i = 0; i < sizeLocations.length; i++) {
+        //   let page = [];
+        //   page = await readNerdStorage(
+        //     accountId,
+        //     'synthetics-locations',
+        //     `synthetics-${i}`,
+        //     this.reportLogFetch
+        //   );
+        //   for (const iterator of page) {
+        //     listLocations.push(iterator);
+        //   }
+        // }
         synthetics.list = listSynthetics;
-        synthetics.locations = listLocations;
-        const { list, locations, count } = synthetics;
-        const urls = [];
-        countColor = 1;
-        for (const element of list) {
-          if (element.type === 'api') {
-            urls.push({
-              url: element.url,
-              api: true,
-              browser: false,
-              color: countColor % 2 ? 'white' : '#F7F7F8'
-            });
-          } else {
-            urls.push({
-              url: element.url,
-              api: false,
-              browser: true,
-              color: countColor % 2 ? 'white' : '#F7F7F8'
-            });
-          }
-          countColor += 1;
-        }
-        const locationsArray = [];
-        for (const element of locations) {
-          locationsArray.push(`${element.id}  /  ${element.name}`);
-        }
+        // synthetics.locations = listLocations;
+        // const { list, locations, count } = synthetics;
+        // const urls = [];
+        // countColor = 1;
+        // for (const element of list) {
+        //   if (element.type === 'api') {
+        //     urls.push({
+        //       url: element.url,
+        //       api: true,
+        //       browser: false,
+        //       color: countColor % 2 ? 'white' : '#F7F7F8'
+        //     });
+        //   } else {
+        //     urls.push({
+        //       url: element.url,
+        //       api: false,
+        //       browser: true,
+        //       color: countColor % 2 ? 'white' : '#F7F7F8'
+        //     });
+        //   }
+        //   countColor += 1;
+        // }
+        // const locationsArray = [];
+        // for (const element of locations) {
+        //   locationsArray.push(`${element.id}  /  ${element.name}`);
+        // }
         this.setState({
-          syntheticsTotal: count,
-          availableLocations: locationsArray,
-          dataTableUrlService: urls
+          testTotal: listSynthetics.length,
+          testList: listSynthetics
         });
       }
       if (fetchingData) {
@@ -878,10 +876,10 @@ export default class App extends React.Component {
         break;
       case 'synthetics':
         {
-          const list = data.data.list;
-          const listLocations = data.data.locations;
+          const list = data.data.test;
+          // const listLocations = data.data.locations;
           data.data.list = [];
-          data.data.locations = [];
+          // data.data.locations = [];
           const syntheticObj = data.data;
           await writeNerdStorage(
             accountId,
@@ -902,18 +900,18 @@ export default class App extends React.Component {
               );
             }
           }
-          const pagesLocations = this.pagesOfData(listLocations);
-          for (const keyLocation in pagesLocations) {
-            if (pagesLocations[keyLocation]) {
-              await writeNerdStorage(
-                accountId,
-                `${collectionName}-locations`,
-                `${collectionName}-${keyLocation}`,
-                pagesLocations[keyLocation],
-                this.reportLogFetch
-              );
-            }
-          }
+          // const pagesLocations = this.pagesOfData(listLocations);
+          // for (const keyLocation in pagesLocations) {
+          //   if (pagesLocations[keyLocation]) {
+          //     await writeNerdStorage(
+          //       accountId,
+          //       `${collectionName}-locations`,
+          //       `${collectionName}-${keyLocation}`,
+          //       pagesLocations[keyLocation],
+          //       this.reportLogFetch
+          //     );
+          //   }
+          // }
         }
         break;
       case 'accounts':
@@ -1797,9 +1795,8 @@ export default class App extends React.Component {
       infraestructureList,
       metricsTotal,
       metrics,
-      syntheticsTotal,
-      availableLocations,
-      dataTableUrlService,
+      testTotal, 
+      testList,
       accountsTotal,
       dataTableAccounts,
       fetchingData,
@@ -1882,9 +1879,8 @@ export default class App extends React.Component {
       case 7:
         return (
           <Synthetics
-            syntheticsTotal={syntheticsTotal}
-            availableLocations={availableLocations}
-            dataTableUrlService={dataTableUrlService}
+          testTotal={testTotal}
+          testList={testList}
           />
         );
       case 8:
