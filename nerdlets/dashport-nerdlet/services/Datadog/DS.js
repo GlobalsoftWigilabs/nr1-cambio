@@ -404,23 +404,52 @@ const _parseLogs = async (
   const obj = {
     view: 'logs',
     data: {
-      indexes: 0,
-      pipelines: 0
+      archives: [],
+      pipelines: [],
+      metricsLogs:[]
     }
   };
   try {
-    let sizeData = await functionReaderCollection('Get all indexes');
+    //Get all archives
+    let sizeData = await functionReaderCollection('Get all archives');
     let data = [];
     for (let i = 0; i < sizeData.length; i++) {
       let listo = [];
-      listo = await functionReader('Get all indexes', `Get all indexes-${i}`);
+      listo = await functionReader('Get all archives', `Get all archives-${i}`);
       for (const iterator of listo) {
         data.push(iterator);
       }
     }
     if (data) {
-      obj.data.indexes = data.length;
+      obj.data.archives = data;
     }
+    //Logs based in metrics
+    sizeData = await functionReaderCollection('Get all log based metrics');
+    data = [];
+    for (let i = 0; i < sizeData.length; i++) {
+      let listo = [];
+      listo = await functionReader('Get all log based metrics', `Get all log based metrics-${i}`);
+      for (const iterator of listo) {
+        data.push(iterator);
+      }
+    }
+    if (data) {
+      obj.data.metricsLogs = data;
+    }
+    // let sizeData = await functionReaderCollection('Get all indexes');
+    // let data = [];
+    // for (let i = 0; i < sizeData.length; i++) {
+    //   let listo = [];
+    //   listo = await functionReader('Get all indexes', `Get all indexes-${i}`);
+    //   for (const iterator of listo) {
+    //     data.push(iterator);
+    //   }
+    // }
+    // if (data) {
+    //   obj.data.indexes = data.length;
+    // }
+
+    //pipelines
     data = [];
     sizeData = await functionReaderCollection('Get all Pipelines');
     for (let i = 0; i < sizeData.length; i++) {
@@ -434,7 +463,7 @@ const _parseLogs = async (
       }
     }
     if (data) {
-      obj.data.pipelines = data.length;
+      obj.data.pipelines = data;
     }
   } catch (error) {
     const response = {

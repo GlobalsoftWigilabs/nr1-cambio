@@ -1008,6 +1008,42 @@
         ]
     },
     {
+        "name": "Get all archives",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v2/logs/config/archives",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v2/logs/config/archives",
+        "search": "",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
+        "name": "Get all log based metrics",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v2/logs/config/metrics",
+        "proto": "https",
+        "host": "api.datadoghq.{{datadog_site}}",
+        "pathname": "/api/v2/logs/config/metrics",
+        "search": "",
+        "headers": [
+            {
+                "key": "DD-API-KEY",
+                "value": "{{datadog_api_key}}"
+            },
+            {
+                "key": "DD-APPLICATION-KEY",
+                "value": "{{datadog_application_key}}"
+            }
+        ]
+    },
+    {
         "name": "Get a specific test result",
         "url": "https://api.datadoghq.{{datadog_site}}/api/v1/synthetics/tests/:PUBLIC_ID/results/:RESULT_ID",
         "proto": "https",

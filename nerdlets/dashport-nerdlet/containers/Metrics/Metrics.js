@@ -1,5 +1,5 @@
 import React from 'react';
-import { Spinner, Button } from 'nr1';
+import { Spinner, Button,Tooltip } from 'nr1';
 import Popup from 'reactjs-popup';
 import information from '../../images/information.svg';
 import informationMetrics from '../../images/metrics.png';
@@ -9,7 +9,6 @@ import { BsSearch } from 'react-icons/bs';
 import iconDownload from '../../images/download.svg';
 import ArrowDown from '../../components/ArrowsTable/ArrowDown';
 import ArrowTop from '../../components/ArrowsTable/ArrowTop';
-import Modal from '../../components/Modal';
 import ReactTable from 'react-table-v6';
 import Pagination from '../../components/Pagination/Pagination';
 import Bar from '../../components/Bar';
@@ -91,7 +90,25 @@ export default class Metrics extends React.Component {
       metrics: [],
       metricsTotal: 0,
       keyApi: null,
-      keyApp: null
+      keyApp: null,
+      finalListRespaldo: [],
+      info: {
+        name: "Get All Active Metrics",
+        url: "https://api.datadoghq.{{datadog_site}}/api/v1/metrics?",
+        proto: "https",
+        host: "api.datadoghq.{{datadog_site}}",
+        pathname: "/api/v1/metrics?",
+        headers: [
+          {
+            key: "DD-API-KEY",
+            value: "{{datadog_api_key}}"
+          },
+          {
+            key: "DD-APPLICATION-KEY",
+            value: "{{datadog_application_key}}"
+          }
+        ]
+      }
     };
   }
 
@@ -99,8 +116,36 @@ export default class Metrics extends React.Component {
     this.readMetrics();
   }
 
+  fetchMetrics = async (from) => {
+    const { infraestructureList, accountId } = this.props;
+    let { info, keyApp, keyApi } = this.state;
+    info.headers = this._setHttpHeaders(info.headers, keyApi, keyApp);
+    let metrics = [];
+    for (const host of infraestructureList) {
+      const response = await this.callApiMetric(info, from, host.host_name);
+      if (response && response.data.metrics instanceof Array) {
+        for (const metric of response.data.metrics) {
+          const index = metrics.findIndex(
+            element => element.name === metric
+          );
+          if (index !== -1) {
+            metrics[index].host.push(host.host_name);
+          } else {
+            metrics.push({
+              name: metric,
+              host: [host.host_name]
+            });
+          }
+        }
+      }
+    }
+    await this.saveNerdstorage(metrics);
+    await this.readMetrics();
+  }
+
   readMetrics = async () => {
     const { accountId } = this.props;
+    await this.loadConfig();
     const metrics = await readNerdStorage(
       accountId,
       'metrics',
@@ -127,12 +172,19 @@ export default class Metrics extends React.Component {
         }
       }
       metrics.data = listMetrics;
+      if (metrics.data.length === 0) {
+        let date = new Date();
+        date.setMinutes(date.getMinutes() - 60);
+        const from = moment(date).unix();
+        await this.fetchMetrics(from);
+      }
     }
     this.setState({
       metricsTotal: metrics.data.length,
-      metrics: metrics.data
+      metrics: metrics.data,
+      pagePag: 0,
+      page: 1
     });
-    await this.loadConfig();
     await this.loadDataApi(0, 10);
   }
 
@@ -158,12 +210,6 @@ export default class Metrics extends React.Component {
 
   loadDataApi = async (init, final) => {
     const { metrics, keyApi, keyApp } = this.state;
-    let data = [];
-    for (const metric of metrics) {
-      data.push({
-        name: metric
-      })
-    }
     const info = {
       headers: [
         {
@@ -178,22 +224,29 @@ export default class Metrics extends React.Component {
     };
     info.headers = this._setHttpHeaders(info.headers, keyApi, keyApp);
     if (metrics && metrics instanceof Array) {
-      var dataLimit = data.slice(init, final);
+      var dataLimit = metrics.slice(init, final);
+      let noExist = false;
       for (const metric of dataLimit) {
-        const index = data.findIndex(
-          element => element.name === metric.name
-        );
-        const metricDetail = await this.getMetricDetails(info, metric.name);
-        if (index !== -1) {
-          data[index].integration = metricDetail.data.integration ? metricDetail.data.integration : '___';
-          data[index].type = metricDetail.data.type ? metricDetail.data.type : '___';
-          data[index].unit = metricDetail.data.unit ? metricDetail.data.unit : '___';
-          data[index].host = 'All';
+        if (!metric.integration && !metric.type && !metric.unit) {
+          noExist = true;
+          const index = metrics.findIndex(
+            element => element.name === metric.name
+          );
+          const metricDetail = await this.getMetricDetails(info, metric.name);
+          if (index !== -1) {
+            metrics[index].integration = metricDetail.data.integration ? metricDetail.data.integration : '___';
+            metrics[index].type = metricDetail.data.type ? metricDetail.data.type : '___';
+            metrics[index].unit = metricDetail.data.unit ? metricDetail.data.unit : '___';
+            metrics[index].agg = null
+          }
         }
       }
+      if (noExist)
+        await this.saveNerdstorage(metrics);
+
       const { searchTermMetric, sortColumn } = this.state;
       const dataGraph = [];
-      for (const metric of data) {
+      for (const metric of metrics) {
         if (metric.type) {
           const index = dataGraph.findIndex(
             element => element.name === metric.type
@@ -211,10 +264,10 @@ export default class Metrics extends React.Component {
         }
       }
       this.setState({ dataGraph });
-      this.loadData(data, searchTermMetric, sortColumn);
-      this.calcTable(data);
+      this.loadData(metrics, searchTermMetric, sortColumn);
+      this.calcTable(metrics);
     }
-    this.setState({ loading: false });
+    this.setState({ loading: false, finalListRespaldo: metrics });
   }
 
   calcTable = (finalList) => {
@@ -238,8 +291,13 @@ export default class Metrics extends React.Component {
 
   loadData = (metrics, searchTerm, sortColumn) => {
     let finalList = metrics;
+    const { pagePag, totalRows } = this.state;
     if (searchTerm !== '') {
+      let init = pagePag * totalRows;
+      let final = (pagePag + 1) * totalRows;
+      finalList = finalList.slice(init, final);
       finalList = finalList.filter(createFilter(searchTerm, KEYS_TO_FILTERS));
+      console.log(finalList);
     }
     finalList = this.sortData(finalList, sortColumn);
     this.calcTable(finalList);
@@ -337,26 +395,9 @@ export default class Metrics extends React.Component {
   };
 
   searchUpdated = (term) => {
-    const { sortColumn } = this.state;
-    const { metrics } = this.props;
-    this.loadData(metrics, term, sortColumn);
+    const { sortColumn, finalListRespaldo } = this.state;
+    this.loadData(finalListRespaldo, term, sortColumn);
     this.setState({ searchTermDashboards: term });
-  }
-
-  _onClose = () => {
-    let actualValue = this.state.hidden;
-    this.setState({ hidden: !actualValue });
-  }
-
-  returnActionPopUp = (action) => {
-    return (
-      <div>CONTENT POPUP BASED ON ACTION</div>
-    )
-  }
-
-  confirmAction = async (action) => {
-    this._onClose();
-    //DO ACTION WHEN CLICK CONFIRM BUTTON
   }
 
   setSortColumn = (column) => {
@@ -424,70 +465,30 @@ export default class Metrics extends React.Component {
 
   fetchData = async () => {
     this.setState({ loadingTable: true });
-    const { rangeSelected, keyApp, keyApi } = this.state
-    const info = {
-      name: "Get All Active Metrics",
-      url: "https://api.datadoghq.{{datadog_site}}/api/v1/metrics?",
-      proto: "https",
-      host: "api.datadoghq.{{datadog_site}}",
-      pathname: "/api/v1/metrics?",
-      headers: [
-        {
-          key: "DD-API-KEY",
-          value: "{{datadog_api_key}}"
-        },
-        {
-          key: "DD-APPLICATION-KEY",
-          value: "{{datadog_application_key}}"
-        }
-      ]
-    };
-    info.headers = this._setHttpHeaders(info.headers, keyApi, keyApp);
+    const { rangeSelected } = this.state;
     let date = new Date();
-    let end_ts = Math.floor(new Date() / 1000);
-    let start_ts = 0;
     switch (rangeSelected.value) {
       case '30 minutes':
-        start_ts = end_ts - 60 * 30
         date.setMinutes(date.getMinutes() - 30);
         break;
       case '60 minutes':
-        start_ts = end_ts - 60 * 60
         date.setMinutes(date.getMinutes() - 60);
         break;
       case '3 Hours':
-        start_ts = end_ts - 60 * 180
         date.setMinutes(date.getMinutes() - 180);
         break;
       case '6 Hours':
-        start_ts = end_ts - 60 * 360
         date.setMinutes(date.getMinutes() - 360);
         break;
     }
     const from = moment(date).unix();
-    const response = await this.callApiMetric(info, from);
-    const metricObj = {};
-    metricObj.from = start_ts;
-    metricObj.metrics = response.data.metrics;
-    await this.saveNerdstorage(metricObj);
-    await this.readMetrics();
+    await this.fetchMetrics(from);
     this.setState({ loadingTable: false });
   }
 
-  saveNerdstorage = async (data) => {
+  saveNerdstorage = async (metricList) => {
     const { accountId } = this.props;
-    const metricsList = data.metrics;
-    data.metrics = [];
-    const metricObj = data;
-    const pagesMetricsList = this.pagesOfData(metricsList);
-    // guardo obj metrics
-    await writeNerdStorage(
-      accountId,
-      'metrics',
-      `metrics-obj`,
-      metricObj,
-      this.reportLogFetch
-    );
+    const pagesMetricsList = this.pagesOfData(metricList);
     // guardo lista de metricas
     for (const keyMetrics in pagesMetricsList) {
       if (pagesMetricsList[keyMetrics]) {
@@ -555,7 +556,7 @@ export default class Metrics extends React.Component {
   };
 
 
-  callApiMetric = async (info, from) => {
+  callApiMetric = async (info, from, host) => {
     const proxyUrl = 'https://long-meadow-1713.rsamanez.workers.dev/?';
     let ret = null;
     const options = {
@@ -566,7 +567,8 @@ export default class Metrics extends React.Component {
       url:
         info.pathname,
       params: {
-        from: from
+        from: from,
+        host: host
       },
       headers: info.headers,
       method: 'get'
@@ -690,9 +692,7 @@ export default class Metrics extends React.Component {
       pagePag,
       pages,
       totalRows,
-      hidden,
       sortColumn,
-      action,
       finalList,
       dataGraph,
       timeRanges,
@@ -700,6 +700,7 @@ export default class Metrics extends React.Component {
       loadingTable,
       metricsTotal
     } = this.state;
+    console.log(finalList)
     return (
       <div className="h100">
         {loading ? (
@@ -714,16 +715,16 @@ export default class Metrics extends React.Component {
                       color: greenColor
                     }}>
                     Active Metrics <Popup
-                                          trigger={
-                                            <Button className="buttonMetrics">
-                                              <img alt="i" style={{ marginTop: 3 }} src={information} />
-                                            </Button>
-                                          }
-                                          modal={{ borderRadius: 15 }}
-                  >
+                      trigger={
+                        <Button className="buttonMetrics">
+                          <img alt="i" style={{ marginTop: 3 }} src={information} />
+                        </Button>
+                      }
+                      modal={{ borderRadius: 15 }}
+                    >
                       <img className="modalMetrics" src={informationMetrics} />
-                  </Popup>
-                                    </span>
+                    </Popup>
+                  </span>
                   <div onClick={() => alert('Action')} className="pointer">
                     <span
                       className="box--quantity"
@@ -799,7 +800,13 @@ export default class Metrics extends React.Component {
                         this.downloadData()
                     }}
                   >
-                    <img src={iconDownload} style={{ marginLeft: "20px" }} height="18px" />
+                    <Tooltip
+                      placementType={Tooltip.PLACEMENT_TYPE.BOTTOM}
+                      text="Download"
+                    >
+                      <img src={iconDownload} style={{ marginLeft: "20px" }} height="18px" />
+                    </Tooltip>
+
                   </div>
                   {finalList.length !== 0 &&
                     <Pagination
@@ -828,7 +835,7 @@ export default class Metrics extends React.Component {
                                 background: rowInfo.index % 2 ? '#F7F7F8' : 'white',
                                 borderBottom: 'none',
                                 display: 'grid',
-                                gridTemplate: '1fr/ 40% repeat(4,15%)'
+                                gridTemplate: '1fr/ 35% 15% 10% 15% 15% 10%'
                               }
                             };
                           } else {
@@ -836,7 +843,7 @@ export default class Metrics extends React.Component {
                               style: {
                                 borderBottom: 'none',
                                 display: 'grid',
-                                gridTemplate: '1fr/ 40% repeat(4,15%)'
+                                gridTemplate: '1fr/ 35% 15% 10% 15% 15% 10%'
                               }
                             };
                           }
@@ -864,7 +871,7 @@ export default class Metrics extends React.Component {
                             color: '#333333',
                             fontWeight: 'bold',
                             display: 'grid',
-                            gridTemplate: '1fr/ 40% repeat(4,15%)'
+                            gridTemplate: ' 1fr/ 35% 15% 10% 15% 15% 10%'
                           }
                         };
                       }}
@@ -888,7 +895,7 @@ export default class Metrics extends React.Component {
                           Cell: props => {
                             return (
                               <div
-                                className="h100 flex"
+                                className="h100 flex flexCenterVertical"
                                 style={{
                                   background: props.index % 2 ? "#F7F7F8" : "white"
                                 }}>
@@ -953,9 +960,15 @@ export default class Metrics extends React.Component {
                           accessor: 'host',
                           className: 'table__cell flex  flexCenterVertical h100 w100I',
                           sortable: false,
-                          Cell: props => <div className="h100 flex flexCenterVertical ">
-                            {props.value ? props.value : '___'}
-                          </div>
+                          Cell: props => {
+                            let hosts = '';
+                            for (const host of props.value) {
+                              hosts = `${hosts} ${host} \n`;
+                            }
+                            return (<div className="h100 flex flexCenterVertical ">
+                              {hosts}
+                            </div>)
+                          }
                         },
                         {
                           Header: () => (
@@ -976,6 +989,26 @@ export default class Metrics extends React.Component {
                           Cell: props => <div className="h100 flex flexCenterVertical ">
                             {props.value ? props.value : '___'}
                           </div>
+                        },
+                        {
+                          Header: () => (
+                            <div className="table__headerAlignRight">
+                              <div className="pointer flex " onClick={() => { this.setSortColumn('unit') }}>
+                                AGNN.TYPE
+                              <div className="flexColumn table__sort">
+                                  <ArrowTop color={sortColumn.column === 'unit' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
+                                  <ArrowDown color={sortColumn.column === 'unit' && sortColumn.order === 'descent' ? "black" : "gray"} />
+                                </div>
+                              </div>
+                            </div>
+                          ),
+                          headerClassName: 'w100I',
+                          accessor: 'agg',
+                          className: 'table__cell flex  flexCenterVertical h100 w100I',
+                          sortable: false,
+                          Cell: props => <div className="h100 flex flexCenterVertical ">
+                            {props.value ? props.value : '___'}
+                          </div>
                         }
                       ]}
                     />
@@ -984,13 +1017,6 @@ export default class Metrics extends React.Component {
               </div>
             </div>
           )}
-        <Modal
-          hidden={hidden}
-          _onClose={this._onClose}
-          confirmAction={this.confirmAction}
-        >
-          {this.returnActionPopUp(action)}
-        </Modal>
       </div>
     );
   }
