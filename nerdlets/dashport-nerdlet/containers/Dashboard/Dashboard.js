@@ -220,12 +220,26 @@ export default class Dashboard extends React.Component {
    */
   async loadDashboards() {
     const { searchTermDashboards, sortColumn } = this.state;
-    const dataDashboards = await this.loadNerdData();
+    const {dataDashboards }=this.props;
     //average widgets
     let quantityTotal = 0;
     for (const dd of dataDashboards) {
       dd.popularity = dd.popularity ? dd.popularity : 0;
       dd.widgetsCount = dd.widgets.length;
+      let dashboardList='';
+      if(dd.dashboardList){
+          if(dd.dashboardList.length===0){
+            dashboardList='-----';
+          }else{
+              const dataLimit=dd.dashboardList.slice(0,3);
+          for (const list of dataLimit) {
+              dashboardList = `${dashboardList} ${list} \n`;
+            }
+          if(dd.dashboardList.length>3)
+            dashboardList = `${dashboardList} ...`;
+          }
+      }
+      dd.dashboardList=dashboardList;
       quantityTotal += dd.widgets.length;
     }
     this.setState({
@@ -445,8 +459,10 @@ export default class Dashboard extends React.Component {
   };
 
   saveAction = async (action, infoAditional) => {
-    this._onClose();
-    this.setState({ action: action, infoAditional });
+    if(infoAditional.widgets.length!==0 || infoAditional.templateVariables.length!==0){
+        this._onClose();
+        this.setState({ action: action, infoAditional });
+    }
   };
 
   returnActionPopUp = action => {
@@ -609,7 +625,7 @@ export default class Dashboard extends React.Component {
                 )}
               </div>
               <div className="tableContent__table">
-                <div style={{ width: '3000px' }} className="h100">
+                <div style={{ width: '2500px' }} className="h100">
                   <ReactTable
                     loading={savingAllChecks}
                     loadingText={'Processing...'}
@@ -628,7 +644,7 @@ export default class Dashboard extends React.Component {
                               borderBottom: 'none',
                               display: 'grid',
                               gridTemplate:
-                                '1fr/ 8% repeat(5,5%) 23% 7% 22% 15%'
+                                '1fr/ 10% 7% 10% repeat(3,7%) 15% 7% 15% 15%'
                             }
                           };
                         } else {
@@ -637,7 +653,7 @@ export default class Dashboard extends React.Component {
                               borderBottom: 'none',
                               display: 'grid',
                               gridTemplate:
-                                '1fr/ 8% repeat(5,5%) 23% 7% 22% 15%'
+                                '1fr/ 10% 7% 10% repeat(3,7%) 15% 7% 15% 15%'
                             }
                           };
                         }
@@ -664,7 +680,7 @@ export default class Dashboard extends React.Component {
                           color: '#333333',
                           fontWeight: 'bold',
                           display: 'grid',
-                          gridTemplate: '1fr/ 8% repeat(5,5%) 23% 7% 22% 15%'
+                          gridTemplate: '1fr/ 10% 7% 10% repeat(3,7%) 15% 7% 15% 15%'
                         }
                       };
                     }}
@@ -767,7 +783,7 @@ export default class Dashboard extends React.Component {
                         sortable: false,
                         Cell: props => (
                           <div className="h100 flex flexCenterVertical ">
-                            {props.value !== '' ? props.value : '--'}
+                            {props.value !== '' ? props.value : '-----'}
                           </div>
                         )
                       },
@@ -976,13 +992,12 @@ export default class Dashboard extends React.Component {
                           'table__cellLongText table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => {
-                          let txtDescription = '--';
+                          let txtDescription = '-----';
                           if (props.value) {
                             txtDescription = props.value;
-                            if (txtDescription.length > 300) {
+                            if (txtDescription.length > 100) {
                               txtDescription = `${txtDescription.substring(
-                                0,
-                                301
+                                0,101
                               )}...`;
                             }
                           }
@@ -995,7 +1010,7 @@ export default class Dashboard extends React.Component {
                       },
                       {
                         Header: () => (
-                          <div className="table__header">
+                          <div className="table__header flexCenterHorizontal">
                             <div
                               className="pointer flex "
                               onClick={() => {
@@ -1027,10 +1042,10 @@ export default class Dashboard extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'layoutType',
                         className:
-                          'table__cell flex flexCenterVertical h100 w100I',
+                          'table__cell flex flexCenterVertical flexCenterHorizontal h100 w100I',
                         sortable: false,
                         Cell: props => (
-                          <div className="h100 flex flexCenterVertical ">
+                          <div className="h100 flex flexCenterHorizontals flexCenterVertical ">
                             {props.value}
                           </div>
                         )
@@ -1113,16 +1128,7 @@ export default class Dashboard extends React.Component {
                         className:
                           'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
-                        Cell: props => {
-                          let dashboardsList = '';
-                          if (props.value.length === 0) {
-                            dashboardsList = '--';
-                          }
-                          for (const iterator of props.value) {
-                            dashboardsList += ` ${iterator} `;
-                          }
-                          return <div>{dashboardsList}</div>;
-                        }
+                        Cell: props => <div>{props.value}</div>
                       }
                     ]}
                   />

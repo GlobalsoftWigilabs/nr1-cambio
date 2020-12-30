@@ -337,7 +337,8 @@ const deleteSetup = async (accountId) => {
     'Host totals',
     'Get Tags',
     'Monitor Group Search',
-    'Get Dashboards Manual'
+    'Get Dashboards Manual',
+    'Get all log based metrics'
   ];
   for (const nameApi of namesApis) {
     await AccountStorageMutation.mutate({

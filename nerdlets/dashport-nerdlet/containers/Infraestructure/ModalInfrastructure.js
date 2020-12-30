@@ -84,21 +84,21 @@ export default class ModalInfrastructure extends React.Component {
                       'CPU',
                       infoAditional.Cpu
                         ? infoAditional.Cpu
-                        : '--',
+                        : '-----',
                       '#f7f7f8'
                     )}
                     {this.renderCelll(
                       'MESSAGE',
                       infoAditional.IoWait
                         ? infoAditional.IoWait
-                        : '--',
+                        : '-----',
                       'white'
                     )}
                     {this.renderCelll(
                       'MESSAGE',
                       infoAditional.Load
                         ? infoAditional.Load
-                        : '--',
+                        : '-----',
                       '#f7f7f8'
                     )}
                   </div>

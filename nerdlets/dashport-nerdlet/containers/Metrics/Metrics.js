@@ -163,7 +163,6 @@ export default class Metrics extends React.Component {
           listMetrics.push(iterator);
         }
       }
-      debugger;
       if (listMetrics.length === 0) {
         let date = new Date();
         date.setMinutes(date.getMinutes() - 60);
@@ -228,14 +227,14 @@ export default class Metrics extends React.Component {
           if (index !== -1) {
             metrics[index].integration = metricDetail.data.integration
               ? metricDetail.data.integration
-              : '--';
+              : '-----';
             metrics[index].type = metricDetail.data.type
               ? metricDetail.data.type
-              : '--';
+              : '-----';
             metrics[index].unit = metricDetail.data.unit
               ? metricDetail.data.unit
-              : '--';
-            metrics[index].agg = null;
+              : '-----';
+            metrics[index].agg = '-----';
           }
         }
       }
@@ -1175,7 +1174,7 @@ export default class Metrics extends React.Component {
                         sortable: false,
                         Cell: props => (
                           <div className="h100 flex flexCenterVertical ">
-                            {props.value ? props.value : '--'}
+                            {props.value}
                           </div>
                         )
                       }

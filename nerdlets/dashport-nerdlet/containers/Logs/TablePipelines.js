@@ -385,7 +385,7 @@ export default class TablePipelines extends React.Component {
                         }}
                       >
                         <span style={{ marginLeft: '15px' }}>
-                          {props.value ? props.value : '--'}
+                          {props.value ? props.value : '-----'}
                         </span>
                       </div>
                     );
@@ -428,7 +428,7 @@ export default class TablePipelines extends React.Component {
                   sortable: false,
                   Cell: props => (
                     <div className="h100 flex flexCenterVertical">
-                      {props.value ? `${props.value}` : '--'}
+                      {props.value ? `${props.value}` : '-----'}
                     </div>
                   )
                 },
@@ -469,7 +469,7 @@ export default class TablePipelines extends React.Component {
                   sortable: false,
                   Cell: props => (
                     <div className="h100 flex flexCenterVertical">
-                      {props.value ? props.value : '--'}
+                      {props.value ? props.value : '-----'}
                     </div>
                   )
                 },

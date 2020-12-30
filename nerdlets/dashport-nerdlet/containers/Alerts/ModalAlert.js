@@ -119,42 +119,42 @@ export default class ModalAlert extends React.Component {
                         'AGGREGATION',
                         infoAditional.aggregation
                           ? `metric: ${infoAditional.aggregation.metric}  type: ${infoAditional.aggregation.type}  groupBy: ${infoAditional.aggregation.groupBy}`
-                          : '--',
+                          : '-----',
                         'white'
                       )}
                       {this.renderCelll(
                         'EVALUATION DELAY',
                         infoAditional.evaluation_delay
                           ? infoAditional.evaluation_delay
-                          : '--',
+                          : '-----',
                         '#f7f7f8'
                       )}
                       {this.renderCelll(
                         'FAILURE DURATION',
                         infoAditional.min_failure_duration
                           ? infoAditional.min_failure_duration
-                          : '--',
+                          : '-----',
                         'white'
                       )}
                       {this.renderCelll(
                         'MIN LOCATION FAILED',
                         infoAditional.min_location_failed
                           ? infoAditional.min_location_failed
-                          : '--',
+                          : '-----',
                         '#f7f7f8'
                       )}
                       {this.renderCelll(
                         'HOST DELAY',
                         infoAditional.new_host_delay
                           ? infoAditional.new_host_delay
-                          : '--',
+                          : '-----',
                         'white'
                       )}
                       {this.renderCelll(
                         'NO DATA TIME FRAME',
                         infoAditional.no_data_timeframe
                           ? infoAditional.no_data_timeframe
-                          : '--',
+                          : '-----',
                         '#f7f7f8'
                       )}
                       {this.renderCelll(
@@ -162,7 +162,7 @@ export default class ModalAlert extends React.Component {
                         `${
                           infoAditional.notify_audit
                             ? infoAditional.notify_audit
-                            : '--'
+                            : '-----'
                         }`,
                         'white'
                       )}
@@ -170,7 +170,7 @@ export default class ModalAlert extends React.Component {
                         'THRESHOLDS',
                         infoAditional.thresholds
                           ? infoAditional.thresholds
-                          : '--',
+                          : '-----',
                         '#f7f7f8'
                       )}
                       {this.renderCelll(
@@ -178,7 +178,7 @@ export default class ModalAlert extends React.Component {
                         `${
                           infoAditional.notify_no_data
                             ? infoAditional.notify_no_data
-                            : '--'
+                            : '-----'
                         }`,
                         'white'
                       )}{' '}
