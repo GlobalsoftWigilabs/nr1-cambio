@@ -1771,7 +1771,7 @@ export default class App extends React.Component {
 
     Toast.showToast({
       title: 'ALERT',
-      description: '¿Are you sure to delete the datadog configuration?',
+      description: 'Are you sure you want to delete the datadog configuration?',
       actions: [
         {
           label: 'DELETE',
