@@ -44,7 +44,7 @@ export default class TableWidgets extends React.Component {
         for (const iterator of infoAditional.widgets) {
             data.push(
                 {
-                    title: iterator.definition.title ? iterator.definition.title : '________',
+                    title: iterator.definition.title ? iterator.definition.title : '--',
                     query: this.returnQuery(iterator.definition),
                     type: iterator.definition.type,
                     queryParameters: this.returnParams(iterator.definition),
@@ -76,11 +76,11 @@ export default class TableWidgets extends React.Component {
             }
         } catch (err) {
             if (query === '')
-                query = '________';
+                query = '--';
             return query;
         }
         if (query === '')
-            query = '________';
+            query = '--';
         return query;
     }
 
@@ -91,10 +91,10 @@ export default class TableWidgets extends React.Component {
             if (variables[4]) {
                 return variables[4];
             } else {
-                return '________';
+                return '--';
             }
         } else {
-            return '________';
+            return '--';
         }
     }
 
@@ -302,7 +302,7 @@ export default class TableWidgets extends React.Component {
                                                     background: rowInfo.index % 2 ? '#F7F7F8' : 'white',
                                                     borderBottom: 'none',
                                                     display: 'grid',
-                                                    gridTemplate: '1fr/20% 20% 10% 25% 25% '
+                                                    gridTemplate: '1fr / 20% 36% 8% 18% 18%'
                                                 }
                                             };
                                         } else {
@@ -310,7 +310,7 @@ export default class TableWidgets extends React.Component {
                                                 style: {
                                                     borderBottom: 'none',
                                                     display: 'grid',
-                                                    gridTemplate: '1fr/ 20% 20% 10% 25% 25%'
+                                                    gridTemplate: '1fr / 20% 36% 8% 18% 18%'
                                                 }
                                             };
                                         }
@@ -338,7 +338,7 @@ export default class TableWidgets extends React.Component {
                                             color: '#333333',
                                             fontWeight: 'bold',
                                             display: 'grid',
-                                            gridTemplate: '1fr/ 20% 20% 10% 25% 25%'
+                                            gridTemplate: '1fr / 20% 36% 8% 18% 18%'
                                         }
                                     };
                                 }}
@@ -346,9 +346,9 @@ export default class TableWidgets extends React.Component {
                                     {
                                         Header: () => (
                                             <div className="table__headerSticky">
-                                                <div className="pointer flex flexCenterHorizontal" style={{ marginLeft: "15px" }} onClick={() => { this.setSortColumn('title') }}>
+                                                <div className="pointer flex " style={{ marginLeft: "15px" }} onClick={() => { this.setSortColumn('title') }}>
                                                     TITLE
-                                                                    <div className="flexColumn table__sort">
+                                                    <div className="flexColumn table__sort">
                                                         <ArrowTop color={sortColumn.column === 'title' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
                                                         <ArrowDown color={sortColumn.column === 'title' && sortColumn.order === 'descent' ? "black" : "gray"} />
                                                     </div>
@@ -360,7 +360,7 @@ export default class TableWidgets extends React.Component {
                                         accessor: 'title',
                                         sortable: false,
                                         Cell: props => {
-                                            let txtName = '________';
+                                            let txtName = '--';
                                             if (props.value) {
                                                 txtName = props.value;
                                                 if (txtName.length > 300) {
@@ -370,10 +370,10 @@ export default class TableWidgets extends React.Component {
                                             return (
                                                 <div
                                                     className="h100 flex flexCenterVertical"
-                                                    style={{
-                                                        background: props.index % 2 ? "#F7F7F8" : "white"
-                                                    }}>
-                                                    <span style={{ marginLeft: "5px" }}>
+                                                               style={{
+                                                                   background: props.index % 2 ? "#F7F7F8" : "white"
+                                                               }}>
+                                                    <span style={{ marginLeft: "15px" }}>
                                                         {txtName}
                                                     </span>
                                                 </div>
@@ -385,7 +385,7 @@ export default class TableWidgets extends React.Component {
                                             <div className="table__headerAlignRight">
                                                 <div className="pointer flex " onClick={() => { this.setSortColumn('query') }}>
                                                     QUERY
-                                                                    <div className="flexColumn table__sort">
+                                                    <div className="flexColumn table__sort">
                                                         <ArrowTop color={sortColumn.column === 'query' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
                                                         <ArrowDown color={sortColumn.column === 'query' && sortColumn.order === 'descent' ? "black" : "gray"} />
                                                     </div>
@@ -405,7 +405,7 @@ export default class TableWidgets extends React.Component {
                                             <div className="table__header">
                                                 <div className="pointer flex " onClick={() => { this.setSortColumn('type') }}>
                                                     TYPE
-                                                                    <div className="flexColumn table__sort">
+                                                    <div className="flexColumn table__sort">
                                                         <ArrowTop color={sortColumn.column === 'type' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
                                                         <ArrowDown color={sortColumn.column === 'type' && sortColumn.order === 'descent' ? "black" : "gray"} />
                                                     </div>
@@ -414,7 +414,7 @@ export default class TableWidgets extends React.Component {
                                         ),
                                         headerClassName: 'w100I',
                                         accessor: 'type',
-                                        className: 'table__cell flex  flexCenterVertical flexCenterHorizontal  h100 w100I',
+                                        className: 'table__cell flex  flexCenterVertical h100 w100I',
                                         sortable: false,
                                         Cell: props => <div className="h100 flex flexCenterVertical ">
                                             {props.value}
@@ -425,7 +425,7 @@ export default class TableWidgets extends React.Component {
                                             <div className="table__headerAlignRight">
                                                 <div className="pointer flex" onClick={() => { this.setSortColumn('queryParameters') }}>
                                                     QUERY PARAMETERS
-                                                                    <div className="flexColumn table__sort">
+                                                    <div className="flexColumn table__sort">
                                                         <ArrowTop color={sortColumn.column === 'queryParameters' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
                                                         <ArrowDown color={sortColumn.column === 'queryParameters' && sortColumn.order === 'descent' ? "black" : "gray"} />
                                                     </div>
@@ -445,7 +445,7 @@ export default class TableWidgets extends React.Component {
                                             <div className="table__headerAlignRight">
                                                 <div className="pointer flex" onClick={() => { this.setSortColumn('source') }}>
                                                     SOURCE OF DATA
-                                                                    <div className="flexColumn table__sort">
+                                                    <div className="flexColumn table__sort">
                                                         <ArrowTop color={sortColumn.column === 'source' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
                                                         <ArrowDown color={sortColumn.column === 'source' && sortColumn.order === 'descent' ? "black" : "gray"} />
                                                     </div>

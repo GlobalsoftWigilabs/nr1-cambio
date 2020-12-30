@@ -48,9 +48,9 @@ export default class TableVariables extends React.Component {
         for (const iterator of infoAditional.templateVariables) {
             data.push(
                 {
-                    default: iterator.default ? iterator.default : '________',
-                    name: iterator.name ? iterator.name : '________',
-                    prefix: iterator.prefix ? iterator.prefix : '________'
+                    default: iterator.default ? iterator.default : '--',
+                    name: iterator.name ? iterator.name : '--',
+                    prefix: iterator.prefix ? iterator.prefix : '--'
                 }
             )
         }
@@ -288,7 +288,7 @@ export default class TableVariables extends React.Component {
                                     {
                                         Header: () => (
                                             <div className="table__headerSticky">
-                                                <div className="pointer flex flexCenterHorizontal" style={{ marginLeft: "15px" }} onClick={() => { this.setSortColumn('name') }}>
+                                                <div className="pointer flex " style={{ marginLeft: "15px" }} onClick={() => { this.setSortColumn('name') }}>
                                                 NAME
                                                                     <div className="flexColumn table__sort">
                                                         <ArrowTop color={sortColumn.column === 'name' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
@@ -301,7 +301,7 @@ export default class TableVariables extends React.Component {
                                         className: ' stycky table__cellSticky h100 w100I',
                                         accessor: 'name',
                                         sortable: false,
-                                        Cell: props => <div style={{ marginLeft: "5px" }} className="h100 flex flexCenterVertical ">
+                                        Cell: props => <div style={{ marginLeft: "15px" }} className="h100 flex flexCenterVertical ">
                                             {props.value}
                                         </div>
                                     },
@@ -339,7 +339,7 @@ export default class TableVariables extends React.Component {
                                         ),
                                         headerClassName: 'w100I',
                                         accessor: 'prefix',
-                                        className: 'table__cell flex  flexCenterVertical flexCenterHorizontal  h100 w100I',
+                                        className: 'table__cell flex  flexCenterVertical h100 w100I',
                                         sortable: false,
                                         Cell: props => <div className="h100 flex flexCenterVertical ">
                                             {props.value}

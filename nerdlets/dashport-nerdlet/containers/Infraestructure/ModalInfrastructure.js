@@ -7,7 +7,7 @@ export default class ModalInfrastructure extends React.Component {
   renderCelll = (cell, content, color) => {
     return (
       <>
-        <div style={{display: 'flex'}}>
+        <div style={{ display: 'flex' }}>
           <div
             style={{
               width: '30%',
@@ -22,7 +22,7 @@ export default class ModalInfrastructure extends React.Component {
           >
             <div
               className="flex flexCenterHorizontal"
-              style={{ marginLeft: '5px'}}
+              style={{ marginLeft: '5px' }}
             >
               {cell}
             </div>
@@ -42,8 +42,7 @@ export default class ModalInfrastructure extends React.Component {
   };
 
   render() {
-    const {infoAditional, hidden, _onClose} = this.props;
-    console.log(infoAditional, "infoAdicional")
+    const { infoAditional, hidden, _onClose } = this.props;
     return (
       <div className="h100">
         <Modal
@@ -57,7 +56,7 @@ export default class ModalInfrastructure extends React.Component {
             <Modal.Header>
               <div className=" modalWidgets__closeIcon">
                 <div className="infoAditional--title">{`${infoAditional.hostname}`}</div>
-                <div className="flex">
+                <div className="flex" style={{ justifyContent: 'flex-end' }}>
                   <img
                     onClick={() => {
                       _onClose();
@@ -80,20 +79,26 @@ export default class ModalInfrastructure extends React.Component {
                   }}
                   className="graph_bar"
                 >
-                  <div style={{display: 'flex', flexDirection: 'column'}}>
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
                     {this.renderCelll(
                       'CPU',
-                      infoAditional.metricsCpu,
+                      infoAditional.metricsCpu
+                        ? infoAditional.metricsCpu
+                        : '--',
                       '#f7f7f8'
                     )}
                     {this.renderCelll(
                       'MESSAGE',
-                      infoAditional.metricsIowait,
+                      infoAditional.metricsIowait
+                        ? infoAditional.metricsIowait
+                        : '--',
                       'white'
                     )}
                     {this.renderCelll(
                       'MESSAGE',
-                      infoAditional.metricsLoad,
+                      infoAditional.metricsLoad
+                        ? infoAditional.metricsLoad
+                        : '--',
                       '#f7f7f8'
                     )}
                   </div>

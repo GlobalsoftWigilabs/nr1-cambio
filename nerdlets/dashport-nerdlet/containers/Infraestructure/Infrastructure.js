@@ -7,14 +7,13 @@ import { BsSearch } from 'react-icons/bs';
 import iconDownload from '../../images/download.svg';
 import ArrowDown from '../../components/ArrowsTable/ArrowDown';
 import ArrowTop from '../../components/ArrowsTable/ArrowTop';
-import Modal from '../../components/Modal';
 import ReactTable from 'react-table-v6';
 import Pagination from '../../components/Pagination/Pagination';
-import Bar from "../../components/Bar";
-import ModalAlert from "../Alerts/ModalAlert";
+import Bar from '../../components/Bar';
 import jsoncsv from 'json-2-csv';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
+
 /**
  * Constants of colours
  */
@@ -27,9 +26,7 @@ const KEYS_TO_FILTERS = [
   'tags'
 ];
 const greenColor = '#007E8A';
-const textGray = '#767B7F';
-const grayColor = '#ADADAD';
-const blueColor = '#0078BF';
+
 /**
  * Class that render the Infrastructure component
  *
@@ -58,7 +55,7 @@ export default class Infrastructure extends React.Component {
       hosts: [],
       savingAllChecks: false,
       logs: [],
-      selectedTag: "all",
+      selectedTag: 'all',
       availableFilters: [
         { value: 'All', label: 'All' },
         { value: 'Favorites', label: 'Favorites' },
@@ -88,10 +85,10 @@ export default class Infrastructure extends React.Component {
       hidden: false,
       action: '',
       checksDownload: [
-        { value: "CSV", label: "CSV" },
-        { value: "JSON", label: "JSON" }
+        { value: 'CSV', label: 'CSV' },
+        { value: 'JSON', label: 'JSON' }
       ],
-      selectFormat: { value: "CSV", label: "CSV" },
+      selectFormat: { value: 'CSV', label: 'CSV' },
       emptyData: false
     };
   }
@@ -136,17 +133,16 @@ export default class Infrastructure extends React.Component {
         apps: apps,
         sources: sources,
         muted: element.is_muted,
-        metricsCpu: `${element.metrics.cpu}`,
-        metricsIowait: ` ${element.metrics.iowait}`,
-        metricsLoad: `${element.metrics.load} `,
+        metricsCpu: element.metrics.cpu,
+        metricsIowait: element.metrics.iowait,
+        metricsLoad: element.metrics.load,
         tags: tags
       });
     });
-    console.log(infrastructureDataGraph, "DATA")
-    console.log(infraestructureList, "LIST")
     this.calcTable(data);
     this.setState({ data, dataRespaldo: data });
-  };
+  }
+
   downloadData = async () => {
     const { data } = this.state;
     const date = new Date();
@@ -161,7 +157,7 @@ export default class Infrastructure extends React.Component {
         saveAs(
           content,
           `Infrastructure ${date.getDate()}-${date.getMonth() +
-          1}-${date.getFullYear()}.zip`
+            1}-${date.getFullYear()}.zip`
         );
       });
     });
@@ -177,7 +173,7 @@ export default class Infrastructure extends React.Component {
     switch (column) {
       case 'hostname':
         // eslint-disable-next-line no-case-declarations
-        const sortName = finalList.sort(function(a, b) {
+        const sortHostname = finalList.sort(function(a, b) {
           if (a.hostname > b.hostname) {
             return valueOne;
           }
@@ -186,7 +182,7 @@ export default class Infrastructure extends React.Component {
           }
           return 0;
         });
-        return sortName;
+        return sortHostname;
       case 'aliases':
         // eslint-disable-next-line no-case-declarations
         const sortAliases = finalList.sort(function(a, b) {
@@ -309,6 +305,7 @@ export default class Infrastructure extends React.Component {
     }
     this.setState({ pages: totalPages, pagePag: pageNext });
   };
+
   upPage = () => {
     const { pagePag } = this.state;
     this.setState({ pagePag: pagePag + 1 });
@@ -351,7 +348,7 @@ export default class Infrastructure extends React.Component {
       data,
       infoAditional
     } = this.state;
-    const { infrastructureDataGraph  } = this.props;
+    const { infrastructureDataGraph } = this.props;
     return (
       <div className="h100">
         {loading ? (
@@ -360,46 +357,53 @@ export default class Infrastructure extends React.Component {
           <div className="mainContent">
             <div className="mainContent__infrastructure">
               <div className="information__box">
-                                    <span
-                                      className="box--title"
-                                      style={{
-                                        color: greenColor
-                                      }}>
-                                        Total Hosts
-                                    </span>
-                <div onClick={() => alert('Action')} className="pointer">
-                                        <span
-                                          className="box--quantity"
-                                          style={{
-                                            color: greenColor
-                                          }}>
-                                          {infrastructureDataGraph.length}
-                                          </span>
+                <span
+                  className="box--title"
+                  style={{
+                    color: greenColor
+                  }}
+                >
+                  Total Hosts
+                </span>
+                <div>
+                  <span
+                    className="box--quantity"
+                    style={{
+                      color: greenColor
+                    }}
+                  >
+                    {infrastructureDataGraph.length}
+                  </span>
                 </div>
               </div>
               <div className="information__box">
-                                    <span
-                                      className="box--title"
-                                      style={{
-                                        color: greenColor
-                                      }}>
-                                        Total Active Hosts
-                                    </span>
+                <span
+                  className="box--title"
+                  style={{
+                    color: greenColor
+                  }}
+                >
+                  Total Active Hosts
+                </span>
                 <div>
-                                        <span
-                                          className="box--quantity"
-                                          style={{
-                                            color: greenColor
-                                          }}>
-                                          {infrastructureDataGraph.length}
-                                        </span>
+                  <span
+                    className="box--quantity"
+                    style={{
+                      color: greenColor
+                    }}
+                  >
+                    {infrastructureDataGraph.length}
+                  </span>
                 </div>
               </div>
               <div
                 style={{ height: '50%', width: '95%' }}
                 className="graph_bar"
               >
-                <div style={{ textAlign: 'center', marginTop: '90%' }}> <h3>Platform</h3></div>
+                <div style={{ textAlign: 'center', marginTop: '90%' }}>
+                  {' '}
+                  <h3>Platform</h3>
+                </div>
                 {infrastructureDataGraph ? (
                   infrastructureDataGraph.map((data, index) => {
                     const { name, uv, pv } = data;
@@ -433,7 +437,7 @@ export default class Infrastructure extends React.Component {
               <div className="tableContent__filter">
                 <div className="filters__search">
                   <div className="search__content">
-                    <BsSearch size="10px" color={"#767B7F"} />
+                    <BsSearch size="10px" color="#767B7F" />
                     <SearchInput
                       className="filters--searchInput"
                       onChange={this.searchUpdated}
@@ -456,34 +460,37 @@ export default class Infrastructure extends React.Component {
                     height="18px"
                   />
                 </div>
-                {data.length !== 0 &&
-                <Pagination
-                  page={pagePag}
-                  pages={pages}
-                  upPage={this.upPage}
-                  goToPage={this.changePage}
-                  downPage={this.downPage}
-                />}
+                {data.length !== 0 && (
+                  <Pagination
+                    page={pagePag}
+                    pages={pages}
+                    upPage={this.upPage}
+                    goToPage={this.changePage}
+                    downPage={this.downPage}
+                  />
+                )}
               </div>
               <div className="tableContent__table">
-                <div style={{ width: '3000px' }} className="h100">
+                <div className="h100">
                   <ReactTable
                     loading={savingAllChecks}
-                    loadingText={'Processing...'}
+                    loadingText="Processing..."
                     page={pagePag}
                     showPagination={false}
                     resizable={false}
                     data={data}
                     defaultPageSize={totalRows}
                     getTrProps={(state, rowInfo) => {
+                      // eslint-disable-next-line no-lone-blocks
                       {
                         if (rowInfo) {
                           return {
                             style: {
-                              background: rowInfo.index % 2 ? '#F7F7F8' : 'white',
+                              background:
+                                rowInfo.index % 2 ? '#F7F7F8' : 'white',
                               borderBottom: 'none',
                               display: 'grid',
-                              gridTemplate: '1fr/ repeat(6,7%)'
+                              gridTemplate: '1fr/ 20% 20% 20% 10% 10% 20%'
                             }
                           };
                         } else {
@@ -491,13 +498,12 @@ export default class Infrastructure extends React.Component {
                             style: {
                               borderBottom: 'none',
                               display: 'grid',
-                              gridTemplate: '1fr/ repeat(6,7%)'
+                              gridTemplate: '1fr/ 20% 20% 20% 10% 10% 20%'
                             }
                           };
                         }
                       }
-                    }
-                    }
+                    }}
                     getTrGroupProps={() => {
                       return {
                         style: {
@@ -519,7 +525,7 @@ export default class Infrastructure extends React.Component {
                           color: '#333333',
                           fontWeight: 'bold',
                           display: 'grid',
-                          gridTemplate: '1fr/ repeat(6,7%)'
+                          gridTemplate: '1fr/ 20% 20% 20% 10% 10% 20%'
                         }
                       };
                     }}
@@ -527,11 +533,31 @@ export default class Infrastructure extends React.Component {
                       {
                         Header: () => (
                           <div className="table__headerSticky">
-                            <div className="pointer flex flexCenterHorizontal" style={{ marginLeft: "5px" }} onClick={() => { this.setSortColumn('hostname') }}>
+                            <div
+                              className="pointer flex"
+                              style={{ marginLeft: '5px' }}
+                              onClick={() => {
+                                this.setSortColumn('hostname');
+                              }}
+                            >
                               HOST NAME
                               <div className="flexColumn table__sort">
-                                <ArrowTop color={sortColumn.column === 'hostname' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
-                                <ArrowDown color={sortColumn.column === 'hostname' && sortColumn.order === 'descent' ? "black" : "gray"} />
+                                <ArrowTop
+                                  color={
+                                    sortColumn.column === 'hostname' &&
+                                    sortColumn.order === 'ascendant'
+                                      ? 'black'
+                                      : 'gray'
+                                  }
+                                />
+                                <ArrowDown
+                                  color={
+                                    sortColumn.column === 'hostname' &&
+                                    sortColumn.order === 'descent'
+                                      ? 'black'
+                                      : 'gray'
+                                  }
+                                />
                               </div>
                             </div>
                           </div>
@@ -557,108 +583,218 @@ export default class Infrastructure extends React.Component {
                                 {props.value}
                               </span>
                             </div>
-                          )
+                          );
                         }
                       },
                       {
                         Header: () => (
                           <div className="table__header">
-                            <div className="pointer flex flexCenterHorizontal" onClick={() => { this.setSortColumn('aliases') }}>
+                            <div
+                              className="pointer flex"
+                              onClick={() => {
+                                this.setSortColumn('aliases');
+                              }}
+                            >
                               ALIASES
                               <div className="flexColumn table__sort">
-                                <ArrowTop color={sortColumn.column === 'aliases' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
-                                <ArrowDown color={sortColumn.column === 'aliases' && sortColumn.order === 'descent' ? "black" : "gray"} />
+                                <ArrowTop
+                                  color={
+                                    sortColumn.column === 'aliases' &&
+                                    sortColumn.order === 'ascendant'
+                                      ? 'black'
+                                      : 'gray'
+                                  }
+                                />
+                                <ArrowDown
+                                  color={
+                                    sortColumn.column === 'aliases' &&
+                                    sortColumn.order === 'descent'
+                                      ? 'black'
+                                      : 'gray'
+                                  }
+                                />
                               </div>
                             </div>
                           </div>
                         ),
                         headerClassName: 'w100I',
                         accessor: 'aliases',
-                        className: 'table__cell flex flexCenterHorizontal flexCenterVertical h100 w100I',
+                        className:
+                          'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
-                        Cell: props => <div className="h100 flex flexCenterVertical flexCenterHorizontal">
+                        Cell: props => (
+                          <div className="h100 flex flexCenterVertical">
                             {props.value ? props.value : '--'}
-                        </div>
+                          </div>
+                        )
                       },
                       {
                         Header: () => (
                           <div className="table__header">
-                            <div className="pointer flex flexCenterHorizontal" onClick={() => { this.setSortColumn('apps') }}>
+                            <div
+                              className="pointer flex flexCenterHorizontal"
+                              onClick={() => {
+                                this.setSortColumn('apps');
+                              }}
+                            >
                               APPS
-                              <div className="flexColumn table__sort">
-                                <ArrowTop color={sortColumn.column === 'apps' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
-                                <ArrowDown color={sortColumn.column === 'apps' && sortColumn.order === 'descent' ? "black" : "gray"} />
+                              <div className="flexColumn table__sort flexCenterHorizontal">
+                                <ArrowTop
+                                  color={
+                                    sortColumn.column === 'apps' &&
+                                    sortColumn.order === 'ascendant'
+                                      ? 'black'
+                                      : 'gray'
+                                  }
+                                />
+                                <ArrowDown
+                                  color={
+                                    sortColumn.column === 'apps' &&
+                                    sortColumn.order === 'descent'
+                                      ? 'black'
+                                      : 'gray'
+                                  }
+                                />
                               </div>
                             </div>
                           </div>
                         ),
                         headerClassName: 'w100I',
                         accessor: 'apps',
-                        className: 'table__cell flex flexCenterHorizontal flexCenterVertical h100 w100I',
+                        className:
+                          'table__cell flex flexCenterHorizontal flexCenterVertical h100 w100I',
                         sortable: false,
-                        Cell: props => <div className="h100 flex flexCenterVertical flexCenterHorizontal">
-                          {props.value ? props.value : '--'}
-                        </div>
+                        Cell: props => (
+                          <div className="h100 flex flexCenterVertical flexCenterHorizontal">
+                            {props.value ? props.value : '--'}
+                          </div>
+                        )
                       },
                       {
                         Header: () => (
                           <div className="table__header">
-                            <div className="pointer flex flexCenterHorizontal" onClick={() => { this.setSortColumn('sources') }}>
+                            <div
+                              className="pointer flex"
+                              onClick={() => {
+                                this.setSortColumn('sources');
+                              }}
+                            >
                               SOURCES
                               <div className="flexColumn table__sort">
-                                <ArrowTop color={sortColumn.column === 'sources' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
-                                <ArrowDown color={sortColumn.column === 'sources' && sortColumn.order === 'descent' ? "black" : "gray"} />
+                                <ArrowTop
+                                  color={
+                                    sortColumn.column === 'sources' &&
+                                    sortColumn.order === 'ascendant'
+                                      ? 'black'
+                                      : 'gray'
+                                  }
+                                />
+                                <ArrowDown
+                                  color={
+                                    sortColumn.column === 'sources' &&
+                                    sortColumn.order === 'descent'
+                                      ? 'black'
+                                      : 'gray'
+                                  }
+                                />
                               </div>
                             </div>
                           </div>
                         ),
                         headerClassName: 'w100I',
                         accessor: 'sources',
-                        className: 'table__cell flex flexCenterHorizontal flexCenterVertical h100 w100I',
+                        className:
+                          'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
-                        Cell: props => <div className="h100 flex flexCenterVertical flexCenterHorizontal">
-                          {props.value ? props.value : '--'}
-                        </div>
+                        Cell: props => (
+                          <div className="h100 flex flexCenterVertical">
+                            {props.value ? props.value : '--'}
+                          </div>
+                        )
                       },
                       {
                         Header: () => (
                           <div className="table__header">
-                            <div className="pointer flex flexCenterHorizontal" onClick={() => { this.setSortColumn('muted') }}>
+                            <div
+                              className="pointer flex"
+                              onClick={() => {
+                                this.setSortColumn('muted');
+                              }}
+                            >
                               MUTED
                               <div className="flexColumn table__sort">
-                                <ArrowTop color={sortColumn.column === 'muted' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
-                                <ArrowDown color={sortColumn.column === 'muted' && sortColumn.order === 'descent' ? "black" : "gray"} />
+                                <ArrowTop
+                                  color={
+                                    sortColumn.column === 'muted' &&
+                                    sortColumn.order === 'ascendant'
+                                      ? 'black'
+                                      : 'gray'
+                                  }
+                                />
+                                <ArrowDown
+                                  color={
+                                    sortColumn.column === 'muted' &&
+                                    sortColumn.order === 'descent'
+                                      ? 'black'
+                                      : 'gray'
+                                  }
+                                />
                               </div>
                             </div>
                           </div>
                         ),
                         headerClassName: 'w100I',
                         accessor: 'muted',
-                        className: 'table__cell flex flexCenterHorizontal flexCenterVertical h100 w100I',
+                        className:
+                          'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
-                        Cell: props => <div className="h100 flex flexCenterVertical flexCenterHorizontal">
-                          {`${props.value}`}
-                        </div>
+                        Cell: props => (
+                          <div className="h100 flex flexCenterVertical">
+                            {`${props.value}`}
+                          </div>
+                        )
                       },
                       {
                         Header: () => (
                           <div className="table__header">
-                            <div className="pointer flex flexCenterHorizontal" onClick={() => { this.setSortColumn('tags') }}>
+                            <div
+                              className="pointer flex"
+                              onClick={() => {
+                                this.setSortColumn('tags');
+                              }}
+                            >
                               TAGS
                               <div className="flexColumn table__sort">
-                                <ArrowTop color={sortColumn.column === 'tags' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
-                                <ArrowDown color={sortColumn.column === 'tags' && sortColumn.order === 'descent' ? "black" : "gray"} />
+                                <ArrowTop
+                                  color={
+                                    sortColumn.column === 'tags' &&
+                                    sortColumn.order === 'ascendant'
+                                      ? 'black'
+                                      : 'gray'
+                                  }
+                                />
+                                <ArrowDown
+                                  color={
+                                    sortColumn.column === 'tags' &&
+                                    sortColumn.order === 'descent'
+                                      ? 'black'
+                                      : 'gray'
+                                  }
+                                />
                               </div>
                             </div>
                           </div>
                         ),
                         headerClassName: 'w100I',
                         accessor: 'tags',
-                        className: 'table__cell flex flexCenterHorizontal flexCenterVertical h100 w100I',
+                        className:
+                          'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
-                        Cell: props => <div className="h100 flex flexCenterVertical flexCenterHorizontal">
-                          {props.value}
-                        </div>
+                        Cell: props => (
+                          <div className="h100 flex flexCenterVertical">
+                            {props.value}
+                          </div>
+                        )
                       }
                     ]}
                   />
@@ -675,11 +811,11 @@ export default class Infrastructure extends React.Component {
           />
         )}
       </div>
-    )
+    );
   }
 }
 
 Infrastructure.propTypes = {
-  infrastructureDataGraph: PropTypes.object.isRequired,
+  infrastructureDataGraph: PropTypes.array.isRequired,
   infraestructureList: PropTypes.array.isRequired
 };
