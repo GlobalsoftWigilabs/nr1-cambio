@@ -164,7 +164,7 @@ export default class App extends React.Component {
       value === 6 ||
       value === 4 ||
       value === 8 ||
-      value === 5 || 
+      value === 5 ||
       value === 7
     ) {
       this.setState({ selectedMenu: value });
@@ -478,51 +478,51 @@ export default class App extends React.Component {
       };
       this.reportLogFetch(response);
     }
-    // METRICS
-    try {
-      const metrics = await readNerdStorage(
-        accountId,
-        'metrics',
-        'metrics-obj',
-        this.reportLogFetch
-      );
-      if (metrics) {
-        const sizeMetrics = await readNerdStorageOnlyCollection(
-          accountId,
-          'metrics',
-          this.reportLogFetch
-        );
-        const listMetrics = [];
-        for (let j = 0; j < sizeMetrics.length - 1; j++) {
-          let page = [];
-          page = await readNerdStorage(
-            accountId,
-            'metrics',
-            `metrics-${j}`,
-            this.reportLogFetch
-          );
-          for (const iterator of page) {
-            listMetrics.push(iterator);
-          }
-        }
-        metrics.data = listMetrics;
-        this.setState({
-          metricsTotal: metrics.data.length,
-          metrics: metrics.data
-        });
-      }
-      if (fetchingData) {
-        this.setState(prevstate => ({ completed: prevstate.completed + 2 }));
-      }
-    } catch (err) {
-      const response = {
-        message: err.message,
-        type: 'Error',
-        event: `Recove metrics data`,
-        date: new Date().toLocaleString()
-      };
-      this.reportLogFetch(response);
-    }
+    // // METRICS
+    // try {
+    //   const metrics = await readNerdStorage(
+    //     accountId,
+    //     'metrics',
+    //     'metrics-obj',
+    //     this.reportLogFetch
+    //   );
+    //   if (metrics) {
+    //     const sizeMetrics = await readNerdStorageOnlyCollection(
+    //       accountId,
+    //       'metrics',
+    //       this.reportLogFetch
+    //     );
+    //     const listMetrics = [];
+    //     for (let j = 0; j < sizeMetrics.length - 1; j++) {
+    //       let page = [];
+    //       page = await readNerdStorage(
+    //         accountId,
+    //         'metrics',
+    //         `metrics-${j}`,
+    //         this.reportLogFetch
+    //       );
+    //       for (const iterator of page) {
+    //         listMetrics.push(iterator);
+    //       }
+    //     }
+    //     metrics.data = listMetrics;
+    //     this.setState({
+    //       metricsTotal: metrics.data.length,
+    //       metrics: metrics.data
+    //     });
+    //   }
+    //   if (fetchingData) {
+    //     this.setState(prevstate => ({ completed: prevstate.completed + 2 }));
+    //   }
+    // } catch (err) {
+    //   const response = {
+    //     message: err.message,
+    //     type: 'Error',
+    //     event: `Recove metrics data`,
+    //     date: new Date().toLocaleString()
+    //   };
+    //   this.reportLogFetch(response);
+    // }
     // SYNTHETICS
     try {
       const synthetics = await readNerdStorage(
@@ -849,32 +849,32 @@ export default class App extends React.Component {
           }
         }
         break;
-      case 'metrics':
-        {
-          const listMetrics = data.data;
-          data.data = [];
-          const metricObj = data;
-          await writeNerdStorage(
-            accountId,
-            collectionName,
-            `${collectionName}-obj`,
-            metricObj,
-            this.reportLogFetch
-          );
-          const pagesMetrics = this.pagesOfData(listMetrics);
-          for (const keyMetric in pagesMetrics) {
-            if (pagesMetrics[keyMetric]) {
-              await writeNerdStorage(
-                accountId,
-                collectionName,
-                `${collectionName}-${keyMetric}`,
-                pagesMetrics[keyMetric],
-                this.reportLogFetch
-              );
-            }
-          }
-        }
-        break;
+      // case 'metrics':
+      //   {
+      //     const listMetrics = data.data;
+      //     data.data = [];
+      //     const metricObj = data;
+      //     await writeNerdStorage(
+      //       accountId,
+      //       collectionName,
+      //       `${collectionName}-obj`,
+      //       metricObj,
+      //       this.reportLogFetch
+      //     );
+      //     const pagesMetrics = this.pagesOfData(listMetrics);
+      //     for (const keyMetric in pagesMetrics) {
+      //       if (pagesMetrics[keyMetric]) {
+      //         await writeNerdStorage(
+      //           accountId,
+      //           collectionName,
+      //           `${collectionName}-${keyMetric}`,
+      //           pagesMetrics[keyMetric],
+      //           this.reportLogFetch
+      //         );
+      //       }
+      //     }
+      //   }
+      //   break;
       case 'synthetics':
         {
           const list = data.data.test;
@@ -1766,9 +1766,9 @@ export default class App extends React.Component {
       monitorsData,
       infrastructureDataGraph,
       infraestructureList,
-      metricsTotal,
-      metrics,
-      testTotal, 
+      // metricsTotal,
+      // metrics,
+      testTotal,
       testList,
       accountsTotal,
       dataTableAccounts,
@@ -1845,17 +1845,12 @@ export default class App extends React.Component {
           <Metrics
             accountId={accountId}
             infraestructureList={infraestructureList}
-            metrics={metrics}
-            metricsTotal={metricsTotal}
+            // metrics={metrics}
+            // metricsTotal={metricsTotal}
           />
         );
       case 7:
-        return (
-          <Synthetics
-          testTotal={testTotal}
-          testList={testList}
-          />
-        );
+        return <Synthetics testTotal={testTotal} testList={testList} />;
       case 8:
         return (
           <Accounts
@@ -1884,28 +1879,28 @@ export default class App extends React.Component {
         {loadingContent ? (
           <Spinner type={Spinner.TYPE.DOT} />
         ) : (
-            <>
-              <div className="sidebar-container">
-                <Menu
-                  lastUpdate={lastUpdate}
-                  selectedMenu={selectedMenu}
-                  handleChangeMenu={this.handleChangeMenu}
-                />
+          <>
+            <div className="sidebar-container">
+              <Menu
+                lastUpdate={lastUpdate}
+                selectedMenu={selectedMenu}
+                handleChangeMenu={this.handleChangeMenu}
+              />
+            </div>
+            <div>
+              <div
+                style={{
+                  paddingTop: '1.8%',
+                  paddingRight: '1%',
+                  paddingLeft: '1.8%',
+                  height: '96%'
+                }}
+              >
+                {this.renderContent()}
               </div>
-              <div>
-                <div
-                  style={{
-                    paddingTop: '1.8%',
-                    paddingRight: '1%',
-                    paddingLeft: '1.8%',
-                    height: '96%'
-                  }}
-                >
-                  {this.renderContent()}
-                </div>
-              </div>
-            </>
-          )}
+            </div>
+          </>
+        )}
       </div>
     );
   }

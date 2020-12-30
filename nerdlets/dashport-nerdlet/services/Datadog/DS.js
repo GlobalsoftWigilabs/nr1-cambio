@@ -33,7 +33,7 @@ const apiDataDigest = async (
     'monitors',
     'infraestructure',
     'logs',
-    'metrics',
+    // 'metrics',
     'synthetics',
     'accounts'
   ];
@@ -57,13 +57,13 @@ const apiDataDigest = async (
   data.push(
     await _parseLogs(functionReader, functionReaderCollection, reportLogFetch)
   );
-  data.push(
-    await _parseMetrics(
-      functionReader,
-      functionReaderCollection,
-      reportLogFetch
-    )
-  );
+  // data.push(
+  //   await _parseMetrics(
+  //     functionReader,
+  //     functionReaderCollection,
+  //     reportLogFetch
+  //   )
+  // );
   data.push(
     await _parseSynthetics(
       functionReader,
@@ -141,7 +141,9 @@ const _parseDashboars = async (
           creation: new Date(data[i].data.created_at),
           modified: new Date(data[i].data.modified_at),
           widgets: data[i].data.widgets,
-          templateVariables: data[i].data.template_variables ? data[i].data.template_variables : [],
+          templateVariables: data[i].data.template_variables
+            ? data[i].data.template_variables
+            : [],
           description: data[i].data.description,
           layoutType: data[i].data.layout_type,
           url: `https://app.datadoghq.com${data[i].data.url}`,
@@ -383,7 +385,7 @@ function agroupData(dataRepeat) {
     }
     return [...acumu, valueActual];
   }, []);
-  filtrado.sort(function (a, b) {
+  filtrado.sort(function(a, b) {
     if (a.count < b.count) {
       return 1;
     }
@@ -406,7 +408,7 @@ const _parseLogs = async (
     data: {
       archives: [],
       pipelines: [],
-      metricsLogs:[]
+      metricsLogs: []
     }
   };
   try {
@@ -428,7 +430,10 @@ const _parseLogs = async (
     data = [];
     for (let i = 0; i < sizeData.length; i++) {
       let listo = [];
-      listo = await functionReader('Get all log based metrics', `Get all log based metrics-${i}`);
+      listo = await functionReader(
+        'Get all log based metrics',
+        `Get all log based metrics-${i}`
+      );
       for (const iterator of listo) {
         data.push(iterator);
       }

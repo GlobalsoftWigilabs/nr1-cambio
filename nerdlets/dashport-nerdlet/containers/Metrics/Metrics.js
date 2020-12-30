@@ -1,5 +1,5 @@
 import React from 'react';
-import { Spinner, Button,Tooltip } from 'nr1';
+import { Spinner, Button, Tooltip } from 'nr1';
 import Popup from 'reactjs-popup';
 import information from '../../images/information.svg';
 import informationMetrics from '../../images/metrics.png';
@@ -47,7 +47,7 @@ export default class Metrics extends React.Component {
       favoriteDashboards: [],
       savingAllChecks: false,
       logs: [],
-      selectedTag: "all",
+      selectedTag: 'all',
       timeRanges: [
         { value: '30 minutes', label: '30 minutes' },
         { value: '60 minutes', label: '60 minutes' },
@@ -78,13 +78,13 @@ export default class Metrics extends React.Component {
       hidden: false,
       action: '',
       checksDownload: [
-        { value: "CSV", label: "CSV" },
-        { value: "JSON", label: "JSON" }
+        { value: 'CSV', label: 'CSV' },
+        { value: 'JSON', label: 'JSON' }
       ],
-      selectFormat: { value: "CSV", label: "CSV" },
+      selectFormat: { value: 'CSV', label: 'CSV' },
       emptyData: false,
       dataGraph: [],
-      rangeSelected: { value: "30 minutes", label: "30 minutes" },
+      rangeSelected: { value: '30 minutes', label: '30 minutes' },
       logs: [],
       loadingTable: false,
       metrics: [],
@@ -93,19 +93,19 @@ export default class Metrics extends React.Component {
       keyApp: null,
       finalListRespaldo: [],
       info: {
-        name: "Get All Active Metrics",
-        url: "https://api.datadoghq.{{datadog_site}}/api/v1/metrics?",
-        proto: "https",
-        host: "api.datadoghq.{{datadog_site}}",
-        pathname: "/api/v1/metrics?",
+        name: 'Get All Active Metrics',
+        url: 'https://api.datadoghq.{{datadog_site}}/api/v1/metrics?',
+        proto: 'https',
+        host: 'api.datadoghq.{{datadog_site}}',
+        pathname: '/api/v1/metrics?',
         headers: [
           {
-            key: "DD-API-KEY",
-            value: "{{datadog_api_key}}"
+            key: 'DD-API-KEY',
+            value: '{{datadog_api_key}}'
           },
           {
-            key: "DD-APPLICATION-KEY",
-            value: "{{datadog_application_key}}"
+            key: 'DD-APPLICATION-KEY',
+            value: '{{datadog_application_key}}'
           }
         ]
       }
@@ -116,7 +116,7 @@ export default class Metrics extends React.Component {
     this.readMetrics();
   }
 
-  fetchMetrics = async (from) => {
+  fetchMetrics = async from => {
     const { infraestructureList, accountId } = this.props;
     let { info, keyApp, keyApi } = this.state;
     info.headers = this._setHttpHeaders(info.headers, keyApi, keyApp);
@@ -125,9 +125,7 @@ export default class Metrics extends React.Component {
       const response = await this.callApiMetric(info, from, host.host_name);
       if (response && response.data.metrics instanceof Array) {
         for (const metric of response.data.metrics) {
-          const index = metrics.findIndex(
-            element => element.name === metric
-          );
+          const index = metrics.findIndex(element => element.name === metric);
           if (index !== -1) {
             metrics[index].host.push(host.host_name);
           } else {
@@ -141,7 +139,7 @@ export default class Metrics extends React.Component {
     }
     await this.saveNerdstorage(metrics);
     await this.readMetrics();
-  }
+  };
 
   readMetrics = async () => {
     const { accountId } = this.props;
@@ -186,7 +184,7 @@ export default class Metrics extends React.Component {
       page: 1
     });
     await this.loadDataApi(0, 10);
-  }
+  };
 
   loadConfig = async () => {
     let retrys = 0,
@@ -206,19 +204,19 @@ export default class Metrics extends React.Component {
       keyApi,
       keyApp
     });
-  }
+  };
 
   loadDataApi = async (init, final) => {
     const { metrics, keyApi, keyApp } = this.state;
     const info = {
       headers: [
         {
-          key: "DD-API-KEY",
-          value: "{{datadog_api_key}}"
+          key: 'DD-API-KEY',
+          value: '{{datadog_api_key}}'
         },
         {
-          key: "DD-APPLICATION-KEY",
-          value: "{{datadog_application_key}}"
+          key: 'DD-APPLICATION-KEY',
+          value: '{{datadog_application_key}}'
         }
       ]
     };
@@ -234,15 +232,20 @@ export default class Metrics extends React.Component {
           );
           const metricDetail = await this.getMetricDetails(info, metric.name);
           if (index !== -1) {
-            metrics[index].integration = metricDetail.data.integration ? metricDetail.data.integration : '--';
-            metrics[index].type = metricDetail.data.type ? metricDetail.data.type : '--';
-            metrics[index].unit = metricDetail.data.unit ? metricDetail.data.unit : '--';
-            metrics[index].agg = null
+            metrics[index].integration = metricDetail.data.integration
+              ? metricDetail.data.integration
+              : '--';
+            metrics[index].type = metricDetail.data.type
+              ? metricDetail.data.type
+              : '--';
+            metrics[index].unit = metricDetail.data.unit
+              ? metricDetail.data.unit
+              : '--';
+            metrics[index].agg = null;
           }
         }
       }
-      if (noExist)
-        await this.saveNerdstorage(metrics);
+      if (noExist) await this.saveNerdstorage(metrics);
 
       const { searchTermMetric, sortColumn } = this.state;
       const dataGraph = [];
@@ -254,7 +257,6 @@ export default class Metrics extends React.Component {
           if (index !== -1) {
             dataGraph[index].uv = dataGraph[index].uv + 1;
           } else {
-
             dataGraph.push({
               name: metric.type,
               pv: metrics.length,
@@ -268,9 +270,9 @@ export default class Metrics extends React.Component {
       this.calcTable(metrics);
     }
     this.setState({ loading: false, finalListRespaldo: metrics });
-  }
+  };
 
-  calcTable = (finalList) => {
+  calcTable = finalList => {
     let { totalRows, pagePag } = this.state;
     const aux = finalList.length % totalRows;
     let totalPages = 0;
@@ -287,7 +289,7 @@ export default class Metrics extends React.Component {
       pageNext = totalPages <= 0 ? 0 : totalPages - 1;
     }
     this.setState({ pages: totalPages, pagePag: pageNext });
-  }
+  };
 
   loadData = (metrics, searchTerm, sortColumn) => {
     let finalList = metrics;
@@ -297,12 +299,11 @@ export default class Metrics extends React.Component {
       let final = (pagePag + 1) * totalRows;
       finalList = finalList.slice(init, final);
       finalList = finalList.filter(createFilter(searchTerm, KEYS_TO_FILTERS));
-      console.log(finalList);
     }
     finalList = this.sortData(finalList, sortColumn);
     this.calcTable(finalList);
     this.setState({ finalList: finalList });
-  }
+  };
 
   sortData = (finalList, { order, column }) => {
     let valueOne = 1;
@@ -313,7 +314,7 @@ export default class Metrics extends React.Component {
     }
     switch (column) {
       case 'name':
-        const sortName = finalList.sort(function (a, b) {
+        const sortName = finalList.sort(function(a, b) {
           if (a.name > b.name) {
             return valueOne;
           }
@@ -324,7 +325,7 @@ export default class Metrics extends React.Component {
         });
         return sortName;
       case 'host':
-        const sortHost = finalList.sort(function (a, b) {
+        const sortHost = finalList.sort(function(a, b) {
           if (a.host > b.host) {
             return valueOne;
           }
@@ -335,7 +336,7 @@ export default class Metrics extends React.Component {
         });
         return sortHost;
       case 'integration':
-        const sortIntegration = finalList.sort(function (a, b) {
+        const sortIntegration = finalList.sort(function(a, b) {
           if (a.integration > b.integration) {
             return valueOne;
           }
@@ -346,7 +347,7 @@ export default class Metrics extends React.Component {
         });
         return sortIntegration;
       case 'type':
-        const sortType = finalList.sort(function (a, b) {
+        const sortType = finalList.sort(function(a, b) {
           if (a.type > b.type) {
             return valueOne;
           }
@@ -357,7 +358,7 @@ export default class Metrics extends React.Component {
         });
         return sortType;
       case 'unit':
-        const sortUnit = finalList.sort(function (a, b) {
+        const sortUnit = finalList.sort(function(a, b) {
           if (a.unit > b.unit) {
             return valueOne;
           }
@@ -370,13 +371,15 @@ export default class Metrics extends React.Component {
       default:
         return finalList;
     }
-  }
-
+  };
 
   upPage = async () => {
     const { totalRows, pagePag } = this.state;
     this.setState({ loadingTable: true });
-    await this.loadDataApi((pagePag + 1) * totalRows, (pagePag + 2) * totalRows);
+    await this.loadDataApi(
+      (pagePag + 1) * totalRows,
+      (pagePag + 2) * totalRows
+    );
     this.setState({ pagePag: pagePag + 1, loadingTable: false });
   };
 
@@ -390,24 +393,27 @@ export default class Metrics extends React.Component {
   downPage = async () => {
     const { totalRows, pagePag } = this.state;
     this.setState({ loadingTable: true });
-    await this.loadDataApi((pagePag - 1) * totalRows, ((pagePag - 1) * totalRows) + totalRows);
+    await this.loadDataApi(
+      (pagePag - 1) * totalRows,
+      (pagePag - 1) * totalRows + totalRows
+    );
     this.setState({ pagePag: pagePag - 1, loadingTable: false });
   };
 
-  searchUpdated = (term) => {
+  searchUpdated = term => {
     const { sortColumn, finalListRespaldo } = this.state;
     this.loadData(finalListRespaldo, term, sortColumn);
     this.setState({ searchTermDashboards: term });
-  }
+  };
 
-  setSortColumn = (column) => {
+  setSortColumn = column => {
     const { sortColumn, finalList, searchTermMetric } = this.state;
-    let order = "";
+    let order = '';
     if (sortColumn.column === column) {
       if (sortColumn.order === '') {
-        order = "ascendant";
+        order = 'ascendant';
       } else if (sortColumn.order === 'ascendant') {
-        order = "descent";
+        order = 'descent';
       } else {
         order = '';
       }
@@ -417,15 +423,17 @@ export default class Metrics extends React.Component {
     if (sortColumn.column === column && sortColumn.order === 'descent') {
       column = '';
     }
-    this.loadData(finalList, searchTermMetric,
-      { column: column, order: order })
+    this.loadData(finalList, searchTermMetric, {
+      column: column,
+      order: order
+    });
     this.setState({
       sortColumn: {
         column: column,
         order: order
       }
     });
-  }
+  };
 
   customStyles = {
     option: provided => ({
@@ -455,13 +463,13 @@ export default class Metrics extends React.Component {
     }),
     container: provided => ({
       ...provided,
-      width: "100%"
+      width: '100%'
     })
   };
 
-  handleRange = (value) => {
+  handleRange = value => {
     this.setState({ rangeSelected: value });
-  }
+  };
 
   fetchData = async () => {
     this.setState({ loadingTable: true });
@@ -484,9 +492,9 @@ export default class Metrics extends React.Component {
     const from = moment(date).unix();
     await this.fetchMetrics(from);
     this.setState({ loadingTable: false });
-  }
+  };
 
-  saveNerdstorage = async (metricList) => {
+  saveNerdstorage = async metricList => {
     const { accountId } = this.props;
     const pagesMetricsList = this.pagesOfData(metricList);
     // guardo lista de metricas
@@ -501,10 +509,9 @@ export default class Metrics extends React.Component {
         );
       }
     }
-  }
+  };
 
   reportLogFetch = async response => {
-    console.log(response)
     const { logs } = this.state;
     const arrayLogs = logs;
     arrayLogs.push({
@@ -555,7 +562,6 @@ export default class Metrics extends React.Component {
     return headers;
   };
 
-
   callApiMetric = async (info, from, host) => {
     const proxyUrl = 'https://long-meadow-1713.rsamanez.workers.dev/?';
     let ret = null;
@@ -564,8 +570,7 @@ export default class Metrics extends React.Component {
         '{{datadog_site}}',
         'com'
       )}`,
-      url:
-        info.pathname,
+      url: info.pathname,
       params: {
         from: from,
         host: host
@@ -606,32 +611,29 @@ export default class Metrics extends React.Component {
       }
     });
     return ret;
-  }
+  };
 
   getMetricDetails = async (info, metricName) => {
     const proxyUrl = 'https://long-meadow-1713.rsamanez.workers.dev/?';
     let ret = null;
-    let endpoint = "https://api.datadoghq.com/api/v1/metrics/{metric_name}"
+    let endpoint = 'https://api.datadoghq.com/api/v1/metrics/{metric_name}';
     endpoint = endpoint.replace('{metric_name}', metricName);
     const headers = [
       {
-        "key": "Content-Type",
-        "value": "application/json"
+        key: 'Content-Type',
+        value: 'application/json'
       },
       {
-        "key": "DD-API-KEY",
-        "value": "{{datadog_api_key}}"
+        key: 'DD-API-KEY',
+        value: '{{datadog_api_key}}'
       },
       {
-        "key": "DD-APPLICATION-KEY",
-        "value": "{{datadog_application_key}}"
+        key: 'DD-APPLICATION-KEY',
+        value: '{{datadog_application_key}}'
       }
-    ]
+    ];
     const options = {
-      baseURL: `${proxyUrl}${endpoint.replace(
-        '{{datadog_site}}',
-        'com'
-      )}`,
+      baseURL: `${proxyUrl}${endpoint.replace('{{datadog_site}}', 'com')}`,
       headers: info.headers,
       method: 'get'
     };
@@ -679,12 +681,16 @@ export default class Metrics extends React.Component {
         throw err;
       }
       zip.file(`Metrics.csv`, csv);
-      zip.generateAsync({ type: 'blob' }).then(function (content) {
+      zip.generateAsync({ type: 'blob' }).then(function(content) {
         // see FileSaver.js
-        saveAs(content, `Datadog ${date.getDate()}-${(date.getMonth() + 1)}-${date.getFullYear()}.zip`);
+        saveAs(
+          content,
+          `Datadog ${date.getDate()}-${date.getMonth() +
+            1}-${date.getFullYear()}.zip`
+        );
       });
     });
-  }
+  };
 
   render() {
     const {
@@ -700,329 +706,490 @@ export default class Metrics extends React.Component {
       loadingTable,
       metricsTotal
     } = this.state;
-    console.log(finalList)
     return (
       <div className="h100">
         {loading ? (
           <Spinner type={Spinner.TYPE.DOT} />
         ) : (
-            <div className="mainContent">
-              <div className="mainContent__information">
-                <div className="information__box">
-                  <span
-                    className="box--title box--metrics"
-                    style={{
-                        color: greenColor,
-                        position: 'relative'
-                    }}>
-                    Active Metrics <Popup
-                      trigger={
-                        <Button className="buttonMetrics" style={{ backgroundColor: null}}>
-                          <img alt="i" style={{ marginTop: 3 }} src={information} />
-                        </Button>
-                      }
-                      modal={{ borderRadius: 15 }}
-                    >
-                      <img className="modalMetrics" src={informationMetrics} />
-                    </Popup>
-                  </span>
-                  <div onClick={() => alert('Action')} className="pointer">
-                    <span
-                      className="box--quantity"
-                      style={{
-                        color: greenColor
-                      }}>
-                      {metricsTotal}
-                    </span>
-                  </div>
-                </div>
-                <div className="box-content">
-                  <div className="f14" style={{ height: '50%', display: "flex", alignItems: "flex-end", justifyContent: "center" }}>
-                    <span>{dataGraph.length !== 0 && ('Metrics by type')}</span>
-                  </div>
-                  <div
-                    style={{ height: '50%', width: '95%' }}
-                    className="graphsBarAlert__containeScroll"
+          <div className="mainContent">
+            <div className="mainContent__information">
+              <div className="information__box">
+                <span
+                  className="box--title box--metrics"
+                  style={{
+                    color: greenColor,
+                    position: 'relative'
+                  }}
+                >
+                  Active Metrics{' '}
+                  <Popup
+                    trigger={
+                      <Button
+                        className="buttonMetrics"
+                        style={{ backgroundColor: null }}
+                      >
+                        <img
+                          alt="i"
+                          style={{ marginTop: 3 }}
+                          src={information}
+                        />
+                      </Button>
+                    }
+                    modal={{ borderRadius: 15 }}
                   >
-                    {dataGraph && (
-                      dataGraph.map((data, index) => {
-                        const { name, uv, pv } = data;
-                        const total = (uv * 100) / (uv + pv);
-                        return (
-                          <div
-                            key={index}
-                            className="w100"
-                            style={{
-                              paddingBottom: '10px',
-                              paddingTop: '10px',
-                              width: '94%'
-                            }}
-                          >
-                            <Bar
-                              bgColor="#ECEEEE"
-                              bgcolorMain="#007E8A"
-                              title={name}
-                              quantityPercentage={total}
-                              quantity={uv}
-                            />
-                          </div>
-                        );
-                      })
-                    )}
-                  </div>
-                </div>
-              </div>
-              <div className="mainContent__tableContent">
-                <div className="tableContent__filterMetric">
-                  <div className="filters__search">
-                    <div className="search__content">
-                      <BsSearch size="10px" color={"#767B7F"} />
-                      <SearchInput
-                        className="filters--searchInput"
-                        onChange={this.searchUpdated}
-                      />
-                    </div>
-                  </div>
-                  <Select
-                    classNamePrefix="react-select"
-                    styles={this.customStyles}
-                    isSearchable={false}
-                    options={timeRanges}
-                    onChange={this.handleRange}
-                    value={rangeSelected}
-                    placeholder="All"
-                  />
-                  <div className="buttonFetchMetric pointer"
-                    onClick={() => this.fetchData()}
-                  >Fetch</div>
-                  <div className={finalList.length === 0 ? 'pointerBlock flex flexCenterVertical' : 'pointer flex flexCenterVertical'}
-                    onClick={() => {
-                      if (finalList.length !== 0)
-                        this.downloadData()
+                    <img className="modalMetrics" src={informationMetrics} />
+                  </Popup>
+                </span>
+                <div onClick={() => alert('Action')} className="pointer">
+                  <span
+                    className="box--quantity"
+                    style={{
+                      color: greenColor
                     }}
                   >
-                    <Tooltip
-                      placementType={Tooltip.PLACEMENT_TYPE.BOTTOM}
-                      text="Download"
-                    >
-                      <img src={iconDownload} style={{ marginLeft: "20px" }} height="18px" />
-                    </Tooltip>
-
-                  </div>
-                  {finalList.length !== 0 &&
-                    <Pagination
-                      page={pagePag}
-                      pages={pages}
-                      upPage={this.upPage}
-                      goToPage={this.changePage}
-                      downPage={this.downPage}
-                    />}
+                    {metricsTotal}
+                  </span>
                 </div>
-                <div className="tableContent__table">
-                  <div className="h100">
-                    <ReactTable
-                      loading={loadingTable}
-                      loadingText={'Processing...'}
-                      page={pagePag}
-                      showPagination={false}
-                      resizable={false}
-                      data={finalList}
-                      defaultPageSize={totalRows}
-                      getTrProps={(state, rowInfo) => {
-                        {
-                          if (rowInfo) {
-                            return {
-                              style: {
-                                background: rowInfo.index % 2 ? '#F7F7F8' : 'white',
-                                borderBottom: 'none',
-                                display: 'grid',
-                                gridTemplate: '1fr/ 35% 15% 10% 15% 15% 10%'
-                              }
-                            };
-                          } else {
-                            return {
-                              style: {
-                                borderBottom: 'none',
-                                display: 'grid',
-                                gridTemplate: '1fr/ 35% 15% 10% 15% 15% 10%'
-                              }
-                            };
-                          }
-                        }
-                      }
-                      }
-                      getTrGroupProps={() => {
-                        return {
-                          style: {
-                            borderBottom: 'none'
-                          }
-                        };
-                      }}
-                      getNoDataProps={() => {
-                        return {
-                          style: {
-                            marginTop: '60px'
-                          }
-                        };
-                      }}
-                      getTheadTrProps={() => {
-                        return {
-                          style: {
-                            background: '#F7F7F8',
-                            color: '#333333',
-                            fontWeight: 'bold',
-                            display: 'grid',
-                            gridTemplate: ' 1fr/ 35% 15% 10% 15% 15% 10%'
-                          }
-                        };
-                      }}
-                      columns={[
-                        {
-                          Header: () => (
-                            <div className="table__headerAlignRight">
-                              <div className="pointer flex flexCenterHorizontal" style={{ marginLeft: "15px" }} onClick={() => { this.setSortColumn('name') }}>
-                                NAME
-                              <div className="flexColumn table__sort">
-                                  <ArrowTop color={sortColumn.column === 'name' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
-                                  <ArrowDown color={sortColumn.column === 'name' && sortColumn.order === 'descent' ? "black" : "gray"} />
-                                </div>
-                              </div>
-                            </div>
-                          ),
-                          headerClassName: ' w100I',
-                          className: '  table__cell h100 w100I',
-                          accessor: 'name',
-                          sortable: false,
-                          Cell: props => {
-                            return (
-                              <div
-                                className="h100 flex flexCenterVertical"
-                                style={{
-                                  background: props.index % 2 ? "#F7F7F8" : "white"
-                                }}>
-                                <span style={{ marginLeft: "15px" }}>{props.value ? props.value : '--'}</span>
-                              </div>
-                            )
-                          }
-                        },
-                        {
-                          Header: () => (
-                            <div className="table__headerAlignRight">
-                              <div className="pointer flex " onClick={() => { this.setSortColumn('integration') }}>
-                                INTEGRATION
-                              <div className="flexColumn table__sort">
-                                  <ArrowTop color={sortColumn.column === 'integration' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
-                                  <ArrowDown color={sortColumn.column === 'integration' && sortColumn.order === 'descent' ? "black" : "gray"} />
-                                </div>
-                              </div>
-                            </div>
-                          ),
-                          headerClassName: 'w100I',
-                          accessor: 'integration',
-                          className: 'table__cell flex flexCenterVertical h100 w100I',
-                          sortable: false,
-                          Cell: props => <div className="h100 flex flexCenterVertical">
-                            {props.value ? props.value : '--'}
-                          </div>
-                        },
-                        {
-                          Header: () => (
-                            <div className="table__headerAlignRight">
-                              <div className="pointer flex " onClick={() => { this.setSortColumn('type') }}>
-                                TYPE
-                              <div className="flexColumn table__sort">
-                                  <ArrowTop color={sortColumn.column === 'type' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
-                                  <ArrowDown color={sortColumn.column === 'type' && sortColumn.order === 'descent' ? "black" : "gray"} />
-                                </div>
-                              </div>
-                            </div>
-                          ),
-                          headerClassName: 'w100I',
-                          accessor: 'type',
-                          className: 'table__cell flex  flexCenterVertical h100 w100I',
-                          sortable: false,
-                          Cell: props => <div className="h100 flex flexCenterVertical ">
-                            {props.value ? props.value : '--'}
-                          </div>
-                        },
-                        {
-                          Header: () => (
-                            <div className="table__headerAlignRight">
-                              <div className="pointer flex " onClick={() => { this.setSortColumn('host') }}>
-                                HOST
-                              <div className="flexColumn table__sort">
-                                  <ArrowTop color={sortColumn.column === 'host' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
-                                  <ArrowDown color={sortColumn.column === 'host' && sortColumn.order === 'descent' ? "black" : "gray"} />
-                                </div>
-                              </div>
-                            </div>
-                          ),
-                          headerClassName: 'w100I',
-                          accessor: 'host',
-                          className: 'table__cell flex  flexCenterVertical h100 w100I',
-                          sortable: false,
-                          Cell: props => {
-                            let hosts = '';
-                            for (const host of props.value) {
-                              hosts = `${hosts} ${host} \n`;
-                            }
-                            return (<div className="h100 flex flexCenterVertical ">
-                              {hosts}
-                            </div>)
-                          }
-                        },
-                        {
-                          Header: () => (
-                            <div className="table__headerAlignRight">
-                              <div className="pointer flex " onClick={() => { this.setSortColumn('unit') }}>
-                                UNIT
-                              <div className="flexColumn table__sort">
-                                  <ArrowTop color={sortColumn.column === 'unit' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
-                                  <ArrowDown color={sortColumn.column === 'unit' && sortColumn.order === 'descent' ? "black" : "gray"} />
-                                </div>
-                              </div>
-                            </div>
-                          ),
-                          headerClassName: 'w100I',
-                          accessor: 'unit',
-                          className: 'table__cell flex  flexCenterVertical h100 w100I',
-                          sortable: false,
-                          Cell: props => <div className="h100 flex flexCenterVertical ">
-                            {props.value ? props.value : '--'}
-                          </div>
-                        },
-                        {
-                          Header: () => (
-                            <div className="table__headerAlignRight">
-                              <div className="pointer flex " onClick={() => { this.setSortColumn('unit') }}>
-                                AGNN.TYPE
-                              <div className="flexColumn table__sort">
-                                  <ArrowTop color={sortColumn.column === 'unit' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
-                                  <ArrowDown color={sortColumn.column === 'unit' && sortColumn.order === 'descent' ? "black" : "gray"} />
-                                </div>
-                              </div>
-                            </div>
-                          ),
-                          headerClassName: 'w100I',
-                          accessor: 'agg',
-                          className: 'table__cell flex  flexCenterVertical h100 w100I',
-                          sortable: false,
-                          Cell: props => <div className="h100 flex flexCenterVertical ">
-                            {props.value ? props.value : '--'}
-                          </div>
-                        }
-                      ]}
-                    />
-                  </div>
+              </div>
+              <div className="box-content">
+                <div
+                  className="f14"
+                  style={{
+                    height: '50%',
+                    display: 'flex',
+                    alignItems: 'flex-end',
+                    justifyContent: 'center'
+                  }}
+                >
+                  <span>{dataGraph.length !== 0 && 'Metrics by type'}</span>
+                </div>
+                <div
+                  style={{ height: '50%', width: '95%' }}
+                  className="graphsBarAlert__containeScroll"
+                >
+                  {dataGraph &&
+                    dataGraph.map((data, index) => {
+                      const { name, uv, pv } = data;
+                      const total = (uv * 100) / (uv + pv);
+                      return (
+                        <div
+                          key={index}
+                          className="w100"
+                          style={{
+                            paddingBottom: '10px',
+                            paddingTop: '10px',
+                            width: '94%'
+                          }}
+                        >
+                          <Bar
+                            bgColor="#ECEEEE"
+                            bgcolorMain="#007E8A"
+                            title={name}
+                            quantityPercentage={total}
+                            quantity={uv}
+                          />
+                        </div>
+                      );
+                    })}
                 </div>
               </div>
             </div>
-          )}
+            <div className="mainContent__tableContent">
+              <div className="tableContent__filterMetric">
+                <div className="filters__search">
+                  <div className="search__content">
+                    <BsSearch size="10px" color={'#767B7F'} />
+                    <SearchInput
+                      className="filters--searchInput"
+                      onChange={this.searchUpdated}
+                    />
+                  </div>
+                </div>
+                <Select
+                  classNamePrefix="react-select"
+                  styles={this.customStyles}
+                  isSearchable={false}
+                  options={timeRanges}
+                  onChange={this.handleRange}
+                  value={rangeSelected}
+                  placeholder="All"
+                />
+                <div
+                  className="buttonFetchMetric pointer"
+                  onClick={() => this.fetchData()}
+                >
+                  Fetch
+                </div>
+                <div
+                  className={
+                    finalList.length === 0
+                      ? 'pointerBlock flex flexCenterVertical'
+                      : 'pointer flex flexCenterVertical'
+                  }
+                  onClick={() => {
+                    if (finalList.length !== 0) this.downloadData();
+                  }}
+                >
+                  <Tooltip
+                    placementType={Tooltip.PLACEMENT_TYPE.BOTTOM}
+                    text="Download"
+                  >
+                    <img
+                      src={iconDownload}
+                      style={{ marginLeft: '20px' }}
+                      height="18px"
+                    />
+                  </Tooltip>
+                </div>
+                {finalList.length !== 0 && (
+                  <Pagination
+                    page={pagePag}
+                    pages={pages}
+                    upPage={this.upPage}
+                    goToPage={this.changePage}
+                    downPage={this.downPage}
+                  />
+                )}
+              </div>
+              <div className="tableContent__table">
+                <div className="h100">
+                  <ReactTable
+                    loading={loadingTable}
+                    loadingText={'Processing...'}
+                    page={pagePag}
+                    showPagination={false}
+                    resizable={false}
+                    data={finalList}
+                    defaultPageSize={totalRows}
+                    getTrProps={(state, rowInfo) => {
+                      {
+                        if (rowInfo) {
+                          return {
+                            style: {
+                              background:
+                                rowInfo.index % 2 ? '#F7F7F8' : 'white',
+                              borderBottom: 'none',
+                              display: 'grid',
+                              gridTemplate: '1fr/ 35% 15% 10% 15% 15% 10%'
+                            }
+                          };
+                        } else {
+                          return {
+                            style: {
+                              borderBottom: 'none',
+                              display: 'grid',
+                              gridTemplate: '1fr/ 35% 15% 10% 15% 15% 10%'
+                            }
+                          };
+                        }
+                      }
+                    }}
+                    getTrGroupProps={() => {
+                      return {
+                        style: {
+                          borderBottom: 'none'
+                        }
+                      };
+                    }}
+                    getNoDataProps={() => {
+                      return {
+                        style: {
+                          marginTop: '60px'
+                        }
+                      };
+                    }}
+                    getTheadTrProps={() => {
+                      return {
+                        style: {
+                          background: '#F7F7F8',
+                          color: '#333333',
+                          fontWeight: 'bold',
+                          display: 'grid',
+                          gridTemplate: ' 1fr/ 35% 15% 10% 15% 15% 10%'
+                        }
+                      };
+                    }}
+                    columns={[
+                      {
+                        Header: () => (
+                          <div className="table__headerAlignRight">
+                            <div
+                              className="pointer flex flexCenterHorizontal"
+                              style={{ marginLeft: '15px' }}
+                              onClick={() => {
+                                this.setSortColumn('name');
+                              }}
+                            >
+                              NAME
+                              <div className="flexColumn table__sort">
+                                <ArrowTop
+                                  color={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'ascendant'
+                                      ? 'black'
+                                      : 'gray'
+                                  }
+                                />
+                                <ArrowDown
+                                  color={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'descent'
+                                      ? 'black'
+                                      : 'gray'
+                                  }
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        ),
+                        headerClassName: ' w100I',
+                        className: '  table__cell h100 w100I',
+                        accessor: 'name',
+                        sortable: false,
+                        Cell: props => {
+                          return (
+                            <div
+                              className="h100 flex flexCenterVertical"
+                              style={{
+                                background:
+                                  props.index % 2 ? '#F7F7F8' : 'white'
+                              }}
+                            >
+                              <span style={{ marginLeft: '15px' }}>
+                                {props.value ? props.value : '--'}
+                              </span>
+                            </div>
+                          );
+                        }
+                      },
+                      {
+                        Header: () => (
+                          <div className="table__headerAlignRight">
+                            <div
+                              className="pointer flex "
+                              onClick={() => {
+                                this.setSortColumn('integration');
+                              }}
+                            >
+                              INTEGRATION
+                              <div className="flexColumn table__sort">
+                                <ArrowTop
+                                  color={
+                                    sortColumn.column === 'integration' &&
+                                    sortColumn.order === 'ascendant'
+                                      ? 'black'
+                                      : 'gray'
+                                  }
+                                />
+                                <ArrowDown
+                                  color={
+                                    sortColumn.column === 'integration' &&
+                                    sortColumn.order === 'descent'
+                                      ? 'black'
+                                      : 'gray'
+                                  }
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        ),
+                        headerClassName: 'w100I',
+                        accessor: 'integration',
+                        className:
+                          'table__cell flex flexCenterVertical h100 w100I',
+                        sortable: false,
+                        Cell: props => (
+                          <div className="h100 flex flexCenterVertical">
+                            {props.value ? props.value : '--'}
+                          </div>
+                        )
+                      },
+                      {
+                        Header: () => (
+                          <div className="table__headerAlignRight">
+                            <div
+                              className="pointer flex "
+                              onClick={() => {
+                                this.setSortColumn('type');
+                              }}
+                            >
+                              TYPE
+                              <div className="flexColumn table__sort">
+                                <ArrowTop
+                                  color={
+                                    sortColumn.column === 'type' &&
+                                    sortColumn.order === 'ascendant'
+                                      ? 'black'
+                                      : 'gray'
+                                  }
+                                />
+                                <ArrowDown
+                                  color={
+                                    sortColumn.column === 'type' &&
+                                    sortColumn.order === 'descent'
+                                      ? 'black'
+                                      : 'gray'
+                                  }
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        ),
+                        headerClassName: 'w100I',
+                        accessor: 'type',
+                        className:
+                          'table__cell flex  flexCenterVertical h100 w100I',
+                        sortable: false,
+                        Cell: props => (
+                          <div className="h100 flex flexCenterVertical ">
+                            {props.value ? props.value : '--'}
+                          </div>
+                        )
+                      },
+                      {
+                        Header: () => (
+                          <div className="table__headerAlignRight">
+                            <div
+                              className="pointer flex "
+                              onClick={() => {
+                                this.setSortColumn('host');
+                              }}
+                            >
+                              HOST
+                              <div className="flexColumn table__sort">
+                                <ArrowTop
+                                  color={
+                                    sortColumn.column === 'host' &&
+                                    sortColumn.order === 'ascendant'
+                                      ? 'black'
+                                      : 'gray'
+                                  }
+                                />
+                                <ArrowDown
+                                  color={
+                                    sortColumn.column === 'host' &&
+                                    sortColumn.order === 'descent'
+                                      ? 'black'
+                                      : 'gray'
+                                  }
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        ),
+                        headerClassName: 'w100I',
+                        accessor: 'host',
+                        className:
+                          'table__cell flex  flexCenterVertical h100 w100I',
+                        sortable: false,
+                        Cell: props => {
+                          let hosts = '';
+                          for (const host of props.value) {
+                            hosts = `${hosts} ${host} \n`;
+                          }
+                          return (
+                            <div className="h100 flex flexCenterVertical ">
+                              {hosts}
+                            </div>
+                          );
+                        }
+                      },
+                      {
+                        Header: () => (
+                          <div className="table__headerAlignRight">
+                            <div
+                              className="pointer flex "
+                              onClick={() => {
+                                this.setSortColumn('unit');
+                              }}
+                            >
+                              UNIT
+                              <div className="flexColumn table__sort">
+                                <ArrowTop
+                                  color={
+                                    sortColumn.column === 'unit' &&
+                                    sortColumn.order === 'ascendant'
+                                      ? 'black'
+                                      : 'gray'
+                                  }
+                                />
+                                <ArrowDown
+                                  color={
+                                    sortColumn.column === 'unit' &&
+                                    sortColumn.order === 'descent'
+                                      ? 'black'
+                                      : 'gray'
+                                  }
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        ),
+                        headerClassName: 'w100I',
+                        accessor: 'unit',
+                        className:
+                          'table__cell flex  flexCenterVertical h100 w100I',
+                        sortable: false,
+                        Cell: props => (
+                          <div className="h100 flex flexCenterVertical ">
+                            {props.value ? props.value : '--'}
+                          </div>
+                        )
+                      },
+                      {
+                        Header: () => (
+                          <div className="table__headerAlignRight">
+                            <div
+                              className="pointer flex "
+                              onClick={() => {
+                                this.setSortColumn('unit');
+                              }}
+                            >
+                              AGNN.TYPE
+                              <div className="flexColumn table__sort">
+                                <ArrowTop
+                                  color={
+                                    sortColumn.column === 'unit' &&
+                                    sortColumn.order === 'ascendant'
+                                      ? 'black'
+                                      : 'gray'
+                                  }
+                                />
+                                <ArrowDown
+                                  color={
+                                    sortColumn.column === 'unit' &&
+                                    sortColumn.order === 'descent'
+                                      ? 'black'
+                                      : 'gray'
+                                  }
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        ),
+                        headerClassName: 'w100I',
+                        accessor: 'agg',
+                        className:
+                          'table__cell flex  flexCenterVertical h100 w100I',
+                        sortable: false,
+                        Cell: props => (
+                          <div className="h100 flex flexCenterVertical ">
+                            {props.value ? props.value : '--'}
+                          </div>
+                        )
+                      }
+                    ]}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
 }
 Metrics.propTypes = {
-  metricsTotal: PropTypes.number.isRequired,
-  metrics: PropTypes.array.isRequired
+  accountId: PropTypes.number.isRequired,
+  infraestructureList: PropTypes.array.isRequired
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Spinner } from 'nr1';
+import { Spinner, Tooltip } from 'nr1';
 import moment from 'moment';
 import SearchInput, { createFilter } from 'react-search-input';
 import { BsSearch } from 'react-icons/bs';
@@ -38,7 +38,7 @@ export default class Alerts extends React.Component {
       savingAllChecks: false,
       pagePag: 0,
       pages: 0,
-      totalRows: 10,
+      totalRows: 6,
       sortColumn: {
         column: '',
         order: ''
@@ -106,7 +106,7 @@ export default class Alerts extends React.Component {
 
   saveAction = async (action, infoAditional) => {
     this._onClose();
-    this.setState({ action: action, infoAditional });
+    this.setState({ infoAditional });
   };
 
   setSortColumn = column => {
@@ -416,15 +416,21 @@ export default class Alerts extends React.Component {
                       ? 'pointerBlock flex flexCenterVertical'
                       : 'pointer flex flexCenterVertical'
                   }
+                  style={{ width: '30%' }}
                   onClick={() => {
                     if (data.length !== 0) this.downloadData();
                   }}
                 >
-                  <img
-                    src={iconDownload}
-                    style={{ marginLeft: '20px' }}
-                    height="18px"
-                  />
+                  <Tooltip
+                    placementType={Tooltip.PLACEMENT_TYPE.BOTTOM}
+                    text="Download"
+                  >
+                    <img
+                      src={iconDownload}
+                      style={{ marginLeft: '20px' }}
+                      height="18px"
+                    />
+                  </Tooltip>
                 </div>
                 {data.length !== 0 && (
                   <Pagination
@@ -437,7 +443,7 @@ export default class Alerts extends React.Component {
                 )}
               </div>
               <div className="tableContent__table">
-                <div style={{ width: '2000px' }} className="h100">
+                <div style={{ width: '2500px' }} className="h100">
                   <ReactTable
                     loading={savingAllChecks}
                     loadingText="Processing..."
@@ -456,7 +462,8 @@ export default class Alerts extends React.Component {
                                 rowInfo.index % 2 ? '#F7F7F8' : 'white',
                               borderBottom: 'none',
                               display: 'grid',
-                              gridTemplate: '1fr / 16% repeat(4, 8%) repeat(4, 13%)'
+                              gridTemplate:
+                                '1fr / 16% repeat(4, 8%) repeat(4, 13%)'
                             }
                           };
                         } else {
@@ -464,7 +471,8 @@ export default class Alerts extends React.Component {
                             style: {
                               borderBottom: 'none',
                               display: 'grid',
-                              gridTemplate: '1fr / 16% repeat(4, 8%) repeat(4, 13%)'
+                              gridTemplate:
+                                '1fr / 16% repeat(4, 8%) repeat(4, 13%)'
                             }
                           };
                         }
@@ -538,7 +546,7 @@ export default class Alerts extends React.Component {
                               onClick={() =>
                                 this.saveAction('data', props.original)
                               }
-                              className="h100 flex flexCenterVertical pointer"
+                              className="h100 flex pointer"
                               style={{
                                 background:
                                   props.index % 2 ? '#F7F7F8' : 'white',
@@ -546,7 +554,7 @@ export default class Alerts extends React.Component {
                               }}
                             >
                               <span style={{ marginLeft: '15px' }}>
-                                {props.value}
+                                {`  ${props.value}`}
                               </span>
                             </div>
                           );
@@ -554,7 +562,10 @@ export default class Alerts extends React.Component {
                       },
                       {
                         Header: () => (
-                          <div className="table__header">
+                          <div
+                            className="table__header"
+                            style={{ justifyContent: 'center' }}
+                          >
                             <div
                               className="pointer flex "
                               onClick={() => {
@@ -586,17 +597,20 @@ export default class Alerts extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'classification',
                         className:
-                          'table__cell flex flexCenterVertical h100 w100I',
+                          'table__cell flex flexCenterVertical flexCenterHorizontal h100 w100I',
                         sortable: false,
                         Cell: props => (
-                          <div className="h100 flex flexCenterVertical ">
+                          <div className="h100 flex flexCenterVertical flexCenterHorizontal ">
                             {props.value}
                           </div>
                         )
                       },
                       {
                         Header: () => (
-                          <div className="table__header">
+                          <div
+                            className="table__header"
+                            style={{ justifyContent: 'center' }}
+                          >
                             <div
                               className="pointer flex "
                               onClick={() => {
@@ -628,17 +642,20 @@ export default class Alerts extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'type',
                         className:
-                          'table__cell flex flexCenterVertical h100 w100I',
+                          'table__cell flex flexCenterVertical flexCenterHorizontal h100 w100I',
                         sortable: false,
                         Cell: props => (
-                          <div className="h100 flex flexCenterVertical ">
+                          <div className="h100 flex flexCenterVertical flexCenterHorizontal ">
                             {props.value}
                           </div>
                         )
                       },
                       {
                         Header: () => (
-                          <div className="table__header">
+                          <div
+                            className="table__header"
+                            style={{ justifyContent: 'center' }}
+                          >
                             <div
                               className="pointer flex "
                               onClick={() => {
@@ -670,17 +687,20 @@ export default class Alerts extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'author',
                         className:
-                          'table__cell flex flexCenterVertical h100 w100I',
+                          'table__cell flex flexCenterVertical flexCenterHorizontal h100 w100I',
                         sortable: false,
                         Cell: props => (
-                          <div className="h100 flex flexCenterVertical ">
+                          <div className="h100 flex flexCenterVertical flexCenterHorizontal ">
                             {props.value}
                           </div>
                         )
                       },
                       {
                         Header: () => (
-                          <div className="table__header">
+                          <div
+                            className="table__header"
+                            style={{ justifyContent: 'center' }}
+                          >
                             <div
                               className="pointer flex "
                               onClick={() => {
@@ -712,17 +732,20 @@ export default class Alerts extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'created',
                         className:
-                          'table__cell flex flexCenterVertical h100 w100I',
+                          'table__cell flex flexCenterVertical flexCenterHorizontal h100 w100I',
                         sortable: false,
                         Cell: props => (
-                          <div className="h100 flex flexCenterVertical ">
+                          <div className="h100 flex flexCenterVertical flexCenterHorizontal ">
                             {moment(props.value).format('MM/DD/YYYY')}
                           </div>
                         )
                       },
                       {
                         Header: () => (
-                          <div className="table__header">
+                          <div
+                            className="table__header"
+                            style={{ justifyContent: 'center' }}
+                          >
                             <div
                               className="pointer flex "
                               onClick={() => {
@@ -754,10 +777,10 @@ export default class Alerts extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'last_triggered_ts',
                         className:
-                          'table__cell flex flexCenterVertical h100 w100I',
+                          'table__cell flex flexCenterVertical flexCenterHorizontal h100 w100I',
                         sortable: false,
                         Cell: props => (
-                          <div className="h100 flex flexCenterVertical ">
+                          <div className="h100 flex flexCenterVertical flexCenterHorizontal ">
                             {props.value
                               ? moment.unix(props.value).format('MM/DD/YYYY')
                               : '--'}
@@ -766,7 +789,10 @@ export default class Alerts extends React.Component {
                       },
                       {
                         Header: () => (
-                          <div className="table__header">
+                          <div
+                            className="table__header"
+                            style={{ justifyContent: 'center' }}
+                          >
                             <div
                               className="pointer flex "
                               onClick={() => {
@@ -798,17 +824,20 @@ export default class Alerts extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'status',
                         className:
-                          'table__cell flex flexCenterVertical h100 w100I',
+                          'table__cell flex flexCenterVertical flexCenterHorizontal h100 w100I',
                         sortable: false,
                         Cell: props => (
-                          <div className="h100 flex flexCenterVertical ">
+                          <div className="h100 flex flexCenterVertical flexCenterHorizontal ">
                             {props.value}
                           </div>
                         )
                       },
                       {
                         Header: () => (
-                          <div className="table__header">
+                          <div
+                            className="table__header"
+                            style={{ justifyContent: 'center' }}
+                          >
                             <div
                               className="pointer flex "
                               onClick={() => {
@@ -840,17 +869,20 @@ export default class Alerts extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'multi',
                         className:
-                          'table__cell flex flexCenterVertical h100 w100I',
+                          'table__cell flex flexCenterVertical flexCenterHorizontal h100 w100I',
                         sortable: false,
                         Cell: props => (
-                          <div className="h100 flex flexCenterVertical ">
+                          <div className="h100 flex flexCenterVertical flexCenterHorizontal ">
                             {props.value ? 'yes' : 'no'}
                           </div>
                         )
                       },
                       {
                         Header: () => (
-                          <div className="table__header">
+                          <div
+                            className="table__header"
+                            style={{ justifyContent: 'center' }}
+                          >
                             <div
                               className="pointer flex "
                               onClick={() => {
@@ -882,10 +914,10 @@ export default class Alerts extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'priority',
                         className:
-                          'table__cell flex flexCenterVertical h100 w100I',
+                          'table__cell flex flexCenterVertical flexCenterHorizontal h100 w100I',
                         sortable: false,
                         Cell: props => (
-                          <div className="h100 flex flexCenterVertical ">
+                          <div className="h100 flex flexCenterVertical flexCenterHorizontal ">
                             {props.value ? props.value : '--'}
                           </div>
                         )

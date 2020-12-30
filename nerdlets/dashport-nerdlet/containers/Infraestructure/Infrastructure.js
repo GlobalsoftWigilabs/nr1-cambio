@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ModalInfrastructure from './ModalInfrastructure';
-import { Spinner } from 'nr1';
+import { Spinner, Tooltip } from 'nr1';
 import SearchInput, { createFilter } from 'react-search-input';
 import { BsSearch } from 'react-icons/bs';
 import iconDownload from '../../images/download.svg';
@@ -40,58 +40,19 @@ export default class Infrastructure extends React.Component {
     this.state = {
       searchHosts: '',
       loading: false,
-      allChecked: false,
-      all: true,
-      favorite: false,
-      visited: false,
-      complex: '',
-      dashboards: [],
-      average: 0,
-      categorizedList: [],
       data: [],
-      avaliableList: [],
-      mostVisited: [],
-      favoriteDashboards: [],
-      hosts: [],
       savingAllChecks: false,
-      logs: [],
-      selectedTag: 'all',
-      availableFilters: [
-        { value: 'All', label: 'All' },
-        { value: 'Favorites', label: 'Favorites' },
-        { value: 'MostVisited', label: 'Most visited' }
-      ],
-      listChecked: {
-        value: 'All',
-        label: 'All list',
-        id: 0,
-        dashboards: []
-      },
-      listPopUp: [],
-      valueListPopUp: {},
-      // Pagination
       pagePag: 0,
       pages: 0,
       totalRows: 6,
-      page: 1,
-      ////////////
-      finalList: [],
-      textTag: '',
-      searchTermDashboards: '',
       sortColumn: {
         column: '',
         order: ''
       },
-      hidden: false,
-      action: '',
-      checksDownload: [
-        { value: 'CSV', label: 'CSV' },
-        { value: 'JSON', label: 'JSON' }
-      ],
-      selectFormat: { value: 'CSV', label: 'CSV' },
-      emptyData: false
+      hidden: false
     };
   }
+
   /**
    * Creates an instance of Infrastructure.
    *
@@ -100,7 +61,7 @@ export default class Infrastructure extends React.Component {
    */
 
   componentDidMount() {
-    const { infrastructureDataGraph, infraestructureList = [] } = this.props;
+    const { infraestructureList = [] } = this.props;
     const data = [];
     infraestructureList.forEach(element => {
       let tags = '';
@@ -323,7 +284,6 @@ export default class Infrastructure extends React.Component {
   searchUpdated = term => {
     const { sortColumn, dataRespaldo } = this.state;
     this.loadData(dataRespaldo, term, sortColumn);
-    this.setState({ searchAlerts: term });
   };
 
   _onClose = () => {
@@ -333,7 +293,7 @@ export default class Infrastructure extends React.Component {
 
   saveAction = async (action, infoAditional) => {
     this._onClose();
-    this.setState({ action: action, infoAditional });
+    this.setState({ infoAditional });
   };
 
   render() {
@@ -348,7 +308,7 @@ export default class Infrastructure extends React.Component {
       data,
       infoAditional
     } = this.state;
-    const { infrastructureDataGraph } = this.props;
+    const { infrastructureDataGraph = [] } = this.props;
     return (
       <div className="h100">
         {loading ? (
@@ -450,15 +410,21 @@ export default class Infrastructure extends React.Component {
                       ? 'pointerBlock flex flexCenterVertical'
                       : 'pointer flex flexCenterVertical'
                   }
+                  style={{ width: '30%' }}
                   onClick={() => {
                     if (data.length !== 0) this.downloadData();
                   }}
                 >
-                  <img
-                    src={iconDownload}
-                    style={{ marginLeft: '20px' }}
-                    height="18px"
-                  />
+                  <Tooltip
+                    placementType={Tooltip.PLACEMENT_TYPE.BOTTOM}
+                    text="Download"
+                  >
+                    <img
+                      src={iconDownload}
+                      style={{ marginLeft: '20px' }}
+                      height="18px"
+                    />
+                  </Tooltip>
                 </div>
                 {data.length !== 0 && (
                   <Pagination
@@ -763,7 +729,7 @@ export default class Infrastructure extends React.Component {
                                 this.setSortColumn('tags');
                               }}
                             >
-                              TAGS
+                              TAGS BY SOURCE
                               <div className="flexColumn table__sort">
                                 <ArrowTop
                                   color={
