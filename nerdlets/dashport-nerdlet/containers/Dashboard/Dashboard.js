@@ -625,7 +625,7 @@ export default class Dashboard extends React.Component {
                 )}
               </div>
               <div className="tableContent__table">
-                <div style={{ width: '3000px' }} className="h100">
+                <div style={{ width: '2500px' }} className="h100">
                   <ReactTable
                     loading={savingAllChecks}
                     loadingText={'Processing...'}
@@ -644,7 +644,7 @@ export default class Dashboard extends React.Component {
                               borderBottom: 'none',
                               display: 'grid',
                               gridTemplate:
-                                '1fr/ 8% repeat(5,5%) 23% 7% 22% 15%'
+                                '1fr/ 10% 7% 10% repeat(3,7%) 15% 7% 15% 15%'
                             }
                           };
                         } else {
@@ -653,7 +653,7 @@ export default class Dashboard extends React.Component {
                               borderBottom: 'none',
                               display: 'grid',
                               gridTemplate:
-                                '1fr/ 8% repeat(5,5%) 23% 7% 22% 15%'
+                                '1fr/ 10% 7% 10% repeat(3,7%) 15% 7% 15% 15%'
                             }
                           };
                         }
@@ -680,7 +680,7 @@ export default class Dashboard extends React.Component {
                           color: '#333333',
                           fontWeight: 'bold',
                           display: 'grid',
-                          gridTemplate: '1fr/ 8% repeat(5,5%) 23% 7% 22% 15%'
+                          gridTemplate: '1fr/ 10% 7% 10% repeat(3,7%) 15% 7% 15% 15%'
                         }
                       };
                     }}
