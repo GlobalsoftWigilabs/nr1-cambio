@@ -1367,34 +1367,6 @@ export default class App extends React.Component {
           }
         }
         break;
-      case 'Get All Active Metrics':
-        {
-          const metricsList = documentData.metrics;
-          documentData.metrics = [];
-          const metricObj = documentData;
-          const pagesMetricsList = this.pagesOfData(metricsList);
-          // guardo obj metrics
-          await writeNerdStorage(
-            accountId,
-            documentName,
-            `${documentName}-obj`,
-            metricObj,
-            this.reportLogFetch
-          );
-          // guardo lista de metricas
-          for (const keyMetrics in pagesMetricsList) {
-            if (pagesMetricsList[keyMetrics]) {
-              await writeNerdStorage(
-                accountId,
-                documentName,
-                `${documentName}-${keyMetrics}`,
-                pagesMetricsList[keyMetrics],
-                this.reportLogFetch
-              );
-            }
-          }
-        }
-        break;
       case 'Monitors meta':
         {
           const countsTypeList = documentData.countsType;
