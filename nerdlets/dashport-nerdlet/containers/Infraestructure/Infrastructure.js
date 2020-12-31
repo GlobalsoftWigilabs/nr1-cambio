@@ -95,9 +95,9 @@ export default class Infrastructure extends React.Component {
         SOURCES: sources,
         MUTED: element.is_muted,
         TAGS_BY_SOURCE: tags,
-        CPU: element.metrics.cpu,
-        IOWAIT: element.metrics.iowait,
-        LOAD: element.metrics.load,
+        CPU: element.metrics.cpu ? element.metrics.cpu : '-----',
+        IOWAIT: element.metrics.iowait ? element.metrics.iowait : '-----' ,
+        LOAD: element.metrics.load ? element.metrics.load : '-----',
 
       });
     });

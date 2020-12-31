@@ -70,18 +70,18 @@ export default class Alerts extends React.Component {
         DATE_LAST_TRIGGERED: element.last_triggered_ts,
         OVERALL_STATE: element.status,
         MULTI: element.multi,
-        PRIORITY: element.priority,
+        PRIORITY: element.priority ? element.priority : '-----',
         MESSAGE: element.message,
         QUERY: element.query,
-        AGGREGATION: element.aggregation,
-        EVALUATION_DELAY: element.evaluation_delay,
-        FAILURE_DURATION: element.min_failure_duration,
-        MIN_LOCATION_FAILED: element.min_location_failed,
-        HOST_DELAY: element.new_host_delay,
-        NO_DATA_TIMEFRAME: element.no_data_timeframe,
-        NOTIFY_AUDIT: element.notify_audit,
+        AGGREGATION: element.aggregation ? element.aggregation : '-----',
+        EVALUATION_DELAY: element.evaluation_delay ? element.evaluation_delay : '-----',
+        FAILURE_DURATION: element.min_failure_duration ? element.min_failure_duration : '-----',
+        MIN_LOCATION_FAILED: element.min_location_failed ? element.min_location_failed : '-----',
+        HOST_DELAY: element.new_host_delay ? element.new_host_delay : '-----',
+        NO_DATA_TIMEFRAME: element.no_data_timeframe ? element.no_data_timeframe : '-----',
+        NOTIFY_AUDIT: element.notify_audit ? element.notify_audit : '-----',
         THRESHOLDS: thresholds,
-        NOTIFY_NO_DATA: element.notify_no_data,
+        NOTIFY_NO_DATA: element.notify_no_data ? element.notify_no_data : '-----'
 
 
 
