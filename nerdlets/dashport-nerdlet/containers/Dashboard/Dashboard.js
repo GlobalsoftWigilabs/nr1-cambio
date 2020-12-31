@@ -21,6 +21,7 @@ import Pagination from '../../components/Pagination/Pagination';
 import JSZip from 'jszip';
 import jsoncsv from 'json-2-csv';
 import { saveAs } from 'file-saver';
+import { qregExr } from '../../dd2nr/transpiler/regexr';
 
 const KEYS_TO_FILTERS = [
   'name',
@@ -226,6 +227,8 @@ export default class Dashboard extends React.Component {
     for (const dd of dataDashboards) {
       dd.popularity = dd.popularity ? dd.popularity : 0;
       dd.widgetsCount = dd.widgets.length;
+      dd.autor=dd.autor!== ''?dd.autor:'-----';
+      dd.description=dd.description!== ''?dd.description:'-----';
       let dashboardList='';
       if(dd.dashboardList){
           if(dd.dashboardList.length===0){
@@ -239,7 +242,7 @@ export default class Dashboard extends React.Component {
             dashboardList = `${dashboardList} ...`;
           }
       }
-      dd.dashboardList=dashboardList;
+      dd.dashboardListTxt=dashboardList;
       quantityTotal += dd.widgets.length;
     }
     this.setState({
@@ -473,25 +476,128 @@ export default class Dashboard extends React.Component {
     }
   };
 
+  returnQuery = (definition) => {
+    let query = "";
+    try {
+        if (definition.requests) {
+            if (definition.requests instanceof Array) {
+                for (const iterator of definition.requests) {
+                    query += ` ${iterator.q} `;
+                }
+            } else if (definition.requests.fill) {
+                query += `${definition.requests.fill.q}`;
+            } else if (definition.requests.fill && definition.requests.size) {
+                query += `${definition.requests.fill.q}  ${definition.requests.size.q}`;
+            } else if (definition.requests.size) {
+                query += ` ${definition.requests.size.q} `;
+            }
+        } else if (definition.query) {
+            query += ` ${definition.query} `;
+        }
+    } catch (err) {
+        if (query === '')
+            query = '-----';
+        return query;
+    }
+    if (query === '')
+        query = '-----';
+    return query;
+}
+
+returnParams = (widget) => {
+    let query = this.returnQuery(widget);
+    const variables = qregExr(query);
+    if (variables) {
+        if (variables[4]) {
+            return variables[4];
+        } else {
+            return '-----';
+        }
+    } else {
+        return '-----';
+    }
+}
+
+
   downloadData = async () => {
     const { finalList } = this.state;
-    const { accountId } = this.props;
     const date = new Date();
     const zip = new JSZip();
-    const data = await recoveDataDashboards(accountId);
-    let dataFitrada = [];
-    for (const iterator of finalList) {
-      dataFitrada.push(data.find(dd => dd.id === iterator.id));
+    let dataFiltrada = [];
+    for (const dd of finalList) {
+        let dashboardList='';
+        if(dd.dashboardList.length===0) dashboardList='-----';
+        for (const ddList of dd.dashboardList) {
+            dashboardList = `${dashboardList} ${ddList} `;
+        }
+        for (const widget of dd.widgets) {
+            dataFiltrada.push({
+                name:dd.name,
+                author: dd.autor,
+                creationDate: this.dateToYMD(new Date(dd.creation)),
+                modDate:this.dateToYMD(new Date(dd.modified)),
+                popularity:dd.popularity,
+                widgets:dd.widgetsCount,
+                description: dd.description,
+                layoutType:dd.layoutType,
+                url:dd.url,
+                dashboardList:dashboardList,
+                titleWidget: widget.definition.title ? widget.definition.title : '-----',
+                queryWidget:this.returnQuery(widget.definition),
+                typeWidget: widget.definition.type,
+                queryParametersWidget: this.returnParams(widget.definition),
+                sourceWidget: this.returnParams(widget.definition),
+                defaultVariable: '',
+                nameVariable: '',
+                prefixVariable: ''
+            });
+        }
+        for (const variable of dd.templateVariables) {
+            dataFiltrada.push({
+                name:dd.name,
+                author: dd.autor,
+                creationDate: this.dateToYMD(new Date(dd.creation)),
+                modDate:this.dateToYMD(new Date(dd.modified)),
+                popularity:dd.popularity,
+                widgets:dd.widgetsCount,
+                description: dd.description,
+                layoutType:dd.layoutType,
+                url:dd.url,
+                dashboardList:dashboardList,
+                titleWidget: '',
+                queryWidget:'',
+                typeWidget: '',
+                queryParametersWidget: '',
+                sourceWidget: '',
+                defaultVariable: variable.default ? variable.default : '-----',
+                nameVariable: variable.name ? variable.name : '-----',
+                prefixVariable: variable.prefix ? variable.prefix : '-----'
+            });
+        }
+        if(dd.templateVariables.length===0&&dd.widgets.length===0){
+            dataFiltrada.push({
+                name:dd.name,
+                author: dd.autor,
+                creationDate: this.dateToYMD(new Date(dd.creation)),
+                modDate:this.dateToYMD(new Date(dd.modified)),
+                popularity:dd.popularity,
+                widgets:dd.widgetsCount,
+                description: dd.description,
+                layoutType:dd.layoutType,
+                url:dd.url,
+                dashboardList:dashboardList,
+                titleWidget: '',
+                queryWidget:'',
+                typeWidget: '',
+                queryParametersWidget: '',
+                sourceWidget: '',
+                defaultVariable: '',
+                nameVariable: '',
+                prefixVariable: ''
+            });
+        }
     }
-    let dataCSV = [];
-    //recorrer widgets por cada widget añadir su dashboard
-    for (const ddF of dataFitrada) {
-      for (const widget of ddF.data.widgets) {
-        ddF.data.widgets = widget;
-        dataCSV.push(ddF.data);
-      }
-    }
-    jsoncsv.json2csv(dataFitrada, (err, csv) => {
+    jsoncsv.json2csv(dataFiltrada, (err, csv) => {
       if (err) {
         throw err;
       }
@@ -783,7 +889,7 @@ export default class Dashboard extends React.Component {
                         sortable: false,
                         Cell: props => (
                           <div className="h100 flex flexCenterVertical ">
-                            {props.value !== '' ? props.value : '-----'}
+                            {props.value}
                           </div>
                         )
                       },
@@ -1124,7 +1230,7 @@ export default class Dashboard extends React.Component {
                           </div>
                         ),
                         headerClassName: 'w100I',
-                        accessor: 'dashboardList',
+                        accessor: 'dashboardListTxt',
                         className:
                           'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,

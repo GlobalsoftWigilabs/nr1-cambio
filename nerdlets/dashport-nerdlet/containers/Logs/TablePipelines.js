@@ -110,7 +110,24 @@ export default class TablePipelines extends React.Component {
   };
 
   downloadData = async () => {
-    const { data } = this.state;
+    const { dataPipeline = [] } = this.props;
+    const data = [];
+    dataPipeline.forEach(element => {
+      let processors = '';
+      if (element.processors) {
+        for (const processor of element.processors) {
+          if (processor.name !== '') {
+            processors = `${processors} ${processor.name} \n`;
+          }
+        }
+      }
+      data.push({
+        NAME: element.name ? element.name : '-----',
+        ENABLED: element.is_enabled ? element.is_enabled : '-----',
+        TYPE: element.type ? element.type : '-----',
+        ORDER_PROCESSORS: processors !== '' ? processors : '-----'
+      });
+    });
     const date = new Date();
     const zip = new JSZip();
     jsoncsv.json2csv(data, (err, csv) => {

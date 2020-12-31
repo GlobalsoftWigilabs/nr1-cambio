@@ -204,46 +204,48 @@ export default class App extends React.Component {
       'datadog',
       this.reportLogFetch
     );
-    let retrys = 0;
-    let keyApi = null;
-    let keyApp = null;
-    const keysName = ['apikey', 'appkey'];
-    while (retrys !== 10) {
-      if (!keyApi) keyApi = await readSingleSecretKey(keysName[0]);
+    if (dataSetup) {
+      let retrys = 0;
+      let keyApi = null;
+      let keyApp = null;
+      const keysName = ['apikey', 'appkey'];
+      while (retrys !== 10) {
+        if (!keyApi) keyApi = await readSingleSecretKey(keysName[0]);
 
-      if (!keyApp) keyApp = await readSingleSecretKey(keysName[1]);
+        if (!keyApp) keyApp = await readSingleSecretKey(keysName[1]);
 
+        if (keyApi && keyApp) {
+          retrys = 10;
+        } else {
+          retrys += 1;
+        }
+      }
       if (keyApi && keyApp) {
-        retrys = 10;
-      } else {
-        retrys += 1;
-      }
-    }
-    if (dataSetup !== null && keyApi && keyApp) {
-      this.setState({
-        setupComplete: true,
-        apikey: keyApi,
-        apikeyS: dataSetup.apikeyS,
-        appkey: keyApp,
-        appkeyS: dataSetup.appkeyS,
-        apiserver: dataSetup.apiserver === '.eu'
-      });
-      const dateFetch = await readNerdStorage(
-        accountId,
-        'ddFetch',
-        'dateFetch',
-        this.reportLogFetch
-      );
-      await this.loadViewData();
-      if (dateFetch !== null) {
         this.setState({
-          lastUpdate: dateFetch.lastUpdate
+          setupComplete: true,
+          apikey: keyApi,
+          apikeyS: dataSetup.apikeyS,
+          appkey: keyApp,
+          appkeyS: dataSetup.appkeyS,
+          apiserver: dataSetup.apiserver === '.eu'
         });
+        const dateFetch = await readNerdStorage(
+          accountId,
+          'ddFetch',
+          'dateFetch',
+          this.reportLogFetch
+        );
+        await this.loadViewData();
+        if (dateFetch !== null) {
+          this.setState({
+            lastUpdate: dateFetch.lastUpdate
+          });
+        } else {
+          this.setState({ lastUpdate: 'never' });
+        }
       } else {
-        this.setState({ lastUpdate: 'never' });
+        this.setState({ selectedMenu: 0 });
       }
-    } else {
-      this.setState({ selectedMenu: 0 });
     }
     this.setState({ loadingContent: false });
   }
@@ -293,7 +295,7 @@ export default class App extends React.Component {
         emptyData = true;
       }
       this.setState({
-        dataDashboards:list,
+        dataDashboards: list,
         emptyData
       })
     } catch (err) {
@@ -1771,7 +1773,7 @@ export default class App extends React.Component {
 
     Toast.showToast({
       title: 'ALERT',
-      description: '¿Are you sure to delete the datadog configuration?',
+      description: 'Are you sure you want to delete the datadog configuration?',
       actions: [
         {
           label: 'DELETE',

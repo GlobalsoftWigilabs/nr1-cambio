@@ -124,7 +124,37 @@ export default class TableMetrics extends React.Component {
   };
 
   downloadData = async () => {
-    const { data } = this.state;
+    const { dataMetrics = [] } = this.props;
+    const data = [];
+    dataMetrics.forEach(element => {
+      let groupByPath = '';
+      if (element.group_by) {
+        element.group_by.forEach(group => {
+          groupByPath = `${groupByPath} ${group} \n`;
+        });
+      }
+      let tagName = '';
+      if (element.group_by) {
+        element.group_by.forEach(group => {
+          tagName = `${tagName} ${group} \n`;
+        });
+      }
+      data.push({
+        ID: element.id,
+        COMPUTE_AGGR_TYPE: element.attributes.compute.aggregation_type
+          ? element.attributes.compute.aggregation_type
+          : '-----',
+        COMPUTE_PATH: element.attributes.compute.path
+          ? element.attributes.compute.path
+          : '-----',
+        FILTER_QUERY: element.attributes.filter.query
+          ? element.attributes.filter.query
+          : '-----',
+
+        GROUP_BY_PATH: groupByPath !== '' ? groupByPath : '------',
+        GROUP_TAG_NAME: tagName !== '' ? tagName : '-----'
+      });
+    });
     const date = new Date();
     const zip = new JSZip();
     jsoncsv.json2csv(data, (err, csv) => {

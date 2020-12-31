@@ -111,7 +111,20 @@ export default class Pagination extends React.Component {
                   this.changePage(page);
                 }}
               >
-                {array[index - 1] + 2 < page ? `...   ${page}` : page}
+                {array[index - 1] + 2 < page ? (
+                  <div
+                    style={{
+                      display: 'flex',
+                      width: '100%',
+                      justifyContent: 'space-between'
+                    }}
+                  >
+                    <div>...</div>
+                    {`${page}`}
+                  </div>
+                ) : (
+                  page
+                )}
               </div>
             );
           })}
