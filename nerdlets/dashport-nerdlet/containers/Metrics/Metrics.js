@@ -139,7 +139,7 @@ export default class Metrics extends React.Component {
         'infraestructure',
         this.reportLogFetch
       );
-      
+
       for (let i = 0; i < sizeInfraestructure.length - 1; i++) {
         let page = [];
         page = await readNerdStorage(
@@ -208,7 +208,7 @@ export default class Metrics extends React.Component {
         date.setMinutes(date.getMinutes() - 60);
         const from = moment(date).unix();
         await this.fetchMetrics(from);
-      }else{
+      } else {
         this.setState({
           metricsTotal: listMetrics.length,
           metrics: listMetrics,
@@ -266,16 +266,19 @@ export default class Metrics extends React.Component {
           );
           const metricDetail = await this.getMetricDetails(info, metric.name);
           if (index !== -1) {
-            metrics[index].integration = metricDetail.data.integration
-              ? metricDetail.data.integration
-              : '-----';
-            metrics[index].type = metricDetail.data.type
-              ? metricDetail.data.type
-              : '-----';
-            metrics[index].unit = metricDetail.data.unit
-              ? metricDetail.data.unit
-              : '-----';
-            metrics[index].agg = '-----';
+            if (metricDetail) {
+              metrics[index].integration = metricDetail.data.integration
+                ? metricDetail.data.integration
+                : '-----';
+              metrics[index].type = metricDetail.data.type
+                ? metricDetail.data.type
+                : '-----';
+              metrics[index].unit = metricDetail.data.unit
+                ? metricDetail.data.unit
+                : '-----';
+              metrics[index].agg = '-----';
+            }
+
           }
         }
       }
