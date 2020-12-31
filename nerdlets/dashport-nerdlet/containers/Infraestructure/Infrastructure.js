@@ -18,12 +18,12 @@ import { saveAs } from 'file-saver';
  * Constants of colours
  */
 const KEYS_TO_FILTERS = [
-  'HostName',
-  'Aliases',
-  'Apps',
-  'Sources',
-  'Muted',
-  'TagsBySource'
+  'HOST_NAME',
+  'ALIASES',
+  'APPS',
+  'SOURCES',
+  'MUTED',
+  'TAGS_BY_SOURCE'
 ];
 const greenColor = '#007E8A';
 
@@ -89,15 +89,15 @@ export default class Infrastructure extends React.Component {
         });
       }
       data.push({
-        HostName: element.host_name,
-        Aliases: aliases,
-        Apps: apps,
-        Sources: sources,
-        Muted: element.is_muted,
-        TagsBySource: tags,
-        Cpu: element.metrics.cpu,
-        IoWait: element.metrics.iowait,
-        Load: element.metrics.load,
+        HOST_NAME: element.host_name,
+        ALIASES: aliases,
+        APPS: apps,
+        SOURCES: sources,
+        MUTED: element.is_muted,
+        TAGS_BY_SOURCE: tags,
+        CPU: element.metrics.cpu,
+        IOWAIT: element.metrics.iowait,
+        LOAD: element.metrics.load,
 
       });
     });
@@ -133,73 +133,73 @@ export default class Infrastructure extends React.Component {
       valueTwo = 1;
     }
     switch (column) {
-      case 'HostName':
+      case 'HOST_NAME':
         // eslint-disable-next-line no-case-declarations
         const sortHostname = finalList.sort(function(a, b) {
-          if (a.HostName > b.HostName) {
+          if (a.HOST_NAME > b.HOST_NAME) {
             return valueOne;
           }
-          if (a.HostName < b.HostName) {
+          if (a.HOST_NAME < b.HOST_NAME) {
             return valueTwo;
           }
           return 0;
         });
         return sortHostname;
-      case 'Aliases':
+      case 'ALIASES':
         // eslint-disable-next-line no-case-declarations
         const sortAliases = finalList.sort(function(a, b) {
-          if (a.Aliases > b.Aliases) {
+          if (a.ALIASES > b.ALIASES) {
             return valueOne;
           }
-          if (a.Aliases < b.Aliases) {
+          if (a.ALIASES < b.ALIASES) {
             return valueTwo;
           }
           return 0;
         });
         return sortAliases;
-      case 'Apps':
+      case 'APPS':
         // eslint-disable-next-line no-case-declarations
         const sortApps = finalList.sort(function(a, b) {
-          if (a.Apps > b.Apps) {
+          if (a.APPS > b.APPS) {
             return valueOne;
           }
-          if (a.Apps < b.Apps) {
+          if (a.APPS < b.APPS) {
             return valueTwo;
           }
           return 0;
         });
         return sortApps;
-      case 'Sources':
+      case 'SOURCES':
         // eslint-disable-next-line no-case-declarations
         const sortSources = finalList.sort(function(a, b) {
-          if (a.Sources > b.Sources) {
+          if (a.SOURCES > b.SOURCES) {
             return valueOne;
           }
-          if (a.Sources < b.Sources) {
+          if (a.SOURCES < b.SOURCES) {
             return valueTwo;
           }
           return 0;
         });
         return sortSources;
-      case 'Muted':
+      case 'MUTED':
         // eslint-disable-next-line no-case-declarations
         const sortMuted = finalList.sort(function(a, b) {
-          if (a.Muted > b.Muted) {
+          if (a.MUTED > b.MUTED) {
             return valueOne;
           }
-          if (a.Muted < b.Muted) {
+          if (a.MUTED < b.MUTED) {
             return valueTwo;
           }
           return 0;
         });
         return sortMuted;
-      case 'TagsBySource':
+      case 'TAGS_BY_SOURCE':
         // eslint-disable-next-line no-case-declarations
         const sortTags = finalList.sort(function(a, b) {
-          if (a.TagsBySource > b.TagsBySource) {
+          if (a.TAGS_BY_SOURCE > b.TAGS_BY_SOURCE) {
             return valueOne;
           }
-          if (a.TagsBySource < b.TagsBySource) {
+          if (a.TAGS_BY_SOURCE < b.TAGS_BY_SOURCE) {
             return valueTwo;
           }
           return 0;
@@ -504,14 +504,14 @@ export default class Infrastructure extends React.Component {
                               className="pointer flex"
                               style={{ marginLeft: '15px' }}
                               onClick={() => {
-                                this.setSortColumn('HostName');
+                                this.setSortColumn('HOST_NAME');
                               }}
                             >
                               HOST NAME
                               <div className="flexColumn table__sort">
                                 <ArrowTop
                                   color={
-                                    sortColumn.column === 'HostName' &&
+                                    sortColumn.column === 'HOST_NAME' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -519,7 +519,7 @@ export default class Infrastructure extends React.Component {
                                 />
                                 <ArrowDown
                                   color={
-                                    sortColumn.column === 'HostName' &&
+                                    sortColumn.column === 'HOST_NAME' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
@@ -531,7 +531,7 @@ export default class Infrastructure extends React.Component {
                         ),
                         headerClassName: 'stycky w100I',
                         className: ' stycky table__cellSticky h100 w100I',
-                        accessor: 'HostName',
+                        accessor: 'HOST_NAME',
                         sortable: false,
                         Cell: props => {
                           return (
@@ -559,14 +559,14 @@ export default class Infrastructure extends React.Component {
                             <div
                               className="pointer flex"
                               onClick={() => {
-                                this.setSortColumn('Aliases');
+                                this.setSortColumn('ALIASES');
                               }}
                             >
                               ALIASES
                               <div className="flexColumn table__sort">
                                 <ArrowTop
                                   color={
-                                    sortColumn.column === 'Aliases' &&
+                                    sortColumn.column === 'ALIASES' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -574,7 +574,7 @@ export default class Infrastructure extends React.Component {
                                 />
                                 <ArrowDown
                                   color={
-                                    sortColumn.column === 'Aliases' &&
+                                    sortColumn.column === 'ALIASES' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
@@ -585,7 +585,7 @@ export default class Infrastructure extends React.Component {
                           </div>
                         ),
                         headerClassName: 'w100I',
-                        accessor: 'Aliases',
+                        accessor: 'ALIASES',
                         className:
                           'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
@@ -601,14 +601,14 @@ export default class Infrastructure extends React.Component {
                             <div
                               className="pointer flex "
                               onClick={() => {
-                                this.setSortColumn('Apps');
+                                this.setSortColumn('APPS');
                               }}
                             >
                               APPS
                               <div className="flexColumn table__sort ">
                                 <ArrowTop
                                   color={
-                                    sortColumn.column === 'Apps' &&
+                                    sortColumn.column === 'APPS' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -616,7 +616,7 @@ export default class Infrastructure extends React.Component {
                                 />
                                 <ArrowDown
                                   color={
-                                    sortColumn.column === 'Apps' &&
+                                    sortColumn.column === 'APPS' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
@@ -627,7 +627,7 @@ export default class Infrastructure extends React.Component {
                           </div>
                         ),
                         headerClassName: 'w100I',
-                        accessor: 'Apps',
+                        accessor: 'APPS',
                         className:
                           'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
@@ -643,14 +643,14 @@ export default class Infrastructure extends React.Component {
                             <div
                               className="pointer flex"
                               onClick={() => {
-                                this.setSortColumn('Sources');
+                                this.setSortColumn('SOURCES');
                               }}
                             >
                               SOURCES
                               <div className="flexColumn table__sort">
                                 <ArrowTop
                                   color={
-                                    sortColumn.column === 'Sources' &&
+                                    sortColumn.column === 'SOURCES' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -658,7 +658,7 @@ export default class Infrastructure extends React.Component {
                                 />
                                 <ArrowDown
                                   color={
-                                    sortColumn.column === 'Sources' &&
+                                    sortColumn.column === 'SOURCES' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
@@ -669,7 +669,7 @@ export default class Infrastructure extends React.Component {
                           </div>
                         ),
                         headerClassName: 'w100I',
-                        accessor: 'Sources',
+                        accessor: 'SOURCES',
                         className:
                           'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
@@ -685,14 +685,14 @@ export default class Infrastructure extends React.Component {
                             <div
                               className="pointer flex"
                               onClick={() => {
-                                this.setSortColumn('Muted');
+                                this.setSortColumn('MUTED');
                               }}
                             >
                               MUTED
                               <div className="flexColumn table__sort">
                                 <ArrowTop
                                   color={
-                                    sortColumn.column === 'Muted' &&
+                                    sortColumn.column === 'MUTED' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -700,7 +700,7 @@ export default class Infrastructure extends React.Component {
                                 />
                                 <ArrowDown
                                   color={
-                                    sortColumn.column === 'Muted' &&
+                                    sortColumn.column === 'MUTED' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
@@ -711,7 +711,7 @@ export default class Infrastructure extends React.Component {
                           </div>
                         ),
                         headerClassName: 'w100I',
-                        accessor: 'Muted',
+                        accessor: 'MUTED',
                         className:
                           'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
@@ -727,14 +727,14 @@ export default class Infrastructure extends React.Component {
                             <div
                               className="pointer flex"
                               onClick={() => {
-                                this.setSortColumn('TagsBySource');
+                                this.setSortColumn('TAGS_BY_SOURCE');
                               }}
                             >
                               TAGS BY SOURCE
                               <div className="flexColumn table__sort">
                                 <ArrowTop
                                   color={
-                                    sortColumn.column === 'TagsBySource' &&
+                                    sortColumn.column === 'TAGS_BY_SOURCE' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -742,7 +742,7 @@ export default class Infrastructure extends React.Component {
                                 />
                                 <ArrowDown
                                   color={
-                                    sortColumn.column === 'TagsBySource' &&
+                                    sortColumn.column === 'TAGS_BY_SOURCE' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
@@ -753,7 +753,7 @@ export default class Infrastructure extends React.Component {
                           </div>
                         ),
                         headerClassName: 'w100I',
-                        accessor: 'TagsBySource',
+                        accessor: 'TAGS_BY_SOURCE',
                         className:
                           'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,

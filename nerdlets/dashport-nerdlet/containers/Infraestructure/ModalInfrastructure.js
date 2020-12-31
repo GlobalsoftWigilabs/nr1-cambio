@@ -55,7 +55,7 @@ export default class ModalInfrastructure extends React.Component {
           <Modal.Body>
             <Modal.Header>
               <div className=" modalWidgets__closeIcon">
-                <div className="infoAditional--title">{`${infoAditional.HostName}`}</div>
+                <div className="infoAditional--title">{`${infoAditional.HOST_NAME}`}</div>
                 <div className="flex" style={{ justifyContent: 'flex-end' }}>
                   <img
                     onClick={() => {
@@ -82,22 +82,22 @@ export default class ModalInfrastructure extends React.Component {
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
                     {this.renderCelll(
                       'CPU',
-                      infoAditional.Cpu
-                        ? infoAditional.Cpu
+                      infoAditional.CPU
+                        ? infoAditional.CPU
                         : '-----',
                       '#f7f7f8'
                     )}
                     {this.renderCelll(
-                      'MESSAGE',
-                      infoAditional.IoWait
-                        ? infoAditional.IoWait
+                      'IOWAIT',
+                      infoAditional.IOWAIT
+                        ? infoAditional.IOWAIT
                         : '-----',
                       'white'
                     )}
                     {this.renderCelll(
-                      'MESSAGE',
-                      infoAditional.Load
-                        ? infoAditional.Load
+                      'LOAD',
+                      infoAditional.LOAD
+                        ? infoAditional.LOAD
                         : '-----',
                       '#f7f7f8'
                     )}

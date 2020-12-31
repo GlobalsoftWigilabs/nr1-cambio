@@ -17,15 +17,15 @@ import Bar from '../../components/Bar';
 
 const greenColor = '#007E8A';
 const KEYS_TO_FILTERS = [
-  'name',
-  'classification',
-  'created',
-  'author',
-  'last_triggered_ts',
-  'type',
-  'status',
-  'multi',
-  'priority'
+  'NAME',
+  'CLASSIFICATION',
+  'TYPE',
+  'AUTHOR',
+  'CREATED',
+  'DATE_LAST_TRIGGERED',
+  'OVERALL_STATE',
+  'MULTI',
+  'PRIORITY'
 ];
 
 export default class Alerts extends React.Component {
@@ -62,26 +62,29 @@ export default class Alerts extends React.Component {
         }
       }
       data.push({
-        name: element.name,
-        classification: element.classification,
-        message: element.message,
-        created: element.created,
-        author: element.creator.name,
-        last_triggered_ts: element.last_triggered_ts,
-        type: element.type,
-        status: element.status,
-        multi: element.multi,
-        priority: element.priority,
-        query: element.query,
-        aggregation: element.aggregation,
-        evaluation_delay: element.evaluation_delay,
-        new_host_delay: element.new_host_delay,
-        no_data_timeframe: element.no_data_timeframe,
-        notify_audit: element.notify_audit,
-        notify_no_data: element.notify_no_data,
-        thresholds: thresholds,
-        min_location_failed: element.min_location_failed,
-        min_failure_duration: element.min_failure_duration
+        NAME: element.name,
+        CLASSIFICATION: element.classification,
+        TYPE: element.type,
+        AUTHOR: element.creator.name,
+        CREATED: element.created,
+        DATE_LAST_TRIGGERED: element.last_triggered_ts,
+        OVERALL_STATE: element.status,
+        MULTI: element.multi,
+        PRIORITY: element.priority,
+        MESSAGE: element.message,
+        QUERY: element.query,
+        AGGREGATION: element.aggregation,
+        EVALUATION_DELAY: element.evaluation_delay,
+        FAILURE_DURATION: element.min_failure_duration,
+        MIN_LOCATION_FAILED: element.min_location_failed,
+        HOST_DELAY: element.new_host_delay,
+        NO_DATA_TIMEFRAME: element.no_data_timeframe,
+        NOTIFY_AUDIT: element.notify_audit,
+        THRESHOLDS: thresholds,
+        NOTIFY_NO_DATA: element.notify_no_data,
+
+
+
       });
     });
     this.calcTable(data);
@@ -209,109 +212,109 @@ export default class Alerts extends React.Component {
       valueTwo = 1;
     }
     switch (column) {
-      case 'name':
+      case 'NAME':
         // eslint-disable-next-line no-case-declarations
         const sortName = finalList.sort(function(a, b) {
-          if (a.name > b.name) {
+          if (a.NAME > b.NAME) {
             return valueOne;
           }
-          if (a.name < b.name) {
+          if (a.NAME < b.NAME) {
             return valueTwo;
           }
           return 0;
         });
         return sortName;
-      case 'classification':
+      case 'CLASSIFICATION':
         // eslint-disable-next-line no-case-declarations
         const sortClassification = finalList.sort(function(a, b) {
-          if (a.classification > b.classification) {
+          if (a.CLASSIFICATION > b.CLASSIFICATION) {
             return valueOne;
           }
-          if (a.classification < b.classification) {
+          if (a.CLASSIFICATION < b.CLASSIFICATION) {
             return valueTwo;
           }
           return 0;
         });
         return sortClassification;
-      case 'created':
+      case 'CREATED':
         // eslint-disable-next-line no-case-declarations
         const sortCreated = finalList.sort(function(a, b) {
-          const date1 = new Date(moment(a.created).format('YYYY-MM-DDTHH:mm'));
-          const date2 = new Date(moment(b.created).format('YYYY-MM-DDTHH:mm'));
+          const date1 = new Date(moment(a.CREATED).format('YYYY-MM-DDTHH:mm'));
+          const date2 = new Date(moment(b.CREATED).format('YYYY-MM-DDTHH:mm'));
           if (date1 > date2) return valueOne;
           if (date1 < date2) return valueTwo;
           return 0;
         });
         return sortCreated;
-      case 'last_triggered_ts':
+      case 'DATE_LAST_TRIGGERED':
         // eslint-disable-next-line no-case-declarations
         const sortLast_triggered_ts = finalList.sort(function(a, b) {
           const date1 = new Date(
-            moment.unix(a.last_triggered_ts).format('YYYY-MM-DDTHH:mm')
+            moment.unix(a.DATE_LAST_TRIGGERED).format('YYYY-MM-DDTHH:mm')
           );
           const date2 = new Date(
-            moment.unix(b.last_triggered_ts).format('YYYY-MM-DDTHH:mm')
+            moment.unix(b.DATE_LAST_TRIGGERED).format('YYYY-MM-DDTHH:mm')
           );
           if (date1 > date2) return valueOne;
           if (date1 < date2) return valueTwo;
           return 0;
         });
         return sortLast_triggered_ts;
-      case 'author':
+      case 'AUTHOR':
         // eslint-disable-next-line no-case-declarations
         const sortAuthor = finalList.sort(function(a, b) {
-          if (a.author > b.author) {
+          if (a.AUTHOR > b.AUTHOR) {
             return valueOne;
           }
-          if (a.author < b.author) {
+          if (a.AUTHOR < b.AUTHOR) {
             return valueTwo;
           }
           return 0;
         });
         return sortAuthor;
-      case 'type':
+      case 'TYPE':
         // eslint-disable-next-line no-case-declarations
         const sortType = finalList.sort(function(a, b) {
-          if (a.type > b.type) {
+          if (a.TYPE > b.TYPE) {
             return valueOne;
           }
-          if (a.type < b.type) {
+          if (a.TYPE < b.TYPE) {
             return valueTwo;
           }
           return 0;
         });
         return sortType;
-      case 'status':
+      case 'OVERALL_STATE':
         // eslint-disable-next-line no-case-declarations
         const sortStatus = finalList.sort(function(a, b) {
-          if (a.status > b.status) {
+          if (a.OVERALL_STATE > b.OVERALL_STATE) {
             return valueOne;
           }
-          if (a.status < b.status) {
+          if (a.OVERALL_STATE < b.OVERALL_STATE) {
             return valueTwo;
           }
           return 0;
         });
         return sortStatus;
-      case 'multi':
+      case 'MULTI':
         // eslint-disable-next-line no-case-declarations
         const sortMulti = finalList.sort(function(a, b) {
-          if (a.multi > b.multi) {
+          if (a.MULTI > b.MULTI) {
             return valueOne;
           }
-          if (a.multi < b.multi) {
+          if (a.MULTI < b.MULTI) {
             return valueTwo;
           }
           return 0;
         });
         return sortMulti;
-      case 'priority':
+      case 'PRIORITY':
         // eslint-disable-next-line no-case-declarations
         const sortPriority = finalList.sort(function(a, b) {
-          if (a.priority > b.priority) {
+          if (a.PRIORITY > b.PRIORITY) {
             return valueOne;
           }
-          if (a.priority < b.priority) {
+          if (a.PRIORITY < b.PRIORITY) {
             return valueTwo;
           }
           return 0;
@@ -521,14 +524,14 @@ export default class Alerts extends React.Component {
                               className="pointer flex "
                               style={{ marginLeft: '15px' }}
                               onClick={() => {
-                                this.setSortColumn('name');
+                                this.setSortColumn('NAME');
                               }}
                             >
                               NAME
                               <div className="flexColumn table__sort">
                                 <ArrowTop
                                   color={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'NAME' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -536,7 +539,7 @@ export default class Alerts extends React.Component {
                                 />
                                 <ArrowDown
                                   color={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'NAME' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
@@ -548,7 +551,7 @@ export default class Alerts extends React.Component {
                         ),
                         headerClassName: 'stycky w100I',
                         className: ' stycky table__cellSticky h100 w100I',
-                        accessor: 'name',
+                        accessor: 'NAME',
                         sortable: false,
                         Cell: props => {
                           return (
@@ -576,14 +579,14 @@ export default class Alerts extends React.Component {
                             <div
                               className="pointer flex "
                               onClick={() => {
-                                this.setSortColumn('classification');
+                                this.setSortColumn('CLASSIFICATION');
                               }}
                             >
                               CLASSIFICATION
                               <div className="flexColumn table__sort">
                                 <ArrowTop
                                   color={
-                                    sortColumn.column === 'classification' &&
+                                    sortColumn.column === 'CLASSIFICATION' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -591,7 +594,7 @@ export default class Alerts extends React.Component {
                                 />
                                 <ArrowDown
                                   color={
-                                    sortColumn.column === 'classification' &&
+                                    sortColumn.column === 'CLASSIFICATION' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
@@ -602,7 +605,7 @@ export default class Alerts extends React.Component {
                           </div>
                         ),
                         headerClassName: 'w100I',
-                        accessor: 'classification',
+                        accessor: 'CLASSIFICATION',
                         className:
                           'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
@@ -618,14 +621,14 @@ export default class Alerts extends React.Component {
                             <div
                               className="pointer flex "
                               onClick={() => {
-                                this.setSortColumn('type');
+                                this.setSortColumn('TYPE');
                               }}
                             >
                               TYPE
                               <div className="flexColumn table__sort">
                                 <ArrowTop
                                   color={
-                                    sortColumn.column === 'type' &&
+                                    sortColumn.column === 'TYPE' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -633,7 +636,7 @@ export default class Alerts extends React.Component {
                                 />
                                 <ArrowDown
                                   color={
-                                    sortColumn.column === 'type' &&
+                                    sortColumn.column === 'TYPE' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
@@ -644,7 +647,7 @@ export default class Alerts extends React.Component {
                           </div>
                         ),
                         headerClassName: 'w100I',
-                        accessor: 'type',
+                        accessor: 'TYPE',
                         className:
                           'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
@@ -660,14 +663,14 @@ export default class Alerts extends React.Component {
                             <div
                               className="pointer flex "
                               onClick={() => {
-                                this.setSortColumn('author');
+                                this.setSortColumn('AUTHOR');
                               }}
                             >
                               AUTHOR
                               <div className="flexColumn table__sort">
                                 <ArrowTop
                                   color={
-                                    sortColumn.column === 'author' &&
+                                    sortColumn.column === 'AUTHOR' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -675,7 +678,7 @@ export default class Alerts extends React.Component {
                                 />
                                 <ArrowDown
                                   color={
-                                    sortColumn.column === 'author' &&
+                                    sortColumn.column === 'AUTHOR' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
@@ -686,7 +689,7 @@ export default class Alerts extends React.Component {
                           </div>
                         ),
                         headerClassName: 'w100I',
-                        accessor: 'author',
+                        accessor: 'AUTHOR',
                         className:
                           'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
@@ -702,14 +705,14 @@ export default class Alerts extends React.Component {
                             <div
                               className="pointer flex "
                               onClick={() => {
-                                this.setSortColumn('created');
+                                this.setSortColumn('CREATED');
                               }}
                             >
                               CREATION DATE
                               <div className="flexColumn table__sort">
                                 <ArrowTop
                                   color={
-                                    sortColumn.column === 'created' &&
+                                    sortColumn.column === 'CREATED' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -717,7 +720,7 @@ export default class Alerts extends React.Component {
                                 />
                                 <ArrowDown
                                   color={
-                                    sortColumn.column === 'created' &&
+                                    sortColumn.column === 'CREATED' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
@@ -728,7 +731,7 @@ export default class Alerts extends React.Component {
                           </div>
                         ),
                         headerClassName: 'w100I',
-                        accessor: 'created',
+                        accessor: 'CREATED',
                         className:
                           'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
@@ -744,14 +747,14 @@ export default class Alerts extends React.Component {
                             <div
                               className="pointer flex "
                               onClick={() => {
-                                this.setSortColumn('last_triggered_ts');
+                                this.setSortColumn('DATE_LAST_TRIGGERED');
                               }}
                             >
                               DATE LAST TRIGGERED
                               <div className="flexColumn table__sort">
                                 <ArrowTop
                                   color={
-                                    sortColumn.column === 'last_triggered_ts' &&
+                                    sortColumn.column === 'DATE_LAST_TRIGGERED' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -759,7 +762,7 @@ export default class Alerts extends React.Component {
                                 />
                                 <ArrowDown
                                   color={
-                                    sortColumn.column === 'last_triggered_ts' &&
+                                    sortColumn.column === 'DATE_LAST_TRIGGERED' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
@@ -770,7 +773,7 @@ export default class Alerts extends React.Component {
                           </div>
                         ),
                         headerClassName: 'w100I',
-                        accessor: 'last_triggered_ts',
+                        accessor: 'DATE_LAST_TRIGGERED',
                         className:
                           'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
@@ -788,14 +791,14 @@ export default class Alerts extends React.Component {
                             <div
                               className="pointer flex "
                               onClick={() => {
-                                this.setSortColumn('status');
+                                this.setSortColumn('OVERALL_STATE');
                               }}
                             >
                               OVERALL STATE
                               <div className="flexColumn table__sort">
                                 <ArrowTop
                                   color={
-                                    sortColumn.column === 'status' &&
+                                    sortColumn.column === 'OVERALL_STATE' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -803,7 +806,7 @@ export default class Alerts extends React.Component {
                                 />
                                 <ArrowDown
                                   color={
-                                    sortColumn.column === 'status' &&
+                                    sortColumn.column === 'OVERALL_STATE' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
@@ -814,7 +817,7 @@ export default class Alerts extends React.Component {
                           </div>
                         ),
                         headerClassName: 'w100I',
-                        accessor: 'status',
+                        accessor: 'OVERALL_STATE',
                         className:
                           'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
@@ -830,14 +833,14 @@ export default class Alerts extends React.Component {
                             <div
                               className="pointer flex "
                               onClick={() => {
-                                this.setSortColumn('multi');
+                                this.setSortColumn('MULTI');
                               }}
                             >
                               MULTI
                               <div className="flexColumn table__sort">
                                 <ArrowTop
                                   color={
-                                    sortColumn.column === 'multi' &&
+                                    sortColumn.column === 'MULTI' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -845,7 +848,7 @@ export default class Alerts extends React.Component {
                                 />
                                 <ArrowDown
                                   color={
-                                    sortColumn.column === 'multi' &&
+                                    sortColumn.column === 'MULTI' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
@@ -856,7 +859,7 @@ export default class Alerts extends React.Component {
                           </div>
                         ),
                         headerClassName: 'w100I',
-                        accessor: 'multi',
+                        accessor: 'MULTI',
                         className:
                           'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
@@ -872,14 +875,14 @@ export default class Alerts extends React.Component {
                             <div
                               className="pointer flex "
                               onClick={() => {
-                                this.setSortColumn('priority');
+                                this.setSortColumn('PRIORITY');
                               }}
                             >
                               PRIORITY
                               <div className="flexColumn table__sort">
                                 <ArrowTop
                                   color={
-                                    sortColumn.column === 'priority' &&
+                                    sortColumn.column === 'PRIORITY' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -887,7 +890,7 @@ export default class Alerts extends React.Component {
                                 />
                                 <ArrowDown
                                   color={
-                                    sortColumn.column === 'priority' &&
+                                    sortColumn.column === 'PRIORITY' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
@@ -898,7 +901,7 @@ export default class Alerts extends React.Component {
                           </div>
                         ),
                         headerClassName: 'w100I',
-                        accessor: 'priority',
+                        accessor: 'PRIORITY',
                         className:
                           'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
