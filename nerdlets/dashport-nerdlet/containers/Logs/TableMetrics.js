@@ -143,16 +143,16 @@ export default class TableMetrics extends React.Component {
         ID: element.id,
         COMPUTE_AGGR_TYPE: element.attributes.compute.aggregation_type
           ? element.attributes.compute.aggregation_type
-          : null,
+          : '-----',
         COMPUTE_PATH: element.attributes.compute.path
           ? element.attributes.compute.path
-          : null,
+          : '-----',
         FILTER_QUERY: element.attributes.filter.query
           ? element.attributes.filter.query
-          : null,
+          : '-----',
 
-        GROUP_BY_PATH: groupByPath,
-        GROUP_TAG_NAME: tagName
+        GROUP_BY_PATH: groupByPath !== '' ? groupByPath : '------',
+        GROUP_TAG_NAME: tagName !== '' ? tagName : '-----'
       });
     });
     const date = new Date();

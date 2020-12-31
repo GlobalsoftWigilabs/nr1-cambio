@@ -116,11 +116,15 @@ export default class TableArchives extends React.Component {
           });
         }
         data.push({
-          NAME: element.attributes.name,
-          DESTINATION: element.attributes.destination.type,
-          QUERY_USED: element.attributes.query,
-          TAGS: tags,
-          STATE: element.attributes.state
+          NAME: element.attributes.name ? element.attributes.name : '-----',
+          DESTINATION: element.attributes.destination.type
+            ? element.attributes.destination.type
+            : '-----',
+          QUERY_USED: element.attributes.query
+            ? element.attributes.query
+            : '-----',
+          TAGS: tags !== '' ? tags : '-----',
+          STATE: element.attributes.state ? element.attributes.state : '-----'
         });
       });
     }

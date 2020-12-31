@@ -122,10 +122,10 @@ export default class TablePipelines extends React.Component {
         }
       }
       data.push({
-        NAME: element.name,
-        ENABLED: element.is_enabled,
-        TYPE: element.type,
-        ORDER_PROCESSORS: processors
+        NAME: element.name ? element.name : '-----',
+        ENABLED: element.is_enabled ? element.is_enabled : '-----',
+        TYPE: element.type ? element.type : '-----',
+        ORDER_PROCESSORS: processors !== '' ? processors : '-----'
       });
     });
     const date = new Date();
