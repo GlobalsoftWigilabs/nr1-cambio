@@ -1895,7 +1895,7 @@ export default class App extends React.Component {
         return (
           <Metrics
             accountId={accountId}
-            infraestructureList={infraestructureList}
+            // infraestructureList={infraestructureList}
           // metrics={metrics}
           // metricsTotal={metricsTotal}
           />
