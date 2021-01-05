@@ -725,7 +725,7 @@ export default class Metrics extends React.Component {
         TYPE: metric.type ? metric.type : '-----',
         HOST: metric.host,
         UNIT: metric.unit ? metric.unit : '-----',
-        AGNNTYPE: metric.agg ? metric.agg : '-----'
+        AGNN_TYPE: metric.agg ? metric.agg : '-----'
       })
     }
     const date = new Date();

@@ -21,7 +21,7 @@ const KEYS_TO_FILTERS = [
   'CLASSIFICATION',
   'TYPE',
   'AUTHOR',
-  'CREATED',
+  'CREATION_DATE',
   'DATE_LAST_TRIGGERED',
   'OVERALL_STATE',
   'MULTI',
@@ -66,10 +66,10 @@ export default class Alerts extends React.Component {
         CLASSIFICATION: element.classification,
         TYPE: element.type,
         AUTHOR: element.creator.name,
-        CREATED: element.created,
+        CREATION_DATE: element.created,
         DATE_LAST_TRIGGERED: element.last_triggered_ts,
         OVERALL_STATE: element.status,
-        MULTI: element.multi,
+        MULTI: element.multi ? 'yes' : 'no',
         PRIORITY: element.priority ? element.priority : '-----',
         MESSAGE: element.message,
         QUERY: element.query,
@@ -154,7 +154,22 @@ export default class Alerts extends React.Component {
     const { data } = this.state;
     const date = new Date();
     const zip = new JSZip();
-    jsoncsv.json2csv(data, (err, csv) => {
+    const dataCsv = [];
+    data.forEach(row => {
+      dataCsv.push({
+        NAME: row.NAME,
+        CLASSIFICATION: row.CLASSIFICATION,
+        TYPE: row.TYPE,
+        AUTHOR: row.AUTHOR,
+        CREATION_DATE: row.CREATION_DATE,
+        DATE_LAST_TRIGGERED: row.DATE_LAST_TRIGGERED,
+        OVERALL_STATE: row.OVERALL_STATE,
+        MULTI: row.MULTI,
+        PRIORITY: row.PRIORITY
+      });
+    });
+
+    jsoncsv.json2csv(dataCsv, (err, csv) => {
       if (err) {
         throw err;
       }
@@ -236,11 +251,11 @@ export default class Alerts extends React.Component {
           return 0;
         });
         return sortClassification;
-      case 'CREATED':
+      case 'CREATION_DATE':
         // eslint-disable-next-line no-case-declarations
         const sortCreated = finalList.sort(function(a, b) {
-          const date1 = new Date(moment(a.CREATED).format('YYYY-MM-DDTHH:mm'));
-          const date2 = new Date(moment(b.CREATED).format('YYYY-MM-DDTHH:mm'));
+          const date1 = new Date(moment(a.CREATION_DATE).format('YYYY-MM-DDTHH:mm'));
+          const date2 = new Date(moment(b.CREATION_DATE).format('YYYY-MM-DDTHH:mm'));
           if (date1 > date2) return valueOne;
           if (date1 < date2) return valueTwo;
           return 0;
@@ -705,14 +720,14 @@ export default class Alerts extends React.Component {
                             <div
                               className="pointer flex "
                               onClick={() => {
-                                this.setSortColumn('CREATED');
+                                this.setSortColumn('CREATION_DATE');
                               }}
                             >
                               CREATION DATE
                               <div className="flexColumn table__sort">
                                 <ArrowTop
                                   color={
-                                    sortColumn.column === 'CREATED' &&
+                                    sortColumn.column === 'CREATION_DATE' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -720,7 +735,7 @@ export default class Alerts extends React.Component {
                                 />
                                 <ArrowDown
                                   color={
-                                    sortColumn.column === 'CREATED' &&
+                                    sortColumn.column === 'CREATION_DATE' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
@@ -731,7 +746,7 @@ export default class Alerts extends React.Component {
                           </div>
                         ),
                         headerClassName: 'w100I',
-                        accessor: 'CREATED',
+                        accessor: 'CREATION_DATE',
                         className:
                           'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
@@ -865,7 +880,7 @@ export default class Alerts extends React.Component {
                         sortable: false,
                         Cell: props => (
                           <div className="h100 flex flexCenterVertical ">
-                            {props.value ? 'yes' : 'no'}
+                            {props.value}
                           </div>
                         )
                       },

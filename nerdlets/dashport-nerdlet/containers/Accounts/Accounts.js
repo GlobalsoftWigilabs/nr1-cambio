@@ -108,7 +108,19 @@ export default class Accounts extends React.Component {
     const { data } = this.state;
     const date = new Date();
     const zip = new JSZip();
-    jsoncsv.json2csv(data, (err, csv) => {
+    const dataCsv = [];
+
+    data.forEach(element => {
+      dataCsv.push({
+        NAME: element.name ? element.name : '-----',
+        EMAIL: element.email ? element.email : '-----',
+        ORGANIZATIONS: element.organizations ? element.organizations : '-----',
+        ACCESS_ROLE: element.roles ? element.roles : '-----',
+        STATUS: element.status ? element.status : '-----'
+      });
+    });
+
+    jsoncsv.json2csv(dataCsv, (err, csv) => {
       if (err) {
         throw err;
       }

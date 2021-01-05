@@ -234,10 +234,22 @@ export default class Synthetics extends React.Component {
   };
 
   downloadData = async () => {
-    const { testList } = this.props;
+    const { data } = this.state;
     const date = new Date();
     const zip = new JSZip();
-    jsoncsv.json2csv(testList, (err, csv) => {
+    const dataCsv = [];
+
+    data.forEach(row => {
+      dataCsv.push({
+        NAME: row.name,
+        TYPE: row.type,
+        LOCATION: row.location,
+        STATUS: row.status,
+        MESSAGE: row.message
+      });
+    });
+
+    jsoncsv.json2csv(dataCsv, (err, csv) => {
       if (err) {
         throw err;
       }
@@ -439,8 +451,7 @@ export default class Synthetics extends React.Component {
                               className="h100 flex flexCenterVertical"
                               style={{
                                 background:
-                                  props.index % 2 ? '#F7F7F8' : 'white',
-                                color: '#0078BF'
+                                  props.index % 2 ? '#F7F7F8' : 'white'
                               }}
                             >
                               <span style={{ marginLeft: '15px' }}>

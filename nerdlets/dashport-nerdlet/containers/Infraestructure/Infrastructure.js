@@ -96,9 +96,8 @@ export default class Infrastructure extends React.Component {
         MUTED: element.is_muted,
         TAGS_BY_SOURCE: tags,
         CPU: element.metrics.cpu ? element.metrics.cpu : '-----',
-        IOWAIT: element.metrics.iowait ? element.metrics.iowait : '-----' ,
-        LOAD: element.metrics.load ? element.metrics.load : '-----',
-
+        IOWAIT: element.metrics.iowait ? element.metrics.iowait : '-----',
+        LOAD: element.metrics.load ? element.metrics.load : '-----'
       });
     });
     this.calcTable(data);
@@ -109,7 +108,18 @@ export default class Infrastructure extends React.Component {
     const { data } = this.state;
     const date = new Date();
     const zip = new JSZip();
-    jsoncsv.json2csv(data, (err, csv) => {
+    const dataCsv = [];
+    data.forEach(row => {
+      dataCsv.push({
+        HOST_NAME: row.HOST_NAME,
+        ALIASES: row.ALIASES,
+        APPS: row.APPS,
+        SOURCES: row.SOURCES,
+        MUTED: row.MUTED,
+        TAGS_BY_SOURCE: row.TAGS_BY_SOURCE
+      });
+    });
+    jsoncsv.json2csv(dataCsv, (err, csv) => {
       if (err) {
         throw err;
       }
