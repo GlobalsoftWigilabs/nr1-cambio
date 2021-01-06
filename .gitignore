@@ -26,3 +26,6 @@ yarn-error.log*
 
 #prettierrc
 .prettierrc
+/test.js
+/nerdlets/dashport-nerdlet/__test__/services/datadogclient.test.js
+/nerdlets/dashport-nerdlet/config-test.js

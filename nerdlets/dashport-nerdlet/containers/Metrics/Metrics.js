@@ -30,7 +30,7 @@ import { saveAs } from 'file-saver';
 
 const greenColor = '#007E8A';
 
-const KEYS_TO_FILTERS = ['name', 'host', 'integration', 'type', 'unit'];
+const KEYS_TO_FILTERS = ['name', 'hosts', 'integration', 'type', 'unit', 'aggr'];
 
 const contentStyle = {
   maxWidth: '600px',
@@ -41,7 +41,7 @@ export default class Metrics extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: true,
+      loading: false,
       allChecked: false,
       all: true,
       favorite: false,
@@ -121,193 +121,44 @@ export default class Metrics extends React.Component {
   }
 
   async componentDidMount() {
-    await this.readMetrics();
-  }
+    const { accountId, metrics } = this.props;
+    const { searchTermMetric, sortColumn } = this.state;
 
-  readHost = async () => {
-    const { accountId } = this.props;
-    const hostList = [];
-    const infraestructureObj = await readNerdStorage(
-      accountId,
-      'infraestructure',
-      'infraestructure-obj',
-      this.reportLogFetch
-    );
-    if (infraestructureObj) {
-      const sizeInfraestructure = await readNerdStorageOnlyCollection(
-        accountId,
-        'infraestructure',
-        this.reportLogFetch
-      );
-
-      for (let i = 0; i < sizeInfraestructure.length - 1; i++) {
-        let page = [];
-        page = await readNerdStorage(
-          accountId,
-          'infraestructure',
-          `infraestructure-${i}`,
-          this.reportLogFetch
+    const dataGraph = [];
+    // eslint-disable-next-line require-atomic-updates
+    for (const metric of metrics) {
+      if (metric.type) {
+        const index = dataGraph.findIndex(
+          element => element.name === metric.type
         );
-        for (const iterator of page) {
-          hostList.push(iterator);
+        if (index !== -1) {
+          dataGraph[index].uv = dataGraph[index].uv + 1;
+        } else {
+          dataGraph.push({
+            name: metric.type,
+            pv: metrics.length,
+            uv: 1
+          });
         }
       }
     }
-    return hostList;
+
+    this.setState({
+      dataGraph: dataGraph,
+      metricsTotal: metrics.length,
+      metrics: metrics,
+      finalListRespaldo: metrics,
+      pagePag: 0,
+      page: 1
+    });
+
+    this.loadData(metrics, searchTermMetric, sortColumn);
+    this.calcTable(metrics);
   }
 
   fetchMetrics = async from => {
-    const infraestructureList = await this.readHost();
-    let { info, keyApp, keyApi } = this.state;
-    info.headers = this._setHttpHeaders(info.headers, keyApi, keyApp);
-    let metrics = [];
-    for (const host of infraestructureList) {
-      const response = await this.callApiMetric(info, from, host.host_name);
-      if (response && response.data.metrics instanceof Array) {
-        for (const metric of response.data.metrics) {
-          const index = metrics.findIndex(element => element.name === metric);
-          if (index !== -1) {
-            metrics[index].host.push(host.host_name);
-          } else {
-            metrics.push({
-              name: metric,
-              host: [host.host_name]
-            });
-          }
-        }
-      }
-    }
-    await this.saveNerdstorage(metrics);
-    await this.readMetrics();
-  };
-
-  readMetrics = async () => {
-    const { accountId } = this.props;
-    await this.loadConfig();
-    const sizeMetrics = await readNerdStorageOnlyCollection(
-      accountId,
-      'metrics',
-      this.reportLogFetch
-    );
-    if (sizeMetrics) {
-      const listMetrics = [];
-      for (let j = 0; j < sizeMetrics.length; j++) {
-        let page = [];
-        page = await readNerdStorage(
-          accountId,
-          'metrics',
-          `metrics-${j}`,
-          this.reportLogFetch
-        );
-        for (const iterator of page) {
-          listMetrics.push(iterator);
-        }
-      }
-      if (listMetrics.length === 0) {
-        let date = new Date();
-        date.setMinutes(date.getMinutes() - 60);
-        const from = moment(date).unix();
-        await this.fetchMetrics(from);
-      } else {
-        this.setState({
-          metricsTotal: listMetrics.length,
-          metrics: listMetrics,
-          pagePag: 0,
-          page: 1
-        });
-        await this.loadDataApi(0, 10);
-      }
-    }
-  };
-
-  loadConfig = async () => {
-    let retrys = 0,
-      keyApi = null,
-      keyApp = null;
-    const keysName = ['apikey', 'appkey'];
-    while (retrys !== 10) {
-      keyApi = keyApi ? keyApi : await readSingleSecretKey(keysName[0]);
-      keyApp = keyApp ? keyApp : await readSingleSecretKey(keysName[1]);
-      if (keyApi && keyApp) {
-        retrys = 10;
-      } else {
-        retrys += 1;
-      }
-    }
-    this.setState({
-      keyApi,
-      keyApp
-    });
-  };
-
-  loadDataApi = async (init, final) => {
-    const { metrics, keyApi, keyApp } = this.state;
-    const info = {
-      headers: [
-        {
-          key: 'DD-API-KEY',
-          value: '{{datadog_api_key}}'
-        },
-        {
-          key: 'DD-APPLICATION-KEY',
-          value: '{{datadog_application_key}}'
-        }
-      ]
-    };
-    info.headers = this._setHttpHeaders(info.headers, keyApi, keyApp);
-    if (metrics && metrics instanceof Array) {
-      var dataLimit = metrics.slice(init, final);
-      let noExist = false;
-      for (const metric of dataLimit) {
-        if (!metric.integration && !metric.type && !metric.unit) {
-          noExist = true;
-          const index = metrics.findIndex(
-            element => element.name === metric.name
-          );
-          const metricDetail = await this.getMetricDetails(info, metric.name);
-          if (index !== -1) {
-            if (metricDetail) {
-              metrics[index].integration = metricDetail.data.integration
-                ? metricDetail.data.integration
-                : '-----';
-              metrics[index].type = metricDetail.data.type
-                ? metricDetail.data.type
-                : '-----';
-              metrics[index].unit = metricDetail.data.unit
-                ? metricDetail.data.unit
-                : '-----';
-              metrics[index].agg = '-----';
-            }
-
-          }
-        }
-      }
-      if (noExist) await this.saveNerdstorage(metrics);
-
-      const { searchTermMetric, sortColumn } = this.state;
-      const dataGraph = [];
-      // eslint-disable-next-line require-atomic-updates
-      for (const metric of metrics) {
-        if (metric.type) {
-          const index = dataGraph.findIndex(
-            element => element.name === metric.type
-          );
-          if (index !== -1) {
-            dataGraph[index].uv = dataGraph[index].uv + 1;
-          } else {
-            dataGraph.push({
-              name: metric.type,
-              pv: metrics.length,
-              uv: 1
-            });
-          }
-        }
-      }
-      this.setState({ dataGraph });
-      this.loadData(metrics, searchTermMetric, sortColumn);
-      this.calcTable(metrics);
-    }
-    this.setState({ loading: false, finalListRespaldo: metrics });
+    let { appComponent } = this.props;
+    await appComponent.updateMetricsSection(from);
   };
 
   calcTable = finalList => {
@@ -366,10 +217,10 @@ export default class Metrics extends React.Component {
       case 'host':
         // eslint-disable-next-line no-case-declarations
         const sortHost = finalList.sort(function (a, b) {
-          if (a.host > b.host) {
+          if (a.hosts > b.hosts) {
             return valueOne;
           }
-          if (a.host < b.host) {
+          if (a.hosts < b.hosts) {
             return valueTwo;
           }
           return 0;
@@ -418,28 +269,16 @@ export default class Metrics extends React.Component {
 
   upPage = async () => {
     const { totalRows, pagePag } = this.state;
-    this.setState({ loadingTable: true });
-    await this.loadDataApi(
-      (pagePag + 1) * totalRows,
-      (pagePag + 2) * totalRows
-    );
     this.setState({ pagePag: pagePag + 1, loadingTable: false });
   };
 
   changePage = async pagePag => {
     const { totalRows } = this.state;
-    this.setState({ loadingTable: true });
-    await this.loadDataApi((pagePag - 1) * totalRows, pagePag * totalRows);
     this.setState({ pagePag: pagePag - 1, loadingTable: false });
   };
 
   downPage = async () => {
     const { totalRows, pagePag } = this.state;
-    this.setState({ loadingTable: true });
-    await this.loadDataApi(
-      (pagePag - 1) * totalRows,
-      (pagePag - 1) * totalRows + totalRows
-    );
     this.setState({ pagePag: pagePag - 1, loadingTable: false });
   };
 
@@ -515,7 +354,6 @@ export default class Metrics extends React.Component {
   };
 
   fetchData = async () => {
-    this.setState({ loadingTable: true });
     const { rangeSelected } = this.state;
     const date = new Date();
     switch (rangeSelected.value) {
@@ -534,7 +372,6 @@ export default class Metrics extends React.Component {
     }
     const from = moment(date).unix();
     await this.fetchMetrics(from);
-    this.setState({ loadingTable: false });
   };
 
   saveNerdstorage = async metricList => {
@@ -595,126 +432,6 @@ export default class Metrics extends React.Component {
     return book;
   };
 
-  _setHttpHeaders = (obj, apiKey, appkey) => {
-    const headers = {};
-    for (let i = 0; i < obj.length; i++) {
-      headers[obj[i].key] = obj[i].value
-        .replace('{{datadog_api_key}}', apiKey)
-        .replace('{{datadog_application_key}}', appkey);
-    }
-    return headers;
-  };
-
-  callApiMetric = async (info, from, host) => {
-    const proxyUrl = 'https://long-meadow-1713.rsamanez.workers.dev/?';
-    let ret = null;
-    const options = {
-      baseURL: `${proxyUrl + info.proto}://${info.host.replace(
-        '{{datadog_site}}',
-        'com'
-      )}`,
-      url: info.pathname,
-      params: {
-        from: from,
-        host: host
-      },
-      headers: info.headers,
-      method: 'get'
-    };
-    ret = await axios(options).catch(async error => {
-      if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        if (error.response.status >= 400 && error.response.status <= 499) {
-          const response = {
-            message: error.response.data.errors
-              ? error.response.data.errors[0]
-              : `${error.response.status} - ${info.pathname}`,
-            type: 'Warning',
-            event: 'Fetch',
-            date: new Date().toLocaleString()
-          };
-          await this.reportLogFetch(response);
-        }
-        if (error.response.status >= 500) {
-          const response = {
-            message: error.response.data.errors
-              ? error.response.data.errors[0]
-              : `${error.response.status} - ${info.pathname}`,
-            type: 'Error',
-            event: 'Fetch',
-            date: new Date().toLocaleString()
-          };
-          await this.reportLogFetch(response);
-        }
-      } else if (error.request) {
-        // The request was made but no response was received
-      } else {
-        // Something happened in setting up the request that triggered an Error
-      }
-    });
-    return ret;
-  };
-
-  getMetricDetails = async (info, metricName) => {
-    const proxyUrl = 'https://long-meadow-1713.rsamanez.workers.dev/?';
-    let ret = null;
-    let endpoint = 'https://api.datadoghq.com/api/v1/metrics/{metric_name}';
-    endpoint = endpoint.replace('{metric_name}', metricName);
-    const headers = [
-      {
-        key: 'Content-Type',
-        value: 'application/json'
-      },
-      {
-        key: 'DD-API-KEY',
-        value: '{{datadog_api_key}}'
-      },
-      {
-        key: 'DD-APPLICATION-KEY',
-        value: '{{datadog_application_key}}'
-      }
-    ];
-    const options = {
-      baseURL: `${proxyUrl}${endpoint.replace('{{datadog_site}}', 'com')}`,
-      headers: info.headers,
-      method: 'get'
-    };
-    ret = await axios(options).catch(async error => {
-      if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        if (error.response.status >= 400 && error.response.status <= 499) {
-          const response = {
-            message: error.response.data.errors
-              ? error.response.data.errors[0]
-              : `${error.response.status} - ${info.pathname}`,
-            type: 'Warning',
-            event: 'Fetch',
-            date: new Date().toLocaleString()
-          };
-          await this.reportLogFetch(response);
-        }
-        if (error.response.status >= 500) {
-          const response = {
-            message: error.response.data.errors
-              ? error.response.data.errors[0]
-              : `${error.response.status} - ${info.pathname}`,
-            type: 'Error',
-            event: 'Fetch',
-            date: new Date().toLocaleString()
-          };
-          await this.reportLogFetch(response);
-        }
-      } else if (error.request) {
-        // The request was made but no response was received
-      } else {
-        // Something happened in setting up the request that triggered an Error
-      }
-    });
-    return ret;
-  };
-
   downloadData = async () => {
     const { finalList } = this.state;
     const dataFiltrada = [];
@@ -723,9 +440,9 @@ export default class Metrics extends React.Component {
         NAME: metric.name,
         INTEGRATION: metric.integration ? metric.integration : '-----',
         TYPE: metric.type ? metric.type : '-----',
-        HOST: metric.host,
+        HOST: metric.hosts,
         UNIT: metric.unit ? metric.unit : '-----',
-        AGNN_TYPE: metric.agg ? metric.agg : '-----'
+        AGNN_TYPE: metric.aggr ? metric.aggr : '-----'
       })
     }
     const date = new Date();
@@ -1073,7 +790,7 @@ export default class Metrics extends React.Component {
                                 }}
                               >
                                 <span style={{ marginLeft: '15px' }}>
-                                  {props.value ? props.value : '--'}
+                                  {props.value ? props.value : '-----'}
                                 </span>
                               </div>
                             );
@@ -1117,7 +834,7 @@ export default class Metrics extends React.Component {
                           sortable: false,
                           Cell: props => (
                             <div className="h100 flex flexCenterVertical">
-                              {props.value ? props.value : '--'}
+                              {props.value ? props.value : '-----'}
                             </div>
                           )
                         },
@@ -1159,7 +876,7 @@ export default class Metrics extends React.Component {
                           sortable: false,
                           Cell: props => (
                             <div className="h100 flex flexCenterVertical ">
-                              {props.value ? props.value : '--'}
+                              {props.value ? props.value : '-----'}
                             </div>
                           )
                         },
@@ -1195,9 +912,9 @@ export default class Metrics extends React.Component {
                             </div>
                           ),
                           headerClassName: 'w100I',
-                          accessor: 'host',
+                          accessor: 'hosts',
                           className:
-                            'table__cell flex  flexCenterVertical h100 w100I',
+                            'table__cell flex  flexCenterVertical h100 w100I ',
                           sortable: false,
                           Cell: props => {
                             let hosts = '';
@@ -1249,7 +966,7 @@ export default class Metrics extends React.Component {
                           sortable: false,
                           Cell: props => (
                             <div className="h100 flex flexCenterVertical ">
-                              {props.value ? props.value : '--'}
+                              {props.value ? props.value : '-----'}
                             </div>
                           )
                         },
@@ -1259,7 +976,7 @@ export default class Metrics extends React.Component {
                               <div
                                 className="pointer flex "
                                 onClick={() => {
-                                  this.setSortColumn('unit');
+                                  this.setSortColumn('aggr');
                                 }}
                               >
                                 AGNN.TYPE
@@ -1285,13 +1002,13 @@ export default class Metrics extends React.Component {
                             </div>
                           ),
                           headerClassName: 'w100I',
-                          accessor: 'agg',
+                          accessor: 'aggr',
                           className:
                             'table__cell flex  flexCenterVertical h100 w100I',
                           sortable: false,
                           Cell: props => (
                             <div className="h100 flex flexCenterVertical ">
-                              {props.value}
+                              {props.value ? props.value : '-----'}
                             </div>
                           )
                         }
@@ -1307,5 +1024,8 @@ export default class Metrics extends React.Component {
   }
 }
 Metrics.propTypes = {
-  accountId: PropTypes.number.isRequired
+  accountId: PropTypes.number.isRequired,
+  metrics:  PropTypes.array.isRequired,
+  metricsTotal:  PropTypes.number.isRequired,
+  appComponent:  PropTypes.object.isRequired
 };

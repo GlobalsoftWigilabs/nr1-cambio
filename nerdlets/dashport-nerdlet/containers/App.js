@@ -30,8 +30,12 @@ import {
 import { sendLogsSlack } from '../services/Wigilabs/api';
 import * as DD from '../services/Datadog/DD';
 import * as DS from '../services/Datadog/DS';
+import DatadogClient from '../services/Datadog/DatadogClient';
+import DatadogService from '../services/Datadog/DatadogService';
 import { Spinner, Toast } from 'nr1';
 
+const proxyUrl = 'https://long-meadow-1713.rsamanez.workers.dev';
+const siteApi = 'com';
 /**
  * Class that render de dashboard
  *
@@ -97,7 +101,8 @@ export default class App extends React.Component {
       // LogsDashport
       logs: [],
       completed: 0,
-      deleteSetup: false
+      deleteSetup: false,
+      datadogService: null
     };
   }
 
@@ -221,13 +226,24 @@ export default class App extends React.Component {
         }
       }
       if (keyApi && keyApp) {
+
+        const datadogClient = new DatadogClient(
+          keyApi,
+          keyApp,
+          siteApi,
+          proxyUrl,
+          this.reportLogFetch
+        );
+        const datadogService = new DatadogService(datadogClient);
+
         this.setState({
           setupComplete: true,
           apikey: keyApi,
           apikeyS: dataSetup.apikeyS,
           appkey: keyApp,
           appkeyS: dataSetup.appkeyS,
-          apiserver: dataSetup.apiserver === '.eu'
+          apiserver: dataSetup.apiserver === '.eu',
+          datadogService: datadogService
         });
         const dateFetch = await readNerdStorage(
           accountId,
@@ -527,51 +543,51 @@ export default class App extends React.Component {
       };
       this.reportLogFetch(response);
     }
-    // // METRICS
-    // try {
-    //   const metrics = await readNerdStorage(
-    //     accountId,
-    //     'metrics',
-    //     'metrics-obj',
-    //     this.reportLogFetch
-    //   );
-    //   if (metrics) {
-    //     const sizeMetrics = await readNerdStorageOnlyCollection(
-    //       accountId,
-    //       'metrics',
-    //       this.reportLogFetch
-    //     );
-    //     const listMetrics = [];
-    //     for (let j = 0; j < sizeMetrics.length - 1; j++) {
-    //       let page = [];
-    //       page = await readNerdStorage(
-    //         accountId,
-    //         'metrics',
-    //         `metrics-${j}`,
-    //         this.reportLogFetch
-    //       );
-    //       for (const iterator of page) {
-    //         listMetrics.push(iterator);
-    //       }
-    //     }
-    //     metrics.data = listMetrics;
-    //     this.setState({
-    //       metricsTotal: metrics.data.length,
-    //       metrics: metrics.data
-    //     });
-    //   }
-    //   if (fetchingData) {
-    //     this.setState(prevstate => ({ completed: prevstate.completed + 2 }));
-    //   }
-    // } catch (err) {
-    //   const response = {
-    //     message: err.message,
-    //     type: 'Error',
-    //     event: `Recove metrics data`,
-    //     date: new Date().toLocaleString()
-    //   };
-    //   this.reportLogFetch(response);
-    // }
+    // METRICS
+    try {
+      const metrics = await readNerdStorage(
+        accountId,
+        'metrics',
+        'metrics-obj',
+        this.reportLogFetch
+      );
+      if (metrics) {
+        const sizeMetrics = await readNerdStorageOnlyCollection(
+          accountId,
+          'metrics',
+          this.reportLogFetch
+        );
+        const listMetrics = [];
+        for (let j = 0; j < sizeMetrics.length - 1; j++) {
+          let page = [];
+          page = await readNerdStorage(
+            accountId,
+            'metrics',
+            `metrics-${j}`,
+            this.reportLogFetch
+          );
+          for (const iterator of page) {
+            listMetrics.push(iterator);
+          }
+        }
+        metrics.data = listMetrics;
+        this.setState({
+          metricsTotal: metrics.data.length,
+          metrics: metrics.data
+        });
+      }
+      if (fetchingData) {
+        this.setState(prevstate => ({ completed: prevstate.completed + 2 }));
+      }
+    } catch (err) {
+      const response = {
+        message: err.message,
+        type: 'Error',
+        event: `Recove metrics data`,
+        date: new Date().toLocaleString()
+      };
+      this.reportLogFetch(response);
+    }
     // SYNTHETICS
     try {
       const synthetics = await readNerdStorage(
@@ -898,32 +914,32 @@ export default class App extends React.Component {
           }
         }
         break;
-      // case 'metrics':
-      //   {
-      //     const listMetrics = data.data;
-      //     data.data = [];
-      //     const metricObj = data;
-      //     await writeNerdStorage(
-      //       accountId,
-      //       collectionName,
-      //       `${collectionName}-obj`,
-      //       metricObj,
-      //       this.reportLogFetch
-      //     );
-      //     const pagesMetrics = this.pagesOfData(listMetrics);
-      //     for (const keyMetric in pagesMetrics) {
-      //       if (pagesMetrics[keyMetric]) {
-      //         await writeNerdStorage(
-      //           accountId,
-      //           collectionName,
-      //           `${collectionName}-${keyMetric}`,
-      //           pagesMetrics[keyMetric],
-      //           this.reportLogFetch
-      //         );
-      //       }
-      //     }
-      //   }
-      //   break;
+      case 'metrics':
+        {
+          const listMetrics = data.data;
+          data.data = [];
+          const metricObj = data;
+          await writeNerdStorage(
+            accountId,
+            collectionName,
+            `${collectionName}-obj`,
+            metricObj,
+            this.reportLogFetch
+          );
+          const pagesMetrics = this.pagesOfData(listMetrics);
+          for (const keyMetric in pagesMetrics) {
+            if (pagesMetrics[keyMetric]) {
+              await writeNerdStorage(
+                accountId,
+                collectionName,
+                `${collectionName}-${keyMetric}`,
+                pagesMetrics[keyMetric],
+                this.reportLogFetch
+              );
+            }
+          }
+        }
+        break;
       case 'synthetics':
         {
           const list = data.data.test;
@@ -1040,14 +1056,14 @@ export default class App extends React.Component {
     const data = {
       lastUpdate: ''
     };
-    const { accountId, apikey, apiserver, appkey } = this.state;
+    const { accountId, apikey, apiserver, appkey, datadogService } = this.state;
     const DDConfig = {
       DD_API_KEY: apikey,
       DD_APP_KEY: appkey,
       DD_EU: apiserver === '.eu',
       DD_SUMMARY: 'DashportData'
     };
-    await DD.callApis(DDConfig, this.dataWriter, this.reportLogFetch)
+    await DD.callApis(DDConfig, this.dataWriter, this.reportLogFetch, datadogService)
       .then(res => {
         data.lastUpdate = res.toLocaleString();
         const response = {
@@ -1114,12 +1130,17 @@ export default class App extends React.Component {
       });
     await this.sendLogs();
     await this.loadViewData();
-    Toast.showToast({
-      title: 'STEPS TO COMPLETE',
-      type: Toast.TYPE.NORMAL
-    });
     this.setState({
       fetchingData: false
+    });
+  };
+
+  updateMetricsSection = async from => {
+    const { datadogService } = this.state;
+    const metrics = await datadogService.fetchMetrics(from, 3);
+    this.setState({
+      metrics: metrics,
+      metricsTotal: metrics.length
     });
   };
 
@@ -1815,8 +1836,8 @@ export default class App extends React.Component {
       monitorsData,
       infrastructureDataGraph,
       infraestructureList,
-      // metricsTotal,
-      // metrics,
+      metricsTotal,
+      metrics,
       testTotal,
       testList,
       accountsTotal,
@@ -1834,7 +1855,7 @@ export default class App extends React.Component {
       platformSelect,
       completed,
       deleteSetup,
-      dataDashboards
+      dataDashboards,
     } = this.state;
     // console.log('accountsTotal', accountsTotal, dataTableAccounts);
     switch (selectedMenu) {
@@ -1896,8 +1917,9 @@ export default class App extends React.Component {
           <Metrics
             accountId={accountId}
             // infraestructureList={infraestructureList}
-          // metrics={metrics}
-          // metricsTotal={metricsTotal}
+          metrics={metrics}
+          metricsTotal={metricsTotal}
+          appComponent={this}
           />
         );
       case 7:

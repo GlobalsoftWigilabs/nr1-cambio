@@ -33,7 +33,7 @@ const apiDataDigest = async (
     'monitors',
     'infraestructure',
     'logs',
-    // 'metrics',
+    'metrics',
     'synthetics',
     'accounts'
   ];
@@ -57,13 +57,13 @@ const apiDataDigest = async (
   data.push(
     await _parseLogs(functionReader, functionReaderCollection, reportLogFetch)
   );
-  // data.push(
-  //   await _parseMetrics(
-  //     functionReader,
-  //     functionReaderCollection,
-  //     reportLogFetch
-  //   )
-  // );
+  data.push(
+    await _parseMetrics(
+      functionReader,
+      functionReaderCollection,
+      reportLogFetch
+    )
+  );
   data.push(
     await _parseSynthetics(
       functionReader,
@@ -494,26 +494,12 @@ const _parseMetrics = async (
   const errors = [];
 
   try {
-    const sizeData = await functionReaderCollection('Get All Active Metrics');
     let data = await functionReader(
       'Get All Active Metrics',
       'Get All Active Metrics-obj'
     );
-    const listMetrics = [];
-    for (let i = 0; i < sizeData.length - 1; i++) {
-      let listo = [];
-      listo = await functionReader(
-        'Get All Active Metrics',
-        `Get All Active Metrics-${i}`
-      );
-      for (const iterator of listo) {
-        listMetrics.push(iterator);
-      }
-    }
     if (data) {
-      data.metrics = listMetrics;
-      data = data.metrics;
-      obj.data = data;
+      obj.data = data.metrics;
     }
   } catch (error) {
     const response = {

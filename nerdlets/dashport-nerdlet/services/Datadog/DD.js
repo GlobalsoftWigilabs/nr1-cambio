@@ -12,7 +12,7 @@ const config = {
 };
 const ENABLE_LOAD_TEST = false;
 
-const callApis = async (cfg, callbackDataWritter, reportLog) => {
+const callApis = async (cfg, callbackDataWritter, reportLog, datadogService) => {
   if (ENABLE_LOAD_TEST) {
     const dashboardsData = loadDashboards(6, dashboardsList);
     const metricsData = loadDashboards(6, metrics.metrics);
@@ -27,6 +27,11 @@ const callApis = async (cfg, callbackDataWritter, reportLog) => {
       config.API_KEY = cfg.DD_API_KEY;
       config.APP_KEY = cfg.DD_APP_KEY;
       config.API_SITE = cfg.DD_EU ? 'eu' : 'com';
+
+      const from = Math.floor(new Date() / 1000) - 30 * 60;
+      const metrics = await datadogService.fetchMetrics(from, 5);
+      await callbackDataWritter('Get All Active Metrics', { metrics: metrics });
+
       const list = _getPartentList(endpoints);
       for (let i = 0; i < list.length; i++) {
         const obj = await _callApi(list[i], reportLog);
