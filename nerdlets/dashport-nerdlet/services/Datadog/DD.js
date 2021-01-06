@@ -29,7 +29,7 @@ const callApis = async (cfg, callbackDataWritter, reportLog, datadogService) => 
       config.API_SITE = cfg.DD_EU ? 'eu' : 'com';
 
       const from = Math.floor(new Date() / 1000) - 30 * 60;
-      const metrics = await datadogService.fetchMetrics(from, 5);
+      const metrics = await datadogService.fetchMetrics(from, 5,null);
       await callbackDataWritter('Get All Active Metrics', { metrics: metrics });
 
       const list = _getPartentList(endpoints);

@@ -17,6 +17,7 @@ import axios from 'axios';
 import iconInformation from '../../images/information.svg';
 import metricsData from '../../images/metricsData.svg';
 import ReactTooltip from 'react-tooltip';
+import Modal from './ModalProgressBar';
 import {
   readNerdStorage,
   readSingleSecretKey,
@@ -100,6 +101,8 @@ export default class Metrics extends React.Component {
       keyApi: null,
       keyApp: null,
       finalListRespaldo: [],
+      hidden: false,
+      viewWarning:false,
       info: {
         name: 'Get All Active Metrics',
         url: 'https://api.datadoghq.{{datadog_site}}/api/v1/metrics?',
@@ -120,11 +123,25 @@ export default class Metrics extends React.Component {
     };
   }
 
-  async componentDidMount() {
+  _onClose = () => {
+    if(this.props.completed===100) this.props.updateProgressMetrics(0);
+    let actualValue = this.state.hidden;
+    this.setState({ hidden: !actualValue });
+  };
+
+  _openPopUp = () => {
+    let actualValue = this.state.hidden;
+    this.setState({ hidden: !actualValue,viewWarning:true });
+  };
+
+  componentDidMount() {
     const { accountId, metrics } = this.props;
     const { searchTermMetric, sortColumn } = this.state;
 
     const dataGraph = [];
+    for (const metric of metrics) {
+      metric.type = metric.type ? metric.type : 'unknow';
+    }
     // eslint-disable-next-line require-atomic-updates
     for (const metric of metrics) {
       if (metric.type) {
@@ -142,7 +159,6 @@ export default class Metrics extends React.Component {
         }
       }
     }
-
     this.setState({
       dataGraph: dataGraph,
       metricsTotal: metrics.length,
@@ -475,8 +491,11 @@ export default class Metrics extends React.Component {
       timeRanges,
       rangeSelected,
       loadingTable,
-      metricsTotal
+      metricsTotal,
+      hidden,
+      viewWarning
     } = this.state;
+    const { fetchingMetrics, completed } = this.props;
     return (
       <div className="h100">
         {loading ? (
@@ -588,13 +607,17 @@ export default class Metrics extends React.Component {
                   <div
                     className="f14"
                     style={{
-                      height: '50%',
-                      display: 'flex',
-                      alignItems: 'flex-end',
-                      justifyContent: 'center'
+                      height: "100%",
+                      display: 'grid',
+                      gridTemplate: ' 50% 50% / 1fr'
                     }}
                   >
-                    <span>{dataGraph.length !== 0 && 'Metrics by type'}</span>
+                    <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "center" }}>
+                      {completed!==0 && <a onClick={() => this._onClose()}>View Fetch Progress </a>}
+                    </div>
+                    <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "center" }}>
+                      <span>{dataGraph.length !== 0 && 'Metrics by type'}</span>
+                    </div>
                   </div>
                   <div
                     style={{ height: '50%', width: '95%' }}
@@ -647,12 +670,14 @@ export default class Metrics extends React.Component {
                     value={rangeSelected}
                     placeholder="All"
                   />
-                  <div
-                    className="buttonFetchMetric pointer"
-                    onClick={() => this.fetchData()}
+                  <Button
+                    onClick={() => this._openPopUp()}
+                    type={Button.TYPE.PRIMARY}
+                    disabled={fetchingMetrics ? true : false}
+                    className="buttonFetchMetric"
                   >
                     Fetch
-                </div>
+                  </Button>
                   <div
                     className={
                       finalList.length === 0
@@ -781,6 +806,15 @@ export default class Metrics extends React.Component {
                           accessor: 'name',
                           sortable: false,
                           Cell: props => {
+                            let textName = '-----';
+                            if (props.value) {
+                              textName = props.value;
+                              if (textName.length > 45) {
+                                textName = `${textName.substring(
+                                  0, 46
+                                )}...`;
+                              }
+                            }
                             return (
                               <div
                                 className="h100 flex flexCenterVertical"
@@ -790,7 +824,7 @@ export default class Metrics extends React.Component {
                                 }}
                               >
                                 <span style={{ marginLeft: '15px' }}>
-                                  {props.value ? props.value : '-----'}
+                                  {textName}
                                 </span>
                               </div>
                             );
@@ -1019,13 +1053,21 @@ export default class Metrics extends React.Component {
               </div>
             </div>
           )}
+        <Modal
+          hidden={hidden}
+          viewWarning={viewWarning}
+          _onClose={this._onClose}
+          completed={completed}
+          confirmAction={this.fetchData}
+          fetchingMetrics={fetchingMetrics}
+        />
       </div>
     );
   }
 }
 Metrics.propTypes = {
   accountId: PropTypes.number.isRequired,
-  metrics:  PropTypes.array.isRequired,
-  metricsTotal:  PropTypes.number.isRequired,
-  appComponent:  PropTypes.object.isRequired
+  metrics: PropTypes.array.isRequired,
+  metricsTotal: PropTypes.number.isRequired,
+  appComponent: PropTypes.object.isRequired
 };

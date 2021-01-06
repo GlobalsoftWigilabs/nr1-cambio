@@ -92,6 +92,8 @@ export default class App extends React.Component {
       // Metrics
       metricsTotal: 0,
       metrics: [],
+      fetchingMetrics: false,
+      progressMetrics: 0,
       // SYNTHETICS
       testTotal: 0,
       testList: [],
@@ -184,6 +186,16 @@ export default class App extends React.Component {
       });
     }
   };
+
+  updateProgressMetrics = (value) => {
+    value = parseInt(value);
+    console.log(value, '.....', this.state.progressMetrics)
+    if (value === 0) {
+      this.setState({ progressMetrics: 0 });
+    } else {
+      this.setState(prevstate => ({ progressMetrics: prevstate.progressMetrics + value }));
+    }
+  }
 
   /**
    * Method that change the selected menu from other component
@@ -1137,10 +1149,12 @@ export default class App extends React.Component {
 
   updateMetricsSection = async from => {
     const { datadogService } = this.state;
-    const metrics = await datadogService.fetchMetrics(from, 3);
+    this.setState({ fetchingMetrics: true });
+    const metrics = await datadogService.fetchMetrics(from, 3, this.updateProgressMetrics);
     this.setState({
       metrics: metrics,
-      metricsTotal: metrics.length
+      metricsTotal: metrics.length,
+      fetchingMetrics: false
     });
   };
 
@@ -1856,6 +1870,8 @@ export default class App extends React.Component {
       completed,
       deleteSetup,
       dataDashboards,
+      fetchingMetrics,
+      progressMetrics
     } = this.state;
     // console.log('accountsTotal', accountsTotal, dataTableAccounts);
     switch (selectedMenu) {
@@ -1917,9 +1933,12 @@ export default class App extends React.Component {
           <Metrics
             accountId={accountId}
             // infraestructureList={infraestructureList}
-          metrics={metrics}
-          metricsTotal={metricsTotal}
-          appComponent={this}
+            updateProgressMetrics={this.updateProgressMetrics}
+            completed={progressMetrics}
+            fetchingMetrics={fetchingMetrics}
+            metrics={metrics}
+            metricsTotal={metricsTotal}
+            appComponent={this}
           />
         );
       case 7:
