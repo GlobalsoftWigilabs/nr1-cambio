@@ -286,7 +286,8 @@ const _parseInfra = async (
       total: 0,
       hostList: [],
       windowsCount: 0,
-      linuxCount: 0
+      linuxCount: 0,
+      unknowCount: 0
       // cpuCount: 0,
       // platform: {
       //   linux: {
@@ -345,6 +346,9 @@ const _parseInfra = async (
             //   memory: `${memoryGB.toFixed(1)}GB`
             // });
           }
+        }else{
+          obj.data.total++;
+          obj.data.unknowCount++;
         }
       }
       // obj.data.platform.win.versions = agroupData(
