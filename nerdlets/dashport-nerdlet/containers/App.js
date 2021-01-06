@@ -189,11 +189,10 @@ export default class App extends React.Component {
 
   updateProgressMetrics = (value) => {
     value = parseInt(value);
-    console.log(value, '.....', this.state.progressMetrics)
     if (value === 0) {
       this.setState({ progressMetrics: 0 });
     } else {
-      this.setState(prevstate => ({ progressMetrics: prevstate.progressMetrics + value }));
+      this.setState(prevstate => ({ progressMetrics: value }));
     }
   }
 
