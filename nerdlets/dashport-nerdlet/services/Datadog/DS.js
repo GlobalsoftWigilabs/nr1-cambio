@@ -346,7 +346,7 @@ const _parseInfra = async (
             //   memory: `${memoryGB.toFixed(1)}GB`
             // });
           }
-        }else{
+        } else {
           obj.data.total++;
           obj.data.unknowCount++;
         }
@@ -389,7 +389,7 @@ function agroupData(dataRepeat) {
     }
     return [...acumu, valueActual];
   }, []);
-  filtrado.sort(function(a, b) {
+  filtrado.sort(function (a, b) {
     if (a.count < b.count) {
       return 1;
     }
@@ -496,14 +496,25 @@ const _parseMetrics = async (
     data: []
   };
   const errors = [];
-
   try {
+    const sizeData = await functionReaderCollection('Get All Active Metrics');
     let data = await functionReader(
       'Get All Active Metrics',
       'Get All Active Metrics-obj'
     );
+    const listMetrics = [];
+    for (let i = 0; i < sizeData.length - 1; i++) {
+      let listo = [];
+      listo = await functionReader(
+        'Get All Active Metrics',
+        `Get All Active Metrics-${i}`
+      );
+      for (const iterator of listo) {
+        listMetrics.push(iterator);
+      }
+    }
     if (data) {
-      obj.data = data.metrics;
+      obj.data = listMetrics;
     }
   } catch (error) {
     const response = {

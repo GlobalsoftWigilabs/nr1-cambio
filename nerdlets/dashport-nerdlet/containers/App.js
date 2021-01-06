@@ -447,23 +447,23 @@ export default class App extends React.Component {
             hostList.push(iterator);
           }
         }
-        const { total, linuxCount, windowsCount,unknowCount } = infraestructureObj.data;
+        const { total, linuxCount, windowsCount, unknowCount } = infraestructureObj.data;
         const hostsData = [];
-        if(windowsCount&&windowsCount!==0){
+        if (windowsCount && windowsCount !== 0) {
           hostsData.push({
             name: 'windows',
             uv: Math.abs(windowsCount),
             pv: Math.abs(total - windowsCount)
           });
         }
-        if(linuxCount&&linuxCount!==0){
+        if (linuxCount && linuxCount !== 0) {
           hostsData.push({
             name: 'linux',
             uv: Math.abs(linuxCount),
             pv: Math.abs(total - linuxCount)
           });
         }
-        if(unknowCount&&unknowCount!==0){
+        if (unknowCount && unknowCount !== 0) {
           hostsData.push({
             name: 'unknow',
             uv: Math.abs(unknowCount),
@@ -937,6 +937,7 @@ export default class App extends React.Component {
         break;
       case 'metrics':
         {
+          debugger;
           const listMetrics = data.data;
           data.data = [];
           const metricObj = data;
@@ -1160,6 +1161,8 @@ export default class App extends React.Component {
     const { datadogService } = this.state;
     this.setState({ fetchingMetrics: true });
     const metrics = await datadogService.fetchMetrics(from, 3, this.updateProgressMetrics);
+    await this.dataWriter('Get All Active Metrics', metrics);
+    await this.finalDataWriter('metrics', { data: metrics });
     this.setState({
       metrics: metrics,
       metricsTotal: metrics.length,
@@ -1646,6 +1649,34 @@ export default class App extends React.Component {
                 `${documentName}`,
                 `${documentName}-${keyTags}`,
                 pagesTags[keyTags],
+                this.reportLogFetch
+              );
+            }
+          }
+        }
+        break;
+      case 'Get All Active Metrics':
+        {
+          const metricsList = documentData.metrics;
+          documentData.metrics = [];
+          const metricObj = documentData;
+          const pagesMetricsList = this.pagesOfData(metricsList);
+          // guardo obj metrics
+          await writeNerdStorage(
+            accountId,
+            documentName,
+            `${documentName}-obj`,
+            metricObj,
+            this.reportLogFetch
+          );
+          // guardo lista de metricas
+          for (const keyMetrics in pagesMetricsList) {
+            if (pagesMetricsList[keyMetrics]) {
+              await writeNerdStorage(
+                accountId,
+                documentName,
+                `${documentName}-${keyMetrics}`,
+                pagesMetricsList[keyMetrics],
                 this.reportLogFetch
               );
             }
