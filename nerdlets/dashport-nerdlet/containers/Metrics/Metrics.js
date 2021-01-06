@@ -129,6 +129,11 @@ export default class Metrics extends React.Component {
     this.setState({ hidden: !actualValue });
   };
 
+  _onCloseText = () => {
+    let actualValue = this.state.hidden;
+    this.setState({ hidden: !actualValue });
+  };
+
   _openPopUp = () => {
     let actualValue = this.state.hidden;
     this.setState({ hidden: !actualValue,viewWarning:true });
@@ -613,7 +618,7 @@ export default class Metrics extends React.Component {
                     }}
                   >
                     <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "center" }}>
-                      {completed!==0 && <a onClick={() => this._onClose()}>View Fetch Progress </a>}
+                      {completed!==0 && <a onClick={() => this._onCloseText()}>View Fetch Progress </a>}
                     </div>
                     <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "center" }}>
                       <span>{dataGraph.length !== 0 && 'Metrics by type'}</span>

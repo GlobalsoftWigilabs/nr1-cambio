@@ -937,7 +937,6 @@ export default class App extends React.Component {
         break;
       case 'metrics':
         {
-          debugger;
           const listMetrics = data.data;
           data.data = [];
           const metricObj = data;
