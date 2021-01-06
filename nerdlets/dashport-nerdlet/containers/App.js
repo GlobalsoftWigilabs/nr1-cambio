@@ -448,19 +448,29 @@ export default class App extends React.Component {
             hostList.push(iterator);
           }
         }
-        const { total, linuxCount, windowsCount } = infraestructureObj.data;
-        const hostsData = [
-          {
-            name: 'linux',
-            uv: Math.abs(linuxCount),
-            pv: Math.abs(total - linuxCount)
-          },
-          {
+        const { total, linuxCount, windowsCount,unknowCount } = infraestructureObj.data;
+        const hostsData = [];
+        if(windowsCount&&windowsCount!==0){
+          hostsData.push({
             name: 'windows',
             uv: Math.abs(windowsCount),
             pv: Math.abs(total - windowsCount)
-          }
-        ];
+          });
+        }
+        if(linuxCount&&linuxCount!==0){
+          hostsData.push({
+            name: 'linux',
+            uv: Math.abs(linuxCount),
+            pv: Math.abs(total - linuxCount)
+          });
+        }
+        if(unknowCount&&unknowCount!==0){
+          hostsData.push({
+            name: 'unknow',
+            uv: Math.abs(unknowCount),
+            pv: Math.abs(total - unknowCount)
+          });
+        }
         this.setState({
           infrastructureDataGraph: hostsData,
           infraestructureList: hostList
