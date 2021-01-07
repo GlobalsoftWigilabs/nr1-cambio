@@ -4,7 +4,7 @@ import { Modal } from 'react-bootstrap';
 
 import closeIcon from '../../images/buttonOk.png';
 import pipeline from '../../images/pipelineAlert.png';
-import alert from '../../images/important.svg';
+import alert from '../../images/logNota.svg';
 
 function ModalLog(props) {
   let { hidden, _onClose } = props;
@@ -21,11 +21,9 @@ function ModalLog(props) {
       <Modal.Body style={{ background: '#333333' }}>
         <div style={{ background: '#333333' }} className="mainModalSetup">
           <div>
-            {/*<img*/}
-            {/*  style={{ position: 'absolute', left: '40%', top: '-15%' }}*/}
-            {/*  src={alert}*/}
-            {/*/>*/}
-            <br />
+            <div style={{ alignContent: 'center' }}>
+              <img style={{ marginLeft: '48%' }} src={alert} />
+            </div>
             <div style={{ textAlign: 'center', color: 'white' }}>
               <h3 style={{ color: 'white' }}>
                 <strong>Important Note</strong>
