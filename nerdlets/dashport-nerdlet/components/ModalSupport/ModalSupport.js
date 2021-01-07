@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, HeadingText, BlockText, TextField, Toast, Button } from 'nr1';
+import { Modal, HeadingText, BlockText, Toast, Button } from 'nr1';
 import * as Yup from 'yup';
 import { Formik, Form, Field } from 'formik';
 import axios from 'axios';
-
+import { FormControl } from 'react-bootstrap';
 /**
  * Validation Schema for the contact form
  */
@@ -32,7 +32,7 @@ export default class ModalSupport extends React.Component {
    *
    * @param {Object} values Form values
    * @param {Object} actions Form actions
-   * @memberof Dashport
+   * @memberof ModalSupport
    */
   async sendContactEmail(values, actions) {
     const errors = [];
@@ -108,7 +108,13 @@ export default class ModalSupport extends React.Component {
           {({ errors, touched, submitForm, values, setFieldValue }) => (
             <Form className="formSetup" autoComplete="off">
               <div className="divTextfieldSupport">
-                <Field name="name" placeholder="Name" />
+                <Field
+                  component={renderTextField}
+                  type="text"
+                  name="name"
+                  onChange={event => setFieldValue('name', event.target.value)}
+                  placeholder="Name"
+                />
                 {errors.name && touched.name ? (
                   <div style={{ color: 'red' }}>{errors.name}</div>
                 ) : (
@@ -116,7 +122,13 @@ export default class ModalSupport extends React.Component {
                 )}
               </div>
               <div className="divTextfieldSupport">
-                <Field name="email" placeholder="Email" />
+                <Field
+                  component={renderTextField}
+                  type="email"
+                  name="email"
+                  onChange={event => setFieldValue('email', event.target.value)}
+                  placeholder="Email"
+                />
                 {errors.email && touched.email ? (
                   <div style={{ color: 'red' }}>{errors.email}</div>
                 ) : (
@@ -125,8 +137,7 @@ export default class ModalSupport extends React.Component {
               </div>
               <div className="divTextfieldSupport">
                 <Field
-                  component={TextField}
-                  multiline
+                  component={renderAreaField}
                   name="content"
                   placeholder="Description"
                   value={values.content}
@@ -166,6 +177,32 @@ export default class ModalSupport extends React.Component {
     );
   }
 }
+
+const renderAreaField = ({ onChange, placeholder }) => {
+  return (
+    <FormControl
+      onChange={onChange}
+      componentClass="textarea"
+      placeholder={placeholder}
+    />
+  );
+};
+renderAreaField.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  placeholder: PropTypes.string.isRequired
+};
+
+const renderTextField = ({ onChange, placeholder, type }) => {
+  return (
+    <FormControl onChange={onChange} type={type} placeholder={placeholder} />
+  );
+};
+
+renderTextField.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  placeholder: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired
+};
 
 ModalSupport.propTypes = {
   hidden: PropTypes.bool.isRequired,

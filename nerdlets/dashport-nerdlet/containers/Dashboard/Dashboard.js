@@ -606,7 +606,7 @@ returnParams = (widget) => {
         // see FileSaver.js
         saveAs(
           content,
-          `Datadog ${date.getDate()}-${date.getMonth() +
+          `Dashboards ${date.getDate()}-${date.getMonth() +
             1}-${date.getFullYear()}.zip`
         );
       });
