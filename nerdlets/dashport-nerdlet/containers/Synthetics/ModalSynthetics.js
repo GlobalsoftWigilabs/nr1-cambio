@@ -183,13 +183,13 @@ export default class ModalSynthetics extends React.Component {
       valueTwo = 1;
     }
     switch (column) {
-      case 'params':
+      case 'name':
         // eslint-disable-next-line no-case-declarations
         const sortName = finalList.sort(function(a, b) {
-          if (a.params > b.params) {
+          if (a.name > b.name) {
             return valueOne;
           }
-          if (a.params < b.params) {
+          if (a.name < b.name) {
             return valueTwo;
           }
           return 0;
