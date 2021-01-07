@@ -29,7 +29,7 @@ const callApis = async (cfg, callbackDataWritter, reportLog, datadogService) => 
       config.API_SITE = cfg.DD_EU ? 'eu' : 'com';
 
       const from = Math.floor(new Date() / 1000) - 30 * 60;
-      const metrics = await datadogService.fetchMetrics(from, 5,null);
+      const metrics = await datadogService.fetchMetrics(from, 5, null);
       await callbackDataWritter('Get All Active Metrics', { metrics: metrics });
 
       const list = _getPartentList(endpoints);
@@ -37,9 +37,23 @@ const callApis = async (cfg, callbackDataWritter, reportLog, datadogService) => 
         const obj = await _callApi(list[i], reportLog);
         // if obj is different of null
         if (obj) {
-          if (list[i].name === 'Get all users') {
+          if (list[i].name === 'Get all tests') {
+            for(const test of obj.data.tests){
+              if(test.config.variables){
+                for(const variable of test.config.variables){
+                  if(variable.id){
+                    const variableDetail= await getVariableDetails(variable.id,reportLog);
+                    variable.description=variableDetail.data.description;
+                    variable.value=variableDetail.data.value;
+                    variable.tags=variableDetail.data.tags;
+                  }
+                }
+              }
+            }
+            await callbackDataWritter(list[i].name, obj.data);
+          } else if (list[i].name === 'Get all users') {
             //ROLES
-            for (const user of obj.data.data) {             
+            for (const user of obj.data.data) {
               user.roles = [];
               for (const rolId of user.relationships.roles.data) {
                 const role = obj.data.included.find(rolObj => rolObj.id === rolId.id);
@@ -156,7 +170,9 @@ const callApis = async (cfg, callbackDataWritter, reportLog, datadogService) => 
           }
           const childList = _getChildsApi(endpoints, list[i].name);
           if (childList) {
+
             for (let i = 0; i < childList.length; i++) {
+
               const setup = cpanel.find(cp => cp.name === childList[i].name);
               const objList = setup.parent_obj
                 ? obj.data[setup.parent_obj]
@@ -165,7 +181,6 @@ const callApis = async (cfg, callbackDataWritter, reportLog, datadogService) => 
                 name: childList[i].name,
                 data: []
               };
-
               for (let j = 0; j < objList.length; j++) {
                 const objInfo = {
                   name: childList[i].name,
@@ -186,7 +201,6 @@ const callApis = async (cfg, callbackDataWritter, reportLog, datadogService) => 
                     : childList[i].search,
                   headers: childList[i].headers
                 };
-
                 const objChild = await _callApi(objInfo);
 
                 if (objChild) {
@@ -606,11 +620,11 @@ const getMonitorDetails = async (id, reportLog) => {
   });
   return ret;
 };
-const getMetricDetails = async (metricName, reportLog) => {
+const getVariableDetails = async (id, reportLog) => {
   const proxyUrl = 'https://long-meadow-1713.rsamanez.workers.dev/?';
   let ret = null;
-  let endpoint = "https://api.datadoghq.com/api/v1/metrics/{metric_name}"
-  endpoint = endpoint.replace('{metric_name}', metricName);
+  let endpoint = "https://api.datadoghq.com/api/v1/synthetics/variables/{variable_id}"
+  endpoint = endpoint.replace('{variable_id}', id);
   const headers = [
     {
       "key": "Content-Type",
