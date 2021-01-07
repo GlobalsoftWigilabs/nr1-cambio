@@ -33,7 +33,8 @@ export default class Synthetics extends React.Component {
       hidden: false,
       infoAditional: {},
       data: [],
-      dataRespaldo: []
+      dataRespaldo: [],
+      modal: true
     };
   }
 
@@ -134,6 +135,16 @@ export default class Synthetics extends React.Component {
         steps: steps
       });
     });
+    if (
+      data.host === '-----' &&
+      data.method === '-----' &&
+      data.query === '-----' &&
+      data.variables.length === 0 &&
+      data.assertions.length === 0 &&
+      data.steps.length === 0
+    ) {
+      this.setState({ modal: false });
+    }
     this.setState({ data, dataRespaldo: data });
     this.calcTable(data);
   }
@@ -164,8 +175,17 @@ export default class Synthetics extends React.Component {
   };
 
   saveAction = async (action, infoAditional) => {
-    this._onClose();
-    this.setState({ infoAditional });
+    if (
+      infoAditional.host !== '-----' ||
+      infoAditional.method !== '-----' ||
+      infoAditional.query !== '-----' ||
+      infoAditional.variables.length >= 1 ||
+      infoAditional.assertions.length >= 1 ||
+      infoAditional.steps.length >= 1
+    ) {
+      this._onClose();
+      this.setState({ infoAditional });
+    }
   };
 
   setSortColumn = column => {
@@ -324,12 +344,12 @@ export default class Synthetics extends React.Component {
       if (err) {
         throw err;
       }
-      zip.file(`Test .csv`, csv);
+      zip.file(`Synthetics .csv`, csv);
       zip.generateAsync({ type: 'blob' }).then(function(content) {
         // see FileSaver.js
         saveAs(
           content,
-          `Test ${date.getDate()}-${date.getMonth() +
+          `Synthetics ${date.getDate()}-${date.getMonth() +
             1}-${date.getFullYear()}.zip`
         );
       });
@@ -346,7 +366,8 @@ export default class Synthetics extends React.Component {
       hidden,
       sortColumn,
       infoAditional,
-      data
+      data,
+      modal
     } = this.state;
     const { testTotal = 0 } = this.props;
     return (
@@ -520,13 +541,17 @@ export default class Synthetics extends React.Component {
                           return (
                             <div
                               onClick={() =>
-                                this.saveAction('data', props.original)
+                                modal
+                                  ? this.saveAction('data', props.original)
+                                  : ''
                               }
-                              className="h100 flex pointer flexCenterVertical"
+                              className={`h100 flex flexCenterVertical ${
+                                modal ? 'pointer' : ''
+                              }`}
                               style={{
                                 background:
                                   props.index % 2 ? '#F7F7F8' : 'white',
-                                color: '#0078BF'
+                                color: modal ? '#0078BF' : 'none'
                               }}
                             >
                               <span style={{ marginLeft: '15px' }}>
