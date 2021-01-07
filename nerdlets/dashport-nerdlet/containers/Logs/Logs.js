@@ -30,7 +30,12 @@ export default class Logs extends React.Component {
 
   componentDidMount() {
     const { logsData = [] } = this.props;
-    if (logsData.archivesStatus === 403) {
+    console.log(logsData, 'DATA')
+    if (
+      logsData.archivesStatus === 403 ||
+      logsData.metricsStatus === 403 ||
+      logsData.pipelinesStatus === 403
+    ) {
       this._onClose();
     }
     if (logsData.pipelines) {
@@ -89,7 +94,7 @@ export default class Logs extends React.Component {
       case 'Pipelines':
         return (
           <TablePipelines
-            handleRange={this.handleRangePipelines}
+              handleRange={this.handleRangePipelines}
             rangeSelected={rangeSelected}
             timeRanges={timeRanges}
             dataPipeline={dataPipeline}
@@ -200,12 +205,7 @@ export default class Logs extends React.Component {
             </div>
           </div>
         )}
-        {hidden && (
-          <ModalLog
-            hidden={hidden}
-            _onClose={this._onClose}
-          />
-        )}
+        {hidden && <ModalLog hidden={hidden} _onClose={this._onClose} />}
       </div>
     );
   }
