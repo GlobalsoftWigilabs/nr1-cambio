@@ -39,7 +39,6 @@ export default class Synthetics extends React.Component {
 
   componentDidMount() {
     const { testList = [] } = this.props;
-    console.log('testList', testList);
     const data = [];
     testList.forEach(element => {
       let loca = '';
@@ -135,7 +134,6 @@ export default class Synthetics extends React.Component {
         steps: steps
       });
     });
-    console.log('data', data);
     this.setState({ data, dataRespaldo: data });
     this.calcTable(data);
   }

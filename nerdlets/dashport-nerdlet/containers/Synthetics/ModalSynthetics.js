@@ -1102,7 +1102,6 @@ export default class ModalSynthetics extends React.Component {
   render() {
     const { infoAditional = {}, hidden, _onClose } = this.props;
     const { timeRanges, rangeSelected, selectedOption } = this.state;
-    console.log('infoAditional', infoAditional);
     return (
       <div className="h100">
         <Modal
