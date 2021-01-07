@@ -181,7 +181,7 @@ const _parseDashboars = async (
     }
     data = [];
     other = [];
-    //add dashboard list
+    // add dashboard list
     data = await functionReaderCollection('Get Dashboards Manual');
     for (let i = 0; i < data.length; i++) {
       let ddManual = [];
@@ -389,7 +389,7 @@ function agroupData(dataRepeat) {
     }
     return [...acumu, valueActual];
   }, []);
-  filtrado.sort(function (a, b) {
+  filtrado.sort(function(a, b) {
     if (a.count < b.count) {
       return 1;
     }
@@ -410,16 +410,23 @@ const _parseLogs = async (
   const obj = {
     view: 'logs',
     data: {
+      archivesStatus: 0,
+      pipelinesStatus: 0,
+      metricsStatus: 0,
       archives: [],
       pipelines: [],
       metricsLogs: []
     }
   };
   try {
-    //Get all archives
+    // Get all archives
+    obj.data.archivesStatus = await functionReader(
+      'Get all archives',
+      'Get all archives-obj'
+    );
     let sizeData = await functionReaderCollection('Get all archives');
     let data = [];
-    for (let i = 0; i < sizeData.length; i++) {
+    for (let i = 0; i < sizeData.length - 1; i++) {
       let listo = [];
       listo = await functionReader('Get all archives', `Get all archives-${i}`);
       for (const iterator of listo) {
@@ -429,10 +436,14 @@ const _parseLogs = async (
     if (data) {
       obj.data.archives = data;
     }
-    //Logs based in metrics
+    // Logs based in metrics
+    obj.data.metricsStatus = await functionReader(
+      'Get all log based metrics',
+      'Get all log based metrics-obj'
+    );
     sizeData = await functionReaderCollection('Get all log based metrics');
     data = [];
-    for (let i = 0; i < sizeData.length; i++) {
+    for (let i = 0; i < sizeData.length - 1; i++) {
       let listo = [];
       listo = await functionReader(
         'Get all log based metrics',
@@ -458,10 +469,14 @@ const _parseLogs = async (
     //   obj.data.indexes = data.length;
     // }
 
-    //pipelines
+    // pipelines
+    obj.data.pipelinesStatus = await functionReader(
+      'Get all Pipelines',
+      'Get all Pipelines-obj'
+    );
     data = [];
     sizeData = await functionReaderCollection('Get all Pipelines');
-    for (let i = 0; i < sizeData.length; i++) {
+    for (let i = 0; i < sizeData.length - 1; i++) {
       let listo = [];
       listo = await functionReader(
         'Get all Pipelines',
@@ -498,7 +513,7 @@ const _parseMetrics = async (
   const errors = [];
   try {
     const sizeData = await functionReaderCollection('Get All Active Metrics');
-    let data = await functionReader(
+    const data = await functionReader(
       'Get All Active Metrics',
       'Get All Active Metrics-obj'
     );
@@ -545,8 +560,8 @@ const _parseSynthetics = async (
 
   try {
     // TEST
-    let sizeData = await functionReaderCollection('Get all tests');
-    let data = [];
+    const sizeData = await functionReaderCollection('Get all tests');
+    const data = [];
     for (let i = 0; i < sizeData.length; i++) {
       let listo = [];
       listo = await functionReader('Get all tests', `Get all tests-${i}`);
@@ -570,11 +585,9 @@ const _parseSynthetics = async (
     //     data.push(iterator);
     //   }
     // }
-    // debugger
     // if (data && data instanceof Array) {
     //   obj.data.locations = data;
     // }
-    // debugger
   } catch (error) {
     const response = {
       message: error.message,

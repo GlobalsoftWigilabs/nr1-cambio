@@ -12,7 +12,12 @@ const config = {
 };
 const ENABLE_LOAD_TEST = false;
 
-const callApis = async (cfg, callbackDataWritter, reportLog, datadogService) => {
+const callApis = async (
+  cfg,
+  callbackDataWritter,
+  reportLog,
+  datadogService
+) => {
   if (ENABLE_LOAD_TEST) {
     const dashboardsData = loadDashboards(6, dashboardsList);
     const metricsData = loadDashboards(6, metrics.metrics);
@@ -42,122 +47,212 @@ const callApis = async (cfg, callbackDataWritter, reportLog, datadogService) => 
 
         // if obj is different of null
         if (obj) {
-          if (list[i].name === 'Get all users') {
-            //ROLES
-            for (const user of obj.data.data) {             
-              user.roles = [];
-              for (const rolId of user.relationships.roles.data) {
-                const role = obj.data.included.find(rolObj => rolObj.id === rolId.id);
-                user.roles.push(role.attributes.name);
-              }
-              user.organizations = user.relationships.org.data.id;
+          switch (list[i].name) {
+            case 'Get all archives':
+              await callbackDataWritter(list[i].name, obj);
+              break;
+            case 'Get all log based metrics':
+              await callbackDataWritter(list[i].name, obj);
+              break;
+            case 'Get all Pipelines':
+              await callbackDataWritter(list[i].name, obj);
+              break;
+            case 'Get All Active Metrics': {
+              const from = Math.floor(new Date() / 1000) - 30 * 60;
+              const metrics = await datadogService.fetchMetrics(from, 5, null);
+              await callbackDataWritter(list[i].name, {
+                metrics: metrics
+              });
+              break;
             }
-            //organizacion
-            // for (const user of obj.data.data) {
-            //   const userOr = await getOrganizationUser(user.id, reportLog);
-            //   //obj 
-            // }
-            await callbackDataWritter(list[i].name, obj.data);
-          } else if (list[i].name === 'Get Dashboards Manual') {
-            for (let j = 0; j < obj.data.dashboard_lists.length; j++) {
-              const response = await getManualDashboard(obj.data.dashboard_lists[j].id, reportLog);
-              if (response) {
-                obj.data.dashboard_lists[j].dashboards = response.data.dashboards;
+            case 'Get all tests':
+              for (const test of obj.data.tests) {
+                if (test.config.variables) {
+                  for (const variable of test.config.variables) {
+                    if (variable.id) {
+                      const variableDetail = await getVariableDetails(
+                        variable.id,
+                        reportLog
+                      );
+                      variable.description = variableDetail.data.description;
+                      variable.value = variableDetail.data.value;
+                      variable.tags = variableDetail.data.tags;
+                    }
+                  }
+                }
               }
-            }
-            await callbackDataWritter(list[i].name, obj.data);
-          } else if (list[i].name === 'Monitor Search') {
-            // Ejecutar una serie de consultas para obtener todos los monitores
-            const totalMonitors = obj.data.metadata.total_count;
-            const monitorsPerPage = obj.data.metadata.per_page;
-            if (totalMonitors > monitorsPerPage) {
-              let numPages = Math.trunc(totalMonitors / monitorsPerPage) - 1;
-              const resto = totalMonitors % monitorsPerPage;
-              if (resto > 0) {
-                numPages++;
+              await callbackDataWritter(list[i].name, obj.data);
+              break;
+            case 'Get all users':
+              for (const user of obj.data.data) {
+                user.roles = [];
+                for (const rolId of user.relationships.roles.data) {
+                  const role = obj.data.included.find(
+                    rolObj => rolObj.id === rolId.id
+                  );
+                  user.roles.push(role.attributes.name);
+                }
+                user.organizations = user.relationships.org.data.id;
               }
-              const countData = {
-                metadata: obj.data.metadata,
-                countsType: obj.data.counts.type,
-                totalPages: numPages
-              };
-              await callbackDataWritter('Monitors meta', countData);
-              const monitors = [];
-              for (let pag = 0; pag <= numPages; pag++) {
-                const resultado = await getMonitorsPage(list[i], pag, reportLog);
-                monitors.push(resultado.data);
+              await callbackDataWritter(list[i].name, obj.data);
+              break;
+            case 'Get Dashboards Manual':
+              for (let j = 0; j < obj.data.dashboard_lists.length; j++) {
+                const response = await getManualDashboard(
+                  obj.data.dashboard_lists[j].id,
+                  reportLog
+                );
+                if (response) {
+                  obj.data.dashboard_lists[j].dashboards =
+                    response.data.dashboards;
+                }
               }
-              for (const monitor of monitors) {
-                const responseDetailsMonitorPages = await getMonitorDetails(monitor.id, reportLog);
-                monitor.created = responseDetailsMonitorPages.data.created;
-                monitor.aggregation = responseDetailsMonitorPages.data.options.aggregation ? responseDetailsMonitorPages.data.options.aggregation : null;
-                monitor.evaluation_delay = responseDetailsMonitorPages.data.options.evaluation_delay ? responseDetailsMonitorPages.data.options.evaluation_delay : null;
-                monitor.new_host_delay = responseDetailsMonitorPages.data.options.new_host_delay ? responseDetailsMonitorPages.data.options.new_host_delay : null;
-                monitor.no_data_timeframe = responseDetailsMonitorPages.data.options.no_data_timeframe ? responseDetailsMonitorPages.data.options.no_data_timeframe : null;
-                monitor.notify_audit = responseDetailsMonitorPages.data.options.notify_audit ? responseDetailsMonitorPages.data.options.notify_audit : null;
-                monitor.notify_no_data = responseDetailsMonitorPages.data.options.notify_no_data ? responseDetailsMonitorPages.data.options.notify_no_data : null;
-                monitor.thresholds = responseDetailsMonitorPages.data.options.thresholds ? responseDetailsMonitorPages.data.options.thresholds : null;
-                monitor.min_location_failed = responseDetailsMonitorPages.data.options.min_location_failed ? responseDetailsMonitorPages.data.options.min_location_failed : null;
-                monitor.min_failure_duration = responseDetailsMonitorPages.data.options.min_failure_duration ? responseDetailsMonitorPages.data.options.min_failure_duration : null;
-                monitor.message = responseDetailsMonitorPages.data.message;
-                monitor.multi = responseDetailsMonitorPages.data.multi;
+              await callbackDataWritter(list[i].name, obj.data);
+              break;
+            case 'Monitor Search':
+              {
+                // Ejecutar una serie de consultas para obtener todos los monitores
+                const totalMonitors = obj.data.metadata.total_count;
+                const monitorsPerPage = obj.data.metadata.per_page;
+                if (totalMonitors > monitorsPerPage) {
+                  let numPages =
+                    Math.trunc(totalMonitors / monitorsPerPage) - 1;
+                  const resto = totalMonitors % monitorsPerPage;
+                  if (resto > 0) {
+                    numPages++;
+                  }
+                  const countData = {
+                    metadata: obj.data.metadata,
+                    countsType: obj.data.counts.type,
+                    totalPages: numPages
+                  };
+                  await callbackDataWritter('Monitors meta', countData);
+                  const monitors = [];
+                  for (let pag = 0; pag <= numPages; pag++) {
+                    const resultado = await getMonitorsPage(
+                      list[i],
+                      pag,
+                      reportLog
+                    );
+                    monitors.push(resultado.data);
+                  }
+                  for (const monitor of monitors) {
+                    const responseDetailsMonitorPages = await getMonitorDetails(
+                      monitor.id,
+                      reportLog
+                    );
+                    const {
+                      created,
+                      message,
+                      multi
+                    } = responseDetailsMonitorPages.data;
+                    const {
+                      aggregation,
+                      evaluation_delay,
+                      new_host_delay,
+                      no_data_timeframe,
+                      notify_audit,
+                      notify_no_data,
+                      thresholds,
+                      min_location_failed,
+                      min_failure_duration
+                    } = responseDetailsMonitorPages.data.options;
+                    monitor.created = created;
+                    monitor.aggregation = aggregation ?? null;
+                    monitor.evaluation_delay = evaluation_delay ?? null;
+                    monitor.new_host_delay = new_host_delay ?? null;
+                    monitor.no_data_timeframe = no_data_timeframe ?? null;
+                    monitor.notify_audit = notify_audit ?? null;
+                    monitor.notify_no_data = notify_no_data ?? null;
+                    monitor.thresholds = thresholds ?? null;
+                    monitor.min_location_failed = min_location_failed ?? null;
+                    monitor.min_failure_duration = min_failure_duration ?? null;
+                    monitor.message = message;
+                    monitor.multi = multi;
+                  }
+                  await callbackDataWritter(`Monitor Search Pages`, monitors);
+                } else {
+                  const countData = {
+                    metadata: obj.data.metadata,
+                    countsType: obj.data.counts.type,
+                    totalPages: 0
+                  };
+                  for (const monitor of obj.data.monitors) {
+                    const responseDetailsMonitor = await getMonitorDetails(
+                      monitor.id,
+                      reportLog
+                    );
+                    const {
+                      created,
+                      message,
+                      multi
+                    } = responseDetailsMonitor.data;
+                    const {
+                      aggregation,
+                      evaluation_delay,
+                      new_host_delay,
+                      no_data_timeframe,
+                      notify_audit,
+                      notify_no_data,
+                      thresholds,
+                      min_location_failed,
+                      min_failure_duration
+                    } = responseDetailsMonitor.data.options;
+                    monitor.created = created;
+                    monitor.aggregation = aggregation ?? null;
+                    monitor.evaluation_delay = evaluation_delay ?? null;
+                    monitor.new_host_delay = new_host_delay ?? null;
+                    monitor.no_data_timeframe = no_data_timeframe ?? null;
+                    monitor.notify_audit = notify_audit ?? null;
+                    monitor.notify_no_data = notify_no_data ?? null;
+                    monitor.thresholds = thresholds ?? null;
+                    monitor.min_location_failed = min_location_failed ?? null;
+                    monitor.min_failure_duration = min_failure_duration ?? null;
+                    monitor.message = message;
+                    monitor.multi = multi;
+                  }
+                  await callbackDataWritter('Monitors meta', countData);
+                  await callbackDataWritter(
+                    'Monitor Search Pages',
+                    obj.data.monitors
+                  );
+                }
               }
-              await callbackDataWritter(`Monitor Search Pages`, monitors);
-            } else {
-              const countData = {
-                metadata: obj.data.metadata,
-                countsType: obj.data.counts.type,
-                totalPages: 0
-              };
-              for (const monitor of obj.data.monitors) {
-                const responseDetailsMonitor = await getMonitorDetails(monitor.id, reportLog);
-                monitor.created = responseDetailsMonitor.data.created;
-                monitor.aggregation = responseDetailsMonitor.data.options.aggregation ? responseDetailsMonitor.data.options.aggregation : null;
-                monitor.evaluation_delay = responseDetailsMonitor.data.options.evaluation_delay ? responseDetailsMonitor.data.options.evaluation_delay : null;
-                monitor.new_host_delay = responseDetailsMonitor.data.options.new_host_delay ? responseDetailsMonitor.data.options.new_host_delay : null;
-                monitor.no_data_timeframe = responseDetailsMonitor.data.options.no_data_timeframe ? responseDetailsMonitor.data.options.no_data_timeframe : null;
-                monitor.notify_audit = responseDetailsMonitor.data.options.notify_audit ? responseDetailsMonitor.data.options.notify_audit : null;
-                monitor.notify_no_data = responseDetailsMonitor.data.options.notify_no_data ? responseDetailsMonitor.data.options.notify_no_data : null;
-                monitor.thresholds = responseDetailsMonitor.data.options.thresholds ? responseDetailsMonitor.data.options.thresholds : null;
-                monitor.min_location_failed = responseDetailsMonitor.data.options.min_location_failed ? responseDetailsMonitor.data.options.min_location_failed : null;
-                monitor.min_failure_duration = responseDetailsMonitor.data.options.min_failure_duration ? responseDetailsMonitor.data.options.min_failure_duration : null;
-                monitor.message = responseDetailsMonitor.data.message;
-                monitor.multi = responseDetailsMonitor.data.multi;
+              break;
+            case 'Search hosts':
+              {
+                const totalHost = obj.data.total_matching;
+                const hostPerPage = 1000;
+                let numPagesHost = Math.trunc(totalHost / hostPerPage);
+                const restoHost = totalHost % hostPerPage;
+                if (restoHost > 0) {
+                  numPagesHost++;
+                }
+                const hostList = [];
+                let initial = 0;
+                for (let pag = 0; pag < numPagesHost; pag++) {
+                  const resultadoHost = await getHosPage(
+                    list[i],
+                    initial,
+                    1000,
+                    reportLog
+                  );
+                  if (resultadoHost.data) {
+                    resultadoHost.data.host_list.map(host =>
+                      hostList.push(host)
+                    );
+                  }
+                  initial += 1000;
+                }
+                if (obj) {
+                  obj.data.host_list = hostList;
+                }
+                await callbackDataWritter(list[i].name, obj.data);
               }
-              await callbackDataWritter('Monitors meta', countData);
-              await callbackDataWritter(
-                'Monitor Search Pages',
-                obj.data.monitors
-              );
-            }
-          } else if (list[i].name === 'Search hosts') {
-            const totalHost = obj.data.total_matching;
-            const hostPerPage = 1000;
-            let numPagesHost = Math.trunc(totalHost / hostPerPage);
-            const restoHost = totalHost % hostPerPage;
-            if (restoHost > 0) {
-              numPagesHost++;
-            }
-            const hostList = [];
-            let initial = 0;
-            for (let pag = 0; pag < numPagesHost; pag++) {
-              const resultadoHost = await getHosPage(
-                list[i],
-                initial,
-                1000,
-                reportLog
-              );
-              if (resultadoHost.data) {
-                resultadoHost.data.host_list.map(host => hostList.push(host));
-              }
-              initial += 1000;
-            }
-            if (obj) {
-              obj.data.host_list = hostList;
-            }
-            await callbackDataWritter(list[i].name, obj.data);
-          } else {
-            await callbackDataWritter(list[i].name, obj.data);
+              break;
+            default:
+              await callbackDataWritter(list[i].name, obj.data);
+              break;
           }
 
           const childList = _getChildsApi(endpoints, list[i].name);
@@ -171,7 +266,6 @@ const callApis = async (cfg, callbackDataWritter, reportLog, datadogService) => 
                 name: childList[i].name,
                 data: []
               };
-
               for (let j = 0; j < objList.length; j++) {
                 const objInfo = {
                   name: childList[i].name,
@@ -192,7 +286,6 @@ const callApis = async (cfg, callbackDataWritter, reportLog, datadogService) => 
                     : childList[i].search,
                   headers: childList[i].headers
                 };
-
                 const objChild = await _callApi(objInfo);
 
                 if (objChild) {
@@ -256,6 +349,10 @@ const _callApi = async (info, reportLog) => {
           date: new Date().toLocaleString()
         };
         await reportLog(response);
+        return {
+          data: [],
+          status: error.response.status
+        };
       }
       if (error.response.status >= 500) {
         const response = {
@@ -267,6 +364,10 @@ const _callApi = async (info, reportLog) => {
           date: new Date().toLocaleString()
         };
         await reportLog(response);
+        return {
+          data: [],
+          status: error.response.status
+        };
       }
     } else if (error.request) {
       // The request was made but no response was received
@@ -428,46 +529,47 @@ const getMonitorsPage = async (info, page, reportLog) => {
 const getManualDashboard = async (id, reportLog) => {
   const proxyUrl = 'https://long-meadow-1713.rsamanez.workers.dev/?';
   let ret = null;
-  let endpoint = "https://api.datadoghq.{{datadog_site}}/api/v2/dashboard/lists/manual/{{id}}/dashboards"
-  endpoint = endpoint.replace('{{id}}', id)
+  let endpoint =
+    'https://api.datadoghq.{{datadog_site}}/api/v2/dashboard/lists/manual/{{id}}/dashboards';
+  endpoint = endpoint.replace('{{id}}', id);
   const headers = [
     {
-      "key": "Content-Type",
-      "value": "application/json"
+      key: 'Content-Type',
+      value: 'application/json'
     },
     {
-      "key": "DD-API-KEY",
-      "value": "{{datadog_api_key}}"
+      key: 'DD-API-KEY',
+      value: '{{datadog_api_key}}'
     },
     {
-      "key": "DD-APPLICATION-KEY",
-      "value": "{{datadog_application_key}}"
+      key: 'DD-APPLICATION-KEY',
+      value: '{{datadog_application_key}}'
     }
-  ]
+  ];
   const options = {
     baseURL: `${proxyUrl}${endpoint.replace(
       '{{datadog_site}}',
       config.API_SITE
     )}`,
     headers: _setHttpHeaders(headers),
-    method: 'get',
+    method: 'get'
   };
   ret = await axios(options).catch(async error => {
     if (error.response) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx
-      console.log(error.response)
-        ; if (error.response.status >= 400 && error.response.status <= 499) {
-          const response = {
-            message: error.response.data.errors
-              ? error.response.data.errors[0]
-              : `${error.response.status} - ${info.pathname}`,
-            type: 'Warning',
-            event: 'Fetch',
-            date: new Date().toLocaleString()
-          };
-          await reportLog(response);
-        }
+      console.log(error.response);
+      if (error.response.status >= 400 && error.response.status <= 499) {
+        const response = {
+          message: error.response.data.errors
+            ? error.response.data.errors[0]
+            : `${error.response.status} - ${info.pathname}`,
+          type: 'Warning',
+          event: 'Fetch',
+          date: new Date().toLocaleString()
+        };
+        await reportLog(response);
+      }
       if (error.response.status >= 500) {
         const response = {
           message: error.response.data.errors
@@ -491,46 +593,47 @@ const getManualDashboard = async (id, reportLog) => {
 const getOrganizationUser = async (id, reportLog) => {
   const proxyUrl = 'https://long-meadow-1713.rsamanez.workers.dev/?';
   let ret = null;
-  let endpoint = "https://api.datadoghq.{{datadog_site}}/api/v2/users/{{id}}/orgs"
-  endpoint = endpoint.replace('{{id}}', id)
+  let endpoint =
+    'https://api.datadoghq.{{datadog_site}}/api/v2/users/{{id}}/orgs';
+  endpoint = endpoint.replace('{{id}}', id);
   const headers = [
     {
-      "key": "Content-Type",
-      "value": "application/json"
+      key: 'Content-Type',
+      value: 'application/json'
     },
     {
-      "key": "DD-API-KEY",
-      "value": "{{datadog_api_key}}"
+      key: 'DD-API-KEY',
+      value: '{{datadog_api_key}}'
     },
     {
-      "key": "DD-APPLICATION-KEY",
-      "value": "{{datadog_application_key}}"
+      key: 'DD-APPLICATION-KEY',
+      value: '{{datadog_application_key}}'
     }
-  ]
+  ];
   const options = {
     baseURL: `${proxyUrl}${endpoint.replace(
       '{{datadog_site}}',
       config.API_SITE
     )}`,
     headers: _setHttpHeaders(headers),
-    method: 'get',
+    method: 'get'
   };
   ret = await axios(options).catch(async error => {
     if (error.response) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx
-      console.log(error.response)
-        ; if (error.response.status >= 400 && error.response.status <= 499) {
-          const response = {
-            message: error.response.data.errors
-              ? error.response.data.errors[0]
-              : `${error.response.status} - ${info.pathname}`,
-            type: 'Warning',
-            event: 'Fetch',
-            date: new Date().toLocaleString()
-          };
-          await reportLog(response);
-        }
+      console.log(error.response);
+      if (error.response.status >= 400 && error.response.status <= 499) {
+        const response = {
+          message: error.response.data.errors
+            ? error.response.data.errors[0]
+            : `${error.response.status} - ${info.pathname}`,
+          type: 'Warning',
+          event: 'Fetch',
+          date: new Date().toLocaleString()
+        };
+        await reportLog(response);
+      }
       if (error.response.status >= 500) {
         const response = {
           message: error.response.data.errors
@@ -554,22 +657,22 @@ const getOrganizationUser = async (id, reportLog) => {
 const getMonitorDetails = async (id, reportLog) => {
   const proxyUrl = 'https://long-meadow-1713.rsamanez.workers.dev/?';
   let ret = null;
-  let endpoint = "https://api.datadoghq.com/api/v1/monitor/{{monitor_id}}"
+  let endpoint = 'https://api.datadoghq.com/api/v1/monitor/{{monitor_id}}';
   endpoint = endpoint.replace('{{monitor_id}}', id);
   const headers = [
     {
-      "key": "Content-Type",
-      "value": "application/json"
+      key: 'Content-Type',
+      value: 'application/json'
     },
     {
-      "key": "DD-API-KEY",
-      "value": "{{datadog_api_key}}"
+      key: 'DD-API-KEY',
+      value: '{{datadog_api_key}}'
     },
     {
-      "key": "DD-APPLICATION-KEY",
-      "value": "{{datadog_application_key}}"
+      key: 'DD-APPLICATION-KEY',
+      value: '{{datadog_application_key}}'
     }
-  ]
+  ];
   const options = {
     baseURL: `${proxyUrl}${endpoint.replace(
       '{{datadog_site}}',
@@ -612,25 +715,26 @@ const getMonitorDetails = async (id, reportLog) => {
   });
   return ret;
 };
-const getMetricDetails = async (metricName, reportLog) => {
+const getVariableDetails = async (id, reportLog) => {
   const proxyUrl = 'https://long-meadow-1713.rsamanez.workers.dev/?';
   let ret = null;
-  let endpoint = "https://api.datadoghq.com/api/v1/metrics/{metric_name}"
-  endpoint = endpoint.replace('{metric_name}', metricName);
+  let endpoint =
+    'https://api.datadoghq.com/api/v1/synthetics/variables/{variable_id}';
+  endpoint = endpoint.replace('{variable_id}', id);
   const headers = [
     {
-      "key": "Content-Type",
-      "value": "application/json"
+      key: 'Content-Type',
+      value: 'application/json'
     },
     {
-      "key": "DD-API-KEY",
-      "value": "{{datadog_api_key}}"
+      key: 'DD-API-KEY',
+      value: '{{datadog_api_key}}'
     },
     {
-      "key": "DD-APPLICATION-KEY",
-      "value": "{{datadog_application_key}}"
+      key: 'DD-APPLICATION-KEY',
+      value: '{{datadog_application_key}}'
     }
-  ]
+  ];
   const options = {
     baseURL: `${proxyUrl}${endpoint.replace(
       '{{datadog_site}}',
@@ -680,7 +784,7 @@ const loadDashboards = (numberRepition, source) => {
     data = data.concat(source);
   }
   return data;
-}
+};
 
 const getHosPage = async (info, start, count, reportLog) => {
   const proxyUrl = 'https://long-meadow-1713.rsamanez.workers.dev/?';
