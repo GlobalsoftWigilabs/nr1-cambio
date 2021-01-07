@@ -8,6 +8,9 @@
         "eslint-check": "eslint nerdlets/",
         "eslint-fix": "eslint nerdlets/ --fix"
     },
+    "jest": {
+        "testEnvironment": "node"
+    },
     "nr1": {
         "uuid": "3857d19f-c17e-4ee9-b4f1-8056801d5430"
     },
@@ -19,6 +22,7 @@
         "jszip": "^3.5.0",
         "moment": "^2.29.1",
         "prop-types": "^15.7.2",
+        "query-string": "^6.13.8",
         "react": "^16.6.3",
         "react-bootstrap": "^0.33.1",
         "react-circular-progressbar": "^2.0.3",
@@ -28,9 +32,9 @@
         "react-select": "^3.1.0",
         "react-table-v6": "^6.8.6",
         "react-tooltip": "^4.2.11",
+        "reactjs-popup": "^1.5.0",
         "recharts": "^1.8.5",
-        "yup": "^0.29.0",
-        "reactjs-popup": "^1.5.0"
+        "yup": "^0.29.0"
     },
     "browserslist": [
         "last 2 versions",

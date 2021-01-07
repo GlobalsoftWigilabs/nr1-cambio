@@ -29,3 +29,70 @@
     opacity: 1 !important;
   }
 }
+
+.headerModalProgress {
+  display: grid;
+  grid-template: 1fr / 95% 5%;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+  color: #333333;
+}
+.contentFetching {
+  display: grid;
+  grid-template: 10% 15% 75% / 1fr;
+  row-gap: 5px;
+}
+.contentFetching__info {
+  background-color: #f7f7f8;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 0.71vw;
+  line-height: 16px;
+  width: 70%;
+  color: #767b7f;
+}
+.info__loading {
+  display: grid;
+  grid-template: 1fr / 50% 50%;
+}
+.warningInfo--description {
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 16px;
+  margin-top: 10px;
+  color: #333333;
+}
+.warningInfo--title {
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  margin-left: 10px;
+  color: #333333;
+}
+.warningInfo__buttons{
+  display: grid;
+  column-gap: 5px;
+  width: 96%;
+  grid-template: 1fr / 30% 35% 35%;
+}
+.contentFetching__warningInfo {
+  margin-top: 15px;
+  display: grid;
+  height: 100%;
+  grid-template: 10% 75% 15% / 1fr;
+}
+.warningInfo--steps{
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+.widthModalProgress{
+  width: 450px;
+}

@@ -15,6 +15,7 @@ import stepTwo from '../../images/stepTwoIndicator.svg';
 import stepOneDisabled from '../../images/stepOneIndicatorDisabled.svg';
 import stepTwoDisabled from '../../images/stepTwoIndicatorDisabled.svg';
 import eyeIcon from '../../images/eyeIconGray.svg';
+import warningIcon from '../../images/warning.svg';
 import {
   downloadJSON,
   downloadCSV,
@@ -315,6 +316,26 @@ export default class Setup extends React.Component {
                   {lastUpdate}
                 </div>
               </div>
+              {fetchingData&&<div style={{paddingLeft:"10px",paddingRight:"10px"}}>
+                <div className="fetchSection__warningInfo flex flexCenterHorizontal">
+                  <div style={{width:"70%",marginTop:"3%"}}>
+                  <img
+                  style={{
+                    width: '20px',
+                    height: '20px'
+                   }}
+                  src={warningIcon}
+                 />
+                <span className="warningInfo--title">Important Information</span>
+                <p className="warningInfo--description ">
+                                <span className="warningInfo--steps">This process may take more than 40 minutes.</span> <br />
+                                <span className="warningInfo--steps">This browser tab should not close until the process is complete.</span>  <br />
+                                <span className="warningInfo--steps">Your internet connection must be active to complete the process.</span>
+                            </p>
+                  </div>
+                
+                </div>
+              </div>}
             </div>
           </div>
         ) : (
@@ -348,6 +369,26 @@ export default class Setup extends React.Component {
                   {lastUpdate}
                 </div>
               </div>
+              {fetchingData&&<div style={{paddingLeft:"10px",paddingRight:"10px"}}>
+                <div className="fetchSection__warningInfo flex flexCenterHorizontal">
+                  <div style={{width:"70%",marginTop:"3%"}}>
+                  <img
+                  style={{
+                    width: '20px',
+                    height: '20px'
+                   }}
+                  src={warningIcon}
+                 />
+                <span className="warningInfo--title">Important Information</span>
+                <p className="warningInfo--description ">
+                                <span className="warningInfo--steps">This process may take more than 40 minutes.</span> <br />
+                                <span className="warningInfo--steps">This browser tab should not close until the process is complete.</span>  <br />
+                                <span className="warningInfo--steps">Your internet connection must be active to complete the process.</span>
+                            </p>
+                  </div>
+                
+                </div>
+              </div>}
             </div>
           </div>
         );

@@ -188,12 +188,13 @@ async function writeNerdStorage(
   data,
   reportLogFetch
 ) {
+  const document = JSON.stringify(data);
   await AccountStorageMutation.mutate({
     accountId: accountId,
     actionType: AccountStorageMutation.ACTION_TYPE.WRITE_DOCUMENT,
     collection: collection,
     documentId: documentId,
-    document: JSON.stringify(data)
+    document: document
   }).catch(err => {
     const response = {
       message: err.message,

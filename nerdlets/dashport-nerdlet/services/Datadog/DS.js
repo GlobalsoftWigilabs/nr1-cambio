@@ -33,7 +33,7 @@ const apiDataDigest = async (
     'monitors',
     'infraestructure',
     'logs',
-    // 'metrics',
+    'metrics',
     'synthetics',
     'accounts'
   ];
@@ -57,13 +57,13 @@ const apiDataDigest = async (
   data.push(
     await _parseLogs(functionReader, functionReaderCollection, reportLogFetch)
   );
-  // data.push(
-  //   await _parseMetrics(
-  //     functionReader,
-  //     functionReaderCollection,
-  //     reportLogFetch
-  //   )
-  // );
+  data.push(
+    await _parseMetrics(
+      functionReader,
+      functionReaderCollection,
+      reportLogFetch
+    )
+  );
   data.push(
     await _parseSynthetics(
       functionReader,
@@ -286,7 +286,8 @@ const _parseInfra = async (
       total: 0,
       hostList: [],
       windowsCount: 0,
-      linuxCount: 0
+      linuxCount: 0,
+      unknowCount: 0
       // cpuCount: 0,
       // platform: {
       //   linux: {
@@ -345,6 +346,9 @@ const _parseInfra = async (
             //   memory: `${memoryGB.toFixed(1)}GB`
             // });
           }
+        } else {
+          obj.data.total++;
+          obj.data.unknowCount++;
         }
       }
       // obj.data.platform.win.versions = agroupData(
@@ -385,7 +389,7 @@ function agroupData(dataRepeat) {
     }
     return [...acumu, valueActual];
   }, []);
-  filtrado.sort(function(a, b) {
+  filtrado.sort(function (a, b) {
     if (a.count < b.count) {
       return 1;
     }
@@ -492,7 +496,6 @@ const _parseMetrics = async (
     data: []
   };
   const errors = [];
-
   try {
     const sizeData = await functionReaderCollection('Get All Active Metrics');
     let data = await functionReader(
@@ -511,9 +514,7 @@ const _parseMetrics = async (
       }
     }
     if (data) {
-      data.metrics = listMetrics;
-      data = data.metrics;
-      obj.data = data;
+      obj.data = listMetrics;
     }
   } catch (error) {
     const response = {

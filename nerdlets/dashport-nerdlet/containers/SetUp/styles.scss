@@ -230,9 +230,14 @@
     display: grid;
     grid-template: 10% 10% 10% 70%/ 1fr;
     row-gap: 25px;
-    height: 100%;
+    height: calc(100% - 75px);
 }
 .fetchSection--buttonFetch {
     width: 80%;
     font-size: 14px;
-  }
+}
+.fetchSection__warningInfo {
+    padding-left: 10px;
+    padding-right: 10px;
+    border-top: 2px solid #c4c4c4;
+}
