@@ -328,7 +328,7 @@ export default class Setup extends React.Component {
                  />
                 <span className="warningInfo--title">Important Information</span>
                 <p className="warningInfo--description ">
-                                <span className="warningInfo--steps">This process may take more than 40 minutes.</span> <br />
+                                <span className="warningInfo--steps">This process may take more than 30 minutes.</span> <br />
                                 <span className="warningInfo--steps">This browser tab should not close until the process is complete.</span>  <br />
                                 <span className="warningInfo--steps">Your internet connection must be active to complete the process.</span>
                             </p>
@@ -381,7 +381,7 @@ export default class Setup extends React.Component {
                  />
                 <span className="warningInfo--title">Important Information</span>
                 <p className="warningInfo--description ">
-                                <span className="warningInfo--steps">This process may take more than 40 minutes.</span> <br />
+                                <span className="warningInfo--steps">This process may take more than 30 minutes.</span> <br />
                                 <span className="warningInfo--steps">This browser tab should not close until the process is complete.</span>  <br />
                                 <span className="warningInfo--steps">Your internet connection must be active to complete the process.</span>
                             </p>

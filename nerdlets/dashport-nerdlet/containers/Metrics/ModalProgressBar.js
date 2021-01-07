@@ -48,7 +48,7 @@ function ModalProgressBar(props) {
                                 <span className="warningInfo--title">Important Information</span>
                             </div>
                             <p className="warningInfo--description ">
-                                <span className="warningInfo--steps">This process may take more than 20 minutes.</span> <br />
+                                <span className="warningInfo--steps">This process may take more than 30 minutes.</span> <br />
                                 <span className="warningInfo--steps">This browser tab should not close until the process is complete.</span>  <br />
                                 <span className="warningInfo--steps">Your internet connection must be active to complete  the process.</span>
                             </p>

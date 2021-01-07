@@ -57,14 +57,6 @@ const callApis = async (
             case 'Get all Pipelines':
               await callbackDataWritter(list[i].name, obj);
               break;
-            case 'Get All Active Metrics': {
-              const from = Math.floor(new Date() / 1000) - 30 * 60;
-              const metrics = await datadogService.fetchMetrics(from, 5, null);
-              await callbackDataWritter(list[i].name, {
-                metrics: metrics
-              });
-              break;
-            }
             case 'Get all tests':
               for (const test of obj.data.tests) {
                 if (test.config.variables) {
