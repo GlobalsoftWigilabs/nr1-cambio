@@ -16,7 +16,7 @@ const Bar = props => {
   };
 
   const fillerStyles = {
-    height: '25px',
+    height: '1.3vw',
     transition: 'width 1s ease-in-out',
     width: quantityPercentage > 0 && `${quantityPercentage}%`,
     backgroundColor: quantity === 0 ? bgColor : bgcolorMain,
