@@ -612,7 +612,7 @@ export default class Metrics extends React.Component {
                   <div
                     className="f14"
                     style={{
-                      height: "100%",
+                      height: "70%",
                       display: 'grid',
                       gridTemplate: ' 50% 50% / 1fr'
                     }}
@@ -637,8 +637,8 @@ export default class Metrics extends React.Component {
                             key={index}
                             className="w100"
                             style={{
-                              paddingBottom: '10px',
-                              paddingTop: '10px',
+                              paddingBottom: '4%',
+                              paddingTop: '4%',
                               width: '94%'
                             }}
                           >
