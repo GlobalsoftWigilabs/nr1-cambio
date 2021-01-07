@@ -28,13 +28,18 @@ const callApis = async (cfg, callbackDataWritter, reportLog, datadogService) => 
       config.APP_KEY = cfg.DD_APP_KEY;
       config.API_SITE = cfg.DD_EU ? 'eu' : 'com';
 
-      const from = Math.floor(new Date() / 1000) - 30 * 60;
-      const metrics = await datadogService.fetchMetrics(from, 5,null);
-      await callbackDataWritter('Get All Active Metrics', { metrics: metrics });
-
+      let obj = null;
       const list = _getPartentList(endpoints);
       for (let i = 0; i < list.length; i++) {
-        const obj = await _callApi(list[i], reportLog);
+        console.log(list[i].name);
+        if (list[i].name === 'Get All Active Metrics') {
+          const from = Math.floor(new Date() / 1000) - 60 * 60;
+          const metrics = await datadogService.fetchMetrics(from);
+          await callbackDataWritter('Get All Active Metrics', { metrics: metrics });
+        } else {
+          obj = await _callApi(list[i], reportLog);
+        }
+
         // if obj is different of null
         if (obj) {
           if (list[i].name === 'Get all users') {
@@ -154,6 +159,7 @@ const callApis = async (cfg, callbackDataWritter, reportLog, datadogService) => 
           } else {
             await callbackDataWritter(list[i].name, obj.data);
           }
+
           const childList = _getChildsApi(endpoints, list[i].name);
           if (childList) {
             for (let i = 0; i < childList.length; i++) {

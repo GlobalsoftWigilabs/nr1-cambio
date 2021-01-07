@@ -206,6 +206,17 @@ export default class App extends React.Component {
     this.setState({ selectedMenu: value });
   };
 
+  createDatadogServiceInstance(keyApi, keyApp) {
+    const datadogClient = new DatadogClient(
+      keyApi,
+      keyApp,
+      siteApi,
+      proxyUrl,
+      this.reportLogFetch
+    );
+    return new DatadogService(datadogClient);
+  }
+
   /**
    * Method that load from NerdStorage the information from account
    *
@@ -237,15 +248,7 @@ export default class App extends React.Component {
         }
       }
       if (keyApi && keyApp) {
-
-        const datadogClient = new DatadogClient(
-          keyApi,
-          keyApp,
-          siteApi,
-          proxyUrl,
-          this.reportLogFetch
-        );
-        const datadogService = new DatadogService(datadogClient);
+        const datadogService = this.createDatadogServiceInstance(keyApi, keyApp);
 
         this.setState({
           setupComplete: true,
@@ -1159,7 +1162,7 @@ export default class App extends React.Component {
   updateMetricsSection = async from => {
     const { datadogService } = this.state;
     this.setState({ fetchingMetrics: true });
-    const metrics = await datadogService.fetchMetrics(from, 3, this.updateProgressMetrics);
+    const metrics = await datadogService.fetchMetrics(from, null, this.updateProgressMetrics);
     await this.dataWriter('Get All Active Metrics', metrics);
     await this.finalDataWriter('metrics', { data: metrics });
     this.setState({
@@ -1771,6 +1774,8 @@ export default class App extends React.Component {
               this.reportLogFetch
             )
               .then(({ data }) => {
+                const datadogService = this.createDatadogServiceInstance(apikey, appkey);
+
                 this.setState({
                   writingSetup: false,
                   apikey: apikey,
@@ -1779,7 +1784,8 @@ export default class App extends React.Component {
                   appkeyS: '*'.repeat(appkey.length),
                   apiserver: data.nerdStorageWriteDocument.apiserver === '.eu',
                   setupComplete: true,
-                  lastUpdate: 'never'
+                  lastUpdate: 'never',
+                  datadogService: datadogService
                 });
                 Toast.showToast({
                   title: 'VALID KEY',

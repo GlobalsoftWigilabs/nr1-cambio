@@ -4,6 +4,7 @@ class DatadogService {
   }
 
   async fetchMetrics(from, maxGroups = null, updateProgress = null) {
+    console.log('INIT FETCH METRICS');
     const metrics = [];
     const metricsByGroup = 10;
     const groups = [];
@@ -12,6 +13,7 @@ class DatadogService {
     let gcount = 0;
     let totalRequest = 0;
     const response = await this.client.getActiveMetricList(from);
+    console.log('getActiveMetricList END');
 
     if (response) {
       if (updateProgress) {
