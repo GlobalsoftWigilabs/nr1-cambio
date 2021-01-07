@@ -29,6 +29,7 @@ export default class Logs extends React.Component {
 
   componentDidMount() {
     const { logsData = [] } = this.props;
+    console.log(logsData, 'DATA')
     if (logsData.archivesStatus === 403) {
       this._onClose();
     }
@@ -56,7 +57,13 @@ export default class Logs extends React.Component {
   handleRange = value => {
     const { logsData = [] } = this.props;
     this.setState({ rangeSelected: value });
-    if (logsData.archivesStatus === 403 && value.value === 'Pipelines') {
+    if (logsData.pipelinesStatus === 403 && value.value === 'Pipelines') {
+      this._onClose();
+    }
+    if (logsData.metricsStatus === 403 && value.value === 'Metrics') {
+      this._onClose();
+    }
+    if (logsData.archivesStatus === 403 && value.value === 'Archives') {
       this._onClose();
     }
   };
