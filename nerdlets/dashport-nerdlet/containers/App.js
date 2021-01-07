@@ -87,7 +87,10 @@ export default class App extends React.Component {
       logsData: {
         archives: [],
         pipelines: [],
-        metrics: []
+        metrics: [],
+        archivesStatus: 0,
+        pipelinesStatus: 0,
+        metricsStatus: 0
       },
       // Metrics
       metricsTotal: 0,
@@ -489,13 +492,19 @@ export default class App extends React.Component {
     }
     // LOGS
     try {
+      const archivesStatus = await readNerdStorage(
+        accountId,
+        'logs',
+        'logs-archives-obj',
+        this.reportLogFetch
+      );
       const sizeArchives = await readNerdStorageOnlyCollection(
         accountId,
         'logs-archives',
         this.reportLogFetch
       );
       const archives = [];
-      for (let i = 0; i < sizeArchives.length; i++) {
+      for (let i = 0; i < sizeArchives.length  ; i++) {
         let page = [];
         page = await readNerdStorage(
           accountId,
@@ -508,6 +517,12 @@ export default class App extends React.Component {
         }
       }
       //metric log
+      const metricsStatus = readNerdStorage(
+        accountId,
+        'logs',
+        'logs-metrics-obj',
+        this.reportLogFetch
+      );
       const sizeMetricLog = await readNerdStorageOnlyCollection(
         accountId,
         'logs-metrics',
@@ -527,13 +542,19 @@ export default class App extends React.Component {
         }
       }
       //Pipelines
+      const pipelinesStatus = await readNerdStorage(
+        accountId,
+        'logs',
+        'logs-pipelines-obj',
+        this.reportLogFetch
+      );
       const sizePipelines = await readNerdStorageOnlyCollection(
         accountId,
         'logs-pipelines',
         this.reportLogFetch
       );
       const pipelines = [];
-      for (let i = 0; i < sizePipelines.length; i++) {
+      for (let i = 0; i < sizePipelines.length ; i++) {
         let page = [];
         page = await readNerdStorage(
           accountId,
@@ -549,7 +570,10 @@ export default class App extends React.Component {
         logsData: {
           metrics: metricsLogs,
           archives: archives,
-          pipelines: pipelines
+          pipelines: pipelines,
+          archivesStatus,
+          pipelinesStatus,
+          metricsStatus
         }
       });
       if (fetchingData) {
@@ -895,6 +919,13 @@ export default class App extends React.Component {
         break;
       case 'logs':
         {
+          await writeNerdStorage(
+            accountId,
+            collectionName,
+            `${collectionName}-archives-obj`,
+            data.data.archivesStatus,
+            this.reportLogFetch
+          );
           const pagesArchives = this.pagesOfData(data.data.archives);
           for (const keyArchives in pagesArchives) {
             if (pagesArchives[keyArchives]) {
@@ -907,7 +938,13 @@ export default class App extends React.Component {
               );
             }
           }
-          ////////////////
+          await writeNerdStorage(
+            accountId,
+            collectionName,
+            `${collectionName}-metrics-obj`,
+            data.data.metricsStatus,
+            this.reportLogFetch
+          );
           const pagesMetricsLogs = this.pagesOfData(data.data.metricsLogs);
           for (const keyMetricLog in pagesMetricsLogs) {
             if (pagesMetricsLogs[keyMetricLog]) {
@@ -920,7 +957,13 @@ export default class App extends React.Component {
               );
             }
           }
-          //////////////////////
+          await writeNerdStorage(
+            accountId,
+            collectionName,
+            `${collectionName}-pipelines-obj`,
+            data.data.pipelinesStatus,
+            this.reportLogFetch
+          );
           const pagesPipelines = this.pagesOfData(data.data.pipelines);
           for (const keyPipeline in pagesPipelines) {
             if (pagesPipelines[keyPipeline]) {
@@ -1255,7 +1298,17 @@ export default class App extends React.Component {
         break;
       case 'Get all archives':
         {
-          const pagesArchives = this.pagesOfData(documentData.data);
+          const archiverList = documentData.data;
+          const archiveObj = documentData.status;
+          const pagesArchives = this.pagesOfData(archiverList);
+          // guardo obj metrics
+          await writeNerdStorage(
+            accountId,
+            documentName,
+            `${documentName}-obj`,
+            archiveObj,
+            this.reportLogFetch
+          );
           for (const keyArchives in pagesArchives) {
             if (pagesArchives[keyArchives]) {
               await writeNerdStorage(
@@ -1271,7 +1324,17 @@ export default class App extends React.Component {
         break;
       case 'Get all log based metrics':
         {
-          const pagesLogsMetrics = this.pagesOfData(documentData.data);
+          const basedMetrics = documentData.data;
+          const basedObj = documentData.status;
+          const pagesLogsMetrics = this.pagesOfData(basedMetrics);
+          // guardo obj metrics
+          await writeNerdStorage(
+            accountId,
+            documentName,
+            `${documentName}-obj`,
+            basedObj,
+            this.reportLogFetch
+          );
           for (const keyLogsMetrics in pagesLogsMetrics) {
             if (pagesLogsMetrics[keyLogsMetrics]) {
               await writeNerdStorage(
@@ -1448,7 +1511,18 @@ export default class App extends React.Component {
         break;
       case 'Get all Pipelines':
         {
-          const pagesAllPipeline = this.pagesOfData(documentData);
+          const pipelineList = documentData.data;
+          documentData.data = [];
+          const pipeObj = documentData.status;
+          const pagesAllPipeline = this.pagesOfData(pipelineList);
+          // guardo obj metrics
+          await writeNerdStorage(
+            accountId,
+            documentName,
+            `${documentName}-obj`,
+            pipeObj,
+            this.reportLogFetch
+          );
           for (const keyAllPipeLine in pagesAllPipeline) {
             if (pagesAllPipeline[keyAllPipeLine]) {
               await writeNerdStorage(
