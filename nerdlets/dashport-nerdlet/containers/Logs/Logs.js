@@ -6,7 +6,6 @@ import TableMetrics from './TableMetrics';
 import TablePipelines from './TablePipelines';
 import ModalLog from './ModalLog';
 
-
 const greenColor = '#007E8A';
 export default class Logs extends React.Component {
   constructor(props) {
@@ -30,6 +29,7 @@ export default class Logs extends React.Component {
 
   componentDidMount() {
     const { logsData = [] } = this.props;
+    console.log(logsData, 'DATA')
     if (logsData.archivesStatus === 403) {
       this._onClose();
     }
@@ -55,15 +55,16 @@ export default class Logs extends React.Component {
   }
 
   handleRange = value => {
-    this.setState({ rangeSelected: value });
-  };
-
-  handleRangePipelines = value => {
     const { logsData = [] } = this.props;
     this.setState({ rangeSelected: value });
-    if (logsData.archivesStatus === 403) {
-      this._onClose()
-      console.log('Entro');
+    if (logsData.pipelinesStatus === 403 && value.value === 'Pipelines') {
+      this._onClose();
+    }
+    if (logsData.metricsStatus === 403 && value.value === 'Metrics') {
+      this._onClose();
+    }
+    if (logsData.archivesStatus === 403 && value.value === 'Archives') {
+      this._onClose();
     }
   };
 
@@ -73,7 +74,6 @@ export default class Logs extends React.Component {
   };
 
   selectViewLogs = () => {
-    const { logsData = [] } = this.props;
     const {
       rangeSelected,
       timeRanges,
@@ -81,15 +81,11 @@ export default class Logs extends React.Component {
       dataMetrics,
       dataPipeline
     } = this.state;
-    console.log(rangeSelected, 'estado')
-    if (logsData.archivesStatus === 403 && rangeSelected.value === 'Pipelines') {
-      console.log('Entro');
-    }
     switch (rangeSelected.value) {
       case 'Pipelines':
         return (
           <TablePipelines
-            handleRange={this.handleRangePipelines}
+            handleRange={this.handleRange}
             rangeSelected={rangeSelected}
             timeRanges={timeRanges}
             dataPipeline={dataPipeline}
@@ -124,7 +120,8 @@ export default class Logs extends React.Component {
       hidden,
       dataArchivesTotal,
       dataMetricsTotal,
-      dataPipelineTotal
+      dataPipelineTotal,
+      rangeSelected
     } = this.state;
     return (
       <div className="h100">
@@ -204,6 +201,7 @@ export default class Logs extends React.Component {
           <ModalLog
             hidden={hidden}
             _onClose={this._onClose}
+            title={rangeSelected.value}
           />
         )}
       </div>

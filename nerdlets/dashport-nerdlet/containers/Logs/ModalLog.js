@@ -7,7 +7,7 @@ import pipeline from '../../images/pipelineAlert.png';
 import alert from '../../images/logNota.svg';
 
 function ModalLog(props) {
-  let { hidden, _onClose } = props;
+  const { hidden, _onClose, title } = props;
   return (
     <Modal
       show={hidden}
@@ -31,8 +31,13 @@ function ModalLog(props) {
             </div>
             <hr />
             <div className="p20">
-              <div className="answer" style={{ color: 'white', lineHeight: '150%' }}>
-                The Logs Pipelines section are only available for Datadog Admin users. Make sure to use an application key created by an admin. <br />
+              <div
+                className="answer"
+                style={{ color: 'white', lineHeight: '150%' }}
+              >
+                {`The Logs ${title} section are only available for Datadog Admin
+                users. Make sure to use an application key created by an admin.`}
+                <br />
                 <a
                   href="https://docs.datadoghq.com/account_management/api-app-keys/"
                   className="apiKeys--learnMore"
@@ -50,7 +55,12 @@ function ModalLog(props) {
                 You can update the Application Key in the Setup.
               </div>
             </div>
-            <div className="pointer modal__closeIcon" onClick={() => { _onClose() }}>
+            <div
+              className="pointer modal__closeIcon"
+              onClick={() => {
+                _onClose();
+              }}
+            >
               <img
                 style={{
                   width: '120px',
@@ -63,8 +73,7 @@ function ModalLog(props) {
         </div>
       </Modal.Body>
     </Modal>
-  )
+  );
 }
-
 
 export default ModalLog;

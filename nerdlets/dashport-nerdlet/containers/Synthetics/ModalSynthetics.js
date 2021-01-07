@@ -1113,7 +1113,7 @@ export default class ModalSynthetics extends React.Component {
         >
           <Modal.Body>
             <Modal.Header>
-              <div className=" modalWidgets__closeIconSynthetics">
+              <div className="modalWidgets__closeIconSynthetics">
                 <div className="infoAditional--title">
                   {`${infoAditional.name}`}
                 </div>
