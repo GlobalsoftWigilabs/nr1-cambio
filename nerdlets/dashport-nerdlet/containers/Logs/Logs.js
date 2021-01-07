@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import TableArchives from './TableArchives';
 import TableMetrics from './TableMetrics';
 import TablePipelines from './TablePipelines';
+import ModalLog from './ModalLog';
+
 
 const greenColor = '#007E8A';
 export default class Logs extends React.Component {
@@ -53,6 +55,11 @@ export default class Logs extends React.Component {
     this.setState({ rangeSelected: value });
   };
 
+  _onClose = () => {
+    const actualValue = this.state.hidden;
+    this.setState({ hidden: !actualValue });
+  };
+
   selectViewLogs = () => {
     const {
       rangeSelected,
@@ -97,6 +104,7 @@ export default class Logs extends React.Component {
   render() {
     const {
       loading,
+      hidden,
       dataArchivesTotal,
       dataMetricsTotal,
       dataPipelineTotal
@@ -116,6 +124,15 @@ export default class Logs extends React.Component {
                   }}
                 >
                   Total Pipelines
+                  <a
+                    onClick={() => this._onClose()}
+                    style={{
+                      color: 'yellow',
+                      textDecoration: 'underline'
+                    }}
+                  >
+                    Pipelines
+                  </a>
                 </span>
                 <div>
                   <span
@@ -175,10 +192,17 @@ export default class Logs extends React.Component {
             </div>
           </div>
         )}
+        {hidden && (
+          <ModalLog
+            hidden={hidden}
+            _onClose={this._onClose}
+          />
+        )}
       </div>
     );
   }
 }
+
 Logs.propTypes = {
   logsData: PropTypes.object.isRequired
 };
