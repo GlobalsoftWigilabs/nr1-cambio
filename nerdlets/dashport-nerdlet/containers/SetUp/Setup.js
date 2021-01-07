@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Tooltip, Button } from 'nr1';
+import { Tooltip, Button,Icon } from 'nr1';
 import { Formik, Form, Field } from 'formik';
 // Schemas
 import {
@@ -253,10 +253,9 @@ export default class Setup extends React.Component {
                           onClick={openToast}
                           type={Button.TYPE.DESTRUCTIVE}
                           loading={writingSetup || deleteSetup}
-                          iconType={
-                            Button.ICON_TYPE
-                              .INTERFACE__OPERATIONS__REMOVE__V_ALTERNATE
-                          }
+                          // iconType={
+                          //   Icon.TYPE.INTERFACE__OPERATIONS__TRASH
+                          // }
                           className="buttonDelete"
                         >
                           Delete config
@@ -302,7 +301,7 @@ export default class Setup extends React.Component {
                     fetchData();
                   }}
                   type={Button.TYPE.PRIMARY}
-                  iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__REFRESH}
+                  // iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__REFRESH}
                   loading={fetchingData}
                   className="fetchSection--buttonFetch"
                   disabled={!(apikey !== '' && appkey !== '') || enableDownload}
@@ -355,7 +354,7 @@ export default class Setup extends React.Component {
                     fetchData();
                   }}
                   type={Button.TYPE.PRIMARY}
-                  iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__REFRESH}
+                  // iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__REFRESH}
                   loading={fetchingData}
                   className="fetchSection--buttonFetch"
                   disabled={!(apikey !== '' && appkey !== '') || enableDownload}
@@ -478,18 +477,6 @@ export default class Setup extends React.Component {
                   className="buttonsSetup__buttonNextOne"
                 >
                   Continue
-                </Button>
-              )}
-              {stepActive === 2 && (
-                <Button
-                  onClick={() => handleChangeMenu(2)}
-                  type={Button.TYPE.PRIMARY}
-                  disabled={
-                    lastUpdate === 'never' || fetchingData ? true : false
-                  }
-                  className="buttonsSetup__buttonNextTwo"
-                >
-                  Complete
                 </Button>
               )}
             </div>

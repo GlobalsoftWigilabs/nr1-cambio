@@ -11,7 +11,7 @@ export default class ModalAlert extends React.Component {
           style={{
             width: '100%',
             backgroundColor: `${color}`,
-            height: '3vw',
+            minHeight: '3vw',
             alignItems: 'center',
             display: 'flex'
           }}
@@ -92,7 +92,7 @@ export default class ModalAlert extends React.Component {
                       style={{
                         width: '100%',
                         backgroundColor: '#f7f7f8',
-                        height: '3vw',
+                        minHeight: '3vw',
                         alignItems: 'center',
                         display: 'flex'
                       }}

@@ -520,7 +520,7 @@ export default class App extends React.Component {
         }
       }
       //metric log
-      const metricsStatus = readNerdStorage(
+      const metricsStatus = await readNerdStorage(
         accountId,
         'logs',
         'logs-metrics-obj',
