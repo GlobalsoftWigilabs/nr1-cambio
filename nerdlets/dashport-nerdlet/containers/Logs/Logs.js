@@ -113,7 +113,8 @@ export default class Logs extends React.Component {
       hidden,
       dataArchivesTotal,
       dataMetricsTotal,
-      dataPipelineTotal
+      dataPipelineTotal,
+      rangeSelected
     } = this.state;
     return (
       <div className="h100">
@@ -189,7 +190,13 @@ export default class Logs extends React.Component {
             </div>
           </div>
         )}
-        {hidden && <ModalLog hidden={hidden} _onClose={this._onClose} />}
+        {hidden && (
+          <ModalLog
+            hidden={hidden}
+            _onClose={this._onClose}
+            title={rangeSelected.value}
+          />
+        )}
       </div>
     );
   }
