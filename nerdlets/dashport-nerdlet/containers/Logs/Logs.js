@@ -30,6 +30,9 @@ export default class Logs extends React.Component {
 
   componentDidMount() {
     const { logsData = [] } = this.props;
+    if (logsData.archivesStatus === 403) {
+      this._onClose();
+    }
     if (logsData.pipelines) {
       this.setState({
         dataPipeline: logsData.pipelines,
@@ -55,12 +58,22 @@ export default class Logs extends React.Component {
     this.setState({ rangeSelected: value });
   };
 
+  handleRangePipelines = value => {
+    const { logsData = [] } = this.props;
+    this.setState({ rangeSelected: value });
+    if (logsData.archivesStatus === 403) {
+      this._onClose()
+      console.log('Entro');
+    }
+  };
+
   _onClose = () => {
     const actualValue = this.state.hidden;
     this.setState({ hidden: !actualValue });
   };
 
   selectViewLogs = () => {
+    const { logsData = [] } = this.props;
     const {
       rangeSelected,
       timeRanges,
@@ -68,13 +81,17 @@ export default class Logs extends React.Component {
       dataMetrics,
       dataPipeline
     } = this.state;
+    console.log(rangeSelected, 'estado')
+    if (logsData.archivesStatus === 403 && rangeSelected.value === 'Pipelines') {
+      console.log('Entro');
+    }
     switch (rangeSelected.value) {
       case 'Pipelines':
         return (
           <TablePipelines
+            handleRange={this.handleRangePipelines}
             rangeSelected={rangeSelected}
             timeRanges={timeRanges}
-            handleRange={this.handleRange}
             dataPipeline={dataPipeline}
           />
         );
@@ -124,15 +141,6 @@ export default class Logs extends React.Component {
                   }}
                 >
                   Total Pipelines
-                  <a
-                    onClick={() => this._onClose()}
-                    style={{
-                      color: 'yellow',
-                      textDecoration: 'underline'
-                    }}
-                  >
-                    Pipelines
-                  </a>
                 </span>
                 <div>
                   <span
