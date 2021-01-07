@@ -38,7 +38,7 @@ export default class Alerts extends React.Component {
       savingAllChecks: false,
       pagePag: 0,
       pages: 0,
-      totalRows: 6,
+      totalRows: 10,
       sortColumn: {
         column: '',
         order: ''
@@ -74,17 +74,24 @@ export default class Alerts extends React.Component {
         MESSAGE: element.message,
         QUERY: element.query,
         AGGREGATION: element.aggregation ? element.aggregation : '-----',
-        EVALUATION_DELAY: element.evaluation_delay ? element.evaluation_delay : '-----',
-        FAILURE_DURATION: element.min_failure_duration ? element.min_failure_duration : '-----',
-        MIN_LOCATION_FAILED: element.min_location_failed ? element.min_location_failed : '-----',
+        EVALUATION_DELAY: element.evaluation_delay
+          ? element.evaluation_delay
+          : '-----',
+        FAILURE_DURATION: element.min_failure_duration
+          ? element.min_failure_duration
+          : '-----',
+        MIN_LOCATION_FAILED: element.min_location_failed
+          ? element.min_location_failed
+          : '-----',
         HOST_DELAY: element.new_host_delay ? element.new_host_delay : '-----',
-        NO_DATA_TIMEFRAME: element.no_data_timeframe ? element.no_data_timeframe : '-----',
+        NO_DATA_TIMEFRAME: element.no_data_timeframe
+          ? element.no_data_timeframe
+          : '-----',
         NOTIFY_AUDIT: element.notify_audit ? element.notify_audit : '-----',
         THRESHOLDS: thresholds,
-        NOTIFY_NO_DATA: element.notify_no_data ? element.notify_no_data : '-----'
-
-
-
+        NOTIFY_NO_DATA: element.notify_no_data
+          ? element.notify_no_data
+          : '-----'
       });
     });
     this.calcTable(data);
@@ -254,8 +261,12 @@ export default class Alerts extends React.Component {
       case 'CREATION_DATE':
         // eslint-disable-next-line no-case-declarations
         const sortCreated = finalList.sort(function(a, b) {
-          const date1 = new Date(moment(a.CREATION_DATE).format('YYYY-MM-DDTHH:mm'));
-          const date2 = new Date(moment(b.CREATION_DATE).format('YYYY-MM-DDTHH:mm'));
+          const date1 = new Date(
+            moment(a.CREATION_DATE).format('YYYY-MM-DDTHH:mm')
+          );
+          const date2 = new Date(
+            moment(b.CREATION_DATE).format('YYYY-MM-DDTHH:mm')
+          );
           if (date1 > date2) return valueOne;
           if (date1 < date2) return valueTwo;
           return 0;
@@ -769,7 +780,8 @@ export default class Alerts extends React.Component {
                               <div className="flexColumn table__sort">
                                 <ArrowTop
                                   color={
-                                    sortColumn.column === 'DATE_LAST_TRIGGERED' &&
+                                    sortColumn.column ===
+                                      'DATE_LAST_TRIGGERED' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -777,7 +789,8 @@ export default class Alerts extends React.Component {
                                 />
                                 <ArrowDown
                                   color={
-                                    sortColumn.column === 'DATE_LAST_TRIGGERED' &&
+                                    sortColumn.column ===
+                                      'DATE_LAST_TRIGGERED' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
