@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ad7df644-ec43-4fda-abe0-063c3acbf8b6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/nerdlets/dashport-nerdlet/containers/Logs/ModalLog.js" beforeDir="false" afterPath="$PROJECT_DIR$/nerdlets/dashport-nerdlet/containers/Logs/ModalLog.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -56,7 +55,7 @@
         <entry file="file://$PROJECT_DIR$/nerdlets/dashport-nerdlet/containers/Logs/ModalLog.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="288">
-              <caret line="24" column="43" selection-start-line="24" selection-start-column="43" selection-end-line="24" selection-end-column="43" />
+              <caret line="24" column="45" selection-start-line="24" selection-start-column="45" selection-end-line="24" selection-end-column="45" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
@@ -287,12 +286,12 @@
       <workItem from="1609963179332" duration="1469000" />
       <workItem from="1609967413666" duration="674000" />
       <workItem from="1609971815554" duration="185000" />
-      <workItem from="1609973619207" duration="10594000" />
+      <workItem from="1609973619207" duration="10679000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="100717000" />
+    <option name="totallyTimeSpent" value="100802000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
@@ -696,7 +695,7 @@
     <entry file="file://$PROJECT_DIR$/nerdlets/dashport-nerdlet/containers/Logs/ModalLog.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="288">
-          <caret line="24" column="43" selection-start-line="24" selection-start-column="43" selection-end-line="24" selection-end-column="43" />
+          <caret line="24" column="45" selection-start-line="24" selection-start-column="45" selection-end-line="24" selection-end-column="45" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>

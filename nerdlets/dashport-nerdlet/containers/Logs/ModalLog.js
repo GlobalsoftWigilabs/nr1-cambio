@@ -22,7 +22,7 @@ function ModalLog(props) {
         <div style={{ background: '#333333' }} className="mainModalSetup">
           <div>
             <div style={{ alignContent: 'center' }}>
-              <img style={{ marginLeft: '48%' }} src={alert} />
+              <img style={{ marginLeft: '46.5%' }} src={alert} />
             </div>
             <div style={{ textAlign: 'center', color: 'white' }}>
               <h3 style={{ color: 'white' }}>
