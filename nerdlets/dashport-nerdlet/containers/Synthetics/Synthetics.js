@@ -6,7 +6,7 @@ import { BsSearch } from 'react-icons/bs';
 import iconDownload from '../../images/download.svg';
 import ArrowDown from '../../components/ArrowsTable/ArrowDown';
 import ArrowTop from '../../components/ArrowsTable/ArrowTop';
-import Modal from '../../components/Modal';
+import ModalSynthetics from './ModalSynthetics';
 import ReactTable from 'react-table-v6';
 import Pagination from '../../components/Pagination/Pagination';
 import jsoncsv from 'json-2-csv';
@@ -22,7 +22,6 @@ export default class Synthetics extends React.Component {
     this.state = {
       loading: false,
       savingAllChecks: false,
-      // Pagination
       pagePag: 0,
       pages: 0,
       totalRows: 6,
@@ -32,7 +31,7 @@ export default class Synthetics extends React.Component {
         order: ''
       },
       hidden: false,
-      action: '',
+      infoAditional: {},
       data: [],
       dataRespaldo: []
     };
@@ -41,24 +40,100 @@ export default class Synthetics extends React.Component {
   componentDidMount() {
     const { testList = [] } = this.props;
     const data = [];
-    for (const test of testList) {
+    testList.forEach(element => {
       let loca = '';
-      if (test.locations) {
-        if(test.locations.length===0){
+      if (element.locations) {
+        if (element.locations.length === 0) {
           loca = '-----';
-        }else{
-          const limitData = test.locations.splice(0, 3);
-        for (const location of limitData) {
-          loca = ` ${loca} ${location} \n`;
-        }
-        if(test.locations.length>3)
-          loca = `${loca} ...`;
+        } else {
+          const limitData = element.locations.splice(0, 3);
+          for (const location of limitData) {
+            loca = ` ${loca} ${location} \n`;
+          }
+          if (element.locations.length > 3) loca = `${loca} ...`;
         }
       }
-      test.message=test.message !== '' ? test.message : '-----';
-      test.location = loca;
-      data.push(test);
-    }
+      const assertions = [];
+      if (element.config.assertions) {
+        element.config.assertions.forEach(elementassertion => {
+          assertions.push({ value: elementassertion.target });
+        });
+      }
+      const variables = [];
+      if (element.config.variables) {
+        element.config.variables.forEach(elementvariables => {
+          let tags = '';
+          if (elementvariables.tags) {
+            elementvariables.tags.forEach(tag => {
+              tags = ` ${tags} ${tag} \n`;
+            });
+          }
+          let value1 = {};
+          if (elementvariables.value) {
+            value1 = elementvariables.value;
+          }
+          variables.push({
+            name: elementvariables.name ? elementvariables.name : '-----',
+            id: elementvariables.id ? elementvariables.id : '-----',
+            description: elementvariables.description
+              ? elementvariables.description
+              : '-----',
+            tags: tags,
+            value: value1.value ? value1.value : '-----',
+            secure: value1.secure ? value1.secure : '-----'
+          });
+        });
+      }
+      const steps = [];
+      if (element.config.steps) {
+        element.config.steps.forEach(elementsteps => {
+          let params = '';
+          if (elementsteps.request) {
+            params = `${
+              elementsteps.request.method ? elementsteps.request.method : ''
+            } ${elementsteps.request.url ? elementsteps.request.url : ''}`;
+          }
+          steps.push({
+            params: params !== '' ? params : '-----',
+            type: elementsteps.subtype ? elementsteps.subtype : '-----'
+          });
+        });
+      }
+      data.push({
+        name: element.name,
+        type: element.type,
+        status: element.status,
+        location: loca,
+        assertions: assertions,
+        message: element.message !== '' ? element.message : '-----',
+        // eslint-disable-next-line no-nested-ternary
+        host: element.config.request
+          ? element.config.request.host
+            ? element.config.request.host
+            : '-----'
+          : '-----',
+        // eslint-disable-next-line no-nested-ternary
+        url: element.config.request
+          ? element.config.request.url
+            ? element.config.request.url
+            : '-----'
+          : '-----',
+        // eslint-disable-next-line no-nested-ternary
+        method: element.config.request
+          ? element.config.request.method
+            ? element.config.request.method
+            : '-----'
+          : '-----',
+        // eslint-disable-next-line no-nested-ternary
+        query: element.config.request
+          ? element.config.request.query
+            ? element.config.request.query
+            : '-----'
+          : '-----',
+        variables: variables,
+        steps: steps
+      });
+    });
     this.setState({ data, dataRespaldo: data });
     this.calcTable(data);
   }
@@ -84,17 +159,13 @@ export default class Synthetics extends React.Component {
   };
 
   _onClose = () => {
-    let actualValue = this.state.hidden;
+    const actualValue = this.state.hidden;
     this.setState({ hidden: !actualValue });
   };
 
-  returnActionPopUp = action => {
-    return <div>CONTENT POPUP BASED ON ACTION</div>;
-  };
-
-  confirmAction = async action => {
+  saveAction = async (action, infoAditional) => {
     this._onClose();
-    //DO ACTION WHEN CLICK CONFIRM BUTTON
+    this.setState({ infoAditional });
   };
 
   setSortColumn = column => {
@@ -274,7 +345,7 @@ export default class Synthetics extends React.Component {
       totalRows,
       hidden,
       sortColumn,
-      action,
+      infoAditional,
       data
     } = this.state;
     const { testTotal = 0 } = this.props;
@@ -448,10 +519,14 @@ export default class Synthetics extends React.Component {
                         Cell: props => {
                           return (
                             <div
-                              className="h100 flex flexCenterVertical"
+                              onClick={() =>
+                                this.saveAction('data', props.original)
+                              }
+                              className="h100 flex pointer flexCenterVertical"
                               style={{
                                 background:
-                                  props.index % 2 ? '#F7F7F8' : 'white'
+                                  props.index % 2 ? '#F7F7F8' : 'white',
+                                color: '#0078BF'
                               }}
                             >
                               <span style={{ marginLeft: '15px' }}>
@@ -637,13 +712,13 @@ export default class Synthetics extends React.Component {
             </div>
           </div>
         )}
-        <Modal
-          hidden={hidden}
-          _onClose={this._onClose}
-          confirmAction={this.confirmAction}
-        >
-          {this.returnActionPopUp(action)}
-        </Modal>
+        {hidden && (
+          <ModalSynthetics
+            hidden={hidden}
+            _onClose={this._onClose}
+            infoAditional={infoAditional}
+          />
+        )}
       </div>
     );
   }

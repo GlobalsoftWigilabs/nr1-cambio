@@ -574,7 +574,7 @@ export default class Alerts extends React.Component {
                               onClick={() =>
                                 this.saveAction('data', props.original)
                               }
-                              className="h100 flex pointer flexCenterVertical flexCenterVertical"
+                              className="h100 flex pointer flexCenterVertical"
                               style={{
                                 background:
                                   props.index % 2 ? '#F7F7F8' : 'white',

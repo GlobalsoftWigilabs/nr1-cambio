@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import TableArchives from './TableArchives';
 import TableMetrics from './TableMetrics';
 import TablePipelines from './TablePipelines';
+import ModalLog from './ModalLog';
+
 
 const greenColor = '#007E8A';
 export default class Logs extends React.Component {
@@ -28,6 +30,9 @@ export default class Logs extends React.Component {
 
   componentDidMount() {
     const { logsData = [] } = this.props;
+    if (logsData.archivesStatus === 403) {
+      this._onClose();
+    }
     if (logsData.pipelines) {
       this.setState({
         dataPipeline: logsData.pipelines,
@@ -53,7 +58,22 @@ export default class Logs extends React.Component {
     this.setState({ rangeSelected: value });
   };
 
+  handleRangePipelines = value => {
+    const { logsData = [] } = this.props;
+    this.setState({ rangeSelected: value });
+    if (logsData.archivesStatus === 403) {
+      this._onClose()
+      console.log('Entro');
+    }
+  };
+
+  _onClose = () => {
+    const actualValue = this.state.hidden;
+    this.setState({ hidden: !actualValue });
+  };
+
   selectViewLogs = () => {
+    const { logsData = [] } = this.props;
     const {
       rangeSelected,
       timeRanges,
@@ -61,13 +81,17 @@ export default class Logs extends React.Component {
       dataMetrics,
       dataPipeline
     } = this.state;
+    console.log(rangeSelected, 'estado')
+    if (logsData.archivesStatus === 403 && rangeSelected.value === 'Pipelines') {
+      console.log('Entro');
+    }
     switch (rangeSelected.value) {
       case 'Pipelines':
         return (
           <TablePipelines
+            handleRange={this.handleRangePipelines}
             rangeSelected={rangeSelected}
             timeRanges={timeRanges}
-            handleRange={this.handleRange}
             dataPipeline={dataPipeline}
           />
         );
@@ -97,6 +121,7 @@ export default class Logs extends React.Component {
   render() {
     const {
       loading,
+      hidden,
       dataArchivesTotal,
       dataMetricsTotal,
       dataPipelineTotal
@@ -175,10 +200,17 @@ export default class Logs extends React.Component {
             </div>
           </div>
         )}
+        {hidden && (
+          <ModalLog
+            hidden={hidden}
+            _onClose={this._onClose}
+          />
+        )}
       </div>
     );
   }
 }
+
 Logs.propTypes = {
   logsData: PropTypes.object.isRequired
 };
