@@ -177,7 +177,7 @@
     {
         "name": "Get All Active Metrics",
         "query_filtering": "&host=%3CHOSTNAME%3E",
-        "enable": false
+        "enable": true
     },
     {
         "name": "Query Time Series Points",
