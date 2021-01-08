@@ -242,13 +242,13 @@ export default class App extends React.Component {
       let keyApi = null;
       let keyApp = null;
       const keysName = ['apikey', 'appkey'];
-      while (retrys !== 10) {
+      while (retrys !== 5) {
         if (!keyApi) keyApi = await readSingleSecretKey(keysName[0]);
 
         if (!keyApp) keyApp = await readSingleSecretKey(keysName[1]);
 
         if (keyApi && keyApp) {
-          retrys = 10;
+          retrys = 5;
         } else {
           retrys += 1;
         }
@@ -1852,8 +1852,25 @@ export default class App extends React.Component {
       if (validKeys.apikey) {
         if (validKeys.appkey) {
           // guardar en el vault
-          const saveApiKey = await writeSecretKey('apikey', apikey);
-          const saveAppKey = await writeSecretKey('appkey', appkey);
+          let saveApiKey = null;
+          let saveAppKey = null;
+          let retrys = 0;
+          while (retrys !== 5) {
+            if (!saveApiKey || saveApiKey.status !== 'SUCCESS')
+              saveApiKey = await writeSecretKey('apikey', apikey);
+            if (!saveAppKey || saveAppKey.status !== 'SUCCESS')
+              saveAppKey = await writeSecretKey('appkey', appkey);
+            if (
+              saveAppKey &&
+              saveAppKey.status === 'SUCCESS' &&
+              saveAppKey &&
+              saveAppKey.status === 'SUCCESS'
+            ) {
+              retrys = 5;
+            } else {
+              retrys++;
+            }
+          }
           if (
             (saveApiKey && saveApiKey.status !== 'SUCCESS') ||
             (saveAppKey && saveAppKey.status !== 'SUCCESS')
