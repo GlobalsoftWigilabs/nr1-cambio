@@ -11,6 +11,7 @@ export default class ModalAlert extends React.Component {
           style={{
             width: '100%',
             backgroundColor: `${color}`,
+            padding: '5px',
             minHeight: '3vw',
             alignItems: 'center',
             display: 'flex'
@@ -50,7 +51,7 @@ export default class ModalAlert extends React.Component {
           <Modal.Body>
             <Modal.Header>
               <div className=" modalWidgets__closeIcon">
-                <div className="infoAditional--title">{`${infoAditional.NAME}`}</div>
+                <div className="infoAditional--title">{`${infoAditional.name}`}</div>
                 <div
                   className="flex"
                   style={{
@@ -83,16 +84,17 @@ export default class ModalAlert extends React.Component {
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
                     {this.renderCelll(
                       'MESSAGE',
-                      infoAditional.MESSAGE,
+                      infoAditional.message,
                       '#f7f7f8'
                     )}
-                    {this.renderCelll('QUERY', infoAditional.QUERY, 'white')}
+                    {this.renderCelll('QUERY', infoAditional.query, 'white')}
 
                     <div
                       style={{
                         width: '100%',
                         backgroundColor: '#f7f7f8',
                         minHeight: '3vw',
+                        padding: '5px',
                         alignItems: 'center',
                         display: 'flex'
                       }}
@@ -117,73 +119,73 @@ export default class ModalAlert extends React.Component {
                       {' '}
                       {this.renderCelll(
                         'AGGREGATION',
-                        infoAditional.AGGREGATION
-                          ? `metric: ${infoAditional.AGGREGATION.metric}  type: ${infoAditional.AGGREGATION.type}  groupBy: ${infoAditional.AGGREGATION.groupBy}`
+                        infoAditional.aggregation
+                          ? `metric: ${infoAditional.aggregation.metric}  type: ${infoAditional.aggregation.type}  groupBy: ${infoAditional.aggregation.groupBy}`
                           : '-----',
                         'white'
                       )}
                       {this.renderCelll(
                         'EVALUATION DELAY',
-                        infoAditional.EVALUATION_DELAY
-                          ? infoAditional.EVALUATION_DELAY
+                        infoAditional.evaluation_delay
+                          ? infoAditional.evaluation_delay
                           : '-----',
                         '#f7f7f8'
                       )}
                       {this.renderCelll(
                         'FAILURE DURATION',
-                        infoAditional.FAILURE_DURATION
-                          ? infoAditional.FAILURE_DURATION
+                        infoAditional.failure_duration
+                          ? infoAditional.failure_duration
                           : '-----',
                         'white'
                       )}
                       {this.renderCelll(
                         'MIN LOCATION FAILED',
-                        infoAditional.MIN_LOCATION_FAILED
-                          ? infoAditional.MIN_LOCATION_FAILED
+                        infoAditional.min_location_failed
+                          ? infoAditional.min_location_failed
                           : '-----',
                         '#f7f7f8'
                       )}
                       {this.renderCelll(
                         'HOST DELAY',
-                        infoAditional.HOST_DELAY
-                          ? infoAditional.HOST_DELAY
+                        infoAditional.host_delay
+                          ? infoAditional.host_delay
                           : '-----',
                         'white'
                       )}
                       {this.renderCelll(
                         'NO DATA TIME FRAME',
-                        infoAditional.NO_DATA_TIMEFRAME
-                          ? infoAditional.NO_DATA_TIMEFRAME
+                        infoAditional.no_data_timeframe
+                          ? infoAditional.no_data_timeframe
                           : '-----',
                         '#f7f7f8'
                       )}
                       {this.renderCelll(
                         'NOTIFY AUDIT',
                         `${
-                          infoAditional.NOTIFY_AUDIT
-                            ? infoAditional.NOTIFY_AUDIT
+                          infoAditional.notify_audit
+                            ? infoAditional.notify_audit
                             : '-----'
                         }`,
                         'white'
                       )}
                       {this.renderCelll(
                         'THRESHOLDS',
-                        infoAditional.THRESHOLDS
-                          ? infoAditional.THRESHOLDS
+                        infoAditional.thresholds
+                          ? infoAditional.thresholds
                           : '-----',
                         '#f7f7f8'
                       )}
                       {this.renderCelll(
                         'NOTIFY NO DATA',
                         `${
-                          infoAditional.NOTIFY_NO_DATA
-                            ? infoAditional.NOTIFY_NO_DATA
+                          infoAditional.notify_no_data
+                            ? infoAditional.notify_no_data
                             : '-----'
                         }`,
                         'white'
                       )}{' '}
                     </div>
-                    {this.renderCelll('TAGS', infoAditional.NAME, '#f7f7f8')}
+                    {this.renderCelll('TAGS', infoAditional.name, '#f7f7f8')}
                   </div>
                 </div>
               </div>
