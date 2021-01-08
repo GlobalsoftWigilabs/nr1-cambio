@@ -100,10 +100,10 @@ export default class Pagination extends React.Component {
         <div className="numbersPagination">
           {visiblePages.map((page, index, array) => {
             return (
-              <>
+              <div key={page} className="flex">
                 {array[index - 1] + 2 < page ? (
                   <>
-                    <div className="pageNumber-continue">...</div>
+                    <div key={page} className="pageNumber-continue">...</div>
                     <div
                       key={page}
                       className={
@@ -133,7 +133,7 @@ export default class Pagination extends React.Component {
                     {page}
                   </div>
                 )}
-              </>
+              </div>
             );
           })}
         </div>
