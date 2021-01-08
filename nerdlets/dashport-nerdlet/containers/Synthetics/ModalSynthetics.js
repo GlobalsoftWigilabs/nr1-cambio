@@ -356,6 +356,7 @@ export default class ModalSynthetics extends React.Component {
           style={{
             width: '100%',
             backgroundColor: `${color}`,
+            padding: '5px',
             minHeight: '3vw',
             alignItems: 'center',
             display: 'flex'
