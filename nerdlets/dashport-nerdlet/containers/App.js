@@ -14,8 +14,6 @@ import Synthetics from './Synthetics/Synthetics';
 import Accounts from './Accounts/Accounts';
 import Logs from './Logs/Logs';
 import Metrics from './Metrics/Metrics';
-const controller = new AbortController();
-const signal = controller.signal;
 // services
 import {
   deleteSetup,
@@ -33,6 +31,9 @@ import * as DS from '../services/Datadog/DS';
 import DatadogClient from '../services/Datadog/DatadogClient';
 import DatadogService from '../services/Datadog/DatadogService';
 import { Spinner, Toast } from 'nr1';
+
+const controller = new AbortController();
+const signal = controller.signal;
 
 const proxyUrl = 'https://long-meadow-1713.rsamanez.workers.dev';
 const siteApi = 'com';
@@ -68,7 +69,7 @@ export default class App extends React.Component {
       writingSetup: false,
       fetchingData: false,
       verticalBarchart: false,
-      //DASHBOARDS
+      // DASHBOARDS
       dataDashboards: [],
       emptyData: false,
       // ALERTS
@@ -190,14 +191,14 @@ export default class App extends React.Component {
     }
   };
 
-  updateProgressMetrics = (value) => {
+  updateProgressMetrics = value => {
     value = parseInt(value);
     if (value === 0) {
       this.setState({ progressMetrics: 0 });
     } else {
       this.setState(prevstate => ({ progressMetrics: value }));
     }
-  }
+  };
 
   /**
    * Method that change the selected menu from other component
@@ -251,7 +252,10 @@ export default class App extends React.Component {
         }
       }
       if (keyApi && keyApp) {
-        const datadogService = this.createDatadogServiceInstance(keyApi, keyApp);
+        const datadogService = this.createDatadogServiceInstance(
+          keyApi,
+          keyApp
+        );
 
         this.setState({
           setupComplete: true,
@@ -295,8 +299,7 @@ export default class App extends React.Component {
    */
   async loadViewData() {
     const { accountId, fetchingData } = this.state;
-    let countColor = 1;
-    //DASHBOARDS
+    // DASHBOARDS
     try {
       const list = [];
       let emptyData = false;
@@ -327,10 +330,13 @@ export default class App extends React.Component {
       if (dashboardObj.status === 'EMPTY') {
         emptyData = true;
       }
+      if (fetchingData) {
+        this.updateProgressFetch(5);
+      }
       this.setState({
         dataDashboards: list,
         emptyData
-      })
+      });
     } catch (err) {
       const response = {
         message: err.message,
@@ -415,7 +421,7 @@ export default class App extends React.Component {
         });
       }
       if (fetchingData) {
-        this.setState(prevstate => ({ completed: prevstate.completed + 2 }));
+        this.updateProgressFetch(5);
       }
     } catch (err) {
       const response = {
@@ -453,7 +459,12 @@ export default class App extends React.Component {
             hostList.push(iterator);
           }
         }
-        const { total, linuxCount, windowsCount, unknowCount } = infraestructureObj.data;
+        const {
+          total,
+          linuxCount,
+          windowsCount,
+          unknowCount
+        } = infraestructureObj.data;
         const hostsData = [];
         if (windowsCount && windowsCount !== 0) {
           hostsData.push({
@@ -482,7 +493,7 @@ export default class App extends React.Component {
         });
       }
       if (fetchingData) {
-        this.setState(prevstate => ({ completed: prevstate.completed + 2 }));
+        this.updateProgressFetch(5);
       }
     } catch (err) {
       const response = {
@@ -507,7 +518,7 @@ export default class App extends React.Component {
         this.reportLogFetch
       );
       const archives = [];
-      for (let i = 0; i < sizeArchives.length  ; i++) {
+      for (let i = 0; i < sizeArchives.length; i++) {
         let page = [];
         page = await readNerdStorage(
           accountId,
@@ -519,7 +530,7 @@ export default class App extends React.Component {
           archives.push(iterator);
         }
       }
-      //metric log
+      // metric log
       const metricsStatus = await readNerdStorage(
         accountId,
         'logs',
@@ -544,7 +555,7 @@ export default class App extends React.Component {
           metricsLogs.push(iterator);
         }
       }
-      //Pipelines
+      // Pipelines
       const pipelinesStatus = await readNerdStorage(
         accountId,
         'logs',
@@ -557,7 +568,7 @@ export default class App extends React.Component {
         this.reportLogFetch
       );
       const pipelines = [];
-      for (let i = 0; i < sizePipelines.length ; i++) {
+      for (let i = 0; i < sizePipelines.length; i++) {
         let page = [];
         page = await readNerdStorage(
           accountId,
@@ -580,7 +591,7 @@ export default class App extends React.Component {
         }
       });
       if (fetchingData) {
-        this.setState(prevstate => ({ completed: prevstate.completed + 2 }));
+        this.updateProgressFetch(5);
       }
     } catch (err) {
       const response = {
@@ -625,7 +636,7 @@ export default class App extends React.Component {
         });
       }
       if (fetchingData) {
-        this.setState(prevstate => ({ completed: prevstate.completed + 2 }));
+        this.updateProgressFetch(5);
       }
     } catch (err) {
       const response = {
@@ -708,13 +719,13 @@ export default class App extends React.Component {
         // for (const element of locations) {
         //   locationsArray.push(`${element.id}  /  ${element.name}`);
         // }
+        if (fetchingData) {
+          this.updateProgressFetch(5);
+        }
         this.setState({
           testTotal: listSynthetics.length,
           testList: listSynthetics
         });
-      }
-      if (fetchingData) {
-        this.setState(prevstate => ({ completed: prevstate.completed + 2 }));
       }
     } catch (err) {
       const response = {
@@ -768,9 +779,6 @@ export default class App extends React.Component {
           dataTableAccounts: accountsArray
         });
       }
-      if (fetchingData) {
-        this.setState(prevstate => ({ completed: prevstate.completed + 2 }));
-      }
     } catch (err) {
       const response = {
         message: err.message,
@@ -823,7 +831,7 @@ export default class App extends React.Component {
   };
 
   finalDataWriter = async (collectionName, data) => {
-    const { accountId } = this.state;
+    const { accountId, completed } = this.state;
     switch (collectionName) {
       case 'monitors':
         {
@@ -896,8 +904,8 @@ export default class App extends React.Component {
         break;
       case 'infraestructure':
         {
-          //guardar el objeto
-          //guardar la lista
+          // guardar el objeto
+          // guardar la lista
           const pagesHost = this.pagesOfData(data.data.hostList);
           for (const keyHost in pagesHost) {
             if (pagesHost[keyHost]) {
@@ -1085,13 +1093,9 @@ export default class App extends React.Component {
         }
         break;
     }
-    this.setState(prevstate => {
-      if (prevstate.completed === 87) {
-        return { completed: prevstate.completed + 1 };
-      } else {
-        return { completed: prevstate.completed + 3 };
-      }
-    });
+    if (completed + 5 <= 70) {
+      this.updateProgressFetch(5);
+    }
   };
 
   /**
@@ -1130,7 +1134,12 @@ export default class App extends React.Component {
       DD_EU: apiserver === '.eu',
       DD_SUMMARY: 'DashportData'
     };
-    await DD.callApis(DDConfig, this.dataWriter, this.reportLogFetch, datadogService)
+    await DD.callApis(
+      DDConfig,
+      this.dataWriter,
+      this.reportLogFetch,
+      datadogService
+    )
       .then(res => {
         data.lastUpdate = res.toLocaleString();
         const response = {
@@ -1174,6 +1183,7 @@ export default class App extends React.Component {
         };
         this.reportLog(response);
       });
+    let lastUpdate = null;
     await writeNerdStorageReturnData(
       accountId,
       'ddFetch',
@@ -1182,9 +1192,7 @@ export default class App extends React.Component {
       this.reportLogFetch
     )
       .then(({ data }) => {
-        this.setState({
-          lastUpdate: data.nerdStorageWriteDocument.lastUpdate
-        });
+        lastUpdate = data.nerdStorageWriteDocument.lastUpdate;
       })
       .catch(err => {
         const response = {
@@ -1198,14 +1206,19 @@ export default class App extends React.Component {
     await this.sendLogs();
     await this.loadViewData();
     this.setState({
-      fetchingData: false
+      fetchingData: false,
+      lastUpdate
     });
   };
 
   updateMetricsSection = async from => {
     const { datadogService } = this.state;
     this.setState({ fetchingMetrics: true });
-    const metrics = await datadogService.fetchMetrics(from, null, this.updateProgressMetrics);
+    const metrics = await datadogService.fetchMetrics(
+      from,
+      null,
+      this.updateProgressMetrics
+    );
     await this.dataWriter('Get All Active Metrics', metrics);
     await this.finalDataWriter('metrics', { data: metrics });
     this.setState({
@@ -1263,7 +1276,7 @@ export default class App extends React.Component {
    * @memberof Dashport
    */
   dataWriter = async (documentName, documentData) => {
-    const { accountId } = this.state;
+    const { accountId, completed } = this.state;
     switch (documentName) {
       case 'Get Dashboards Manual':
         {
@@ -1771,7 +1784,17 @@ export default class App extends React.Component {
         );
         break;
     }
-    this.setState(prevstate => ({ completed: prevstate.completed + 3 }));
+    if (completed <= 50) {
+      if (completed + 2 === 48) {
+        this.updateProgressFetch(4);
+      } else {
+        this.updateProgressFetch(2);
+      }
+    }
+  };
+
+  updateProgressFetch = value => {
+    this.setState(prevState => ({ completed: prevState.completed + value }));
   };
 
   pagesOfData = list => {
@@ -1848,7 +1871,10 @@ export default class App extends React.Component {
               this.reportLogFetch
             )
               .then(({ data }) => {
-                const datadogService = this.createDatadogServiceInstance(apikey, appkey);
+                const datadogService = this.createDatadogServiceInstance(
+                  apikey,
+                  appkey
+                );
 
                 this.setState({
                   writingSetup: false,
