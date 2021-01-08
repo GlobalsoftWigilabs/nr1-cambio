@@ -49,6 +49,7 @@ export default class ModalSynthetics extends React.Component {
     }
     if (
       infoAditional.host !== '-----' ||
+      infoAditional.url !== '-----' ||
       infoAditional.method !== '-----' ||
       infoAditional.query !== '-----' ||
       infoAditional.variables.length >= 1 ||
@@ -397,6 +398,7 @@ export default class ModalSynthetics extends React.Component {
         }}
       >
         {infoAditional.host !== '-----' ||
+        infoAditional.url !== '-----' ||
         infoAditional.method !== '-----' ||
         infoAditional.query !== '-----' ? (
           <div className="radioContent">
@@ -460,6 +462,7 @@ export default class ModalSynthetics extends React.Component {
     const { infoAditional } = this.props;
     if (
       infoAditional.host !== '-----' ||
+      infoAditional.url !== '-----' ||
       infoAditional.method !== '-----' ||
       infoAditional.query !== '-----'
     ) {
@@ -472,8 +475,9 @@ export default class ModalSynthetics extends React.Component {
         >
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {this.renderCelll('HOST', infoAditional.host, '#f7f7f8')}
-            {this.renderCelll('METHOD', infoAditional.method, 'white')}
-            {this.renderCelll('QUERY', infoAditional.query, '#f7f7f8')}
+            {this.renderCelll('URL', infoAditional.url, 'white')}
+            {this.renderCelll('METHOD', infoAditional.method, '#f7f7f8')}
+            {this.renderCelll('QUERY', infoAditional.query, 'white')}
           </div>
         </div>
       );
