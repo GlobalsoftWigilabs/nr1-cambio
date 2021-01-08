@@ -477,7 +477,7 @@ export default class Metrics extends React.Component {
         // see FileSaver.js
         saveAs(
           content,
-          `Datadog ${date.getDate()}-${date.getMonth() +
+          `Metrics ${date.getDate()}-${date.getMonth() +
           1}-${date.getFullYear()}.zip`
         );
       });
