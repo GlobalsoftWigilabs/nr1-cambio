@@ -8,7 +8,6 @@ import Dashboard from './Dashboard/Dashboard.js';
 import Migration from './Migration';
 import Status from './Status';
 import Alerts from './Alerts/Alerts';
-import Sample from './Sample/Sample.js';
 import Infrastructure from './Infraestructure/Infrastructure';
 import Synthetics from './Synthetics/Synthetics';
 import Accounts from './Accounts/Accounts';
@@ -31,9 +30,6 @@ import * as DS from '../services/Datadog/DS';
 import DatadogClient from '../services/Datadog/DatadogClient';
 import DatadogService from '../services/Datadog/DatadogService';
 import { Spinner, Toast } from 'nr1';
-
-const controller = new AbortController();
-const signal = controller.signal;
 
 const proxyUrl = 'https://long-meadow-1713.rsamanez.workers.dev';
 const siteApi = 'com';
@@ -68,7 +64,6 @@ export default class App extends React.Component {
       loadingContent: true,
       writingSetup: false,
       fetchingData: false,
-      verticalBarchart: false,
       // DASHBOARDS
       dataDashboards: [],
       emptyData: false,
@@ -120,33 +115,6 @@ export default class App extends React.Component {
   componentWillMount() {
     this.setState({ loadingContent: true });
     this.loadAccount();
-    window.addEventListener('resize', () => {
-      this.changeSizeCharts();
-    });
-  }
-
-  /**
-   * Method called when the component will be unmounted
-   *
-   * @memberof App
-   */
-  componentWillUnmount() {
-    window.removeEventListener('resize', () => {
-      this.changeSizeCharts();
-    });
-  }
-
-  /**
-   * Method that changes the X axis Component to render in the Alerts chart
-   *
-   * @memberof Dashport
-   */
-  changeSizeCharts() {
-    if (window.innerWidth < 1320) {
-      this.setState({ verticalBarchart: true });
-    } else {
-      this.setState({ verticalBarchart: false });
-    }
   }
 
   /**
@@ -288,12 +256,6 @@ export default class App extends React.Component {
     }
     this.setState({ loadingContent: false });
   }
-
-  cancel = () => {
-    console.log('Now aborting');
-    // Abort.
-    controller.abort();
-  };
 
   /**
    * Method that loads the data from NerdStorage
@@ -2035,7 +1997,8 @@ export default class App extends React.Component {
       deleteSetup,
       dataDashboards,
       fetchingMetrics,
-      progressMetrics
+      progressMetrics,
+      emptyData
     } = this.state;
     // console.log('accountsTotal', accountsTotal, dataTableAccounts);
     switch (selectedMenu) {
@@ -2073,6 +2036,7 @@ export default class App extends React.Component {
             sendLogs={this.sendLogs}
             dataDashboards={dataDashboards}
             accountId={accountId}
+            emptyData={emptyData}
           />
         );
       case 3:
@@ -2131,10 +2095,11 @@ export default class App extends React.Component {
   render() {
     const { loadingContent, selectedMenu, lastUpdate } = this.state;
     return (
-      <div className="Main">
+      <>
         {loadingContent ? (
           <Spinner type={Spinner.TYPE.DOT} />
         ) : (
+          <div className="Main">
             <>
               <div className="sidebar-container">
                 <Menu
@@ -2156,8 +2121,10 @@ export default class App extends React.Component {
                 </div>
               </div>
             </>
-          )}
-      </div>
+            )
+          </div>
+        )}
+      </>
     );
   }
 }
