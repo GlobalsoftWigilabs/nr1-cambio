@@ -1,6 +1,6 @@
 {
   "schemaType": "NERDPACK",
-  "id": "8b3437f5-dfd3-4eba-97c9-16807d7d7ef6",
+  "id": "d8854ed7-ab3f-4764-adfa-00d754951ad7",
   "displayName": "nr-cambio",
   "description": "Migration from datadog to new relic"
 }
