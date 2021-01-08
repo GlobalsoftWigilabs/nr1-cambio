@@ -1,7 +1,7 @@
 //Pagination component
 .divPagination {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
 }
 .buttonPagination {
@@ -11,12 +11,13 @@
 }
 .numbersPagination {
   display: flex;
+  font-size: 0.7vw;
 }
 .pageNumber-active {
   display: flex;
   align-items: center;
-  width: 30px;
-  height: 30px;
+  width: 1.7vw;
+  height: 1.7vw;
   margin-right: 10px;
   margin-left: 10px;
   justify-content: center;
@@ -27,11 +28,21 @@
     cursor: pointer;
   }
 }
+.pageNumber-continue {
+  display: flex;
+  align-items: center;
+  width: 1.7vw;
+  height: 1.7vw;
+  margin-right: 10px;
+  margin-left: 10px;
+  justify-content: center;
+  border-radius: 50%;
+}
 .pageNumber-inactive {
   display: flex;
   align-items: center;
-  width: 35px;
-  height: 30px;
+  width: 1.7vw;
+  height: 1.7vw;
   margin-right: 10px;
   margin-left: 10px;
   justify-content: center;

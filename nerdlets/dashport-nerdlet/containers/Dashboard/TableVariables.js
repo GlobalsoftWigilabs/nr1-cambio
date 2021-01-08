@@ -201,25 +201,27 @@ export default class TableVariables extends React.Component {
                                 <div className="titleSo">{`Variable List (${infoAditional.templateVariables.length})`}</div>
                             </div>
                         </div>
-                        <div className="flex" style={{ justifyContent: "space-between" }}>
-                            <div style={{ marginRight: "20px" }}>
-                                <Pagination
-                                    page={pagePag}
-                                    pages={pages}
-                                    upPage={this.upPage}
-                                    goToPage={this.changePage}
-                                    downPage={this.downPage}
+                        <div className="flex">
+                            <div className="flex w100" style={{justifyContent:"flex-end"}}>
+                                <div style={{ marginRight: "20px" }}>
+                                    <Pagination
+                                        page={pagePag}
+                                        pages={pages}
+                                        upPage={this.upPage}
+                                        goToPage={this.changePage}
+                                        downPage={this.downPage}
+                                    />
+                                </div>
+                                <img
+                                    onClick={() => { _onClose() }}
+                                    className="pointer"
+                                    style={{
+                                        width: '26px',
+                                        height: '26px'
+                                    }}
+                                    src={closeIcon}
                                 />
                             </div>
-                            <img
-                                onClick={() => { _onClose() }}
-                                className="pointer"
-                                style={{
-                                    width: '26px',
-                                    height: '26px'
-                                }}
-                                src={closeIcon}
-                            />
                         </div>
                     </div>
                 </Modal.Header>
@@ -289,7 +291,7 @@ export default class TableVariables extends React.Component {
                                         Header: () => (
                                             <div className="table__headerSticky">
                                                 <div className="pointer flex " style={{ marginLeft: "15px" }} onClick={() => { this.setSortColumn('name') }}>
-                                                NAME
+                                                    NAME
                                                                     <div className="flexColumn table__sort">
                                                         <ArrowTop color={sortColumn.column === 'name' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
                                                         <ArrowDown color={sortColumn.column === 'name' && sortColumn.order === 'descent' ? "black" : "gray"} />

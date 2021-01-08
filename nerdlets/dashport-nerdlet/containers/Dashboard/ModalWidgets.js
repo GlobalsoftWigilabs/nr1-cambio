@@ -245,24 +245,26 @@ export default class ModalWidgets extends React.Component {
                             <div className=" modalWidgets__closeIcon">
                                 <div className="infoAditional--title">{`${infoAditional.name} - Widgets ( ${infoAditional.widgets.length} )`}</div>
                                 <div className="flex">
-                                    <div style={{ marginRight: "20px" }}>
-                                        <Pagination
-                                            page={pagePag}
-                                            pages={pages}
-                                            upPage={this.upPage}
-                                            goToPage={this.changePage}
-                                            downPage={this.downPage}
+                                    <div>
+                                        <div style={{ marginRight: "20px" }}>
+                                            <Pagination
+                                                page={pagePag}
+                                                pages={pages}
+                                                upPage={this.upPage}
+                                                goToPage={this.changePage}
+                                                downPage={this.downPage}
+                                            />
+                                        </div>
+                                        <img
+                                            onClick={() => { _onClose() }}
+                                            className="pointer"
+                                            style={{
+                                                width: '26px',
+                                                height: '26px'
+                                            }}
+                                            src={closeIcon}
                                         />
                                     </div>
-                                    <img
-                                        onClick={() => { _onClose() }}
-                                        className="pointer"
-                                        style={{
-                                            width: '26px',
-                                            height: '26px'
-                                        }}
-                                        src={closeIcon}
-                                    />
                                 </div>
                             </div>
                         </Modal.Header>
@@ -384,7 +386,7 @@ export default class ModalWidgets extends React.Component {
                                                         accessor: 'query',
                                                         className: 'table__cell flex  flexCenterVertical h100 w100I',
                                                         sortable: false,
-                                                         Cell: props => <div className="h100 flex flexCenterVertical ">
+                                                        Cell: props => <div className="h100 flex flexCenterVertical ">
                                                             {props.value}
                                                         </div>
                                                     },

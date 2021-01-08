@@ -100,32 +100,40 @@ export default class Pagination extends React.Component {
         <div className="numbersPagination">
           {visiblePages.map((page, index, array) => {
             return (
-              <div
-                key={page}
-                className={
-                  activePage === page
-                    ? 'pageNumber-active'
-                    : 'pageNumber-inactive'
-                }
-                onClick={() => {
-                  this.changePage(page);
-                }}
-              >
+              <>
                 {array[index - 1] + 2 < page ? (
+                  <>
+                    <div className="pageNumber-continue">...</div>
+                    <div
+                      key={page}
+                      className={
+                        activePage === page
+                          ? 'pageNumber-active'
+                          : 'pageNumber-inactive'
+                      }
+                      onClick={() => {
+                        this.changePage(page);
+                      }}
+                    >
+                      {page}
+                    </div>
+                  </>
+                ) : (
                   <div
-                    style={{
-                      display: 'flex',
-                      width: '100%',
-                      justifyContent: 'space-between'
+                    key={page}
+                    className={
+                      activePage === page
+                        ? 'pageNumber-active'
+                        : 'pageNumber-inactive'
+                    }
+                    onClick={() => {
+                      this.changePage(page);
                     }}
                   >
-                    <div>...</div>
-                    {`${page}`}
+                    {page}
                   </div>
-                ) : (
-                  page
                 )}
-              </div>
+              </>
             );
           })}
         </div>

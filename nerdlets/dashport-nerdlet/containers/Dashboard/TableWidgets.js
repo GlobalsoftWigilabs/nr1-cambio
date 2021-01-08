@@ -248,7 +248,8 @@ export default class TableWidgets extends React.Component {
                                 <div className="titleSo">{`Variable List (${infoAditional.templateVariables.length})`}</div>
                             </div>
                         </div>
-                        <div className="flex" style={{ justifyContent: "space-between" }}>
+                        <div className="flex">
+                        <div className="flex w100" style={{justifyContent:"flex-end"}}>
                             <div style={{ marginRight: "20px" }}>
                                 <Pagination
                                     page={pagePag}
@@ -267,6 +268,7 @@ export default class TableWidgets extends React.Component {
                                 }}
                                 src={closeIcon}
                             />
+                            </div>
                         </div>
                     </div>
                 </Modal.Header>
