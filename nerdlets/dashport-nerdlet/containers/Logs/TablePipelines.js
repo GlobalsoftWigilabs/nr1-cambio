@@ -7,10 +7,7 @@ import ArrowTop from '../../components/ArrowsTable/ArrowTop';
 import ReactTable from 'react-table-v6';
 import Pagination from '../../components/Pagination/Pagination';
 import PropTypes from 'prop-types';
-import jsoncsv from 'json-2-csv';
-import JSZip from 'jszip';
 import Select from 'react-select';
-import { saveAs } from 'file-saver';
 
 const KEYS_TO_FILTERS = ['name', 'enabled', 'type', 'processors'];
 
@@ -19,6 +16,7 @@ export default class TablePipelines extends React.Component {
     super(props);
     this.state = {
       data: [],
+      dataRespaldo: [],
       searchAlerts: '',
       savingAllChecks: false,
       pagePag: 0,
@@ -33,31 +31,8 @@ export default class TablePipelines extends React.Component {
 
   componentDidMount() {
     const { dataPipeline = [] } = this.props;
-    const data = [];
-    dataPipeline.forEach(element => {
-      let processors = '';
-      if (element.processors) {
-        const limitData = element.processors.slice(0, 3);
-        for (const processor of limitData) {
-          if (processor.name !== '') {
-            processors = `${processors} ${processor.name} \n`;
-          } else {
-            processors = `${processors} ${processor.type} \n`;
-          }
-        }
-        if (limitData.length === 3) {
-          processors = `${processors} ...`;
-        }
-      }
-      data.push({
-        name: element.name,
-        enabled: element.is_enabled,
-        type: element.type,
-        processors: processors
-      });
-    });
-    this.calcTable(data);
-    this.setState({ data, dataRespaldo: data });
+    this.calcTable(dataPipeline);
+    this.setState({ data: dataPipeline, dataRespaldo: dataPipeline });
   }
 
   upPage = () => {
@@ -106,43 +81,6 @@ export default class TablePipelines extends React.Component {
         column: column,
         order: order
       }
-    });
-  };
-
-  downloadData = async () => {
-    const { dataPipeline = [] } = this.props;
-    const data = [];
-    dataPipeline.forEach(element => {
-      let processors = '';
-      if (element.processors) {
-        for (const processor of element.processors) {
-          if (processor.name !== '') {
-            processors = `${processors} ${processor.name} \n`;
-          }
-        }
-      }
-      data.push({
-        NAME: element.name ? element.name : '-----',
-        ENABLED: element.is_enabled ? element.is_enabled : '-----',
-        TYPE: element.type ? element.type : '-----',
-        ORDER_PROCESSORS: processors !== '' ? processors : '-----'
-      });
-    });
-    const date = new Date();
-    const zip = new JSZip();
-    jsoncsv.json2csv(data, (err, csv) => {
-      if (err) {
-        throw err;
-      }
-      zip.file(`LogsPipeline.csv`, csv);
-      zip.generateAsync({ type: 'blob' }).then(function(content) {
-        // see FileSaver.js
-        saveAs(
-          content,
-          `LogsPipeline ${date.getDate()}-${date.getMonth() +
-            1}-${date.getFullYear()}.zip`
-        );
-      });
     });
   };
 
@@ -250,7 +188,7 @@ export default class TablePipelines extends React.Component {
       sortColumn,
       data
     } = this.state;
-    const { rangeSelected, timeRanges, handleRange } = this.props;
+    const { rangeSelected, timeRanges, handleRange, downloadData } = this.props;
     return (
       <>
         <div className="tableContentLogs__filter">
@@ -265,7 +203,6 @@ export default class TablePipelines extends React.Component {
           </div>
           <Select
             classNamePrefix="react-select"
-            styles={this.customStyles}
             isSearchable={false}
             options={timeRanges}
             onChange={handleRange}
@@ -278,9 +215,7 @@ export default class TablePipelines extends React.Component {
                 ? 'pointerBlock flex flexCenterVertical'
                 : 'pointer flex flexCenterVertical'
             }
-            onClick={() => {
-              if (data.length !== 0) this.downloadData();
-            }}
+            onClick={downloadData}
           >
             <img
               src={iconDownload}
@@ -527,7 +462,7 @@ export default class TablePipelines extends React.Component {
                   sortable: false,
                   Cell: props => (
                     <div className="h100 flex flexCenterVertical">
-                      {props.value}
+                      {props.value ? props.value : '-----'}
                     </div>
                   )
                 }
@@ -543,5 +478,6 @@ TablePipelines.propTypes = {
   rangeSelected: PropTypes.object.isRequired,
   timeRanges: PropTypes.array.isRequired,
   handleRange: PropTypes.func.isRequired,
-  dataPipeline: PropTypes.array.isRequired
+  dataPipeline: PropTypes.array.isRequired,
+  downloadData: PropTypes.func.isRequired
 };

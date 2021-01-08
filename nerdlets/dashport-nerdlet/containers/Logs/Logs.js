@@ -1,6 +1,9 @@
 import React from 'react';
 import { Spinner } from 'nr1';
 import PropTypes from 'prop-types';
+import jsoncsv from 'json-2-csv';
+import { saveAs } from 'file-saver';
+import JSZip from 'jszip';
 import TableArchives from './TableArchives';
 import TableMetrics from './TableMetrics';
 import TablePipelines from './TablePipelines';
@@ -29,30 +32,171 @@ export default class Logs extends React.Component {
 
   componentDidMount() {
     const { logsData = [] } = this.props;
-    console.log(logsData, 'DATA')
     if (logsData.archivesStatus === 403) {
       this._onClose();
     }
     if (logsData.pipelines) {
+      const data = [];
+      logsData.pipelines.forEach(element => {
+        let processors = '';
+        if (element.processors) {
+          const limitData = element.processors.slice(0, 3);
+          for (const processor of limitData) {
+            if (processor.name !== '') {
+              processors = `${processors} ${processor.name} \n`;
+            } else {
+              processors = `${processors} ${processor.type} \n`;
+            }
+          }
+          if (limitData.length === 3) {
+            processors = `${processors} ...`;
+          }
+        }
+        data.push({
+          name: element.name,
+          enabled: element.is_enabled,
+          type: element.type,
+          processors: processors
+        });
+      });
       this.setState({
-        dataPipeline: logsData.pipelines,
+        dataPipeline: data,
         dataPipelineTotal: logsData.pipelines.length
       });
     }
     if (logsData.archives) {
+      const data = [];
+      logsData.archives.forEach(element => {
+        let tags = '';
+        if (element.attributes.rehydration_tags) {
+          element.attributes.rehydration_tags.forEach(tag => {
+            tags = `${tags} ${tag} \n`;
+          });
+        }
+        data.push({
+          name: element.attributes.name,
+          destination: element.attributes.destination.type,
+          query: element.attributes.query,
+          tags: tags,
+          state: element.attributes.state
+        });
+      });
       this.setState({
-        dataArchives: logsData.archives,
+        dataArchives: data,
         dataArchivesTotal: logsData.archives.length
       });
     }
     if (logsData.metrics) {
+      const data = [];
+      logsData.metrics.forEach(element => {
+        let groupByPath = '';
+        if (element.group_by) {
+          element.group_by.forEach(group => {
+            groupByPath = `${groupByPath} ${group} \n`;
+          });
+        }
+        let tagName = '';
+        if (element.group_by) {
+          element.group_by.forEach(group => {
+            tagName = `${tagName} ${group} \n`;
+          });
+        }
+        data.push({
+          id: element.id,
+          aggrType: element.attributes.compute.aggregation_type
+            ? element.attributes.compute.aggregation_type
+            : null,
+          path: element.attributes.compute.path
+            ? element.attributes.compute.path
+            : null,
+          filterQuery: element.attributes.filter.query
+            ? element.attributes.filter.query
+            : null,
+          groupByPath: groupByPath,
+          tagName: tagName
+        });
+      });
       this.setState({
-        dataMetrics: logsData.metrics,
+        dataMetrics: data,
         dataMetricsTotal: logsData.metrics.length
       });
     }
     this.setState({ loading: false });
   }
+
+  downloadData = async () => {
+    try {
+      const zip = new JSZip(); // Object that contains the zip files
+      const {
+        dataArchives = [],
+        dataPipeline = [],
+        dataMetrics = []
+      } = this.state;
+      const archives = [];
+      if (dataArchives) {
+        dataArchives.forEach(element => {
+          archives.push({
+            NAME: element.name,
+            DESTINATION: element.type,
+            QUERY_USED: element.query,
+            TAGS: element.tags,
+            STATE: element.state
+          });
+        });
+      }
+      // convert JSON array to CSV string
+      jsoncsv.json2csv(archives, (err, csv) => {
+        if (err) {
+          throw err;
+        }
+        zip.file(`Logs Archives.csv`, csv);
+      });
+      const metrics = [];
+      if (dataMetrics) {
+        dataMetrics.forEach(element => {
+          metrics.push({
+            ID: element.id,
+            COMPUTE_AGGT_TYPE: element.aggrType,
+            COMPUTE_PATH: element.path,
+            FILTER_QUERY: element.filterQuery,
+            GROUP_BY_PATH: element.groupByPath,
+            GROUP_TAG_NAME: element.tagName
+          });
+        });
+      }
+      // convert JSON array to CSV string
+      jsoncsv.json2csv(metrics, (err, csv) => {
+        if (err) {
+          throw err;
+        }
+        zip.file(`Logs Metrics.csv`, csv);
+      });
+      const pipeline = [];
+      if (dataPipeline) {
+        for (const element of dataPipeline) {
+          pipeline.push({
+            NAME: element.name,
+            ENABLED: element.enabled,
+            TYPE: element.type,
+            ORDER_PROCESSORS: element.processors
+          });
+        }
+      }
+      // convert JSON array to CSV string
+      jsoncsv.json2csv(pipeline, (err, csv) => {
+        if (err) {
+          throw err;
+        }
+        zip.file(`Logs Pipeline.csv`, csv);
+        zip.generateAsync({ type: 'blob' }).then(function(content) {
+          // see FileSaver.js
+          saveAs(content, 'Logs.zip');
+        });
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   handleRange = value => {
     const { logsData = [] } = this.props;
@@ -85,6 +229,7 @@ export default class Logs extends React.Component {
       case 'Pipelines':
         return (
           <TablePipelines
+            downloadData={this.downloadData}
             handleRange={this.handleRange}
             rangeSelected={rangeSelected}
             timeRanges={timeRanges}
@@ -94,6 +239,7 @@ export default class Logs extends React.Component {
       case 'Archives':
         return (
           <TableArchives
+            downloadData={this.downloadData}
             rangeSelected={rangeSelected}
             timeRanges={timeRanges}
             handleRange={this.handleRange}
@@ -103,6 +249,7 @@ export default class Logs extends React.Component {
       case 'Metrics':
         return (
           <TableMetrics
+            downloadData={this.downloadData}
             rangeSelected={rangeSelected}
             timeRanges={timeRanges}
             handleRange={this.handleRange}

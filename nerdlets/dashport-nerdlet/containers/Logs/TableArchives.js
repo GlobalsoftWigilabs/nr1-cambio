@@ -7,10 +7,7 @@ import ArrowTop from '../../components/ArrowsTable/ArrowTop';
 import ReactTable from 'react-table-v6';
 import Pagination from '../../components/Pagination/Pagination';
 import PropTypes from 'prop-types';
-import jsoncsv from 'json-2-csv';
-import JSZip from 'jszip';
 import Select from 'react-select';
-import { saveAs } from 'file-saver';
 
 const KEYS_TO_FILTERS = ['name', 'destination', 'query', 'tags', 'state'];
 
@@ -33,26 +30,8 @@ export default class TableArchives extends React.Component {
 
   componentDidMount() {
     const { dataArchives = [] } = this.props;
-    const data = [];
-    if (dataArchives) {
-      dataArchives.forEach(element => {
-        let tags = '';
-        if (element.attributes.rehydration_tags) {
-          element.attributes.rehydration_tags.forEach(tag => {
-            tags = `${tags} ${tag} \n`;
-          });
-        }
-        data.push({
-          name: element.attributes.name,
-          destination: element.attributes.destination.type,
-          query: element.attributes.query,
-          tags: tags,
-          state: element.attributes.state
-        });
-      });
-    }
-    this.calcTable(data);
-    this.setState({ data, dataRespaldo: data });
+    this.calcTable(dataArchives);
+    this.setState({ data: dataArchives, dataRespaldo: dataArchives });
   }
 
   upPage = () => {
@@ -101,48 +80,6 @@ export default class TableArchives extends React.Component {
         column: column,
         order: order
       }
-    });
-  };
-
-  downloadData = async () => {
-    const { dataArchives = [] } = this.props;
-    const data = [];
-    if (dataArchives) {
-      dataArchives.forEach(element => {
-        let tags = '';
-        if (element.attributes.rehydration_tags) {
-          element.attributes.rehydration_tags.forEach(tag => {
-            tags = `${tags} ${tag} \n`;
-          });
-        }
-        data.push({
-          NAME: element.attributes.name ? element.attributes.name : '-----',
-          DESTINATION: element.attributes.destination.type
-            ? element.attributes.destination.type
-            : '-----',
-          QUERY_USED: element.attributes.query
-            ? element.attributes.query
-            : '-----',
-          TAGS: tags !== '' ? tags : '-----',
-          STATE: element.attributes.state ? element.attributes.state : '-----'
-        });
-      });
-    }
-    const date = new Date();
-    const zip = new JSZip();
-    jsoncsv.json2csv(data, (err, csv) => {
-      if (err) {
-        throw err;
-      }
-      zip.file(`LogsArchives.csv`, csv);
-      zip.generateAsync({ type: 'blob' }).then(function(content) {
-        // see FileSaver.js
-        saveAs(
-          content,
-          `LogsArchives ${date.getDate()}-${date.getMonth() +
-            1}-${date.getFullYear()}.zip`
-        );
-      });
     });
   };
 
@@ -262,7 +199,7 @@ export default class TableArchives extends React.Component {
       sortColumn,
       data
     } = this.state;
-    const { rangeSelected, timeRanges, handleRange } = this.props;
+    const { rangeSelected, timeRanges, handleRange, downloadData } = this.props;
     return (
       <>
         <div className="tableContentLogs__filter">
@@ -277,7 +214,6 @@ export default class TableArchives extends React.Component {
           </div>
           <Select
             classNamePrefix="react-select"
-            styles={this.customStyles}
             isSearchable={false}
             options={timeRanges}
             onChange={handleRange}
@@ -290,9 +226,11 @@ export default class TableArchives extends React.Component {
                 ? 'pointerBlock flex flexCenterVertical'
                 : 'pointer flex flexCenterVertical'
             }
-            onClick={() => {
-              if (data.length !== 0) this.downloadData();
-            }}
+            // onClick={() => {
+            //   if (data.length !== 0) {
+            //     downloadData();
+            //   }
+            // }}
           >
             <img
               src={iconDownload}
@@ -596,5 +534,6 @@ TableArchives.propTypes = {
   rangeSelected: PropTypes.object.isRequired,
   timeRanges: PropTypes.array.isRequired,
   handleRange: PropTypes.func.isRequired,
-  dataArchives: PropTypes.array.isRequired
+  dataArchives: PropTypes.array.isRequired,
+  downloadData: PropTypes.func.isRequired
 };

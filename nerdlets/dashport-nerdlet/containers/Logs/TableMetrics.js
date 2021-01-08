@@ -7,10 +7,7 @@ import ArrowTop from '../../components/ArrowsTable/ArrowTop';
 import ReactTable from 'react-table-v6';
 import Pagination from '../../components/Pagination/Pagination';
 import PropTypes from 'prop-types';
-import jsoncsv from 'json-2-csv';
-import JSZip from 'jszip';
 import Select from 'react-select';
-import { saveAs } from 'file-saver';
 
 const KEYS_TO_FILTERS = [
   'id',
@@ -40,38 +37,8 @@ export default class TableMetrics extends React.Component {
 
   componentDidMount() {
     const { dataMetrics = [] } = this.props;
-    const data = [];
-    dataMetrics.forEach(element => {
-      let groupByPath = '';
-      if (element.group_by) {
-        element.group_by.forEach(group => {
-          groupByPath = `${groupByPath} ${group} \n`;
-        });
-      }
-      let tagName = '';
-      if (element.group_by) {
-        element.group_by.forEach(group => {
-          tagName = `${tagName} ${group} \n`;
-        });
-      }
-      data.push({
-        id: element.id,
-        aggrType: element.attributes.compute.aggregation_type
-          ? element.attributes.compute.aggregation_type
-          : null,
-        path: element.attributes.compute.path
-          ? element.attributes.compute.path
-          : null,
-        filterQuery: element.attributes.filter.query
-          ? element.attributes.filter.query
-          : null,
-
-        groupByPath: groupByPath,
-        tagName: tagName
-      });
-    });
-    this.calcTable(data);
-    this.setState({ data, dataRespaldo: data });
+    this.calcTable(dataMetrics);
+    this.setState({ data: dataMetrics, dataRespaldo: dataMetrics });
   }
 
   upPage = () => {
@@ -120,56 +87,6 @@ export default class TableMetrics extends React.Component {
         column: column,
         order: order
       }
-    });
-  };
-
-  downloadData = async () => {
-    const { dataMetrics = [] } = this.props;
-    const data = [];
-    dataMetrics.forEach(element => {
-      let groupByPath = '';
-      if (element.group_by) {
-        element.group_by.forEach(group => {
-          groupByPath = `${groupByPath} ${group} \n`;
-        });
-      }
-      let tagName = '';
-      if (element.group_by) {
-        element.group_by.forEach(group => {
-          tagName = `${tagName} ${group} \n`;
-        });
-      }
-      data.push({
-        ID: element.id,
-        COMPUTE_AGGR_TYPE: element.attributes.compute.aggregation_type
-          ? element.attributes.compute.aggregation_type
-          : '-----',
-        COMPUTE_PATH: element.attributes.compute.path
-          ? element.attributes.compute.path
-          : '-----',
-        FILTER_QUERY: element.attributes.filter.query
-          ? element.attributes.filter.query
-          : '-----',
-
-        GROUP_BY_PATH: groupByPath !== '' ? groupByPath : '------',
-        GROUP_TAG_NAME: tagName !== '' ? tagName : '-----'
-      });
-    });
-    const date = new Date();
-    const zip = new JSZip();
-    jsoncsv.json2csv(data, (err, csv) => {
-      if (err) {
-        throw err;
-      }
-      zip.file(`LogsMetrics.csv`, csv);
-      zip.generateAsync({ type: 'blob' }).then(function(content) {
-        // see FileSaver.js
-        saveAs(
-          content,
-          `LogsMetrics ${date.getDate()}-${date.getMonth() +
-            1}-${date.getFullYear()}.zip`
-        );
-      });
     });
   };
 
@@ -301,7 +218,7 @@ export default class TableMetrics extends React.Component {
       sortColumn,
       data
     } = this.state;
-    const { rangeSelected, timeRanges, handleRange } = this.props;
+    const { rangeSelected, timeRanges, handleRange, downloadData } = this.props;
     return (
       <>
         <div className="tableContentLogs__filter">
@@ -316,7 +233,6 @@ export default class TableMetrics extends React.Component {
           </div>
           <Select
             classNamePrefix="react-select"
-            styles={this.customStyles}
             isSearchable={false}
             options={timeRanges}
             onChange={handleRange}
@@ -330,7 +246,9 @@ export default class TableMetrics extends React.Component {
                 : 'pointer flex flexCenterVertical'
             }
             onClick={() => {
-              if (data.length !== 0) this.downloadData();
+              if (data.length !== 0) {
+                // downloadData;
+              }
             }}
           >
             <img
