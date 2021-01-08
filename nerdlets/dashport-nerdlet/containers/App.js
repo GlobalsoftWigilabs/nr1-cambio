@@ -195,8 +195,10 @@ export default class App extends React.Component {
     value = parseInt(value);
     if (value === 0) {
       this.setState({ progressMetrics: 0 });
+    } else if (value >= 99) {
+      this.setState({ progressMetrics: 100 });
     } else {
-      this.setState(prevstate => ({ progressMetrics: value }));
+      this.setState({ progressMetrics: value });
     }
   };
 
