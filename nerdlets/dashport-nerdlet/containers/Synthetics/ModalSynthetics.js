@@ -1,12 +1,10 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import Select from 'react-select';
 import ArrowDown from '../../components/ArrowsTable/ArrowDown';
 import ArrowTop from '../../components/ArrowsTable/ArrowTop';
 import ReactTable from 'react-table-v6';
-
 import { Modal } from 'react-bootstrap';
 import closeIcon from '../../images/close.svg';
 
@@ -395,8 +393,7 @@ export default class ModalSynthetics extends React.Component {
       <div
         style={{
           display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-around'
+          alignItems: 'center'
         }}
       >
         {infoAditional.host !== '-----' ||
@@ -1161,7 +1158,13 @@ export default class ModalSynthetics extends React.Component {
                 <div className="infoAditional--title">
                   {`${infoAditional.name}`}
                 </div>
-                <div style={{ width: '200px' }}>
+                <div
+                  style={{
+                    minWidth: '150px',
+                    maxWidth: '200px',
+                    paddingRight: '5px'
+                  }}
+                >
                   {timeRanges.length >= 1 ? (
                     <Select
                       classNamePrefix="react-select"
