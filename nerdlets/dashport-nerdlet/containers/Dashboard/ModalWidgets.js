@@ -16,7 +16,7 @@ export default class ModalWidgets extends React.Component {
             // Pagination
             pagePag: 0,
             pages: 0,
-            totalRows: 6,
+            totalRows: 10,
             page: 1,
             ////////////
             sortColumn: {

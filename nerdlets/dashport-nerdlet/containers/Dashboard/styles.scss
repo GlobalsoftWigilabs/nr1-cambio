@@ -232,48 +232,7 @@
     grid-template: 100% /1fr;
     height: 100%;
 }
-.tableContent__table {
-    background: #ffffff;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
-    width: 100%;
-    height: 100%;
-    overflow-x: auto;
-    overflow-y: hidden;
-    position: relative;
-}
 
-.pr {
-    position: relative;
-}
-//------------------------------Custom scroll bar
-.tableContent__table::-webkit-scrollbar {
-    -webkit-appearance: none;
-}
-
-.tableContent__table::-webkit-scrollbar:vertical {
-    width: 5px;
-    height: 10px;
-}
-
-.tableContent__table::-webkit-scrollbar-button:increment,
-.tableContent__table::-webkit-scrollbar-button {
-    display: none;
-}
-
-.tableContent__table::-webkit-scrollbar:horizontal {
-    height: 10px;
-}
-
-.tableContent__table::-webkit-scrollbar-thumb {
-    background-color: #bdbdbd;
-    border-radius: 20px;
-    border: 2px solid #f1f2f3;
-}
-
-.tableContent__table::-webkit-scrollbar-track {
-    border-radius: 10px;
-}
 //////////////////////////////////////////////////
 
 .stycky {

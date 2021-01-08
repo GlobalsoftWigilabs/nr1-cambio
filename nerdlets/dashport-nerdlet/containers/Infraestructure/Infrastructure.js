@@ -44,7 +44,7 @@ export default class Infrastructure extends React.Component {
       savingAllChecks: false,
       pagePag: 0,
       pages: 0,
-      totalRows: 6,
+      totalRows: 10,
       sortColumn: {
         column: '',
         order: ''

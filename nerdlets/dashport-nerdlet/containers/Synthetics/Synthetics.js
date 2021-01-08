@@ -24,7 +24,7 @@ export default class Synthetics extends React.Component {
       savingAllChecks: false,
       pagePag: 0,
       pages: 0,
-      totalRows: 6,
+      totalRows: 10,
       searchTermTest: '',
       sortColumn: {
         column: '',
