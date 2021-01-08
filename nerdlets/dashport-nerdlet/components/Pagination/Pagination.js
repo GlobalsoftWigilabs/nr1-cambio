@@ -103,7 +103,9 @@ export default class Pagination extends React.Component {
               <div key={page} className="flex">
                 {array[index - 1] + 2 < page ? (
                   <>
-                    <div key={page} className="pageNumber-continue">...</div>
+                    <div key={page} className="pageNumber-continue">
+                      ...
+                    </div>
                     <div
                       key={page}
                       className={
