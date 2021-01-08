@@ -2099,16 +2099,16 @@ export default class App extends React.Component {
         {loadingContent ? (
           <Spinner type={Spinner.TYPE.DOT} />
         ) : (
-          <div className="Main">
+          <div className="main">
             <>
-              <div className="sidebar-container">
+              <div className="sidebar-container h100">
                 <Menu
                   lastUpdate={lastUpdate}
                   selectedMenu={selectedMenu}
                   handleChangeMenu={this.handleChangeMenu}
                 />
               </div>
-              <div>
+              <div className="h100" style={{background:"#eceeee"}}>
                 <div
                   style={{
                     paddingTop: '1.8%',
