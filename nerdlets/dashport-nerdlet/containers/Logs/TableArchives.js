@@ -190,6 +190,13 @@ export default class TableArchives extends React.Component {
     }
   };
 
+  onClickDownloadData = data => {
+    const { downloadData } = this.props;
+    if (data !== 0) {
+      return downloadData;
+    }
+  };
+
   render() {
     const {
       savingAllChecks,
@@ -226,11 +233,7 @@ export default class TableArchives extends React.Component {
                 ? 'pointerBlock flex flexCenterVertical'
                 : 'pointer flex flexCenterVertical'
             }
-            // onClick={() => {
-            //   if (data.length !== 0) {
-            //     downloadData();
-            //   }
-            // }}
+            onClick={this.onClickDownloadData(data.length)}
           >
             <img
               src={iconDownload}

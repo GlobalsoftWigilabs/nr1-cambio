@@ -137,6 +137,7 @@ export default class Synthetics extends React.Component {
     });
     if (
       data.host === '-----' &&
+      data.url === '-----' &&
       data.method === '-----' &&
       data.query === '-----' &&
       data.variables.length === 0 &&
@@ -177,6 +178,7 @@ export default class Synthetics extends React.Component {
   saveAction = async (action, infoAditional) => {
     if (
       infoAditional.host !== '-----' ||
+      infoAditional.url !== '-----' ||
       infoAditional.method !== '-----' ||
       infoAditional.query !== '-----' ||
       infoAditional.variables.length >= 1 ||
@@ -329,15 +331,110 @@ export default class Synthetics extends React.Component {
     const date = new Date();
     const zip = new JSZip();
     const dataCsv = [];
-
-    data.forEach(row => {
+    data.forEach((row, index) => {
       dataCsv.push({
         NAME: row.name,
         TYPE: row.type,
         LOCATION: row.location,
         STATUS: row.status,
-        MESSAGE: row.message
+        MESSAGE: row.message,
+        HOST: '',
+        URL: '',
+        METHOD: '',
+        QUERY: '',
+        VARIABLES_NAME: '',
+        VARIABLES_ID: '',
+        VARIABLES_DESCRIPTION: '',
+        VARIABLES_SECURE: '',
+        VARIABLES_VALUE: '',
+        VARIABLES_TAGS: '',
+        ASSERTIONS_VALUE: '',
+        STEPS_PARAMS: '',
+        STEPS_TYPE: ''
       });
+      if (
+        row.host === '-----' ||
+        row.url === '-----' ||
+        row.method === '-----' ||
+        row.query === '-----'
+      ) {
+        dataCsv[index].HOST = row.host;
+        dataCsv[index].URL = row.url;
+        dataCsv[index].METHOD = row.method;
+        dataCsv[index].QUERY = row.query;
+      }
+      if (row.variables.length >= 1) {
+        for (const iteratorVariable of row.variables) {
+          dataCsv.push({
+            NAME: row.name,
+            TYPE: row.type,
+            LOCATION: row.location,
+            STATUS: row.status,
+            MESSAGE: row.message,
+            HOST: '',
+            URL: '',
+            METHOD: '',
+            QUERY: '',
+            VARIABLES_NAME: iteratorVariable.name,
+            VARIABLES_ID: iteratorVariable.id,
+            VARIABLES_DESCRIPTION: iteratorVariable.description,
+            VARIABLES_SECURE: iteratorVariable.secure,
+            VARIABLES_VALUE: iteratorVariable.value,
+            VARIABLES_TAGS: iteratorVariable.tags,
+            ASSERTIONS_VALUE: '',
+            STEPS_PARAMS: '',
+            STEPS_TYPE: ''
+          });
+        }
+      }
+      if (row.assertions.length >= 1) {
+        for (const iteratorAssertion of row.assertions) {
+          dataCsv.push({
+            NAME: row.name,
+            TYPE: row.type,
+            LOCATION: row.location,
+            STATUS: row.status,
+            MESSAGE: row.message,
+            HOST: '',
+            URL: '',
+            METHOD: '',
+            QUERY: '',
+            VARIABLES_NAME: '',
+            VARIABLES_ID: '',
+            VARIABLES_DESCRIPTION: '',
+            VARIABLES_SECURE: '',
+            VARIABLES_VALUE: '',
+            VARIABLES_TAGS: '',
+            ASSERTIONS_VALUE: iteratorAssertion.value,
+            STEPS_PARAMS: '',
+            STEPS_TYPE: ''
+          });
+        }
+      }
+      if (row.steps.length >= 1) {
+        for (const iteratorStep of row.steps) {
+          dataCsv.push({
+            NAME: row.name,
+            TYPE: row.type,
+            LOCATION: row.location,
+            STATUS: row.status,
+            MESSAGE: row.message,
+            HOST: '',
+            URL: '',
+            METHOD: '',
+            QUERY: '',
+            VARIABLES_NAME: '',
+            VARIABLES_ID: '',
+            VARIABLES_DESCRIPTION: '',
+            VARIABLES_SECURE: '',
+            VARIABLES_VALUE: '',
+            VARIABLES_TAGS: '',
+            ASSERTIONS_VALUE: '',
+            STEPS_PARAMS: iteratorStep.params,
+            STEPS_TYPE: iteratorStep.type
+          });
+        }
+      }
     });
 
     jsoncsv.json2csv(dataCsv, (err, csv) => {
