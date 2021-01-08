@@ -33,7 +33,7 @@ export default class TableWidgets extends React.Component {
         for (const iterator of infoAditional.widgets) {
             data.push(
                 {
-                    title: iterator.definition.title ? iterator.definition.title : '--',
+                    title: iterator.definition.title ? iterator.definition.title : '-----',
                     query: this.returnQuery(iterator.definition),
                     type: iterator.definition.type,
                     queryParameters: this.returnParams(iterator.definition),
@@ -349,7 +349,7 @@ export default class TableWidgets extends React.Component {
                                         accessor: 'title',
                                         sortable: false,
                                         Cell: props => {
-                                            let txtName = '--';
+                                            let txtName = '-----';
                                             if (props.value) {
                                                 txtName = props.value;
                                                 if (txtName.length > 300) {
