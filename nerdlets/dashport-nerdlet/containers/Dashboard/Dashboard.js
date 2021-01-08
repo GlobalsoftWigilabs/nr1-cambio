@@ -750,7 +750,7 @@ returnParams = (widget) => {
                               borderBottom: 'none',
                               display: 'grid',
                               gridTemplate:
-                                '1fr/ 10% 7% 10% repeat(3,7%) 15% 7% 15% 15%'
+                                '1fr/ 10% 10% 10% repeat(3,10%) 10% 10% 10% 10%'
                             }
                           };
                         } else {
@@ -759,7 +759,7 @@ returnParams = (widget) => {
                               borderBottom: 'none',
                               display: 'grid',
                               gridTemplate:
-                                '1fr/ 10% 7% 10% repeat(3,7%) 15% 7% 15% 15%'
+                                '1fr/ 10% 10% 10% repeat(3,10%) 10% 10% 10% 10%'
                             }
                           };
                         }
@@ -786,7 +786,7 @@ returnParams = (widget) => {
                           color: '#333333',
                           fontWeight: 'bold',
                           display: 'grid',
-                          gridTemplate: '1fr/ 10% 7% 10% repeat(3,7%) 15% 7% 15% 15%'
+                          gridTemplate: '1fr/ 10% 10% 10% repeat(3,10%) 10% 10% 10% 10%'
                         }
                       };
                     }}
