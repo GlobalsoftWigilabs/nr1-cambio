@@ -209,6 +209,13 @@ export default class TableMetrics extends React.Component {
     }
   };
 
+  onClickDownloadData = data => {
+    const { downloadData } = this.props;
+    if (data !== 0) {
+      return downloadData;
+    }
+  };
+
   render() {
     const {
       savingAllChecks,
@@ -218,7 +225,7 @@ export default class TableMetrics extends React.Component {
       sortColumn,
       data
     } = this.state;
-    const { rangeSelected, timeRanges, handleRange, downloadData } = this.props;
+    const { rangeSelected, timeRanges, handleRange } = this.props;
     return (
       <>
         <div className="tableContentLogs__filter">
@@ -245,11 +252,7 @@ export default class TableMetrics extends React.Component {
                 ? 'pointerBlock flex flexCenterVertical'
                 : 'pointer flex flexCenterVertical'
             }
-            onClick={() => {
-              if (data.length !== 0) {
-                // downloadData;
-              }
-            }}
+            onClick={this.onClickDownloadData(data.length)}
           >
             <img
               src={iconDownload}
@@ -594,5 +597,6 @@ TableMetrics.propTypes = {
   rangeSelected: PropTypes.object.isRequired,
   timeRanges: PropTypes.array.isRequired,
   handleRange: PropTypes.func.isRequired,
-  dataMetrics: PropTypes.array.isRequired
+  dataMetrics: PropTypes.array.isRequired,
+  downloadData: PropTypes.func.isRequired
 };

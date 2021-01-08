@@ -179,6 +179,13 @@ export default class TablePipelines extends React.Component {
     }
   };
 
+  onClickDownloadData = data => {
+    const { downloadData } = this.props;
+    if (data !== 0) {
+      return downloadData;
+    }
+  };
+
   render() {
     const {
       savingAllChecks,
@@ -188,7 +195,7 @@ export default class TablePipelines extends React.Component {
       sortColumn,
       data
     } = this.state;
-    const { rangeSelected, timeRanges, handleRange, downloadData } = this.props;
+    const { rangeSelected, timeRanges, handleRange } = this.props;
     return (
       <>
         <div className="tableContentLogs__filter">
@@ -214,8 +221,8 @@ export default class TablePipelines extends React.Component {
               data.length === 0
                 ? 'pointerBlock flex flexCenterVertical'
                 : 'pointer flex flexCenterVertical'
-            }
-            onClick={downloadData}
+            }            
+            onClick={this.onClickDownloadData(data.length)}
           >
             <img
               src={iconDownload}
