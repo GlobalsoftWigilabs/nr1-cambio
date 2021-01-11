@@ -370,7 +370,7 @@ export default class Setup extends React.Component {
               </div>
               {fetchingData&&<div style={{paddingLeft:"10px",paddingRight:"10px"}}>
                 <div className="fetchSection__warningInfo flex flexCenterHorizontal">
-                  <div style={{width:"70%",marginTop:"3%"}}>
+                  <div style={{width:"97%",marginTop:"3%"}}>
                   <img
                   style={{
                     width: '20px',
