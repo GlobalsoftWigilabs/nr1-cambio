@@ -750,7 +750,7 @@ returnParams = (widget) => {
                               borderBottom: 'none',
                               display: 'grid',
                               gridTemplate:
-                                '1fr/ 10% 10% 10% repeat(3,10%) 10% 10% 10% 10%'
+                                '1fr/ 12% 12% 12% repeat(3,12%) 12% 12% 12% 12%'
                             }
                           };
                         } else {
@@ -759,7 +759,7 @@ returnParams = (widget) => {
                               borderBottom: 'none',
                               display: 'grid',
                               gridTemplate:
-                                '1fr/ 10% 10% 10% repeat(3,10%) 10% 10% 10% 10%'
+                                '1fr/ 12% 12% 12% repeat(3,12%) 12% 12% 12% 12%'
                             }
                           };
                         }
@@ -786,14 +786,14 @@ returnParams = (widget) => {
                           color: '#333333',
                           fontWeight: 'bold',
                           display: 'grid',
-                          gridTemplate: '1fr/ 10% 10% 10% repeat(3,10%) 10% 10% 10% 10%'
+                          gridTemplate: '1fr/ 12% 12% 12% repeat(3,12%) 12% 12% 12% 12%'
                         }
                       };
                     }}
                     columns={[
                       {
                         Header: () => (
-                          <div className="table__headerSticky">
+                          <div className="table__headerSticky" style={{borderRight: '5px solid rgba(208, 208, 209, 0.1)', borderRightStyle: 'groove'}}>
                             <div
                               className="pointer flex"
                               style={{ marginLeft: '15px' }}
@@ -837,7 +837,9 @@ returnParams = (widget) => {
                               style={{
                                 background:
                                   props.index % 2 ? '#F7F7F8' : 'white',
-                                color: '#0078BF'
+                                color: '#0078BF',
+                                borderRight: '5px solid rgba(208, 208, 209, 0.1)',
+                                borderRightStyle: 'groove'
                               }}
                             >
                               <span
@@ -853,7 +855,7 @@ returnParams = (widget) => {
                       },
                       {
                         Header: () => (
-                          <div className="table__header">
+                          <div className="table__header" style={{ marginLeft: '15px' }}>
                             <div
                               className="pointer flex"
                               onClick={() => {
@@ -888,7 +890,7 @@ returnParams = (widget) => {
                           'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
-                          <div className="h100 flex flexCenterVertical ">
+                          <div className="h100 flex flexCenterVertical " style={{ marginLeft: '15px' }}>
                             {props.value}
                           </div>
                         )
