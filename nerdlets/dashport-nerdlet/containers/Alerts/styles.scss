@@ -1,3 +1,8 @@
+.shadow {
+  -webkit-box-shadow: 0 8px 6px -6px black;
+  -moz-box-shadow: 0 8px 6px -6px black;
+  box-shadow: 0 8px 6px -6px black;
+}
 .mainAlerts {
   display: grid;
   grid-template: 1fr / 15% 20% 65%;

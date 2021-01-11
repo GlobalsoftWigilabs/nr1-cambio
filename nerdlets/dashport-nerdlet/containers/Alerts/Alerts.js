@@ -572,7 +572,7 @@ export default class Alerts extends React.Component {
                     columns={[
                       {
                         Header: () => (
-                          <div className="table__headerSticky">
+                          <div className="table__headerSticky" style={{borderRight: '5px solid rgba(208, 208, 209, 0.1)', borderRightStyle: 'groove'}}>
                             <div
                               className="pointer flex "
                               style={{ marginLeft: '15px' }}
@@ -616,7 +616,9 @@ export default class Alerts extends React.Component {
                               style={{
                                 background:
                                   props.index % 2 ? '#F7F7F8' : 'white',
-                                color: '#0078BF'
+                                color: '#0078BF',
+                                borderRight: '5px solid rgba(208, 208, 209, 0.1)',
+                                borderRightStyle: 'groove'
                               }}
                             >
                               <span style={{ marginLeft: '15px' }}>
@@ -628,7 +630,7 @@ export default class Alerts extends React.Component {
                       },
                       {
                         Header: () => (
-                          <div className="table__header">
+                          <div className="table__header" style={{ marginLeft: '15px' }}>
                             <div
                               className="pointer flex "
                               onClick={() => {
@@ -663,7 +665,7 @@ export default class Alerts extends React.Component {
                           'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
-                          <div className="h100 flex flexCenterVertical ">
+                          <div className="h100 flex flexCenterVertical " style={{ marginLeft: '15px' }}>
                             {props.value}
                           </div>
                         )
