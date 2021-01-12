@@ -251,6 +251,10 @@ export default class Dashboard extends React.Component {
       savingAllChecks: false,
       average: Math.round(quantityTotal / dataDashboards.length)
     });
+    if (dataDashboards.length === 0) {
+      console.log('CONSOLE')
+      this.setState({ average: 0 });
+    }
     this.loadData(dataDashboards, searchTermDashboards, sortColumn);
   }
 

@@ -100,7 +100,7 @@ export default class Metrics extends React.Component {
       selectFormat: { value: 'CSV', label: 'CSV' },
       emptyData: false,
       dataGraph: [],
-      rangeSelected: { value: '60 minutes', label: '60 minutes' },
+      rangeSelected: { value: '30 minutes', label: '30 minutes' },
       logs: [],
       loadingTable: false,
       metrics: [],

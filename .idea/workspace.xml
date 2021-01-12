@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ad7df644-ec43-4fda-abe0-063c3acbf8b6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/nerdlets/dashport-nerdlet/containers/Alerts/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/nerdlets/dashport-nerdlet/containers/Alerts/styles.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/nerdlets/dashport-nerdlet/containers/Dashboard/Dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/nerdlets/dashport-nerdlet/containers/Dashboard/Dashboard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nerdlets/dashport-nerdlet/containers/Metrics/Metrics.js" beforeDir="false" afterPath="$PROJECT_DIR$/nerdlets/dashport-nerdlet/containers/Metrics/Metrics.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -28,13 +29,25 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/nerdlets/dashport-nerdlet/containers/Dashboard/Dashboard.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="558">
-              <caret line="784" column="48" lean-forward="true" selection-start-line="784" selection-start-column="48" selection-end-line="784" selection-end-column="48" />
+            <state relative-caret-position="630">
+              <caret line="253" column="32" selection-start-line="253" selection-start-column="32" selection-end-line="253" selection-end-column="32" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/nerdlets/dashport-nerdlet/containers/Metrics/Metrics.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="510">
+              <caret line="102" column="53" selection-start-line="102" selection-start-column="53" selection-end-line="102" selection-end-column="53" />
+              <folding>
+                <element signature="e#0#26#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -44,10 +57,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>al</find>
-      <find>alerts</find>
-      <find>downloa</find>
-      <find>thresholds</find>
       <find>messa</find>
       <find>que</find>
       <find>quer</find>
@@ -69,11 +78,15 @@
       <find>Pipelines</find>
       <find>this.set</find>
       <find>on</find>
-      <find>metrics</find>
       <find>console.log</find>
       <find>this process</find>
       <find>this pro</find>
       <find>author</find>
+      <find>average number</find>
+      <find>average n</find>
+      <find>?</find>
+      <find>metrics</find>
+      <find>60 m</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -97,7 +110,6 @@
         <option value="$PROJECT_DIR$/nerdlets/dashport-nerdlet/services/Datadog/data/formatted_endpoints.json" />
         <option value="$PROJECT_DIR$/nerdlets/dashport-nerdlet/services/Datadog/DD.js" />
         <option value="$PROJECT_DIR$/package.json" />
-        <option value="$PROJECT_DIR$/nerdlets/dashport-nerdlet/containers/Metrics/Metrics.js" />
         <option value="$PROJECT_DIR$/node_modules/reactjs-popup/reactjs-popup.es.js" />
         <option value="$PROJECT_DIR$/nerdlets/dashport-nerdlet/styles.scss" />
         <option value="$PROJECT_DIR$/nerdlets/dashport-nerdlet/containers/Infraestructure/styles.scss" />
@@ -110,6 +122,7 @@
         <option value="$PROJECT_DIR$/nerdlets/dashport-nerdlet/containers/Alerts/Alerts.js" />
         <option value="$PROJECT_DIR$/nerdlets/dashport-nerdlet/containers/Alerts/styles.scss" />
         <option value="$PROJECT_DIR$/nerdlets/dashport-nerdlet/containers/Dashboard/Dashboard.js" />
+        <option value="$PROJECT_DIR$/nerdlets/dashport-nerdlet/containers/Metrics/Metrics.js" />
       </list>
     </option>
   </component>
@@ -245,12 +258,12 @@
       <workItem from="1608775215261" duration="4572000" />
       <workItem from="1609192987142" duration="10866000" />
       <workItem from="1609275786189" duration="31131000" />
-      <workItem from="1610375491597" duration="10950000" />
+      <workItem from="1610375491597" duration="16445000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="115321000" />
+    <option name="totallyTimeSpent" value="120816000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
@@ -529,16 +542,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/nerdlets/dashport-nerdlet/containers/Metrics/Metrics.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
-          <caret line="681" column="7" selection-start-line="681" selection-start-column="2" selection-end-line="681" selection-end-column="7" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/nerdlets/dashport-nerdlet/containers/Logs/TableArchives.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="302">
@@ -586,16 +589,6 @@
           <caret line="517" column="7" lean-forward="true" selection-start-line="517" selection-start-column="7" selection-end-line="517" selection-end-column="7" />
           <folding>
             <element signature="e#82#113#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/nerdlets/dashport-nerdlet/containers/Logs/Logs.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="65" column="57" selection-start-line="65" selection-start-column="57" selection-end-line="65" selection-end-column="57" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -663,12 +656,32 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/nerdlets/dashport-nerdlet/containers/Logs/Logs.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2568">
+          <caret line="107" column="19" lean-forward="true" selection-start-line="107" selection-start-column="19" selection-end-line="107" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/nerdlets/dashport-nerdlet/containers/Dashboard/Dashboard.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="558">
-          <caret line="784" column="48" lean-forward="true" selection-start-line="784" selection-start-column="48" selection-end-line="784" selection-end-column="48" />
+        <state relative-caret-position="630">
+          <caret line="253" column="32" selection-start-line="253" selection-start-column="32" selection-end-line="253" selection-end-column="32" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/nerdlets/dashport-nerdlet/containers/Metrics/Metrics.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="102" column="53" selection-start-line="102" selection-start-column="53" selection-end-line="102" selection-end-column="53" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
           </folding>
         </state>
       </provider>
