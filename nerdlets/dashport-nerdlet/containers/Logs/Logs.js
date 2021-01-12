@@ -26,7 +26,8 @@ export default class Logs extends React.Component {
         { value: 'Metrics', label: 'Metrics' }
       ],
       rangeSelected: { value: 'Pipelines', label: 'Pipelines' },
-      loading: true
+      loading: true,
+      hidden: false
     };
   }
 
@@ -59,7 +60,8 @@ export default class Logs extends React.Component {
           name: element.name,
           enabled: element.is_enabled,
           type: element.type,
-          processors: processors
+          processors: processors,
+          dataProcessors: element.processors
         });
       });
       this.setState({
@@ -152,7 +154,7 @@ export default class Logs extends React.Component {
         if (err) {
           throw err;
         }
-        zip.file(`Logs Archives.csv`, csv);
+        if (archives.length !== 0) zip.file(`Logs Archives.csv`, csv);
       });
       const metrics = [];
       if (dataMetrics) {
@@ -172,16 +174,26 @@ export default class Logs extends React.Component {
         if (err) {
           throw err;
         }
-        zip.file(`Logs Metrics.csv`, csv);
+        if (metrics.length !== 0) zip.file(`Logs Metrics.csv`, csv);
       });
       const pipeline = [];
       if (dataPipeline) {
         for (const element of dataPipeline) {
+          let processors = '';
+          if (element.dataProcessors) {
+            for (const processor of element.dataProcessors) {
+              if (processor.name !== '') {
+                processors = `${processors} ${processor.name} \n`;
+              } else {
+                processors = `${processors} ${processor.type} \n`;
+              }
+            }
+          }
           pipeline.push({
             NAME: element.name,
             ENABLED: element.enabled,
             TYPE: element.type,
-            ORDER_PROCESSORS: element.processors
+            ORDER_PROCESSORS: processors
           });
         }
       }
@@ -190,8 +202,8 @@ export default class Logs extends React.Component {
         if (err) {
           throw err;
         }
-        zip.file(`Logs Pipeline.csv`, csv);
-        zip.generateAsync({ type: 'blob' }).then(function(content) {
+        if (pipeline.length !== 0) zip.file(`Logs Pipeline.csv`, csv);
+        zip.generateAsync({ type: 'blob' }).then(function (content) {
           // see FileSaver.js
           saveAs(content, 'Logs.zip');
         });
@@ -281,75 +293,75 @@ export default class Logs extends React.Component {
         {loading ? (
           <Spinner type={Spinner.TYPE.DOT} />
         ) : (
-          <div className="mainContent">
-            <div className="mainContentLogs__information">
-              <div className="information__box">
-                <span
-                  className="box--title"
-                  style={{
-                    color: greenColor
-                  }}
-                >
-                  Total Pipelines
-                </span>
-                <div>
+            <div className="mainContent">
+              <div className="mainContentLogs__information">
+                <div className="information__box">
                   <span
-                    className="box--quantity"
+                    className="box--title"
                     style={{
                       color: greenColor
                     }}
                   >
-                    {dataPipelineTotal}
-                  </span>
-                </div>
-              </div>
-              <div className="information__box">
-                <span
-                  className="box--title"
-                  style={{
-                    color: greenColor
-                  }}
-                >
-                  Total Archives
+                    Total Pipelines
                 </span>
-                <div>
+                  <div>
+                    <span
+                      className="box--quantity"
+                      style={{
+                        color: greenColor
+                      }}
+                    >
+                      {dataPipelineTotal}
+                    </span>
+                  </div>
+                </div>
+                <div className="information__box">
                   <span
-                    className="box--quantity"
+                    className="box--title"
                     style={{
                       color: greenColor
                     }}
                   >
-                    {dataArchivesTotal}
-                  </span>
-                </div>
-              </div>
-              <div className="information__box">
-                <span
-                  className="box--title"
-                  style={{
-                    color: greenColor
-                  }}
-                >
-                  Total Metrics
+                    Total Archives
                 </span>
-                <div>
+                  <div>
+                    <span
+                      className="box--quantity"
+                      style={{
+                        color: greenColor
+                      }}
+                    >
+                      {dataArchivesTotal}
+                    </span>
+                  </div>
+                </div>
+                <div className="information__box">
                   <span
-                    className="box--quantity"
+                    className="box--title"
                     style={{
                       color: greenColor
                     }}
                   >
-                    {dataMetricsTotal}
-                  </span>
+                    Total Metrics
+                </span>
+                  <div>
+                    <span
+                      className="box--quantity"
+                      style={{
+                        color: greenColor
+                      }}
+                    >
+                      {dataMetricsTotal}
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="mainContent__tableContent">
-              {this.selectViewLogs()}
+              <div className="mainContent__tableContent">
+                {this.selectViewLogs()}
+              </div>
             </div>
-          </div>
-        )}
+          )}
         {hidden && (
           <ModalLog
             hidden={hidden}
