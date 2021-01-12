@@ -206,7 +206,7 @@ export default class TableArchives extends React.Component {
       sortColumn,
       data
     } = this.state;
-    const { rangeSelected, timeRanges, handleRange, downloadData } = this.props;
+    const { rangeSelected, timeRanges, handleRange } = this.props;
     return (
       <>
         <div className="tableContentLogs__filter">
