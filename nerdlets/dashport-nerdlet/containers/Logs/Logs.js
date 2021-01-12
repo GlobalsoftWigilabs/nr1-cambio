@@ -32,7 +32,10 @@ export default class Logs extends React.Component {
 
   componentDidMount() {
     const { logsData = [] } = this.props;
-    if (logsData.archivesStatus === 403) {
+    console.log(logsData.pipelinesStatus)
+    if (logsData.pipelinesStatus === 403) {
+      console.log(logsData)
+      console.log('entro al inicio donde tampoco deberia entrar')
       this._onClose();
     }
     if (logsData.pipelines) {
@@ -202,12 +205,15 @@ export default class Logs extends React.Component {
     const { logsData = [] } = this.props;
     this.setState({ rangeSelected: value });
     if (logsData.pipelinesStatus === 403 && value.value === 'Pipelines') {
+      console.log('entro donde no deberia entrar')
       this._onClose();
     }
     if (logsData.metricsStatus === 403 && value.value === 'Metrics') {
+      console.log('entro donde no deberia entrar x2')
       this._onClose();
     }
     if (logsData.archivesStatus === 403 && value.value === 'Archives') {
+      console.log('entro donde no deberia entrar x3')
       this._onClose();
     }
   };
