@@ -149,7 +149,7 @@ export default class Logs extends React.Component {
         if (err) {
           throw err;
         }
-        zip.file(`Logs Archives.csv`, csv);
+        if (archives.length !== 0) zip.file(`Logs Archives.csv`, csv);
       });
       const metrics = [];
       if (dataMetrics) {
@@ -169,7 +169,7 @@ export default class Logs extends React.Component {
         if (err) {
           throw err;
         }
-        zip.file(`Logs Metrics.csv`, csv);
+        if (metrics.length !== 0) zip.file(`Logs Metrics.csv`, csv);
       });
       const pipeline = [];
       if (dataPipeline) {
@@ -187,7 +187,7 @@ export default class Logs extends React.Component {
         if (err) {
           throw err;
         }
-        zip.file(`Logs Pipeline.csv`, csv);
+        if (pipeline.length !== 0) zip.file(`Logs Pipeline.csv`, csv);
         zip.generateAsync({ type: 'blob' }).then(function(content) {
           // see FileSaver.js
           saveAs(content, 'Logs.zip');
