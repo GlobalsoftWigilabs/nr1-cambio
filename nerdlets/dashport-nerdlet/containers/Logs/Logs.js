@@ -26,7 +26,8 @@ export default class Logs extends React.Component {
         { value: 'Metrics', label: 'Metrics' }
       ],
       rangeSelected: { value: 'Pipelines', label: 'Pipelines' },
-      loading: true
+      loading: true,
+      hidden: false
     };
   }
 
@@ -199,7 +200,7 @@ export default class Logs extends React.Component {
           throw err;
         }
         if (pipeline.length !== 0) zip.file(`Logs Pipeline.csv`, csv);
-        zip.generateAsync({ type: 'blob' }).then(function(content) {
+        zip.generateAsync({ type: 'blob' }).then(function (content) {
           // see FileSaver.js
           saveAs(content, 'Logs.zip');
         });
@@ -286,75 +287,75 @@ export default class Logs extends React.Component {
         {loading ? (
           <Spinner type={Spinner.TYPE.DOT} />
         ) : (
-          <div className="mainContent">
-            <div className="mainContentLogs__information">
-              <div className="information__box">
-                <span
-                  className="box--title"
-                  style={{
-                    color: greenColor
-                  }}
-                >
-                  Total Pipelines
-                </span>
-                <div>
+            <div className="mainContent">
+              <div className="mainContentLogs__information">
+                <div className="information__box">
                   <span
-                    className="box--quantity"
+                    className="box--title"
                     style={{
                       color: greenColor
                     }}
                   >
-                    {dataPipelineTotal}
-                  </span>
-                </div>
-              </div>
-              <div className="information__box">
-                <span
-                  className="box--title"
-                  style={{
-                    color: greenColor
-                  }}
-                >
-                  Total Archives
+                    Total Pipelines
                 </span>
-                <div>
+                  <div>
+                    <span
+                      className="box--quantity"
+                      style={{
+                        color: greenColor
+                      }}
+                    >
+                      {dataPipelineTotal}
+                    </span>
+                  </div>
+                </div>
+                <div className="information__box">
                   <span
-                    className="box--quantity"
+                    className="box--title"
                     style={{
                       color: greenColor
                     }}
                   >
-                    {dataArchivesTotal}
-                  </span>
-                </div>
-              </div>
-              <div className="information__box">
-                <span
-                  className="box--title"
-                  style={{
-                    color: greenColor
-                  }}
-                >
-                  Total Metrics
+                    Total Archives
                 </span>
-                <div>
+                  <div>
+                    <span
+                      className="box--quantity"
+                      style={{
+                        color: greenColor
+                      }}
+                    >
+                      {dataArchivesTotal}
+                    </span>
+                  </div>
+                </div>
+                <div className="information__box">
                   <span
-                    className="box--quantity"
+                    className="box--title"
                     style={{
                       color: greenColor
                     }}
                   >
-                    {dataMetricsTotal}
-                  </span>
+                    Total Metrics
+                </span>
+                  <div>
+                    <span
+                      className="box--quantity"
+                      style={{
+                        color: greenColor
+                      }}
+                    >
+                      {dataMetricsTotal}
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="mainContent__tableContent">
-              {this.selectViewLogs()}
+              <div className="mainContent__tableContent">
+                {this.selectViewLogs()}
+              </div>
             </div>
-          </div>
-        )}
+          )}
         {hidden && (
           <ModalLog
             hidden={hidden}
