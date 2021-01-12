@@ -103,11 +103,10 @@ export default class Pagination extends React.Component {
               <div key={page} className="flex">
                 {array[index - 1] + 2 < page ? (
                   <>
-                    <div key={page} className="pageNumber-continue">
+                    <div className="pageNumber-continue">
                       ...
                     </div>
                     <div
-                      key={page}
                       className={
                         activePage === page
                           ? 'pageNumber-active'
@@ -122,7 +121,6 @@ export default class Pagination extends React.Component {
                   </>
                 ) : (
                   <div
-                    key={page}
                     className={
                       activePage === page
                         ? 'pageNumber-active'

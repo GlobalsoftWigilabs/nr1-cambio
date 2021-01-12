@@ -754,7 +754,7 @@ returnParams = (widget) => {
                               borderBottom: 'none',
                               display: 'grid',
                               gridTemplate:
-                                '1fr/ 12% 12% 12% repeat(3,12%) 12% 12% 12% 12%'
+                                '1fr/ 12% repeat(3,10%) 8% repeat(5,10%)'
                             }
                           };
                         } else {
@@ -763,7 +763,7 @@ returnParams = (widget) => {
                               borderBottom: 'none',
                               display: 'grid',
                               gridTemplate:
-                                '1fr/ 12% 12% 12% repeat(3,12%) 12% 12% 12% 12%'
+                                '1fr/ 12% repeat(3,10%) 8% repeat(5,10%)'
                             }
                           };
                         }
@@ -790,7 +790,7 @@ returnParams = (widget) => {
                           color: '#333333',
                           fontWeight: 'bold',
                           display: 'grid',
-                          gridTemplate: '1fr/ 12% 12% 12% repeat(3,12%) 12% 12% 12% 12%'
+                          gridTemplate: '1fr/ 12% repeat(3,10%) 8% repeat(5,10%)'
                         }
                       };
                     }}
@@ -1206,7 +1206,7 @@ returnParams = (widget) => {
                       },
                       {
                         Header: () => (
-                          <div className="table__header">
+                          <div className="table__header" style={{ marginLeft: '15px' }}>
                             <div
                               className="pointer flex "
                               onClick={() => {
@@ -1240,7 +1240,7 @@ returnParams = (widget) => {
                         className:
                           'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
-                        Cell: props => <div>{props.value}</div>
+                        Cell: props => <div style={{ marginLeft: '15px' }}>{props.value}</div>
                       }
                     ]}
                   />
