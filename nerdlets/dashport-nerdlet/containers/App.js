@@ -161,13 +161,7 @@ export default class App extends React.Component {
 
   updateProgressMetrics = value => {
     value = parseInt(value);
-    if (value === 0) {
-      this.setState({ progressMetrics: 0 });
-    } else if (value >= 99) {
-      this.setState({ progressMetrics: 100 });
-    } else {
-      this.setState({ progressMetrics: value });
-    }
+    this.setState({ progressMetrics: value });
   };
 
   /**
@@ -1188,7 +1182,8 @@ export default class App extends React.Component {
     this.setState({
       metrics: metrics,
       metricsTotal: metrics.length,
-      fetchingMetrics: false
+      fetchingMetrics: false,
+      progressMetrics: 100
     });
   };
 
@@ -1278,7 +1273,7 @@ export default class App extends React.Component {
         break;
       case 'Get all archives':
         {
-          const archiverList = documentData.data;
+          const archiverList = documentData.data.data;
           const archiveObj = documentData.status;
           const pagesArchives = this.pagesOfData(archiverList);
           // guardo obj metrics
@@ -1304,7 +1299,7 @@ export default class App extends React.Component {
         break;
       case 'Get all log based metrics':
         {
-          const basedMetrics = documentData.data;
+          const basedMetrics = documentData.data.data;
           const basedObj = documentData.status;
           const pagesLogsMetrics = this.pagesOfData(basedMetrics);
           // guardo obj metrics
@@ -2030,10 +2025,7 @@ export default class App extends React.Component {
         return <Data />;
       case 2:
         return (
-          <Dashboard
-            dataDashboards={dataDashboards}
-            emptyData={emptyData}
-          />
+          <Dashboard dataDashboards={dataDashboards} emptyData={emptyData} />
         );
       case 3:
         return (
@@ -2055,14 +2047,12 @@ export default class App extends React.Component {
       case 6:
         return (
           <Metrics
-            accountId={accountId}
-            // infraestructureList={infraestructureList}
-            updateProgressMetrics={this.updateProgressMetrics}
-            completed={progressMetrics}
-            fetchingMetrics={fetchingMetrics}
             metrics={metrics}
             metricsTotal={metricsTotal}
-            appComponent={this}
+            updateProgressMetrics={this.updateProgressMetrics}
+            completed={progressMetrics}
+            updateMetricsSection={this.updateMetricsSection}
+            fetchingMetrics={fetchingMetrics}
           />
         );
       case 7:
@@ -2095,30 +2085,30 @@ export default class App extends React.Component {
         {loadingContent ? (
           <Spinner type={Spinner.TYPE.DOT} />
         ) : (
-          <div className="main">
-            <>
-              <div className="sidebar-container h100">
-                <Menu
-                  lastUpdate={lastUpdate}
-                  selectedMenu={selectedMenu}
-                  handleChangeMenu={this.handleChangeMenu}
-                />
-              </div>
-              <div className="h100" style={{background:"#eceeee"}}>
-                <div
-                  style={{
-                    paddingTop: '1.8%',
-                    paddingRight: '1%',
-                    paddingLeft: '1.8%',
-                    height: '96%'
-                  }}
-                >
-                  {this.renderContent()}
+            <div className="main">
+              <>
+                <div className="sidebar-container h100">
+                  <Menu
+                    lastUpdate={lastUpdate}
+                    selectedMenu={selectedMenu}
+                    handleChangeMenu={this.handleChangeMenu}
+                  />
                 </div>
-              </div>
-            </>
-          </div>
-        )}
+                <div className="h100" style={{ background: '#eceeee' }}>
+                  <div
+                    style={{
+                      paddingTop: '1.8%',
+                      paddingRight: '1%',
+                      paddingLeft: '1.8%',
+                      height: '96%'
+                    }}
+                  >
+                    {this.renderContent()}
+                  </div>
+                </div>
+              </>
+            </div>
+          )}
       </>
     );
   }
