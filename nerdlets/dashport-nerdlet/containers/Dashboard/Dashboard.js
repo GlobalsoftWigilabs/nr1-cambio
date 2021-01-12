@@ -2,18 +2,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactTable from 'react-table-v6';
-import { Spinner } from 'nr1';
-import {
-  readNerdStorage,
-  readNerdStorageOnlyCollection,
-  recoveDataDashboards
-} from '../../services/NerdStorage/api';
+import { Spinner, Tooltip } from 'nr1';
 import iconDownload from '../../images/download.svg';
+import interrogationIcon from '../../images/interrogation.svg';
 import ArrowDown from '../../components/ArrowsTable/ArrowDown';
 import ArrowTop from '../../components/ArrowsTable/ArrowTop';
 import Modal from './Modal';
 
-import { Tooltip } from 'nr1';
 import { sendLogsSlack } from '../../services/Wigilabs/api';
 import SearchInput, { createFilter } from 'react-search-input';
 import { BsSearch } from 'react-icons/bs';
@@ -31,7 +26,8 @@ const KEYS_TO_FILTERS = [
   'popularity',
   'description',
   'layoutType',
-  'url'
+  'url',
+  'widgetsCount'
 ];
 
 /**
@@ -52,54 +48,22 @@ export default class Dashboard extends React.Component {
     super(props);
     this.state = {
       loading: false,
-      allChecked: false,
-      all: true,
-      favorite: false,
-      visited: false,
-      complex: '',
       dashboards: [],
       average: 0,
-      categorizedList: [],
-      avaliableList: [],
-      mostVisited: [],
-      favoriteDashboards: [],
       savingAllChecks: false,
       logs: [],
-      selectedTag: 'all',
-      availableFilters: [
-        { value: 'All', label: 'All' },
-        { value: 'Favorites', label: 'Favorites' },
-        { value: 'MostVisited', label: 'Most visited' }
-      ],
-      listChecked: {
-        value: 'All',
-        label: 'All list',
-        id: 0,
-        dashboards: []
-      },
-      listPopUp: [],
-      valueListPopUp: {},
       // Pagination
       pagePag: 0,
       pages: 0,
       totalRows: 10,
-      page: 1,
-      ////////////
+      // //////////
       finalList: [],
-      textTag: '',
       searchTermDashboards: '',
       sortColumn: {
         column: '',
         order: ''
       },
       hidden: false,
-      action: '',
-      checksDownload: [
-        { value: 'CSV', label: 'CSV' },
-        { value: 'JSON', label: 'JSON' }
-      ],
-      selectFormat: { value: 'CSV', label: 'CSV' },
-      emptyData: false,
       infoAditional: {}
     };
   }
@@ -146,54 +110,6 @@ export default class Dashboard extends React.Component {
     })
   };
 
-  /**
-   * Method that reads the Dashboards collection on NerdStorage
-   *
-   * @returns Dashboards array
-   * @memberof Dashboard
-   */
-  async loadNerdData() {
-    const error = [];
-    let nerdDashboards = [];
-    const { accountId } = this.props;
-    // Recuperar la lista de dashboards
-    try {
-      const list = [];
-      const sizeList = await readNerdStorageOnlyCollection(
-        accountId,
-        'dashboards',
-        this.reportLogFetch
-      );
-      for (let i = 0; i < sizeList.length - 1; i++) {
-        const page = await readNerdStorage(
-          accountId,
-          'dashboards',
-          `dashboards-${i}`,
-          this.reportLogFetch
-        );
-        if (page) {
-          for (const iterator of page) {
-            list.push(iterator);
-          }
-        }
-      }
-      const dashboardObj = await readNerdStorage(
-        accountId,
-        'dashboards',
-        `dashboards-obj`,
-        this.reportLogFetch
-      );
-      if (dashboardObj.status === 'EMPTY') {
-        this.setState({ emptyData: true });
-      }
-      nerdDashboards = list;
-    } catch (err) {
-      error.push(err);
-    }
-
-    return nerdDashboards;
-  }
-
   reportLogFetch = async response => {
     const { logs } = this.state;
     const arrayLogs = logs;
@@ -221,40 +137,39 @@ export default class Dashboard extends React.Component {
    */
   async loadDashboards() {
     const { searchTermDashboards, sortColumn } = this.state;
-    const {dataDashboards }=this.props;
-    //average widgets
+    const { dataDashboards } = this.props;
+    // average widgets
     let quantityTotal = 0;
     for (const dd of dataDashboards) {
       dd.popularity = dd.popularity ? dd.popularity : 0;
       dd.widgetsCount = dd.widgets.length;
-      dd.autor=dd.autor!== ''?dd.autor:'-----';
-      dd.description=dd.description!== ''?dd.description:'-----';
-      let dashboardList='';
-      if(dd.dashboardList){
-          if(dd.dashboardList.length===0){
-            dashboardList='-----';
-          }else{
-              const dataLimit=dd.dashboardList.slice(0,3);
+      dd.autor = dd.autor !== '' ? dd.autor : '-----';
+      dd.description = dd.description !== '' ? dd.description : '-----';
+      let dashboardList = '';
+      if (dd.dashboardList) {
+        if (dd.dashboardList.length === 0) {
+          dashboardList = '-----';
+        } else {
+          const dataLimit = dd.dashboardList.slice(0, 3);
           for (const list of dataLimit) {
-              dashboardList = `${dashboardList} ${list} \n`;
-            }
-          if(dd.dashboardList.length>3)
-            dashboardList = `${dashboardList} ...`;
+            dashboardList = `${dashboardList} ${list} \n`;
           }
+          if (dd.dashboardList.length > 3)
+            dashboardList = `${dashboardList} ...`;
+        }
       }
-      dd.dashboardListTxt=dashboardList;
+      dd.dashboardListTxt = dashboardList;
       quantityTotal += dd.widgets.length;
     }
     this.setState({
       dashboards: dataDashboards,
       loading: false,
       savingAllChecks: false,
-      average: Math.round(quantityTotal / dataDashboards.length)
+      average:
+        dataDashboards.length === 0
+          ? 0
+          : Math.round(quantityTotal / dataDashboards.length)
     });
-    if (dataDashboards.length === 0) {
-      console.log('CONSOLE')
-      this.setState({ average: 0 });
-    }
     this.loadData(dataDashboards, searchTermDashboards, sortColumn);
   }
 
@@ -294,7 +209,7 @@ export default class Dashboard extends React.Component {
    * @memberof Migration
    */
   calcTable = finalList => {
-    let { totalRows, pagePag } = this.state;
+    const { totalRows, pagePag } = this.state;
     const aux = finalList.length % totalRows;
     let totalPages = 0;
     if (aux === 0) {
@@ -365,7 +280,7 @@ export default class Dashboard extends React.Component {
       valueTwo = 1;
     }
     switch (column) {
-      case 'name':
+      case 'name': {
         const sortName = finalList.sort(function(a, b) {
           if (a.name > b.name) {
             return valueOne;
@@ -376,7 +291,8 @@ export default class Dashboard extends React.Component {
           return 0;
         });
         return sortName;
-      case 'autor':
+      }
+      case 'autor': {
         const sortAutor = finalList.sort(function(a, b) {
           if (a.autor > b.autor) {
             return valueOne;
@@ -387,7 +303,8 @@ export default class Dashboard extends React.Component {
           return 0;
         });
         return sortAutor;
-      case 'creation':
+      }
+      case 'creation': {
         const sortCreation = finalList.sort(function(a, b) {
           const date1 = new Date(a.creation);
           const date2 = new Date(b.creation);
@@ -396,7 +313,8 @@ export default class Dashboard extends React.Component {
           return 0;
         });
         return sortCreation;
-      case 'modified':
+      }
+      case 'modified': {
         const sortModified = finalList.sort(function(a, b) {
           const date1 = new Date(a.modified);
           const date2 = new Date(b.modified);
@@ -405,7 +323,8 @@ export default class Dashboard extends React.Component {
           return 0;
         });
         return sortModified;
-      case 'popularity':
+      }
+      case 'popularity': {
         const sortPopularity = finalList.sort(function(a, b) {
           if (a.popularity > b.popularity) {
             return valueOne;
@@ -416,7 +335,8 @@ export default class Dashboard extends React.Component {
           return 0;
         });
         return sortPopularity;
-      case 'widgets':
+      }
+      case 'widgets': {
         const sortWidgets = finalList.sort(function(a, b) {
           if (a.widgetsCount > b.widgetsCount) {
             return valueOne;
@@ -427,7 +347,8 @@ export default class Dashboard extends React.Component {
           return 0;
         });
         return sortWidgets;
-      case 'description':
+      }
+      case 'description': {
         const sortDescription = finalList.sort(function(a, b) {
           if (a.description > b.description) {
             return valueOne;
@@ -438,7 +359,8 @@ export default class Dashboard extends React.Component {
           return 0;
         });
         return sortDescription;
-      case 'layoutType':
+      }
+      case 'layoutType': {
         const sortLayout = finalList.sort(function(a, b) {
           if (a.layoutType > b.layoutType) {
             return valueOne;
@@ -449,7 +371,8 @@ export default class Dashboard extends React.Component {
           return 0;
         });
         return sortLayout;
-      case 'url':
+      }
+      case 'url': {
         const sortUrl = finalList.sort(function(a, b) {
           if (a.url > b.url) {
             return valueOne;
@@ -460,146 +383,141 @@ export default class Dashboard extends React.Component {
           return 0;
         });
         return sortUrl;
+      }
       default:
         return finalList;
     }
   };
 
-  saveAction = async (action, infoAditional) => {
-    if(infoAditional.widgets.length!==0 || infoAditional.templateVariables.length!==0){
-        this._onClose();
-        this.setState({ action: action, infoAditional });
+  saveAction = async infoAditional => {
+    if (
+      infoAditional.widgets.length !== 0 ||
+      infoAditional.templateVariables.length !== 0
+    ) {
+      this._onClose();
+      this.setState({ infoAditional });
     }
   };
 
-  returnActionPopUp = action => {
-    const { infoAditional } = this.state;
-    switch (action) {
-      case 'infoAditional':
-        return <Modal infoAditional={infoAditional} />;
-    }
-  };
-
-  returnQuery = (definition) => {
-    let query = "";
+  returnQuery = definition => {
+    let query = '';
     try {
-        if (definition.requests) {
-            if (definition.requests instanceof Array) {
-                for (const iterator of definition.requests) {
-                    query += ` ${iterator.q} `;
-                }
-            } else if (definition.requests.fill) {
-                query += `${definition.requests.fill.q}`;
-            } else if (definition.requests.fill && definition.requests.size) {
-                query += `${definition.requests.fill.q}  ${definition.requests.size.q}`;
-            } else if (definition.requests.size) {
-                query += ` ${definition.requests.size.q} `;
-            }
-        } else if (definition.query) {
-            query += ` ${definition.query} `;
+      if (definition.requests) {
+        if (definition.requests instanceof Array) {
+          for (const iterator of definition.requests) {
+            query += ` ${iterator.q} `;
+          }
+        } else if (definition.requests.fill) {
+          query += `${definition.requests.fill.q}`;
+        } else if (definition.requests.fill && definition.requests.size) {
+          query += `${definition.requests.fill.q}  ${definition.requests.size.q}`;
+        } else if (definition.requests.size) {
+          query += ` ${definition.requests.size.q} `;
         }
+      } else if (definition.query) {
+        query += ` ${definition.query} `;
+      }
     } catch (err) {
-        if (query === '')
-            query = '-----';
-        return query;
+      if (query === '') query = '-----';
+      return query;
     }
-    if (query === '')
-        query = '-----';
+    if (query === '') query = '-----';
     return query;
-}
+  };
 
-returnParams = (widget) => {
-    let query = this.returnQuery(widget);
+  returnParams = widget => {
+    const query = this.returnQuery(widget);
     const variables = qregExr(query);
     if (variables) {
-        if (variables[4]) {
-            return variables[4];
-        } else {
-            return '-----';
-        }
-    } else {
+      if (variables[4]) {
+        return variables[4];
+      } else {
         return '-----';
+      }
+    } else {
+      return '-----';
     }
-}
-
+  };
 
   downloadData = async () => {
     const { finalList } = this.state;
     const date = new Date();
     const zip = new JSZip();
-    let dataFiltrada = [];
+    const dataFiltrada = [];
     for (const dd of finalList) {
-        let dashboardList='';
-        if(dd.dashboardList.length===0) dashboardList='-----';
-        for (const ddList of dd.dashboardList) {
-            dashboardList = `${dashboardList} ${ddList} `;
-        }
-        for (const widget of dd.widgets) {
-            dataFiltrada.push({
-                NAME:dd.name,
-                AUTHOR: dd.autor,
-                CREATION_DATE: this.dateToYMD(new Date(dd.creation)),
-                MOD_DATE:this.dateToYMD(new Date(dd.modified)),
-                POPULARITY:dd.popularity,
-                WIDGETS:dd.widgetsCount,
-                DESCRIPTION: dd.description,
-                LAYOUT_TYPE:dd.layoutType,
-                URL:dd.url,
-                DASHBOARD_LIST:dashboardList,
-                TITLE_WIDGETS: widget.definition.title ? widget.definition.title : '-----',
-                QUERY_WIDGETS:this.returnQuery(widget.definition),
-                TYPE_WIDGET: widget.definition.type,
-                QUERY_PARAMETERS_WIDGET: this.returnParams(widget.definition),
-                SOURCE_WIDGET: this.returnParams(widget.definition),
-                DEFAULT_VARIABLE: '',
-                NAME_VARIABLE: '',
-                PREFIX_VARIABLE: ''
-            });
-        }
-        for (const variable of dd.templateVariables) {
-            dataFiltrada.push({
-                NAME:dd.name,
-                AUTHOR: dd.autor,
-                CREATION_DATE: this.dateToYMD(new Date(dd.creation)),
-                MOD_DATE:this.dateToYMD(new Date(dd.modified)),
-                POPULARITY:dd.popularity,
-                WIDGETS:dd.widgetsCount,
-                DESCRIPTION: dd.description,
-                LAYOUT_TYPE:dd.layoutType,
-                URL:dd.url,
-                DASHBOARD_LIST:dashboardList,
-                TITLE_WIDGETS: '',
-                QUERY_WIDGETS:'',
-                TYPE_WIDGET: '',
-                QUERY_PARAMETERS_WIDGET: '',
-                SOURCE_WIDGET: '',
-                DEFAULT_VARIABLE: variable.default ? variable.default : '-----',
-                NAME_VARIABLE: variable.name ? variable.name : '-----',
-                PREFIX_VARIABLE: variable.prefix ? variable.prefix : '-----'
-            });
-        }
-        if(dd.templateVariables.length===0&&dd.widgets.length===0){
-            dataFiltrada.push({
-                NAME:dd.name,
-                AUTHOR: dd.autor,
-                CREATION_DATE: this.dateToYMD(new Date(dd.creation)),
-                MOD_DATE:this.dateToYMD(new Date(dd.modified)),
-                POPULARITY:dd.popularity,
-                WIDGETS:dd.widgetsCount,
-                DESCRIPTION: dd.description,
-                LAYOUT_TYPE:dd.layoutType,
-                URL:dd.url,
-                DASHBOARD_LIST:dashboardList,
-                TITLE_WIDGETS: '',
-                QUERY_WIDGETS:'',
-                TYPE_WIDGET: '',
-                QUERY_PARAMETERS_WIDGET: '',
-                SOURCE_WIDGET: '',
-                DEFAULT_VARIABLE: '',
-                NAME_VARIABLE: '',
-                PREFIX_VARIABLE: ''
-            });
-        }
+      let dashboardList = '';
+      if (dd.dashboardList.length === 0) dashboardList = '-----';
+      for (const ddList of dd.dashboardList) {
+        dashboardList = `${dashboardList} ${ddList} `;
+      }
+      for (const widget of dd.widgets) {
+        dataFiltrada.push({
+          NAME: dd.name,
+          AUTHOR: dd.autor,
+          CREATION_DATE: this.dateToYMD(new Date(dd.creation)),
+          MOD_DATE: this.dateToYMD(new Date(dd.modified)),
+          POPULARITY: dd.popularity,
+          WIDGETS: dd.widgetsCount,
+          DESCRIPTION: dd.description,
+          LAYOUT_TYPE: dd.layoutType,
+          URL: dd.url,
+          DASHBOARD_LIST: dashboardList,
+          TITLE_WIDGETS: widget.definition.title
+            ? widget.definition.title
+            : '-----',
+          QUERY_WIDGETS: this.returnQuery(widget.definition),
+          TYPE_WIDGET: widget.definition.type,
+          QUERY_PARAMETERS_WIDGET: this.returnParams(widget.definition),
+          SOURCE_WIDGET: this.returnParams(widget.definition),
+          DEFAULT_VARIABLE: '',
+          NAME_VARIABLE: '',
+          PREFIX_VARIABLE: ''
+        });
+      }
+      for (const variable of dd.templateVariables) {
+        dataFiltrada.push({
+          NAME: dd.name,
+          AUTHOR: dd.autor,
+          CREATION_DATE: this.dateToYMD(new Date(dd.creation)),
+          MOD_DATE: this.dateToYMD(new Date(dd.modified)),
+          POPULARITY: dd.popularity,
+          WIDGETS: dd.widgetsCount,
+          DESCRIPTION: dd.description,
+          LAYOUT_TYPE: dd.layoutType,
+          URL: dd.url,
+          DASHBOARD_LIST: dashboardList,
+          TITLE_WIDGETS: '',
+          QUERY_WIDGETS: '',
+          TYPE_WIDGET: '',
+          QUERY_PARAMETERS_WIDGET: '',
+          SOURCE_WIDGET: '',
+          DEFAULT_VARIABLE: variable.default ? variable.default : '-----',
+          NAME_VARIABLE: variable.name ? variable.name : '-----',
+          PREFIX_VARIABLE: variable.prefix ? variable.prefix : '-----'
+        });
+      }
+      if (dd.templateVariables.length === 0 && dd.widgets.length === 0) {
+        dataFiltrada.push({
+          NAME: dd.name,
+          AUTHOR: dd.autor,
+          CREATION_DATE: this.dateToYMD(new Date(dd.creation)),
+          MOD_DATE: this.dateToYMD(new Date(dd.modified)),
+          POPULARITY: dd.popularity,
+          WIDGETS: dd.widgetsCount,
+          DESCRIPTION: dd.description,
+          LAYOUT_TYPE: dd.layoutType,
+          URL: dd.url,
+          DASHBOARD_LIST: dashboardList,
+          TITLE_WIDGETS: '',
+          QUERY_WIDGETS: '',
+          TYPE_WIDGET: '',
+          QUERY_PARAMETERS_WIDGET: '',
+          SOURCE_WIDGET: '',
+          DEFAULT_VARIABLE: '',
+          NAME_VARIABLE: '',
+          PREFIX_VARIABLE: ''
+        });
+      }
     }
     jsoncsv.json2csv(dataFiltrada, (err, csv) => {
       if (err) {
@@ -618,15 +536,14 @@ returnParams = (widget) => {
   };
 
   _onClose = () => {
-    let actualValue = this.state.hidden;
-    this.setState({ hidden: !actualValue });
+    this.setState(prevState => ({ hidden: !prevState.hidden }));
   };
 
   dateToYMD(date) {
-    var d = date.getDate();
-    var m = date.getMonth() + 1; //Month from 0 to 11
-    var y = date.getFullYear();
-    return `${m <= 9 ? '0' + m : m}/${d <= 9 ? '0' + d : d}/${y}`;
+    const d = date.getDate();
+    const m = date.getMonth() + 1; // Month from 0 to 11
+    const y = date.getFullYear();
+    return `${m <= 9 ? `0${m}` : m}/${d <= 9 ? `0${d}` : d}/${y}`;
   }
 
   render() {
@@ -695,7 +612,7 @@ returnParams = (widget) => {
               <div className="tableContent__options">
                 <div className="options__searchDashboards">
                   <div className="options__divSearch">
-                    <BsSearch size="10px" color={'#767B7F'} />
+                    <BsSearch size="10px" color="#767B7F" />
                     <SearchInput
                       className="options--searchInputDashboards"
                       onChange={this.searchUpdated}
@@ -738,36 +655,23 @@ returnParams = (widget) => {
                 <div style={{ width: '2500px' }} className="h100">
                   <ReactTable
                     loading={savingAllChecks}
-                    loadingText={'Processing...'}
+                    loadingText="Processing..."
                     page={pagePag}
                     showPagination={false}
                     resizable={false}
                     data={finalList}
                     defaultPageSize={totalRows}
                     getTrProps={(state, rowInfo) => {
-                      {
-                        if (rowInfo) {
-                          return {
-                            style: {
-                              background:
-                                rowInfo.index % 2 ? '#F7F7F8' : 'white',
-                              borderBottom: 'none',
-                              display: 'grid',
-                              gridTemplate:
-                                '1fr/ 12% repeat(3,10%) 8% repeat(5,10%)'
-                            }
-                          };
-                        } else {
-                          return {
-                            style: {
-                              borderBottom: 'none',
-                              display: 'grid',
-                              gridTemplate:
-                                '1fr/ 12% repeat(3,10%) 8% repeat(5,10%)'
-                            }
-                          };
+                      return {
+                        style: {
+                          background:
+                            rowInfo && rowInfo.index % 2 ? '#F7F7F8' : 'white',
+                          borderBottom: 'none',
+                          display: 'grid',
+                          gridTemplate:
+                            '1fr/ 12% repeat(3,10%) 8% repeat(5,10%)'
                         }
-                      }
+                      };
                     }}
                     getTrGroupProps={() => {
                       return {
@@ -790,14 +694,21 @@ returnParams = (widget) => {
                           color: '#333333',
                           fontWeight: 'bold',
                           display: 'grid',
-                          gridTemplate: '1fr/ 12% repeat(3,10%) 8% repeat(5,10%)'
+                          gridTemplate:
+                            '1fr/ 12% repeat(3,10%) 8% repeat(5,10%)'
                         }
                       };
                     }}
                     columns={[
                       {
                         Header: () => (
-                          <div className="table__headerSticky" style={{borderRight: '5px solid rgba(208, 208, 209, 0.1)', borderRightStyle: 'groove'}}>
+                          <div
+                            className="table__headerSticky"
+                            style={{
+                              borderRight: '5px solid rgba(208, 208, 209, 0.1)',
+                              borderRightStyle: 'groove'
+                            }}
+                          >
                             <div
                               className="pointer flex"
                               style={{ marginLeft: '15px' }}
@@ -834,15 +745,14 @@ returnParams = (widget) => {
                         Cell: props => {
                           return (
                             <div
-                              onClick={() =>
-                                this.saveAction('infoAditional', props.original)
-                              }
+                              onClick={() => this.saveAction(props.original)}
                               className="h100 flex flexCenterVertical pointer"
                               style={{
                                 background:
                                   props.index % 2 ? '#F7F7F8' : 'white',
                                 color: '#0078BF',
-                                borderRight: '5px solid rgba(208, 208, 209, 0.1)',
+                                borderRight:
+                                  '5px solid rgba(208, 208, 209, 0.1)',
                                 borderRightStyle: 'groove'
                               }}
                             >
@@ -859,7 +769,10 @@ returnParams = (widget) => {
                       },
                       {
                         Header: () => (
-                          <div className="table__header" style={{ marginLeft: '15px' }}>
+                          <div
+                            className="table__header"
+                            style={{ marginLeft: '15px' }}
+                          >
                             <div
                               className="pointer flex"
                               onClick={() => {
@@ -894,7 +807,10 @@ returnParams = (widget) => {
                           'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
-                          <div className="h100 flex flexCenterVertical " style={{ marginLeft: '15px' }}>
+                          <div
+                            className="h100 flex flexCenterVertical "
+                            style={{ marginLeft: '15px' }}
+                          >
                             {props.value}
                           </div>
                         )
@@ -987,12 +903,24 @@ returnParams = (widget) => {
                         Header: () => (
                           <div className="table__header flexCenterHorizontal">
                             <div
-                              className="pointer flex"
+                              className="pointer flex flexCenterVertical"
                               onClick={() => {
                                 this.setSortColumn('popularity');
                               }}
                             >
                               POPULARITY
+                              <Tooltip
+                                placementType={Tooltip.PLACEMENT_TYPE.BOTTOM}
+                                text="Popularity is based on the amount of traffic a dashboard receives. Popularity is updated daily; new dashboards have zero popularity bars for up to 24 hours."
+                              >
+                                <img
+                                  src={interrogationIcon}
+                                  style={{
+                                    width: '0.8vw',
+                                    margin: '5px'
+                                  }}
+                                />
+                              </Tooltip>
                               <div className="flexColumn table__sort ">
                                 <ArrowTop
                                   color={
@@ -1021,7 +949,7 @@ returnParams = (widget) => {
                         sortable: false,
                         Cell: props => (
                           <div className="h100 flex flexCenterVertical flexCenterHorizontal">
-                            {props.value}
+                            <Popularity quantity={props.value} />
                           </div>
                         )
                       },
@@ -1109,7 +1037,8 @@ returnParams = (widget) => {
                             txtDescription = props.value;
                             if (txtDescription.length > 100) {
                               txtDescription = `${txtDescription.substring(
-                                0,101
+                                0,
+                                101
                               )}...`;
                             }
                           }
@@ -1206,7 +1135,10 @@ returnParams = (widget) => {
                       },
                       {
                         Header: () => (
-                          <div className="table__header" style={{ marginLeft: '15px' }}>
+                          <div
+                            className="table__header"
+                            style={{ marginLeft: '15px' }}
+                          >
                             <div
                               className="pointer flex "
                               onClick={() => {
@@ -1240,7 +1172,11 @@ returnParams = (widget) => {
                         className:
                           'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
-                        Cell: props => <div style={{ marginLeft: '15px' }}>{props.value}</div>
+                        Cell: props => (
+                          <div style={{ marginLeft: '15px' }}>
+                            {props.value}
+                          </div>
+                        )
                       }
                     ]}
                   />
@@ -1261,6 +1197,43 @@ returnParams = (widget) => {
   }
 }
 
+/**
+ * Function for quantity component
+ * @param {Number} quantity
+ */
+const Popularity = ({ quantity }) => {
+  const lines = [];
+  for (let i = 0; i < 5; i++) {
+    if (i <= quantity - 1) {
+      lines.push('filled');
+    } else {
+      lines.push('empty');
+    }
+  }
+  return (
+    <div className="flex">
+      {lines.map((value, index) => {
+        return (
+          <div
+            key={index}
+            style={{
+              marginLeft: index === 0 ? '0px' : '1.5px',
+              marginRight: '1.5px',
+              background: value === 'empty' ? '#E0E0E0' : '#007E8A',
+              width: '5px',
+              height: '1.2vw',
+              content: ' '
+            }}
+          />
+        );
+      })}
+    </div>
+  );
+};
+Popularity.propTypes = {
+  quantity: PropTypes.number.isRequired
+};
+
 Dashboard.propTypes = {
-  accountId: PropTypes.number.isRequired
+  dataDashboards: PropTypes.array.isRequired
 };
