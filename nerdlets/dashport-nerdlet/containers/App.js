@@ -2031,11 +2031,7 @@ export default class App extends React.Component {
       case 2:
         return (
           <Dashboard
-            reportLogFetch={this.reportLogFetch}
-            handleChangeMenu={this.handleChangeMenu}
-            sendLogs={this.sendLogs}
             dataDashboards={dataDashboards}
-            accountId={accountId}
             emptyData={emptyData}
           />
         );
