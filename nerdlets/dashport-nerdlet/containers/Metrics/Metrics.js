@@ -1,33 +1,26 @@
 import React from 'react';
-import { Spinner, Button, Tooltip } from 'nr1';
-import Popup from 'reactjs-popup';
-import information from '../../images/information.svg';
-import informationMetrics from '../../images/metrics.png';
+
+import { Spinner, Tooltip } from 'nr1';
 import PropTypes from 'prop-types';
 import SearchInput, { createFilter } from 'react-search-input';
 import { BsSearch } from 'react-icons/bs';
-import iconDownload from '../../images/download.svg';
-import ArrowDown from '../../components/ArrowsTable/ArrowDown';
-import ArrowTop from '../../components/ArrowsTable/ArrowTop';
 import ReactTable from 'react-table-v6';
-import Pagination from '../../components/Pagination/Pagination';
-import Bar from '../../components/Bar';
 import Select from 'react-select';
-import axios from 'axios';
-import iconInformation from '../../images/information.svg';
-import metricsData from '../../images/metricsData.svg';
 import ReactTooltip from 'react-tooltip';
-import Modal from './ModalProgressBar';
-import {
-  readNerdStorage,
-  readSingleSecretKey,
-  readNerdStorageOnlyCollection,
-  writeNerdStorage
-} from '../../services/NerdStorage/api';
 import moment from 'moment';
 import JSZip from 'jszip';
 import jsoncsv from 'json-2-csv';
 import { saveAs } from 'file-saver';
+
+import metricsData from '../../images/metricsData.svg';
+import iconInformation from '../../images/information.svg';
+import iconDownload from '../../images/download.svg';
+import ArrowDown from '../../components/ArrowsTable/ArrowDown';
+import ArrowTop from '../../components/ArrowsTable/ArrowTop';
+
+import Pagination from '../../components/Pagination/Pagination';
+import Bar from '../../components/Bar';
+import Modal from './ModalProgressBar';
 
 const greenColor = '#007E8A';
 
@@ -40,121 +33,46 @@ const KEYS_TO_FILTERS = [
   'aggr'
 ];
 
-const contentStyle = {
-  maxWidth: '600px',
-  width: '90%'
-};
-
 export default class Metrics extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       loading: false,
-      allChecked: false,
-      all: true,
-      favorite: false,
-      visited: false,
-      complex: '',
-      dashboards: [],
-      average: 0,
-      categorizedList: [],
-      avaliableList: [],
-      mostVisited: [],
-      favoriteDashboards: [],
-      savingAllChecks: false,
       logs: [],
-      selectedTag: 'all',
       timeRanges: [
         { value: '30 minutes', label: '30 minutes' },
         { value: '60 minutes', label: '60 minutes' },
         { value: '3 Hours', label: '3 Hours' },
         { value: '6 Hours', label: '6 Hours' }
       ],
-      listChecked: {
-        value: 'All',
-        label: 'All list',
-        id: 0,
-        dashboards: []
-      },
-      listPopUp: [],
-      valueListPopUp: {},
       // Pagination
       pagePag: 0,
       pages: 0,
       totalRows: 10,
-      page: 1,
       // //////////
       finalList: [],
-      textTag: '',
       searchTermMetric: '',
       sortColumn: {
         column: '',
         order: ''
       },
       hidden: false,
-      action: '',
-      checksDownload: [
-        { value: 'CSV', label: 'CSV' },
-        { value: 'JSON', label: 'JSON' }
-      ],
-      selectFormat: { value: 'CSV', label: 'CSV' },
-      emptyData: false,
       dataGraph: [],
       rangeSelected: { value: '30 minutes', label: '30 minutes' },
-      logs: [],
       loadingTable: false,
-      metrics: [],
-      metricsTotal: 0,
-      keyApi: null,
-      keyApp: null,
       finalListRespaldo: [],
-      hidden: false,
-      viewWarning: false,
-      info: {
-        name: 'Get All Active Metrics',
-        url: 'https://api.datadoghq.{{datadog_site}}/api/v1/metrics?',
-        proto: 'https',
-        host: 'api.datadoghq.{{datadog_site}}',
-        pathname: '/api/v1/metrics?',
-        headers: [
-          {
-            key: 'DD-API-KEY',
-            value: '{{datadog_api_key}}'
-          },
-          {
-            key: 'DD-APPLICATION-KEY',
-            value: '{{datadog_application_key}}'
-          }
-        ]
-      }
+      viewWarning: false
     };
   }
 
-  _onClose = () => {
-    if (this.props.completed === 100) this.props.updateProgressMetrics(0);
-    const actualValue = this.state.hidden;
-    this.setState({ hidden: !actualValue });
-  };
-
-  _onCloseText = () => {
-    const actualValue = this.state.hidden;
-    this.setState({ hidden: !actualValue });
-  };
-
-  _openPopUp = () => {
-    const actualValue = this.state.hidden;
-    this.setState({ hidden: !actualValue, viewWarning: true });
-  };
-
   componentDidMount() {
-    const { accountId, metrics } = this.props;
+    const { metrics } = this.props;
     const { searchTermMetric, sortColumn } = this.state;
 
     const dataGraph = [];
     for (const metric of metrics) {
       metric.type = metric.type ? metric.type : 'unknow';
     }
-    // eslint-disable-next-line require-atomic-updates
     for (const metric of metrics) {
       if (metric.type) {
         const index = dataGraph.findIndex(
@@ -173,20 +91,32 @@ export default class Metrics extends React.Component {
     }
     this.setState({
       dataGraph: dataGraph,
-      metricsTotal: metrics.length,
-      metrics: metrics,
       finalListRespaldo: metrics,
-      pagePag: 0,
-      page: 1
+      pagePag: 0
     });
-
     this.loadData(metrics, searchTermMetric, sortColumn);
     this.calcTable(metrics);
   }
 
+  _onClose = () => {
+    if (this.props.completed === 100) this.props.updateProgressMetrics(0);
+    const actualValue = this.state.hidden;
+    this.setState({ hidden: !actualValue });
+  };
+
+  _onCloseText = () => {
+    const actualValue = this.state.hidden;
+    this.setState({ hidden: !actualValue });
+  };
+
+  _openPopUp = () => {
+    const actualValue = this.state.hidden;
+    this.setState({ hidden: !actualValue, viewWarning: true });
+  };
+
   fetchMetrics = async from => {
-    const { appComponent } = this.props;
-    await appComponent.updateMetricsSection(from);
+    const { updateMetricsSection } = this.props;
+    await updateMetricsSection(from);
   };
 
   calcTable = finalList => {
@@ -210,11 +140,7 @@ export default class Metrics extends React.Component {
 
   loadData = (metrics, searchTerm, sortColumn) => {
     let finalList = metrics;
-    const { pagePag, totalRows } = this.state;
     if (searchTerm !== '') {
-      const init = pagePag * totalRows;
-      const final = (pagePag + 1) * totalRows;
-      finalList = finalList.slice(init, final);
       finalList = finalList.filter(createFilter(searchTerm, KEYS_TO_FILTERS));
     }
     finalList = this.sortData(finalList, sortColumn);
@@ -230,8 +156,7 @@ export default class Metrics extends React.Component {
       valueTwo = 1;
     }
     switch (column) {
-      case 'name':
-        // eslint-disable-next-line no-case-declarations
+      case 'name': {
         const sortName = finalList.sort(function(a, b) {
           if (a.name > b.name) {
             return valueOne;
@@ -242,8 +167,8 @@ export default class Metrics extends React.Component {
           return 0;
         });
         return sortName;
-      case 'host':
-        // eslint-disable-next-line no-case-declarations
+      }
+      case 'host': {
         const sortHost = finalList.sort(function(a, b) {
           if (a.hosts > b.hosts) {
             return valueOne;
@@ -254,8 +179,8 @@ export default class Metrics extends React.Component {
           return 0;
         });
         return sortHost;
-      case 'integration':
-        // eslint-disable-next-line no-case-declarations
+      }
+      case 'integration': {
         const sortIntegration = finalList.sort(function(a, b) {
           if (a.integration > b.integration) {
             return valueOne;
@@ -266,8 +191,8 @@ export default class Metrics extends React.Component {
           return 0;
         });
         return sortIntegration;
-      case 'type':
-        // eslint-disable-next-line no-case-declarations
+      }
+      case 'type': {
         const sortType = finalList.sort(function(a, b) {
           if (a.type > b.type) {
             return valueOne;
@@ -278,8 +203,8 @@ export default class Metrics extends React.Component {
           return 0;
         });
         return sortType;
-      case 'unit':
-        // eslint-disable-next-line no-case-declarations
+      }
+      case 'unit': {
         const sortUnit = finalList.sort(function(a, b) {
           if (a.unit > b.unit) {
             return valueOne;
@@ -290,30 +215,30 @@ export default class Metrics extends React.Component {
           return 0;
         });
         return sortUnit;
+      }
       default:
         return finalList;
     }
   };
 
   upPage = async () => {
-    const { totalRows, pagePag } = this.state;
+    const { pagePag } = this.state;
     this.setState({ pagePag: pagePag + 1, loadingTable: false });
   };
 
   changePage = async pagePag => {
-    const { totalRows } = this.state;
     this.setState({ pagePag: pagePag - 1, loadingTable: false });
   };
 
   downPage = async () => {
-    const { totalRows, pagePag } = this.state;
+    const { pagePag } = this.state;
     this.setState({ pagePag: pagePag - 1, loadingTable: false });
   };
 
   searchUpdated = term => {
     const { sortColumn, finalListRespaldo } = this.state;
     this.loadData(finalListRespaldo, term, sortColumn);
-    this.setState({ searchTermDashboards: term });
+    this.setState({ searchTermMetric: term });
   };
 
   setSortColumn = column => {
@@ -403,23 +328,6 @@ export default class Metrics extends React.Component {
     await this.fetchMetrics(from);
   };
 
-  saveNerdstorage = async metricList => {
-    const { accountId } = this.props;
-    const pagesMetricsList = this.pagesOfData(metricList);
-    // guardo lista de metricas
-    for (const keyMetrics in pagesMetricsList) {
-      if (pagesMetricsList[keyMetrics]) {
-        await writeNerdStorage(
-          accountId,
-          'metrics',
-          `metrics-${keyMetrics}`,
-          pagesMetricsList[keyMetrics],
-          this.reportLogFetch
-        );
-      }
-    }
-  };
-
   reportLogFetch = async response => {
     const { logs } = this.state;
     const arrayLogs = logs;
@@ -504,11 +412,10 @@ export default class Metrics extends React.Component {
       timeRanges,
       rangeSelected,
       loadingTable,
-      metricsTotal,
       hidden,
       viewWarning
     } = this.state;
-    const { fetchingMetrics, completed } = this.props;
+    const { fetchingMetrics, completed, metricsTotal } = this.props;
     return (
       <div className="h100">
         {loading ? (
@@ -1086,8 +993,10 @@ export default class Metrics extends React.Component {
   }
 }
 Metrics.propTypes = {
-  accountId: PropTypes.number.isRequired,
   metrics: PropTypes.array.isRequired,
   metricsTotal: PropTypes.number.isRequired,
-  appComponent: PropTypes.object.isRequired
+  updateMetricsSection: PropTypes.func.isRequired,
+  completed: PropTypes.number.isRequired,
+  updateProgressMetrics: PropTypes.func.isRequired,
+  fetchingMetrics: PropTypes.bool.isRequired
 };
