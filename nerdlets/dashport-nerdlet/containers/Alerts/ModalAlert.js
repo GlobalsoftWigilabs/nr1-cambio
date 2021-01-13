@@ -120,7 +120,7 @@ export default class ModalAlert extends React.Component {
                       {this.renderCelll(
                         'AGGREGATION',
                         infoAditional.aggregation
-                          ? `metric: ${infoAditional.aggregation.metric}  type: ${infoAditional.aggregation.type}  groupBy: ${infoAditional.aggregation.groupBy}`
+                          ? infoAditional.aggregation
                           : '-----',
                         'white'
                       )}

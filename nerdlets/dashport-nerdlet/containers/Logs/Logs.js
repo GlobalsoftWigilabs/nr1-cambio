@@ -56,7 +56,8 @@ export default class Logs extends React.Component {
           name: element.name,
           enabled: element.is_enabled,
           type: element.type,
-          processors: processors
+          processors: processors,
+          dataProcessors: element.processors
         });
       });
       this.setState({
@@ -64,7 +65,7 @@ export default class Logs extends React.Component {
         dataPipelineTotal: logsData.pipelines.length
       });
     }
-    if (logsData.archives) { 
+    if (logsData.archives) {
       const data = [];
       logsData.archives.forEach(element => {
         let tags = '';

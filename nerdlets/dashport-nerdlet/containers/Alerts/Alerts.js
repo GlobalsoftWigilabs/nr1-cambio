@@ -61,6 +61,26 @@ export default class Alerts extends React.Component {
           thresholds = `${thresholds} \n warning: ${element.thresholds.warning}`;
         }
       }
+      let aggregation = '-----';
+      if (element.aggregation) {
+        if (element.aggregation.metric) {
+          aggregation = `metric: ${element.aggregation.metric} \n`;
+        }
+        if (element.aggregation.type) {
+          if (aggregation !== '-----') {
+            aggregation = `${aggregation} type: ${element.aggregation.type} \n`;
+          } else {
+            aggregation = `type: ${element.aggregation.type} \n`;
+          }
+        }
+        if (element.aggregation.groupBy) {
+          if (aggregation !== '-----') {
+            aggregation = `${aggregation} groupBy: ${element.aggregation.groupBy} \n`;
+          } else {
+            aggregation = `groupBy: ${element.aggregation.groupBy} \n`;
+          }
+        }
+      }
       data.push({
         name: element.name,
         classification: element.classification,
@@ -73,7 +93,7 @@ export default class Alerts extends React.Component {
         priority: element.priority ? element.priority : '-----',
         message: `${element.message} \n`,
         query: element.query,
-        aggregation: element.aggregation ? element.aggregation : '-----',
+        aggregation: aggregation,
         evaluation_delay: element.evaluation_delay
           ? element.evaluation_delay
           : '-----',
@@ -572,7 +592,13 @@ export default class Alerts extends React.Component {
                     columns={[
                       {
                         Header: () => (
-                          <div className="table__headerSticky" style={{borderRight: '5px solid rgba(208, 208, 209, 0.1)', borderRightStyle: 'groove'}}>
+                          <div
+                            className="table__headerSticky"
+                            style={{
+                              borderRight: '5px solid rgba(208, 208, 209, 0.1)',
+                              borderRightStyle: 'groove'
+                            }}
+                          >
                             <div
                               className="pointer flex "
                               style={{ marginLeft: '15px' }}
@@ -617,7 +643,8 @@ export default class Alerts extends React.Component {
                                 background:
                                   props.index % 2 ? '#F7F7F8' : 'white',
                                 color: '#0078BF',
-                                borderRight: '5px solid rgba(208, 208, 209, 0.1)',
+                                borderRight:
+                                  '5px solid rgba(208, 208, 209, 0.1)',
                                 borderRightStyle: 'groove'
                               }}
                             >
@@ -630,7 +657,10 @@ export default class Alerts extends React.Component {
                       },
                       {
                         Header: () => (
-                          <div className="table__header" style={{ marginLeft: '15px' }}>
+                          <div
+                            className="table__header"
+                            style={{ marginLeft: '15px' }}
+                          >
                             <div
                               className="pointer flex "
                               onClick={() => {
@@ -665,7 +695,10 @@ export default class Alerts extends React.Component {
                           'table__cell flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
-                          <div className="h100 flex flexCenterVertical " style={{ marginLeft: '15px' }}>
+                          <div
+                            className="h100 flex flexCenterVertical "
+                            style={{ marginLeft: '15px' }}
+                          >
                             {props.value}
                           </div>
                         )
