@@ -441,7 +441,7 @@ export default class Synthetics extends React.Component {
       if (err) {
         throw err;
       }
-      zip.file(`Synthetics .csv`, csv);
+      zip.file(`Synthetics.csv`, csv);
       zip.generateAsync({ type: 'blob' }).then(function(content) {
         // see FileSaver.js
         saveAs(
