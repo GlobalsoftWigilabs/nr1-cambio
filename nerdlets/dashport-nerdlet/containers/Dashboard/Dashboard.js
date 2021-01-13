@@ -469,9 +469,9 @@ export default class Dashboard extends React.Component {
           TYPE_WIDGET: widget.definition.type,
           QUERY_PARAMETERS_WIDGET: this.returnParams(widget.definition),
           SOURCE_WIDGET: this.returnParams(widget.definition),
-          DEFAULT_VARIABLE: '',
-          NAME_VARIABLE: '',
-          PREFIX_VARIABLE: ''
+          DEFAULT_VARIABLE: '-----',
+          NAME_VARIABLE: '-----',
+          PREFIX_VARIABLE: '-----'
         });
       }
       for (const variable of dd.templateVariables) {
@@ -486,11 +486,11 @@ export default class Dashboard extends React.Component {
           LAYOUT_TYPE: dd.layoutType,
           URL: dd.url,
           DASHBOARD_LIST: dashboardList,
-          TITLE_WIDGETS: '',
-          QUERY_WIDGETS: '',
-          TYPE_WIDGET: '',
-          QUERY_PARAMETERS_WIDGET: '',
-          SOURCE_WIDGET: '',
+          TITLE_WIDGETS: '-----',
+          QUERY_WIDGETS: '-----',
+          TYPE_WIDGET: '-----',
+          QUERY_PARAMETERS_WIDGET: '-----',
+          SOURCE_WIDGET: '-----',
           DEFAULT_VARIABLE: variable.default ? variable.default : '-----',
           NAME_VARIABLE: variable.name ? variable.name : '-----',
           PREFIX_VARIABLE: variable.prefix ? variable.prefix : '-----'
@@ -508,14 +508,14 @@ export default class Dashboard extends React.Component {
           LAYOUT_TYPE: dd.layoutType,
           URL: dd.url,
           DASHBOARD_LIST: dashboardList,
-          TITLE_WIDGETS: '',
-          QUERY_WIDGETS: '',
-          TYPE_WIDGET: '',
-          QUERY_PARAMETERS_WIDGET: '',
-          SOURCE_WIDGET: '',
-          DEFAULT_VARIABLE: '',
-          NAME_VARIABLE: '',
-          PREFIX_VARIABLE: ''
+          TITLE_WIDGETS: '-----',
+          QUERY_WIDGETS: '-----',
+          TYPE_WIDGET: '-----',
+          QUERY_PARAMETERS_WIDGET: '-----',
+          SOURCE_WIDGET: '-----',
+          DEFAULT_VARIABLE: '-----',
+          NAME_VARIABLE: '-----',
+          PREFIX_VARIABLE: '-----'
         });
       }
     }
