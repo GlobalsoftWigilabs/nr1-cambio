@@ -346,7 +346,7 @@ export default class Infrastructure extends React.Component {
                       color: greenColor
                     }}
                   >
-                    {infrastructureDataGraph.length}
+                    {data.length}
                   </span>
                 </div>
               </div>
@@ -366,7 +366,7 @@ export default class Infrastructure extends React.Component {
                       color: greenColor
                     }}
                   >
-                    {infrastructureDataGraph.length}
+                    {data.length}
                   </span>
                 </div>
               </div>

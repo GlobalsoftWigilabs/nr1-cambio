@@ -1323,11 +1323,11 @@
     },
     {
         "name": "Get all users",
-        "url": "https://api.datadoghq.{{datadog_site}}/api/v2/users",
+        "url": "https://api.datadoghq.{{datadog_site}}/api/v2/users?page[size]=100",
         "proto": "https",
         "host": "api.datadoghq.{{datadog_site}}",
         "pathname": "/api/v2/users",
-        "search": "",
+        "search": "?page[size]=100",
         "headers": [
             {
                 "key": "DD-API-KEY",

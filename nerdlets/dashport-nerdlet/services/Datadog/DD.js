@@ -36,18 +36,25 @@ const callApis = async (
       let obj = null;
       const list = _getPartentList(endpoints);
       for (let i = 0; i < list.length; i++) {
-        console.log(list[i].name);
-        if (list[i].name === 'Get All Active Metrics') {
-          const from = Math.floor(new Date() / 1000) - 60 * 60;
-          const metrics = await datadogService.fetchMetrics(from);
-          await callbackDataWritter('Get All Active Metrics', { metrics: metrics });
-        } else {
+        if (list[i].name !== 'Get All Active Metrics') {
           obj = await _callApi(list[i], reportLog);
         }
-
         // if obj is different of null
         if (obj) {
           switch (list[i].name) {
+            case 'Get All Active Metrics':
+              {
+                const from = Math.floor(new Date() / 1000) - 60 * 60;
+                const metrics = await datadogService.fetchMetrics(
+                  from,
+                  null,
+                  null
+                );
+                await callbackDataWritter('Get All Active Metrics', {
+                  metrics: metrics
+                });
+              }
+              break;
             case 'Get all archives':
               await callbackDataWritter(list[i].name, obj);
               break;
@@ -76,6 +83,27 @@ const callApis = async (
               await callbackDataWritter(list[i].name, obj.data);
               break;
             case 'Get all users':
+              if (obj.data.meta.page.total_count > 100) {
+                const pages = Math.ceil(obj.data.meta.page.total_count / 100);
+                for (let j = 1; j < pages; j++) {
+                  const pageUser = await getPageUser(j, reportLog);
+                  if (
+                    pageUser.data.data &&
+                    pageUser.data.data instanceof Array
+                  ) {
+                    for (const user of pageUser.data.data) {
+                      obj.data.data.push(user);
+                    }
+                    for (const included of pageUser.data.included) {
+                      if (
+                        !obj.data.included.find(incl => incl.id === included.id)
+                      ) {
+                        obj.data.included.push(included);
+                      }
+                    }
+                  }
+                }
+              }
               for (const user of obj.data.data) {
                 user.roles = [];
                 for (const rolId of user.relationships.roles.data) {
@@ -126,7 +154,14 @@ const callApis = async (
                       pag,
                       reportLog
                     );
-                    monitors.push(resultado.data);
+                    if (
+                      resultado.data &&
+                      resultado.data.monitors instanceof Array
+                    ) {
+                      for (const monitorPage of resultado.data.monitors) {
+                        monitors.push(monitorPage);
+                      }
+                    }
                   }
                   for (const monitor of monitors) {
                     const responseDetailsMonitorPages = await getMonitorDetails(
@@ -266,15 +301,15 @@ const callApis = async (
                   host: childList[i].host,
                   pathname: setup.variable
                     ? childList[i].pathname.replace(
-                      setup.variable,
-                      objList[j][setup.parent_value]
-                    )
+                        setup.variable,
+                        objList[j][setup.parent_value]
+                      )
                     : childList[i].pathname,
                   search: setup.query_filtering
                     ? _filterQueryParams(
-                      childList[i].search,
-                      setup.query_filtering
-                    )
+                        childList[i].search,
+                        setup.query_filtering
+                      )
                     : childList[i].search,
                   headers: childList[i].headers
                 };
@@ -582,12 +617,11 @@ const getManualDashboard = async (id, reportLog) => {
   return ret;
 };
 
-const getOrganizationUser = async (id, reportLog) => {
+const getPageUser = async (page, reportLog) => {
   const proxyUrl = 'https://long-meadow-1713.rsamanez.workers.dev/?';
   let ret = null;
-  let endpoint =
-    'https://api.datadoghq.{{datadog_site}}/api/v2/users/{{id}}/orgs';
-  endpoint = endpoint.replace('{{id}}', id);
+  const endpoint =
+    'https://api.datadoghq.{{datadog_site}}/api/v2/users?page[size]=100';
   const headers = [
     {
       key: 'Content-Type',
@@ -608,7 +642,10 @@ const getOrganizationUser = async (id, reportLog) => {
       config.API_SITE
     )}`,
     headers: _setHttpHeaders(headers),
-    method: 'get'
+    method: 'get',
+    params: {
+      'page[number]': page
+    }
   };
   ret = await axios(options).catch(async error => {
     if (error.response) {
