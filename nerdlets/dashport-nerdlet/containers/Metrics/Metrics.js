@@ -880,7 +880,11 @@ export default class Metrics extends React.Component {
                         Cell: props => {
                           let hosts = '';
                           for (const host of props.value) {
-                            hosts = `${hosts} ${host} \n`;
+                            if (hosts === '') {
+                              hosts = `${host}`;
+                            } else {
+                              hosts = `${hosts} ${host} \n`;
+                            }
                           }
                           return (
                             <div className="h100 flex flexCenterVertical ">
