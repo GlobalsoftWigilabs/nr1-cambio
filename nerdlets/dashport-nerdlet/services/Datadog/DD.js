@@ -32,7 +32,6 @@ const callApis = async (
       config.API_KEY = cfg.DD_API_KEY;
       config.APP_KEY = cfg.DD_APP_KEY;
       config.API_SITE = cfg.DD_EU ? 'eu' : 'com';
-
       let obj = null;
       const list = _getPartentList(endpoints);
       for (let i = 0; i < list.length; i++) {
@@ -338,6 +337,7 @@ const callApis = async (
         date: new Date().toLocaleString()
       };
       reportLog(response);
+      throw err;
     }
     return new Date();
   }

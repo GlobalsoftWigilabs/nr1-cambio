@@ -185,8 +185,8 @@ export default class Metrics extends React.Component {
   }
 
   fetchMetrics = async from => {
-    const { appComponent } = this.props;
-    await appComponent.updateMetricsSection(from);
+    const { updateMetricsSection } = this.props;
+    await updateMetricsSection(from);
   };
 
   calcTable = finalList => {
@@ -508,7 +508,7 @@ export default class Metrics extends React.Component {
       hidden,
       viewWarning
     } = this.state;
-    const { fetchingMetrics, completed } = this.props;
+    const { fetchingMetrics, completed,errorMetric } = this.props;
     return (
       <div className="h100">
         {loading ? (
@@ -1079,6 +1079,7 @@ export default class Metrics extends React.Component {
           viewWarning={viewWarning}
           _onClose={this._onClose}
           completed={completed}
+          errorMetric={errorMetric}
           confirmAction={this.fetchData}
           fetchingMetrics={fetchingMetrics}
         />
@@ -1087,8 +1088,7 @@ export default class Metrics extends React.Component {
   }
 }
 Metrics.propTypes = {
-  accountId: PropTypes.number.isRequired,
   metrics: PropTypes.array.isRequired,
   metricsTotal: PropTypes.number.isRequired,
-  appComponent: PropTypes.object.isRequired
+  updateMetricsSection: PropTypes.func.isRequired
 };

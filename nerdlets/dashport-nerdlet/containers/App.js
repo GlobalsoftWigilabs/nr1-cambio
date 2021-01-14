@@ -93,6 +93,7 @@ export default class App extends React.Component {
       metrics: [],
       fetchingMetrics: false,
       progressMetrics: 0,
+      errorMetric:false,
       // SYNTHETICS
       testTotal: 0,
       testList: [],
@@ -199,7 +200,6 @@ export default class App extends React.Component {
       'datadog',
       this.reportLogFetch
     );
-    console.log(dataSetup);
     if (dataSetup) {
       let retrys = 0;
       let keyApi = null;
@@ -216,7 +216,6 @@ export default class App extends React.Component {
           retrys += 1;
         }
       }
-      console.log(keyApi,keyApp);
       if (keyApi && keyApp) {
         const datadogService = this.createDatadogServiceInstance(
           keyApi,
@@ -1084,6 +1083,7 @@ export default class App extends React.Component {
    */
   fetchData = async () => {
     this.setState({ fetchingData: true, completed: 0 });
+    let error = false;
     const data = {
       lastUpdate: ''
     };
@@ -1111,6 +1111,7 @@ export default class App extends React.Component {
         this.reportLogFetch(response);
       })
       .catch(err => {
+        error = true;
         const response = {
           message: err,
           type: 'Error',
@@ -1135,58 +1136,100 @@ export default class App extends React.Component {
         this.reportLogFetch(response);
       })
       .catch(err => {
+        error = true;
         const response = {
           message: err,
           type: 'Error',
           event: 'Format data',
           date: new Date().toLocaleString()
         };
-        this.reportLog(response);
+        this.reportLogFetch(response);
       });
-    let lastUpdate = null;
-    await writeNerdStorageReturnData(
-      accountId,
-      'ddFetch',
-      'dateFetch',
-      data,
-      this.reportLogFetch
-    )
-      .then(({ data }) => {
-        lastUpdate = data.nerdStorageWriteDocument.lastUpdate;
-      })
-      .catch(err => {
-        const response = {
-          message: err,
-          type: 'Error',
-          event: 'Write dateFetch',
-          date: new Date().toLocaleString()
-        };
-        this.reportLog(response);
+    if (error) {
+      Toast.showToast({
+        title: 'FAILED',
+        description: 'something went wrong please retry',
+        type: Toast.TYPE.NORMAL
       });
-    await this.sendLogs();
-    await this.loadViewData();
-    this.setState({
-      fetchingData: false,
-      lastUpdate
-    });
+      if (this.state.lastUpdate !== 'never') {
+        this.setState({
+          fetchingData: false,
+          completed: 0
+        });
+      } else {
+        this.setState({
+          fetchingData: false,
+          lastUpdate: 'never',
+          completed: 100
+        });
+      }
+    } else {
+      let lastUpdate = null;
+      await writeNerdStorageReturnData(
+        accountId,
+        'ddFetch',
+        'dateFetch',
+        data,
+        this.reportLogFetch
+      )
+        .then(({ data }) => {
+          lastUpdate = data.nerdStorageWriteDocument.lastUpdate;
+        })
+        .catch(err => {
+          const response = {
+            message: err,
+            type: 'Error',
+            event: 'Write dateFetch',
+            date: new Date().toLocaleString()
+          };
+          this.reportLogFetch(response);
+        });
+      await this.sendLogs();
+      await this.loadViewData();
+      this.setState({
+        fetchingData: false,
+        lastUpdate
+      });
+    }
   };
 
   updateMetricsSection = async from => {
     const { datadogService } = this.state;
+    let error = false;
     this.setState({ fetchingMetrics: true });
-    const metrics = await datadogService.fetchMetrics(
-      from,
-      null,
-      this.updateProgressMetrics
-    );
-    await this.dataWriter('Get All Active Metrics', metrics);
-    await this.finalDataWriter('metrics', { data: metrics });
-    this.setState({
-      metrics: metrics,
-      metricsTotal: metrics.length,
-      fetchingMetrics: false,
-      progressMetrics: 100
-    });
+    const metrics = await datadogService
+      .fetchMetrics(from, null, this.updateProgressMetrics)
+      .catch(err => {
+        error = true;
+        const response = {
+          message: err,
+          type: 'Error',
+          event: 'Format data',
+          date: new Date().toLocaleString()
+        };
+        this.reportLogFetch(response);
+      });
+    if (error) {
+      Toast.showToast({
+        title: 'FAILED',
+        description: 'something went wrong please retry',
+        type: Toast.TYPE.NORMAL
+      });
+      this.setState({
+        fetchingMetrics: false,
+        progressMetrics: 100,
+        errorMetric: true
+      });
+    } else {
+      await this.dataWriter('Get All Active Metrics', metrics);
+      await this.finalDataWriter('metrics', { data: metrics });
+      this.setState({
+        metrics: metrics,
+        metricsTotal: metrics.length,
+        fetchingMetrics: false,
+        progressMetrics: 100
+      });
+    }
   };
 
   viewKeyAction = async keyInput => {
@@ -1995,7 +2038,8 @@ export default class App extends React.Component {
       dataDashboards,
       fetchingMetrics,
       progressMetrics,
-      emptyData
+      emptyData,
+      errorMetric
     } = this.state;
     // console.log('accountsTotal', accountsTotal, dataTableAccounts);
     switch (selectedMenu) {
@@ -2050,6 +2094,7 @@ export default class App extends React.Component {
         return (
           <Metrics
             metrics={metrics}
+            errorMetric={errorMetric}
             metricsTotal={metricsTotal}
             updateProgressMetrics={this.updateProgressMetrics}
             completed={progressMetrics}
@@ -2087,30 +2132,30 @@ export default class App extends React.Component {
         {loadingContent ? (
           <Spinner type={Spinner.TYPE.DOT} />
         ) : (
-            <div className="main">
-              <>
-                <div className="sidebar-container h100">
-                  <Menu
-                    lastUpdate={lastUpdate}
-                    selectedMenu={selectedMenu}
-                    handleChangeMenu={this.handleChangeMenu}
-                  />
+          <div className="main">
+            <>
+              <div className="sidebar-container h100">
+                <Menu
+                  lastUpdate={lastUpdate}
+                  selectedMenu={selectedMenu}
+                  handleChangeMenu={this.handleChangeMenu}
+                />
+              </div>
+              <div className="h100" style={{ background: '#eceeee' }}>
+                <div
+                  style={{
+                    paddingTop: '1.8%',
+                    paddingRight: '1%',
+                    paddingLeft: '1.8%',
+                    height: '96%'
+                  }}
+                >
+                  {this.renderContent()}
                 </div>
-                <div className="h100" style={{ background: '#eceeee' }}>
-                  <div
-                    style={{
-                      paddingTop: '1.8%',
-                      paddingRight: '1%',
-                      paddingLeft: '1.8%',
-                      height: '96%'
-                    }}
-                  >
-                    {this.renderContent()}
-                  </div>
-                </div>
-              </>
-            </div>
-          )}
+              </div>
+            </>
+          </div>
+        )}
       </>
     );
   }

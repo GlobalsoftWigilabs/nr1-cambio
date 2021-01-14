@@ -27,63 +27,72 @@ const apiDataDigest = async (
   reportLogFetch,
   functionReaderCollection
 ) => {
-  const data = [];
-  const collectionNames = [
-    'dashboards',
-    'monitors',
-    'infraestructure',
-    'logs',
-    'metrics',
-    'synthetics',
-    'accounts'
-  ];
-  data.push(
-    await _parseDashboars(
-      functionReader,
-      functionReaderCollection,
-      reportLogFetch
-    )
-  );
-  data.push(
-    await _parseMonitors(
-      functionReader,
-      functionReaderCollection,
-      reportLogFetch
-    )
-  );
-  data.push(
-    await _parseInfra(functionReader, functionReaderCollection, reportLogFetch)
-  );
-  data.push(
-    await _parseLogs(functionReader, functionReaderCollection, reportLogFetch)
-  );
-  data.push(
-    await _parseMetrics(
-      functionReader,
-      functionReaderCollection,
-      reportLogFetch
-    )
-  );
-  data.push(
-    await _parseSynthetics(
-      functionReader,
-      functionReaderCollection,
-      reportLogFetch
-    )
-  );
-  data.push(
-    await _parseAccounts(
-      functionReader,
-      functionReaderCollection,
-      reportLogFetch
-    )
-  );
-  for (const key in collectionNames) {
-    if (collectionNames[key]) {
-      await functionWritter(collectionNames[key], data[key]);
+  // eslint-disable-next-line no-useless-catch
+  try {
+    const data = [];
+    const collectionNames = [
+      'dashboards',
+      'monitors',
+      'infraestructure',
+      'logs',
+      'metrics',
+      'synthetics',
+      'accounts'
+    ];
+    data.push(
+      await _parseDashboars(
+        functionReader,
+        functionReaderCollection,
+        reportLogFetch
+      )
+    );
+    data.push(
+      await _parseMonitors(
+        functionReader,
+        functionReaderCollection,
+        reportLogFetch
+      )
+    );
+    data.push(
+      await _parseInfra(
+        functionReader,
+        functionReaderCollection,
+        reportLogFetch
+      )
+    );
+    data.push(
+      await _parseLogs(functionReader, functionReaderCollection, reportLogFetch)
+    );
+    data.push(
+      await _parseMetrics(
+        functionReader,
+        functionReaderCollection,
+        reportLogFetch
+      )
+    );
+    data.push(
+      await _parseSynthetics(
+        functionReader,
+        functionReaderCollection,
+        reportLogFetch
+      )
+    );
+    data.push(
+      await _parseAccounts(
+        functionReader,
+        functionReaderCollection,
+        reportLogFetch
+      )
+    );
+    for (const key in collectionNames) {
+      if (collectionNames[key]) {
+        await functionWritter(collectionNames[key], data[key]);
+      }
     }
+    return true;
+  } catch (error) {
+    throw error;
   }
-  return true;
 };
 
 const _parseDashboars = async (
@@ -210,7 +219,7 @@ const _parseDashboars = async (
       date: new Date().toLocaleString()
     };
     await reportLogFetch(response);
-    errors.push(error);
+    throw error;
   }
   return obj;
 };
@@ -270,7 +279,7 @@ const _parseMonitors = async (
       date: new Date().toLocaleString()
     };
     await reportLogFetch(response);
-    errors.push(error);
+    throw error;
   }
   return obj;
 };
@@ -366,7 +375,7 @@ const _parseInfra = async (
       date: new Date().toLocaleString()
     };
     await reportLogFetch(response);
-    errors.push(error);
+    throw error;
   }
   return obj;
 };
@@ -497,6 +506,7 @@ const _parseLogs = async (
       date: new Date().toLocaleString()
     };
     await reportLogFetch(response);
+    throw error;
   }
   return obj;
 };
@@ -539,7 +549,7 @@ const _parseMetrics = async (
       date: new Date().toLocaleString()
     };
     await reportLogFetch(response);
-    errors.push(error);
+    throw error;
   }
   return obj;
 };
@@ -596,7 +606,7 @@ const _parseSynthetics = async (
       date: new Date().toLocaleString()
     };
     await reportLogFetch(response);
-    errors.push(error);
+    throw error;
   }
   return obj;
 };
@@ -613,7 +623,6 @@ const _parseAccounts = async (
       list: []
     }
   };
-  const errors = [];
   try {
     let data = await functionReader('Get all users', 'Get all users-obj');
     const sizeDataList = await functionReaderCollection('Get all users-data');
@@ -670,7 +679,7 @@ const _parseAccounts = async (
       date: new Date().toLocaleString()
     };
     await reportLogFetch(response);
-    errors.push(error);
+    throw error;
   }
   return obj;
 };

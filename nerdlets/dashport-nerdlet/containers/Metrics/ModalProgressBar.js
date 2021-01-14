@@ -9,7 +9,7 @@ import closeIcon from '../../images/close.svg';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';
 
 function ModalProgressBar(props) {
-    const { hidden, _onClose, completed, fetchingMetrics, confirmAction, viewWarning } = props;
+    const { hidden, _onClose, completed, fetchingMetrics, confirmAction, viewWarning,errorMetric } = props;
     return (
         <Modal
             show={hidden}
@@ -79,7 +79,7 @@ function ModalProgressBar(props) {
                             {
                                 completed === 100 ?
                                     <div className="contentFetching__info fontNormal flex flexCenterVertical flexCenterHorizontal">
-                                        Process Completed
+                                        {errorMetric?'The process has an error':'Process Completed'}
                                     </div>
                                     :
                                     <div className="contentFetching__info  fontNormal flex flexCenterVertical flexCenterHorizontal">

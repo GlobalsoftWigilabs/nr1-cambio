@@ -303,7 +303,7 @@ export default class Setup extends React.Component {
                   type={Button.TYPE.PRIMARY}
                   // iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__REFRESH}
                   loading={fetchingData}
-                  className="fetchSection--buttonFetch"
+                  className="fetchSection--buttonFetch fontMedium"
                   disabled={!(apikey !== '' && appkey !== '') || enableDownload}
                 >
                   Fetch Elements
@@ -325,8 +325,8 @@ export default class Setup extends React.Component {
                    }}
                   src={warningIcon}
                  />
-                <span className="warningInfo--title">Important Information</span>
-                <p className="warningInfo--description ">
+                <span className="warningInfo--title fontNormal">Important Information</span>
+                <p className="warningInfo--description fontSmall">
                                 <span className="warningInfo--steps">This process may take more than 30 minutes.</span> <br />
                                 <span className="warningInfo--steps">This browser tab should not close until the process is complete.</span>  <br />
                                 <span className="warningInfo--steps">Your internet connection must be active to complete the process.</span>
@@ -356,14 +356,14 @@ export default class Setup extends React.Component {
                   type={Button.TYPE.PRIMARY}
                   // iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__REFRESH}
                   loading={fetchingData}
-                  className="fetchSection--buttonFetch fontNormal"
+                  className="fetchSection--buttonFetch fontMedium"
                   disabled={!(apikey !== '' && appkey !== '') || enableDownload}
                 >
                   Fetch Elements
                 </Button>
               </div>
               <div className="flex flexCenterHorizontal">
-                <div className="fetchSection--lastUpdate">
+                <div className="fetchSection--lastUpdate fontMedium">
                   {'Last update: '}
                   {lastUpdate}
                 </div>
@@ -378,8 +378,8 @@ export default class Setup extends React.Component {
                    }}
                   src={warningIcon}
                  />
-                <span className="warningInfo--title">Important Information</span>
-                <p className="warningInfo--description ">
+                <span className="warningInfo--title fontNormal">Important Information</span>
+                <p className="warningInfo--description fontSmall">
                                 <span className="warningInfo--steps">This process may take more than 30 minutes.</span> <br />
                                 <span className="warningInfo--steps">This browser tab should not close until the process is complete.</span>  <br />
                                 <span className="warningInfo--steps">Your internet connection must be active to complete the process.</span>
