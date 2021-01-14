@@ -15,7 +15,7 @@ function ModalLog(props) {
       aria-labelledby="contained-modal-title-vcenter"
       dialogClassName="wSetup"
       style={{
-        marginTop: '5%'
+        marginTop: '5%',
       }}
     >
       <Modal.Body style={{ background: '#333333' }}>
@@ -35,24 +35,25 @@ function ModalLog(props) {
                 className="answer"
                 style={{ color: 'white', lineHeight: '150%' }}
               >
-                {`The Logs ${title} section are only available for Datadog Admin
+                <h4 style={{ fontSize: '14px', color: 'white' }}>
+                  {`The Logs ${title} section are only available for Datadog Admin
                 users. Make sure to use an application key created by an admin.`}
-                <br />
+                </h4>
                 <a
                   href="https://docs.datadoghq.com/account_management/api-app-keys/"
                   className="apiKeys--learnMore"
                   target="_blank"
                 >
-                  Learn more
+                  <h4 style={{ color: '#F2C94C', fontSize: '14px' }}>Learn more</h4>
                 </a>
               </div>
             </div>
-            <div className="p20">
-              <img style={{ width: '450px', height: '180px' }} src={pipeline} />
-            </div>
+            <img style={{ marginLeft: '15%', width: '70%', height: 'auto' }} src={pipeline} />
             <div className="p20">
               <div className="answer" style={{ color: 'white' }}>
-                You can update the Application Key in the Setup.
+                <h4 style={{ fontSize: '14px', color: 'white' }}>
+                  You can update the Application Key in the Setup.
+                </h4>
               </div>
             </div>
             <div
