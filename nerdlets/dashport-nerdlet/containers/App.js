@@ -93,7 +93,7 @@ export default class App extends React.Component {
       metrics: [],
       fetchingMetrics: false,
       progressMetrics: 0,
-      errorMetric:false,
+      errorMetric: false,
       // SYNTHETICS
       testTotal: 0,
       testList: [],
@@ -1120,47 +1120,49 @@ export default class App extends React.Component {
         };
         this.reportLogFetch(response);
       });
-    await DS.apiDataDigest(
-      this.readNerdStorage,
-      this.finalDataWriter,
-      this.reportLogFetch,
-      this.readNerdStorageOnlyCollection
-    )
-      .then(() => {
-        const response = {
-          message: 'Call format finish',
-          type: 'Sucess',
-          event: `Format data`,
-          date: new Date().toLocaleString()
-        };
-        this.reportLogFetch(response);
-      })
-      .catch(err => {
-        error = true;
-        const response = {
-          message: err,
-          type: 'Error',
-          event: 'Format data',
-          date: new Date().toLocaleString()
-        };
-        this.reportLogFetch(response);
-      });
+    if (!error) {
+      await DS.apiDataDigest(
+        this.readNerdStorage,
+        this.finalDataWriter,
+        this.reportLogFetch,
+        this.readNerdStorageOnlyCollection
+      )
+        .then(() => {
+          const response = {
+            message: 'Call format finish',
+            type: 'Sucess',
+            event: `Format data`,
+            date: new Date().toLocaleString()
+          };
+          this.reportLogFetch(response);
+        })
+        .catch(err => {
+          error = true;
+          const response = {
+            message: err,
+            type: 'Error',
+            event: 'Format data',
+            date: new Date().toLocaleString()
+          };
+          this.reportLogFetch(response);
+        });
+    }
+
     if (error) {
       Toast.showToast({
-        title: 'FAILED',
+        title: 'FAILED FETCH ELEMENTS',
         description: 'something went wrong please retry',
-        type: Toast.TYPE.NORMAL
+        type: Toast.TYPE.CRITICAL,
+        sticky: true
       });
       if (this.state.lastUpdate !== 'never') {
         this.setState({
-          fetchingData: false,
-          completed: 0
+          fetchingData: false
         });
       } else {
         this.setState({
           fetchingData: false,
-          lastUpdate: 'never',
-          completed: 100
+          lastUpdate: 'never'
         });
       }
     } else {
