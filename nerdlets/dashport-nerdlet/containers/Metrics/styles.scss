@@ -36,7 +36,6 @@
   font-family: Open Sans;
   font-style: normal;
   font-weight: 600;
-  font-size: 14px;
   line-height: 19px;
   color: #333333;
 }
@@ -47,10 +46,8 @@
 }
 .contentFetching__info {
   background-color: #f7f7f8;
-  font-family: Open Sans;
   font-style: normal;
   font-weight: 600;
-  font-size: 12px;
   line-height: 16px;
   width: 70%;
   color: #767b7f;
@@ -60,19 +57,15 @@
   grid-template: 1fr / 50% 50%;
 }
 .warningInfo--description {
-  font-family: Open Sans;
   font-style: normal;
   font-weight: normal;
-  font-size: 12px;
   line-height: 16px;
   margin-top: 10px;
   color: #333333;
 }
 .warningInfo--title {
-  font-family: Open Sans;
   font-style: normal;
   font-weight: 600;
-  font-size: 12px;
   line-height: 16px;
   margin-left: 10px;
   color: #333333;

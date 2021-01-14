@@ -34,7 +34,7 @@ const CustomInputComponent = ({ field, viewKeyAction, disabled, ...props }) => {
         type="text"
         {...field}
         {...props}
-        className="inputApiKey"
+        className="inputApiKey fontSmall"
         disabled={disabled}
       />
       <img
@@ -112,10 +112,10 @@ export default class Setup extends React.Component {
         return (
           <div className="apiKeys__stepOne">
             <div className="stepOne__title">
-              <div className="stepOne--title">Datadog API setup</div>
+              <div className="stepOne--title fontMedium">Datadog API</div>
               <a
                 href="https://docs.datadoghq.com/account_management/api-app-keys/"
-                className="apiKeys--learnMore"
+                className="apiKeys--learnMore fontSmall"
                 target="_blank"
               >
                 Learn more
@@ -144,7 +144,7 @@ export default class Setup extends React.Component {
                   <Form className="form__setup" autoComplete="off">
                     <div className="setup__textsFields">
                       <div className="setup__textfield">
-                        <div className="setup__label">
+                        <div className="setup__label fontNormal">
                           API key
                           <div>
                             <a
@@ -195,7 +195,7 @@ export default class Setup extends React.Component {
                         )}
                       </div>
                       <div className="setup__textfield">
-                        <div className="setup__label">
+                        <div className="setup__label fontNormal">
                           Application key
                           <div>
                             <a
@@ -256,7 +256,7 @@ export default class Setup extends React.Component {
                           // iconType={
                           //   Icon.TYPE.INTERFACE__OPERATIONS__TRASH
                           // }
-                          className="buttonDelete"
+                          className="buttonsSetup__buttonDelete fontNormal"
                         >
                           Delete config
                         </Button>
@@ -286,7 +286,7 @@ export default class Setup extends React.Component {
       case 2:
         return lastUpdate === 'never' ? (
           <div className="apiKeys__stepTwo">
-            <div className="stepTwo--title"> Fetch Datadog Elements</div>
+            <div className="stepTwo--title fontMedium"> Fetch Datadog Elements</div>
             <div className="stepTwo__fetchSection">
               <div className="flex flexCenterHorizontal flexCenterVertical"
                style={{paddingLeft:"10px",paddingRight:"10px"}}
@@ -310,7 +310,7 @@ export default class Setup extends React.Component {
                 </Button>
               </div>
               <div className="flex flexCenterHorizontal">
-                <div className="fetchSection--lastUpdate">
+                <div className="fetchSection--lastUpdate fontMedium">
                   {'Last update: '}
                   {lastUpdate}
                 </div>
@@ -356,7 +356,7 @@ export default class Setup extends React.Component {
                   type={Button.TYPE.PRIMARY}
                   // iconType={Button.ICON_TYPE.INTERFACE__OPERATIONS__REFRESH}
                   loading={fetchingData}
-                  className="fetchSection--buttonFetch"
+                  className="fetchSection--buttonFetch fontNormal"
                   disabled={!(apikey !== '' && appkey !== '') || enableDownload}
                 >
                   Fetch Elements
@@ -418,7 +418,7 @@ export default class Setup extends React.Component {
                 <span className="step--title">Step</span>
                 <img src={stepOne} height="35px" />
               </div>
-              <span className="information--description">{'Connect'}</span>
+              <span className="information--description fontMedium">{'Connect'}</span>
               <div
                 onClick={() => {
                   if (setupComplete && !deleteSetup) this.changeStep(2);
@@ -474,7 +474,7 @@ export default class Setup extends React.Component {
                 <Button
                   onClick={() => this.changeStep(2)}
                   type={Button.TYPE.PRIMARY}
-                  className="buttonsSetup__buttonNextOne"
+                  className="buttonsSetup__buttonNextOne fontNormal"
                 >
                   Continue
                 </Button>

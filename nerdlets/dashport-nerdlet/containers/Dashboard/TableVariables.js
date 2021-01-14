@@ -289,7 +289,7 @@ export default class TableVariables extends React.Component {
                                 columns={[
                                     {
                                         Header: () => (
-                                            <div className="table__headerSticky">
+                                            <div className="table__headerSticky fontSmall">
                                                 <div className="pointer flex " style={{ marginLeft: "15px" }} onClick={() => { this.setSortColumn('name') }}>
                                                     NAME
                                                                     <div className="flexColumn table__sort">
@@ -300,7 +300,7 @@ export default class TableVariables extends React.Component {
                                             </div>
                                         ),
                                         headerClassName: 'stycky w100I',
-                                        className: ' stycky table__cellSticky h100 w100I',
+                                        className: ' stycky table__cellSticky fontNormal h100 w100I',
                                         accessor: 'name',
                                         sortable: false,
                                         Cell: props => <div style={{ marginLeft: "15px" }} className="h100 flex flexCenterVertical ">
@@ -309,7 +309,7 @@ export default class TableVariables extends React.Component {
                                     },
                                     {
                                         Header: () => (
-                                            <div className="table__headerAlignRight">
+                                            <div className="table__headerAlignRight fontSmall">
                                                 <div className="pointer flex " onClick={() => { this.setSortColumn('default') }}>
                                                     DEFAULT
                                                                     <div className="flexColumn table__sort">
@@ -321,7 +321,7 @@ export default class TableVariables extends React.Component {
                                         ),
                                         headerClassName: 'w100I',
                                         accessor: 'default',
-                                        className: 'table__cell flex  flexCenterVertical h100 w100I',
+                                        className: 'table__cell fontNormal flex  flexCenterVertical h100 w100I',
                                         sortable: false,
                                         Cell: props => <div className="h100 flex flexCenterVertical ">
                                             {props.value}
@@ -329,7 +329,7 @@ export default class TableVariables extends React.Component {
                                     },
                                     {
                                         Header: () => (
-                                            <div className="table__header">
+                                            <div className="table__header fontSmall">
                                                 <div className="pointer flex " onClick={() => { this.setSortColumn('prefix') }}>
                                                     PREFIX
                                                                     <div className="flexColumn table__sort">
@@ -341,7 +341,7 @@ export default class TableVariables extends React.Component {
                                         ),
                                         headerClassName: 'w100I',
                                         accessor: 'prefix',
-                                        className: 'table__cell flex  flexCenterVertical h100 w100I',
+                                        className: 'table__cell fontNormal flex  flexCenterVertical h100 w100I',
                                         sortable: false,
                                         Cell: props => <div className="h100 flex flexCenterVertical ">
                                             {props.value}

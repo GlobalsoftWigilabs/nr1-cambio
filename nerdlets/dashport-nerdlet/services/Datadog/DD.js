@@ -44,7 +44,7 @@ const callApis = async (
           switch (list[i].name) {
             case 'Get All Active Metrics':
               {
-                const from = Math.floor(new Date() / 1000) - 60 * 60;
+                const from = Math.floor(new Date() / 1000) - 60 * 30;
                 const metrics = await datadogService.fetchMetrics(
                   from,
                   null,

@@ -20,10 +20,8 @@
     grid-template: 40% 60% / 1fr;
 }
 .boxDashboards--title {
-    font-family: Open Sans;
     font-style: normal;
     font-weight: normal;
-    font-size: 0.89vw;
     line-height: 19px;
     /* identical to box height */
     text-align: center;
@@ -34,10 +32,8 @@
     height: 100%;
 }
 .boxDashboards--quantity {
-    font-family: Open Sans;
     font-style: normal;
     font-weight: 600;
-    font-size: 3.4vw;
     line-height: 68px;
     display: flex;
     align-items: center;
@@ -254,7 +250,7 @@
     line-height: 19px;
     margin-left: 10px;
 }
-.table__cell {
+.table__cell fontNormal {
     height: 2.5vw;
     font-size: 0.72vw;
     display: flex;

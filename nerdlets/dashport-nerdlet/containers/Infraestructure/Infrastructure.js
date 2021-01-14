@@ -332,7 +332,7 @@ export default class Infrastructure extends React.Component {
             <div className="mainContent__infrastructure">
               <div className="information__box">
                 <span
-                  className="box--title"
+                  className=" box--title fontMedium "
                   style={{
                     color: greenColor
                   }}
@@ -341,7 +341,7 @@ export default class Infrastructure extends React.Component {
                 </span>
                 <div>
                   <span
-                    className="box--quantity"
+                    className="box--quantity fontBigger "
                     style={{
                       color: greenColor
                     }}
@@ -352,7 +352,7 @@ export default class Infrastructure extends React.Component {
               </div>
               <div className="information__box">
                 <span
-                  className="box--title"
+                  className=" box--title fontMedium "
                   style={{
                     color: greenColor
                   }}
@@ -361,7 +361,7 @@ export default class Infrastructure extends React.Component {
                 </span>
                 <div>
                   <span
-                    className="box--quantity"
+                    className="box--quantity fontBigger "
                     style={{
                       color: greenColor
                     }}
@@ -374,9 +374,11 @@ export default class Infrastructure extends React.Component {
                 style={{ height: '50%', width: '95%' }}
                 className="graph_bar"
               >
-                <div style={{ textAlign: 'center', marginTop: '90%' }}>
-                  {' '}
-                  <h3>Platform</h3>
+                <div
+                  style={{ textAlign: 'center', marginTop: '90%' }}
+                  className="fontMedium"
+                >
+                  {data.length !== 0 && 'Platform'}
                 </div>
                 {infrastructureDataGraph ? (
                   infrastructureDataGraph.map((data, index) => {
@@ -512,7 +514,7 @@ export default class Infrastructure extends React.Component {
                     columns={[
                       {
                         Header: () => (
-                          <div className="table__headerSticky">
+                          <div className="table__headerSticky fontSmall">
                             <div
                               className="pointer flex"
                               style={{ marginLeft: '15px' }}
@@ -543,7 +545,8 @@ export default class Infrastructure extends React.Component {
                           </div>
                         ),
                         headerClassName: 'stycky w100I',
-                        className: ' stycky table__cellSticky h100 w100I',
+                        className:
+                          ' stycky table__cellSticky fontNormal h100 w100I',
                         accessor: 'host_name',
                         sortable: false,
                         Cell: props => {
@@ -568,7 +571,7 @@ export default class Infrastructure extends React.Component {
                       },
                       {
                         Header: () => (
-                          <div className="table__header">
+                          <div className="table__header fontSmall">
                             <div
                               className="pointer flex"
                               onClick={() => {
@@ -600,7 +603,7 @@ export default class Infrastructure extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'aliases',
                         className:
-                          'table__cell flex flexCenterVertical h100 w100I',
+                          'table__cell fontNormal flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
                           <div className="h100 flex flexCenterVertical">
@@ -610,7 +613,7 @@ export default class Infrastructure extends React.Component {
                       },
                       {
                         Header: () => (
-                          <div className="table__header">
+                          <div className="table__header fontSmall">
                             <div
                               className="pointer flex "
                               onClick={() => {
@@ -642,7 +645,7 @@ export default class Infrastructure extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'apps',
                         className:
-                          'table__cell flex flexCenterVertical h100 w100I',
+                          'table__cell fontNormal flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
                           <div className="h100 flex flexCenterVertical ">
@@ -652,7 +655,7 @@ export default class Infrastructure extends React.Component {
                       },
                       {
                         Header: () => (
-                          <div className="table__header">
+                          <div className="table__header fontSmall">
                             <div
                               className="pointer flex"
                               onClick={() => {
@@ -684,7 +687,7 @@ export default class Infrastructure extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'sources',
                         className:
-                          'table__cell flex flexCenterVertical h100 w100I',
+                          'table__cell fontNormal flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
                           <div className="h100 flex flexCenterVertical">
@@ -694,7 +697,7 @@ export default class Infrastructure extends React.Component {
                       },
                       {
                         Header: () => (
-                          <div className="table__header">
+                          <div className="table__header fontSmall">
                             <div
                               className="pointer flex"
                               onClick={() => {
@@ -726,7 +729,7 @@ export default class Infrastructure extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'muted',
                         className:
-                          'table__cell flex flexCenterVertical h100 w100I',
+                          'table__cell fontNormal flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
                           <div className="h100 flex flexCenterVertical">
@@ -736,7 +739,7 @@ export default class Infrastructure extends React.Component {
                       },
                       {
                         Header: () => (
-                          <div className="table__header">
+                          <div className="table__header fontSmall">
                             <div
                               className="pointer flex"
                               onClick={() => {
@@ -768,7 +771,7 @@ export default class Infrastructure extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'tags_by_source',
                         className:
-                          'table__cell flex flexCenterVertical h100 w100I',
+                          'table__cell fontNormal flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
                           <div className="h100 flex flexCenterVertical">

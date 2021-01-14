@@ -38,7 +38,7 @@ const ItemDivider = props => {
   } = props;
   return (
     <div
-      className="mainMenu__itemDivider"
+      className="mainMenu__itemDivider fontSmall"
       key={identifier}
       onClick={() => {
         handleChangeMenu(identifier);
@@ -51,7 +51,7 @@ const ItemDivider = props => {
           src={selectedMenu === 0 ? iconActive : iconInactive}
         />
         <div
-          className="content--text"
+          className="content--text fontSmall"
           style={{
             color: selectedMenu === 0 ? '#000' : INACTIVE_COLOR,
             fontWeight: selectedMenu === 0 ? '600' : 'normal'
@@ -75,7 +75,7 @@ const Item = props => {
   } = props;
   return (
     <div
-      className="mainMenu__item"
+      className="mainMenu__item fontSmall"
       key={identifier}
       onClick={() => {
         handleChangeMenu(identifier);
@@ -88,7 +88,7 @@ const Item = props => {
           src={selectedMenu === identifier ? iconActive : iconInactive}
         />
         <div
-          className="content--text"
+          className="content--text fontSmall"
           style={{
             color: selectedMenu === identifier ? ACTIVE_COLOR : INACTIVE_COLOR,
             fontWeight: selectedMenu === identifier ? '600' : 'normal'
@@ -128,17 +128,17 @@ class Menu extends React.Component {
           <ItemDivider
             identifier={0}
             handleChangeMenu={handleChangeMenu}
-            selectedMenu={selectedMenu}
+            selectedMenu={selectedMenu} 
             text="Setup"
             iconActive={setupIconA}
             iconInactive={setupIcon}
           />
           {lastUpdate !== '' && lastUpdate !== 'never' && (
             <>
-              <div className="mainMenu__item" key={1}>
+              <div className="mainMenu__item fontSmall" key={1}>
                 <div className="itemDivider__content">
                   <div
-                    className="content--text"
+                    className="content--text fontSmall"
                     style={{
                       color: selectedMenu !== 0 ? '#000' : INACTIVE_COLOR,
                       fontWeight: selectedMenu !== 0 ? '600' : 'normal'
@@ -207,7 +207,7 @@ class Menu extends React.Component {
             </>
           )}
         </div>
-        <div className="mainMenu__support">
+        <div className="mainMenu__support fontSmall">
           <div style={{ marginBottom: '10px' }}>
             <li key={11}>
               <Link

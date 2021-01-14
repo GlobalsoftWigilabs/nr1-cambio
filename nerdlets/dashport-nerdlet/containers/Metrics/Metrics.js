@@ -518,7 +518,7 @@ export default class Metrics extends React.Component {
             <div className="mainContent__information">
               <div className="information__box">
                 <span
-                  className="box--title box--metrics"
+                  className=" box--title fontMedium  box--metrics"
                   style={{
                     color: greenColor,
                     position: 'relative'
@@ -607,7 +607,7 @@ export default class Metrics extends React.Component {
                 </span>
                 <div>
                   <span
-                    className="box--quantity"
+                    className="box--quantity fontBigger "
                     style={{
                       color: greenColor
                     }}
@@ -639,6 +639,7 @@ export default class Metrics extends React.Component {
                     )}
                   </div>
                   <div
+                    className="fontMedium"
                     style={{
                       display: 'flex',
                       alignItems: 'flex-end',
@@ -793,7 +794,7 @@ export default class Metrics extends React.Component {
                     columns={[
                       {
                         Header: () => (
-                          <div className="table__headerAlignRight">
+                          <div className="table__headerAlignRight fontSmall">
                             <div
                               className="pointer flex flexCenterHorizontal"
                               style={{ marginLeft: '15px' }}
@@ -824,7 +825,7 @@ export default class Metrics extends React.Component {
                           </div>
                         ),
                         headerClassName: ' w100I',
-                        className: '  table__cell h100 w100I',
+                        className: '  table__cell fontNormal h100 w100I',
                         accessor: 'name',
                         sortable: false,
                         Cell: props => {
@@ -852,7 +853,7 @@ export default class Metrics extends React.Component {
                       },
                       {
                         Header: () => (
-                          <div className="table__headerAlignRight">
+                          <div className="table__headerAlignRight fontSmall">
                             <div
                               className="pointer flex "
                               onClick={() => {
@@ -884,7 +885,7 @@ export default class Metrics extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'integration',
                         className:
-                          'table__cell flex flexCenterVertical h100 w100I',
+                          'table__cell fontNormal flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
                           <div className="h100 flex flexCenterVertical">
@@ -894,7 +895,7 @@ export default class Metrics extends React.Component {
                       },
                       {
                         Header: () => (
-                          <div className="table__headerAlignRight">
+                          <div className="table__headerAlignRight fontSmall">
                             <div
                               className="pointer flex "
                               onClick={() => {
@@ -926,7 +927,7 @@ export default class Metrics extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'type',
                         className:
-                          'table__cell flex  flexCenterVertical h100 w100I',
+                          'table__cell fontNormal flex  flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
                           <div className="h100 flex flexCenterVertical ">
@@ -936,7 +937,7 @@ export default class Metrics extends React.Component {
                       },
                       {
                         Header: () => (
-                          <div className="table__headerAlignRight">
+                          <div className="table__headerAlignRight fontSmall">
                             <div
                               className="pointer flex "
                               onClick={() => {
@@ -968,7 +969,7 @@ export default class Metrics extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'hosts',
                         className:
-                          'table__cell flex  flexCenterVertical h100 w100I ',
+                          'table__cell fontNormal flex  flexCenterVertical h100 w100I ',
                         sortable: false,
                         Cell: props => {
                           let hosts = '';
@@ -984,7 +985,7 @@ export default class Metrics extends React.Component {
                       },
                       {
                         Header: () => (
-                          <div className="table__headerAlignRight">
+                          <div className="table__headerAlignRight fontSmall">
                             <div
                               className="pointer flex "
                               onClick={() => {
@@ -1016,7 +1017,7 @@ export default class Metrics extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'unit',
                         className:
-                          'table__cell flex  flexCenterVertical h100 w100I',
+                          'table__cell fontNormal flex  flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
                           <div className="h100 flex flexCenterVertical ">
@@ -1026,7 +1027,7 @@ export default class Metrics extends React.Component {
                       },
                       {
                         Header: () => (
-                          <div className="table__headerAlignRight">
+                          <div className="table__headerAlignRight fontSmall">
                             <div
                               className="pointer flex "
                               onClick={() => {
@@ -1058,7 +1059,7 @@ export default class Metrics extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'aggr',
                         className:
-                          'table__cell flex  flexCenterVertical h100 w100I',
+                          'table__cell fontNormal flex  flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
                           <div className="h100 flex flexCenterVertical ">

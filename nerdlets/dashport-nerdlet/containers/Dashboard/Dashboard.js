@@ -569,16 +569,16 @@ export default class Dashboard extends React.Component {
             <div className="mainDashboard__filtersOptions">
               <div className="filterOptions__boxDashboards">
                 <span
-                  className="boxDashboards--title"
+                  className="boxDashboards--title fontMedium"
                   style={{
                     color: '#007E8A'
                   }}
                 >
-                  All
+                  All 
                 </span>
                 <div>
                   <span
-                    className="boxDashboards--quantity"
+                    className="boxDashboards--quantity fontBigger"
                     style={{
                       color: '#007E8A'
                     }}
@@ -589,7 +589,7 @@ export default class Dashboard extends React.Component {
               </div>
               <div className="filterOptions__boxDashboards">
                 <span
-                  className="boxDashboards--title"
+                  className="boxDashboards--title fontMedium"
                   style={{
                     color: '#007E8A'
                   }}
@@ -598,7 +598,7 @@ export default class Dashboard extends React.Component {
                 </span>
                 <div>
                   <span
-                    className="boxDashboards--quantity"
+                    className="boxDashboards--quantity fontBigger"
                     style={{
                       color: '#007E8A'
                     }}
@@ -614,7 +614,7 @@ export default class Dashboard extends React.Component {
                   <div className="options__divSearch">
                     <BsSearch size="10px" color="#767B7F" />
                     <SearchInput
-                      className="options--searchInputDashboards"
+                      className="options--searchInputDashboards fontNormal"
                       onChange={this.searchUpdated}
                     />
                   </div>
@@ -703,7 +703,7 @@ export default class Dashboard extends React.Component {
                       {
                         Header: () => (
                           <div
-                            className="table__headerSticky"
+                            className="table__headerSticky fontSmall"
                             style={{
                               borderRight: '5px solid rgba(208, 208, 209, 0.1)',
                               borderRightStyle: 'groove'
@@ -739,7 +739,7 @@ export default class Dashboard extends React.Component {
                           </div>
                         ),
                         headerClassName: 'stycky w100I',
-                        className: ' stycky table__cellSticky h100 w100I',
+                        className: ' stycky table__cellSticky fontNormal h100 w100I',
                         accessor: 'name',
                         sortable: false,
                         Cell: props => {
@@ -770,7 +770,7 @@ export default class Dashboard extends React.Component {
                       {
                         Header: () => (
                           <div
-                            className="table__header"
+                            className="table__header fontSmall"
                             style={{ marginLeft: '15px' }}
                           >
                             <div
@@ -804,7 +804,7 @@ export default class Dashboard extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'autor',
                         className:
-                          'table__cell flex flexCenterVertical h100 w100I',
+                          'table__cell fontNormal flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
                           <div
@@ -817,7 +817,7 @@ export default class Dashboard extends React.Component {
                       },
                       {
                         Header: () => (
-                          <div className="table__header">
+                          <div className="table__header fontSmall">
                             <div
                               className="pointer flex "
                               onClick={() => {
@@ -849,7 +849,7 @@ export default class Dashboard extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'creation',
                         className:
-                          'table__cell flex flexCenterVertical h100 w100I',
+                          'table__cell fontNormal flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
                           <div className="h100 flex flexCenterVertical ">
@@ -859,7 +859,7 @@ export default class Dashboard extends React.Component {
                       },
                       {
                         Header: () => (
-                          <div className="table__header">
+                          <div className="table__header fontSmall">
                             <div
                               className="pointer flex "
                               onClick={() => {
@@ -891,7 +891,7 @@ export default class Dashboard extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'modified',
                         className:
-                          'table__cell flex flexCenterVertical h100 w100I',
+                          'table__cell fontNormal flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
                           <div className="h100 flex flexCenterVertical ">
@@ -901,7 +901,7 @@ export default class Dashboard extends React.Component {
                       },
                       {
                         Header: () => (
-                          <div className="table__header flexCenterHorizontal">
+                          <div className="table__header fontSmall flexCenterHorizontal">
                             <div
                               className="pointer flex flexCenterVertical"
                               onClick={() => {
@@ -945,7 +945,7 @@ export default class Dashboard extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'popularity',
                         className:
-                          'table__cell flex flexCenterVertical h100 w100I flexCenterHorizontal',
+                          'table__cell fontNormal flex flexCenterVertical h100 w100I flexCenterHorizontal',
                         sortable: false,
                         Cell: props => (
                           <div className="h100 flex flexCenterVertical flexCenterHorizontal">
@@ -955,7 +955,7 @@ export default class Dashboard extends React.Component {
                       },
                       {
                         Header: () => (
-                          <div className="table__header flexCenterHorizontal">
+                          <div className="table__header fontSmall flexCenterHorizontal">
                             <div
                               className="pointer flex"
                               onClick={() => {
@@ -987,7 +987,7 @@ export default class Dashboard extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'widgetsCount',
                         className:
-                          'table__cell flex flexCenterVertical h100 w100I flexCenterHorizontal',
+                          'table__cell fontNormal flex flexCenterVertical h100 w100I flexCenterHorizontal',
                         sortable: false,
                         Cell: props => (
                           <div className="h100 flex flexCenterVertical flexCenterHorizontal">
@@ -997,7 +997,7 @@ export default class Dashboard extends React.Component {
                       },
                       {
                         Header: () => (
-                          <div className="table__header">
+                          <div className="table__header fontSmall">
                             <div
                               className="pointer flex "
                               onClick={() => {
@@ -1029,7 +1029,7 @@ export default class Dashboard extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'description',
                         className:
-                          'table__cellLongText table__cell flex flexCenterVertical h100 w100I',
+                          'table__cellLongText table__cell fontNormal flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => {
                           let txtDescription = '-----';
@@ -1051,7 +1051,7 @@ export default class Dashboard extends React.Component {
                       },
                       {
                         Header: () => (
-                          <div className="table__header flexCenterHorizontal">
+                          <div className="table__header fontSmall flexCenterHorizontal">
                             <div
                               className="pointer flex "
                               onClick={() => {
@@ -1083,7 +1083,7 @@ export default class Dashboard extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'layoutType',
                         className:
-                          'table__cell flex flexCenterVertical flexCenterHorizontal h100 w100I',
+                          'table__cell fontNormal flex flexCenterVertical flexCenterHorizontal h100 w100I',
                         sortable: false,
                         Cell: props => (
                           <div className="h100 flex flexCenterHorizontals flexCenterVertical ">
@@ -1093,7 +1093,7 @@ export default class Dashboard extends React.Component {
                       },
                       {
                         Header: () => (
-                          <div className="table__header">
+                          <div className="table__header fontSmall">
                             <div
                               className="pointer flex "
                               onClick={() => {
@@ -1125,7 +1125,7 @@ export default class Dashboard extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'url',
                         className:
-                          'table__cell flex flexCenterVertical h100 w100I',
+                          'table__cell fontNormal flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
                           <div className="h100 flex flexCenterVertical ">
@@ -1136,7 +1136,7 @@ export default class Dashboard extends React.Component {
                       {
                         Header: () => (
                           <div
-                            className="table__header"
+                            className="table__header fontSmall"
                             style={{ marginLeft: '15px' }}
                           >
                             <div
@@ -1170,7 +1170,7 @@ export default class Dashboard extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'dashboardListTxt',
                         className:
-                          'table__cell flex flexCenterVertical h100 w100I',
+                          'table__cell fontNormal flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
                           <div style={{ marginLeft: '15px' }}>

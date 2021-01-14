@@ -51,6 +51,40 @@
   height: auto !important;
 }
 /////////////STYLES COMMON
+.fontSmall{
+  font-family: Open Sans;
+  font-size: 10px !important;
+}
+.fontNormal{
+  font-family: Open Sans;
+  font-size: 12px !important;
+}
+.fontMedium{
+  font-family: Open Sans;
+  font-size: 14px !important;
+}
+.fontHight{
+  font-family: Open Sans;
+  font-size: 16px !important;
+}
+.fontBigger{
+  font-family: Open Sans;
+  font-size: 50px !important;
+}
+@media (min-width: 1920px) {
+  .fontSmall{
+    font-family: Open Sans;
+    font-size: 12px !important;
+  }
+  .fontNormal{
+    font-family: Open Sans;
+    font-size: 14px !important;
+  }
+  .fontMedium{
+    font-family: Open Sans;
+    font-size: 16px !important;
+  }
+}
 input[type='search'] {
   background: white !important;
 }
@@ -114,7 +148,6 @@ a[target='_blank']:after {
   height: 2vw;
   align-items: center;
   /* justify-content: center; */
-  font-size: 0.81vw;
 }
 .table__headerAlignRight {
   background: #f7f7f8;
@@ -125,7 +158,6 @@ a[target='_blank']:after {
   display: flex;
   height: 2vw;
   align-items: center;
-  font-size: 0.81vw;
 }
 .table__sort {
   justify-content: space-around;
@@ -133,7 +165,6 @@ a[target='_blank']:after {
   margin-left: 3px;
 }
 .table__cell {
-  font-size: 0.84vw;
   white-space: pre-wrap !important;
 }
 .table__cellLongText {
@@ -144,10 +175,9 @@ a[target='_blank']:after {
   -webkit-box-orient: vertical;
 }
 
-.table__cellSticky {
+.table__cellSticky{
   width: 100%;
   display: block;
-  font-size: 0.84vw;
   align-items: center;
   white-space: pre-wrap !important;
 }
@@ -159,7 +189,6 @@ a[target='_blank']:after {
   display: flex;
   height: 2vw;
   align-items: center;
-  font-size: 0.78vw;
 }
 ///////////////// Values exclusive for library
 .ReactTable {
@@ -203,11 +232,9 @@ a[target='_blank']:after {
   display: grid;
   grid-template: 40% 50% / 1fr;
 }
-.box--title {
-  font-family: Open Sans;
+.box--title  {
   font-style: normal;
   font-weight: normal;
-  font-size: 0.89vw;
   line-height: 19px;
   /* identical to box height */
   text-align: center;
@@ -217,11 +244,9 @@ a[target='_blank']:after {
   justify-content: center;
   height: 100%;
 }
-.box--quantity {
-  font-family: Open Sans;
+.box--quantity{
   font-style: normal;
   font-weight: 600;
-  font-size: 3vw;
   line-height: 68px;
   display: flex;
   align-items: center;
@@ -335,14 +360,6 @@ a[target='_blank']:after {
 .buttonInside {
   position: relative;
   margin-bottom: 10px;
-}
-.inputApiKey {
-  height: 25px;
-  width: 100%;
-  padding-left: 10px;
-  border-radius: 4px;
-  border: none;
-  outline: none;
 }
 .buttonEye {
   position: absolute;
@@ -1867,10 +1884,10 @@ a[target='_blank']:after {
   height: 40%;
   flex-direction: column;
 }
-.buttonDelete {
-  margin-left: 5px;
-  font-size: 14px;
-} ////
+// .buttonDelete {
+//   margin-left: 5px;
+//   font-size: 14px;
+// } ////
 .buttonSave {
   width: 120px;
 } ////

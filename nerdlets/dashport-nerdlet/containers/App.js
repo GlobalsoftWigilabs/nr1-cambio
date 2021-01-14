@@ -199,6 +199,7 @@ export default class App extends React.Component {
       'datadog',
       this.reportLogFetch
     );
+    console.log(dataSetup);
     if (dataSetup) {
       let retrys = 0;
       let keyApi = null;
@@ -215,6 +216,7 @@ export default class App extends React.Component {
           retrys += 1;
         }
       }
+      console.log(keyApi,keyApp);
       if (keyApi && keyApp) {
         const datadogService = this.createDatadogServiceInstance(
           keyApi,

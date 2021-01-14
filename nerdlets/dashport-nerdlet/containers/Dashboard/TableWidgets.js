@@ -336,7 +336,7 @@ export default class TableWidgets extends React.Component {
                                 columns={[
                                     {
                                         Header: () => (
-                                            <div className="table__headerSticky">
+                                            <div className="table__headerSticky fontSmall">
                                                 <div className="pointer flex " style={{ marginLeft: "15px" }} onClick={() => { this.setSortColumn('title') }}>
                                                     TITLE
                                                     <div className="flexColumn table__sort">
@@ -347,7 +347,7 @@ export default class TableWidgets extends React.Component {
                                             </div>
                                         ),
                                         headerClassName: 'stycky w100I',
-                                        className: ' stycky table__cellSticky h100 w100I',
+                                        className: ' stycky table__cellSticky fontNormal h100 w100I',
                                         accessor: 'title',
                                         sortable: false,
                                         Cell: props => {
@@ -373,7 +373,7 @@ export default class TableWidgets extends React.Component {
                                     },
                                     {
                                         Header: () => (
-                                            <div className="table__headerAlignRight">
+                                            <div className="table__headerAlignRight fontSmall">
                                                 <div className="pointer flex " onClick={() => { this.setSortColumn('query') }}>
                                                     QUERY
                                                     <div className="flexColumn table__sort">
@@ -385,7 +385,7 @@ export default class TableWidgets extends React.Component {
                                         ),
                                         headerClassName: 'w100I',
                                         accessor: 'query',
-                                        className: 'table__cell flex  flexCenterVertical h100 w100I',
+                                        className: 'table__cell fontNormal flex  flexCenterVertical h100 w100I',
                                         sortable: false,
                                         Cell: props => <div className="h100 flex flexCenterVertical ">
                                             {props.value}
@@ -393,7 +393,7 @@ export default class TableWidgets extends React.Component {
                                     },
                                     {
                                         Header: () => (
-                                            <div className="table__header">
+                                            <div className="table__header fontSmall">
                                                 <div className="pointer flex " onClick={() => { this.setSortColumn('type') }}>
                                                     TYPE
                                                     <div className="flexColumn table__sort">
@@ -405,7 +405,7 @@ export default class TableWidgets extends React.Component {
                                         ),
                                         headerClassName: 'w100I',
                                         accessor: 'type',
-                                        className: 'table__cell flex  flexCenterVertical h100 w100I',
+                                        className: 'table__cell fontNormal flex  flexCenterVertical h100 w100I',
                                         sortable: false,
                                         Cell: props => <div className="h100 flex flexCenterVertical ">
                                             {props.value}
@@ -413,7 +413,7 @@ export default class TableWidgets extends React.Component {
                                     },
                                     {
                                         Header: () => (
-                                            <div className="table__headerAlignRight">
+                                            <div className="table__headerAlignRight fontSmall">
                                                 <div className="pointer flex" onClick={() => { this.setSortColumn('queryParameters') }}>
                                                     QUERY PARAMETERS
                                                     <div className="flexColumn table__sort">
@@ -425,7 +425,7 @@ export default class TableWidgets extends React.Component {
                                         ),
                                         headerClassName: 'w100I',
                                         accessor: 'queryParameters',
-                                        className: 'table__cell flex flexCenterVertical h100 w100I',
+                                        className: 'table__cell fontNormal flex flexCenterVertical h100 w100I',
                                         sortable: false,
                                         Cell: props => <div className="h100 flex flexCenterVertical">
                                             {props.value}
@@ -433,7 +433,7 @@ export default class TableWidgets extends React.Component {
                                     },
                                     {
                                         Header: () => (
-                                            <div className="table__headerAlignRight">
+                                            <div className="table__headerAlignRight fontSmall">
                                                 <div className="pointer flex" onClick={() => { this.setSortColumn('source') }}>
                                                     SOURCE OF DATA
                                                     <div className="flexColumn table__sort">
@@ -445,7 +445,7 @@ export default class TableWidgets extends React.Component {
                                         ),
                                         headerClassName: 'w100I',
                                         accessor: 'source',
-                                        className: 'table__cell flex flexCenterVertical h100 w100I',
+                                        className: 'table__cell fontNormal flex flexCenterVertical h100 w100I',
                                         sortable: false,
                                         Cell: props => <div className="h100 flex flexCenterVertical">
                                             {props.value}

@@ -11,7 +11,6 @@ const Bar = props => {
 
   const containerStylesBarTitle = {
     marginLeft: '20%',
-    fontSize: '0.72vw',
     textTransform: 'capitalize'
   };
 
@@ -34,8 +33,7 @@ const Bar = props => {
 
   const distributionQuantityAndBar = {
     display: 'grid',
-    gridTemplate: '1fr / 20% 80%',
-    fontSize: '0.81vw'
+    gridTemplate: '1fr / 20% 80%'
   };
   const barQuantity = {
     display: 'flex',
@@ -45,8 +43,10 @@ const Bar = props => {
 
   return (
     <div style={containerStyles}>
-      <div style={containerStylesBarTitle}>{title}</div>
-      <div style={distributionQuantityAndBar}>
+      <div style={containerStylesBarTitle} className="fontSmall">
+        {title}
+      </div>
+      <div style={distributionQuantityAndBar} className="fontMedium">
         <div style={barQuantity}>{quantity}</div>
         <div style={containerStylesBar}>
           <div style={fillerStyles} />

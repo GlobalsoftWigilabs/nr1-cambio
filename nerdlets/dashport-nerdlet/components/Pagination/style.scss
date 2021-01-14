@@ -11,15 +11,23 @@
 }
 .numbersPagination {
   display: flex;
-  font-size: 0.7vw;
 }
+.fontPagination{
+  font-family: Open Sans;
+  font-size: 14px !important;
+}
+// @media (min-width: 1920px) {
+
+// }
 .pageNumber-active {
   display: flex;
   align-items: center;
-  width: 1.7vw;
-  height: 1.7vw;
-  margin-right: 10px;
-  margin-left: 10px;
+  width:2.5em;
+  height: 2.5em;
+  min-width:25px;
+  min-height: 25px;
+  margin-right: 1em;
+  margin-left: 1em;
   justify-content: center;
   border-radius: 50%;
   background-color: #007e8a;
@@ -31,20 +39,24 @@
 .pageNumber-continue {
   display: flex;
   align-items: center;
-  width: 1.7vw;
-  height: 1.7vw;
-  margin-right: 10px;
-  margin-left: 10px;
+  width: 2.5em;
+  height: 2.5em;
+  min-width:25px;
+  min-height: 25px;
+  margin-right: 1em;
+  margin-left: 1em;
   justify-content: center;
   border-radius: 50%;
 }
 .pageNumber-inactive {
   display: flex;
   align-items: center;
-  width: 1.7vw;
-  height: 1.7vw;
-  margin-right: 10px;
-  margin-left: 10px;
+  width: 2.5em;
+  height: 2.5em;
+  min-width:25px;
+  min-height: 25px;
+  margin-right: 1em;
+  margin-left: 1em;
   justify-content: center;
   border-radius: 50%;
   color: #767b7f;

@@ -97,7 +97,7 @@ export default class Pagination extends React.Component {
         >
           <img width="15px" height="15px" src={arrowLeft} />
         </button>
-        <div className="numbersPagination">
+        <div className="numbersPagination fontPagination">
           {visiblePages.map((page, index, array) => {
             return (
               <div key={page} className="flex">

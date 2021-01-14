@@ -20,7 +20,7 @@ function ModalProgressBar(props) {
         >
             <Modal.Body>
                 <Modal.Header>
-                    <div className="headerModalProgress">
+                    <div className="headerModalProgress fontMedium"> 
                         <span>Fetching Metric Elements</span>
                         <div className="pointer modal__closeIcon" onClick={() => { _onClose() }}>
 
@@ -45,21 +45,21 @@ function ModalProgressBar(props) {
                                     }}
                                     src={warningIcon}
                                 />
-                                <span className="warningInfo--title">Important Information</span>
+                                <span className="warningInfo--title fontNormal">Important Information</span>
                             </div>
-                            <p className="warningInfo--description ">
+                            <p className="warningInfo--description fontNormal">
                                 <span className="warningInfo--steps">This process may take more than 30 minutes.</span> <br />
                                 <span className="warningInfo--steps">This browser tab should not close until the process is complete.</span>  <br />
                                 <span className="warningInfo--steps">Your internet connection must be active to complete  the process.</span>
                             </p>
-                            <div className="warningInfo__buttons">
+                            <div className="warningInfo__buttons fontNormal">
                                 <div />
                                 <Button
                                     onClick={() => { confirmAction() }}
                                     type={Button.TYPE.PRIMARY}
                                     loading={fetchingMetrics}
                                 >
-                                    Continue
+                                    Confirm
                         </Button>
                                 <Button
                                     onClick={() => { _onClose() }}
@@ -78,11 +78,11 @@ function ModalProgressBar(props) {
                         <div className="flex flexCenterHorizontal">
                             {
                                 completed === 100 ?
-                                    <div className="contentFetching__info flex flexCenterVertical flexCenterHorizontal">
+                                    <div className="contentFetching__info fontNormal flex flexCenterVertical flexCenterHorizontal">
                                         Process Completed
                                     </div>
                                     :
-                                    <div className="contentFetching__info flex flexCenterVertical flexCenterHorizontal">
+                                    <div className="contentFetching__info  fontNormal flex flexCenterVertical flexCenterHorizontal">
                                         <div className="info__loading">
                                             <Spinner />
                                             <span>Loading</span>

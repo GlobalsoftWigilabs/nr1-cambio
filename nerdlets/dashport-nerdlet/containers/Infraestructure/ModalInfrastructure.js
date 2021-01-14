@@ -17,17 +17,17 @@ export default class ModalInfrastructure extends React.Component {
               display: 'flex',
               height: '3vw',
               alignItems: 'center',
-              fontSize: '0.81vw'
             }}
           >
             <div
-              className="flex flexCenterHorizontal"
+              className="flex flexCenterHorizontal fontSmall"
               style={{ marginLeft: '5px' }}
             >
               {cell}
             </div>
           </div>
           <div
+            className="fontNormal"
             style={{
               width: '70%',
               backgroundColor: `${color}`,

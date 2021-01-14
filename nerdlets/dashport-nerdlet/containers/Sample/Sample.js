@@ -156,7 +156,7 @@ export default class Sample extends React.Component {
                             <div className="mainContent__information">
                                 <div className="information__box">
                                     <span
-                                        className="box--title"
+                                        className=" box--title fontMedium "
                                         style={{
                                             color: greenColor
                                         }}>
@@ -164,7 +164,7 @@ export default class Sample extends React.Component {
                                     </span>
                                     <div onClick={() => alert('Action')} className="pointer">
                                         <span
-                                            className="box--quantity"
+                                            className="box--quantity fontBigger "
                                             style={{
                                                 color: greenColor
                                             }}>
@@ -174,7 +174,7 @@ export default class Sample extends React.Component {
                                 </div>
                                 <div className="information__box">
                                     <span
-                                        className="box--title"
+                                        className=" box--title fontMedium "
                                         style={{
                                             color: textGray
                                         }}>
@@ -182,7 +182,7 @@ export default class Sample extends React.Component {
                                     </span>
                                     <div>
                                         <span
-                                            className="box--quantity"
+                                            className="box--quantity fontBigger "
                                             style={{
                                                 color: grayColor
                                             }}>
@@ -280,7 +280,7 @@ export default class Sample extends React.Component {
                                             columns={[
                                                 {
                                                     Header: () => (
-                                                        <div className="table__headerSticky">
+                                                        <div className="table__headerSticky fontSmall">
                                                             <div className="pointer flex " style={{ marginLeft: "15px" }} onClick={() => { this.setSortColumn('name') }}>
                                                                 NAME
                                                                     <div className="flexColumn table__sort">
@@ -291,7 +291,7 @@ export default class Sample extends React.Component {
                                                         </div>
                                                     ),
                                                     headerClassName: 'stycky w100I',
-                                                    className: ' stycky table__cellSticky h100 w100I',
+                                                    className: ' stycky table__cellSticky fontNormal h100 w100I',
                                                     accessor: 'name',
                                                     sortable: false,
                                                     Cell: props => {
@@ -308,7 +308,7 @@ export default class Sample extends React.Component {
                                                 },
                                                 {
                                                     Header: () => (
-                                                        <div className="table__header">
+                                                        <div className="table__header fontSmall">
                                                             <div className="pointer flex flexCenterHorizontal" onClick={() => { this.setSortColumn('age') }}>
                                                                 AGE
                                                                     <div className="flexColumn table__sort">
@@ -320,7 +320,7 @@ export default class Sample extends React.Component {
                                                     ),
                                                     headerClassName: 'w100I',
                                                     accessor: 'age',
-                                                    className: 'table__cell flex flexCenterHorizontal flexCenterVertical h100 w100I',
+                                                    className: 'table__cell fontNormal flex flexCenterHorizontal flexCenterVertical h100 w100I',
                                                     sortable: false,
                                                     Cell: props => <div className="h100 flex flexCenterVertical flexCenterHorizontal">
                                                         {props.value}
@@ -328,7 +328,7 @@ export default class Sample extends React.Component {
                                                 },
                                                 {
                                                     Header: () => (
-                                                        <div className="table__header">
+                                                        <div className="table__header fontSmall">
                                                             <div className="pointer flex flexCenterHorizontal" onClick={() => { this.setSortColumn('job') }}>
                                                                 JOB
                                                                     <div className="flexColumn table__sort">
@@ -340,7 +340,7 @@ export default class Sample extends React.Component {
                                                     ),
                                                     headerClassName: 'w100I',
                                                     accessor: 'job',
-                                                    className: 'table__cell flex flexCenterHorizontal flexCenterVertical h100 w100I',
+                                                    className: 'table__cell fontNormal flex flexCenterHorizontal flexCenterVertical h100 w100I',
                                                     sortable: false,
                                                     Cell: props => <div className="h100 flex flexCenterVertical flexCenterHorizontal">
                                                         {props.value}

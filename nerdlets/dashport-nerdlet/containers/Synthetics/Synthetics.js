@@ -476,7 +476,7 @@ export default class Synthetics extends React.Component {
             <div className="mainContent__information">
               <div className="information__box">
                 <span
-                  className="box--title"
+                  className=" box--title fontMedium "
                   style={{
                     color: greenColor
                   }}
@@ -485,7 +485,7 @@ export default class Synthetics extends React.Component {
                 </span>
                 <div>
                   <span
-                    className="box--quantity"
+                    className="box--quantity fontBigger "
                     style={{
                       color: greenColor
                     }}
@@ -600,7 +600,7 @@ export default class Synthetics extends React.Component {
                     columns={[
                       {
                         Header: () => (
-                          <div className="table__headerSticky">
+                          <div className="table__headerSticky fontSmall">
                             <div
                               className="pointer flex "
                               style={{ marginLeft: '15px' }}
@@ -631,7 +631,7 @@ export default class Synthetics extends React.Component {
                           </div>
                         ),
                         headerClassName: 'stycky w100I',
-                        className: ' stycky table__cellSticky h100 w100I',
+                        className: ' stycky table__cellSticky fontNormal h100 w100I',
                         accessor: 'name',
                         sortable: false,
                         Cell: props => {
@@ -660,7 +660,7 @@ export default class Synthetics extends React.Component {
                       },
                       {
                         Header: () => (
-                          <div className="table__header">
+                          <div className="table__header fontSmall">
                             <div
                               className="pointer flex"
                               onClick={() => {
@@ -692,7 +692,7 @@ export default class Synthetics extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'type',
                         className:
-                          'table__cell flex flexCenterVertical h100 w100I',
+                          'table__cell fontNormal flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
                           <div className="h100 flex flexCenterVertical">
@@ -703,7 +703,7 @@ export default class Synthetics extends React.Component {
 
                       {
                         Header: () => (
-                          <div className="table__header">
+                          <div className="table__header fontSmall">
                             <div
                               className="pointer flex"
                               onClick={() => {
@@ -735,7 +735,7 @@ export default class Synthetics extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'location',
                         className:
-                          'table__cell flex flexCenterVertical h100 w100I',
+                          'table__cell fontNormal flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
                           <div className="h100 flex flexCenterVertical">
@@ -745,7 +745,7 @@ export default class Synthetics extends React.Component {
                       },
                       {
                         Header: () => (
-                          <div className="table__header">
+                          <div className="table__header fontSmall">
                             <div
                               className="pointer flex"
                               onClick={() => {
@@ -777,7 +777,7 @@ export default class Synthetics extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'status',
                         className:
-                          'table__cell flex flexCenterVertical h100 w100I',
+                          'table__cell fontNormal flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
                           <div className="h100 flex flexCenterVertical">
@@ -787,7 +787,7 @@ export default class Synthetics extends React.Component {
                       },
                       {
                         Header: () => (
-                          <div className="table__header">
+                          <div className="table__header fontSmall">
                             <div
                               className="pointer flex"
                               onClick={() => {
@@ -819,7 +819,7 @@ export default class Synthetics extends React.Component {
                         headerClassName: 'w100I',
                         accessor: 'message',
                         className:
-                          'table__cell flex flexCenterVertical h100 w100I',
+                          'table__cell fontNormal flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
                           <div className="h100 flex flexCenterVertical">

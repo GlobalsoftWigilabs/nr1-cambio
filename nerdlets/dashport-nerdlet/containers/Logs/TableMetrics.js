@@ -331,7 +331,7 @@ export default class TableMetrics extends React.Component {
               columns={[
                 {
                   Header: () => (
-                    <div className="table__headerSticky">
+                    <div className="table__headerSticky fontSmall">
                       <div
                         className="pointer flex "
                         style={{ marginLeft: '15px' }}
@@ -362,7 +362,7 @@ export default class TableMetrics extends React.Component {
                     </div>
                   ),
                   headerClassName: 'stycky w100I',
-                  className: ' stycky table__cellSticky h100 w100I',
+                  className: ' stycky table__cellSticky fontNormal h100 w100I',
                   accessor: 'id',
                   sortable: false,
                   Cell: props => {
@@ -382,7 +382,7 @@ export default class TableMetrics extends React.Component {
                 },
                 {
                   Header: () => (
-                    <div className="table__header">
+                    <div className="table__header fontSmall">
                       <div
                         className="pointer flex "
                         onClick={() => {
@@ -413,7 +413,7 @@ export default class TableMetrics extends React.Component {
                   ),
                   headerClassName: 'w100I',
                   accessor: 'aggrType',
-                  className: 'table__cell flex flexCenterVertical h100 w100I',
+                  className: 'table__cell fontNormal flex flexCenterVertical h100 w100I',
                   sortable: false,
                   Cell: props => (
                     <div className="h100 flex flexCenterVertical ">
@@ -423,7 +423,7 @@ export default class TableMetrics extends React.Component {
                 },
                 {
                   Header: () => (
-                    <div className="table__header">
+                    <div className="table__header fontSmall">
                       <div
                         className="pointer flex "
                         onClick={() => {
@@ -454,7 +454,7 @@ export default class TableMetrics extends React.Component {
                   ),
                   headerClassName: 'w100I',
                   accessor: 'path',
-                  className: 'table__cell flex flexCenterVertical h100 w100I',
+                  className: 'table__cell fontNormal flex flexCenterVertical h100 w100I',
                   sortable: false,
                   Cell: props => (
                     <div className="h100 flex flexCenterVertical ">
@@ -464,7 +464,7 @@ export default class TableMetrics extends React.Component {
                 },
                 {
                   Header: () => (
-                    <div className="table__header">
+                    <div className="table__header fontSmall">
                       <div
                         className="pointer flex "
                         onClick={() => {
@@ -495,7 +495,7 @@ export default class TableMetrics extends React.Component {
                   ),
                   headerClassName: 'w100I',
                   accessor: 'filterQuery',
-                  className: 'table__cell flex flexCenterVertical h100 w100I',
+                  className: 'table__cell fontNormal flex flexCenterVertical h100 w100I',
                   sortable: false,
                   Cell: props => (
                     <div className="h100 flex flexCenterVertical ">
@@ -505,7 +505,7 @@ export default class TableMetrics extends React.Component {
                 },
                 {
                   Header: () => (
-                    <div className="table__header">
+                    <div className="table__header fontSmall">
                       <div
                         className="pointer flex "
                         onClick={() => {
@@ -536,7 +536,7 @@ export default class TableMetrics extends React.Component {
                   ),
                   headerClassName: 'w100I',
                   accessor: 'groupByPath',
-                  className: 'table__cell flex flexCenterVertical h100 w100I',
+                  className: 'table__cell fontNormal flex flexCenterVertical h100 w100I',
                   sortable: false,
                   Cell: props => (
                     <div className="h100 flex flexCenterVertical ">
@@ -546,7 +546,7 @@ export default class TableMetrics extends React.Component {
                 },
                 {
                   Header: () => (
-                    <div className="table__header">
+                    <div className="table__header fontSmall">
                       <div
                         className="pointer flex "
                         onClick={() => {
@@ -577,7 +577,7 @@ export default class TableMetrics extends React.Component {
                   ),
                   headerClassName: 'w100I',
                   accessor: 'tagName',
-                  className: 'table__cell flex flexCenterVertical h100 w100I',
+                  className: 'table__cell fontNormal flex flexCenterVertical h100 w100I',
                   sortable: false,
                   Cell: props => (
                     <div className="h100 flex flexCenterVertical ">

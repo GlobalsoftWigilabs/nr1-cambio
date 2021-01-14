@@ -10,7 +10,6 @@
     list-style-type: none;
     color: #2a3434;
     display: flex;
-    font-size: 12px;
     overflow-wrap: break-word;
     border-bottom: 0.5px solid #adadad;
     &:hover {
@@ -22,7 +21,6 @@
 .mainMenu__item {
     list-style-type: none;
     color: #bdbdbd;
-    font-size: 12px;
     overflow-wrap: break-word;
     height: 10%;
     display: flex;
@@ -39,8 +37,6 @@
 }
 .content--text {
     margin-left: 10px;
-    font-family: Open Sans;
-    font-size: 12px;
     line-height: 12px;
     display: flex;
     justify-content: space-around;
@@ -53,9 +49,7 @@
 
 .mainMenu__support {
     margin-top: 50%;
-    font-family: Open Sans;
     font-style: normal;
-    font-size: 12px;
     font-weight: bold;
     text-decoration: yellowgreen;
     color: #0078bf;

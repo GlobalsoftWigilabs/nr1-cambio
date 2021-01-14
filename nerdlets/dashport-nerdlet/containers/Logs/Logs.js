@@ -279,7 +279,7 @@ export default class Logs extends React.Component {
             <div className="mainContentLogs__information">
               <div className="information__box">
                 <span
-                  className="box--title"
+                  className=" box--title fontMedium "
                   style={{
                     color: greenColor
                   }}
@@ -288,7 +288,7 @@ export default class Logs extends React.Component {
                 </span>
                 <div>
                   <span
-                    className="box--quantity"
+                    className="box--quantity fontBigger "
                     style={{
                       color: greenColor
                     }}
@@ -299,7 +299,7 @@ export default class Logs extends React.Component {
               </div>
               <div className="information__box">
                 <span
-                  className="box--title"
+                  className=" box--title fontMedium "
                   style={{
                     color: greenColor
                   }}
@@ -308,7 +308,7 @@ export default class Logs extends React.Component {
                 </span>
                 <div>
                   <span
-                    className="box--quantity"
+                    className="box--quantity fontBigger "
                     style={{
                       color: greenColor
                     }}
@@ -319,7 +319,7 @@ export default class Logs extends React.Component {
               </div>
               <div className="information__box">
                 <span
-                  className="box--title"
+                  className=" box--title fontMedium "
                   style={{
                     color: greenColor
                   }}
@@ -328,7 +328,7 @@ export default class Logs extends React.Component {
                 </span>
                 <div>
                   <span
-                    className="box--quantity"
+                    className="box--quantity fontBigger "
                     style={{
                       color: greenColor
                     }}

@@ -18,10 +18,10 @@ export default class ModalAlert extends React.Component {
           }}
         >
           <div
+            className="fontSmall"
             style={{
               color: '#333333',
               fontWeight: 'bold',
-              fontSize: '0.81vw',
               width: '30%'
             }}
           >
@@ -29,7 +29,7 @@ export default class ModalAlert extends React.Component {
               {cell}
             </div>
           </div>
-          <div style={{ width: '70%' }}>
+          <div style={{ width: '70%' }} className="fontNormal">
             <div className="h100 flex flexCenterVertical">{content}</div>
           </div>
         </div>
@@ -107,7 +107,7 @@ export default class ModalAlert extends React.Component {
                           width: '30%'
                         }}
                       >
-                        <div className="flex " style={{ marginLeft: '15px' }}>
+                        <div className="flex fontSmall" style={{ marginLeft: '15px' }}>
                           MONITOR OPTIONS
                         </div>
                       </div>
