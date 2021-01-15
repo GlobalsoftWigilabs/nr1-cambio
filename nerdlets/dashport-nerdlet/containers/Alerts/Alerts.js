@@ -45,7 +45,8 @@ export default class Alerts extends React.Component {
         order: ''
       },
       hidden: false,
-      infoAditional: {}
+      infoAditional: {},
+      dataRespaldo: []
     };
   }
 
@@ -89,9 +90,11 @@ export default class Alerts extends React.Component {
           : '-----',
         type: element.type ? element.type : '-----',
         author: element.creator.name ? element.creator.name : '-----',
-        creation_date: element.created ? element.created : '-----',
+        creation_date: element.created
+          ? moment(element.created).format('MM/DD/YYYY')
+          : '----',
         date_last_triggered: element.last_triggered_ts
-          ? element.last_triggered_ts
+          ? moment.unix(element.last_triggered_ts).format('MM/DD/YYYY')
           : '-----',
         overall_state: element.status ? element.status : '-----',
         multi: element.multi ? 'yes' : 'no',
@@ -183,11 +186,11 @@ export default class Alerts extends React.Component {
   };
 
   downloadData = async () => {
-    const { data } = this.state;
+    const { dataRespaldo } = this.state;
     const date = new Date();
     const zip = new JSZip();
     const dataCsv = [];
-    data.forEach(row => {
+    dataRespaldo.forEach(row => {
       let thresholds = '-----';
       if (row.thresholds) {
         if (row.thresholds.critical) {
@@ -315,12 +318,8 @@ export default class Alerts extends React.Component {
       case 'creation_date':
         // eslint-disable-next-line no-case-declarations
         const sortCreated = finalList.sort(function(a, b) {
-          const date1 = new Date(
-            moment(a.creation_date).format('YYYY-MM-DDTHH:mm')
-          );
-          const date2 = new Date(
-            moment(b.creation_date).format('YYYY-MM-DDTHH:mm')
-          );
+          const date1 = new Date(a.creation_date);
+          const date2 = new Date(b.creation_date);
           if (date1 > date2) return valueOne;
           if (date1 < date2) return valueTwo;
           return 0;
@@ -329,12 +328,8 @@ export default class Alerts extends React.Component {
       case 'date_last_triggered':
         // eslint-disable-next-line no-case-declarations
         const sortLast_triggered_ts = finalList.sort(function(a, b) {
-          const date1 = new Date(
-            moment.unix(a.date_last_triggered).format('YYYY-MM-DDTHH:mm')
-          );
-          const date2 = new Date(
-            moment.unix(b.date_last_triggered).format('YYYY-MM-DDTHH:mm')
-          );
+          const date1 = new Date(a.date_last_triggered);
+          const date2 = new Date(b.date_last_triggered);
           if (date1 > date2) return valueOne;
           if (date1 < date2) return valueTwo;
           return 0;
@@ -825,7 +820,7 @@ export default class Alerts extends React.Component {
                         sortable: false,
                         Cell: props => (
                           <div className="h100 flex flexCenterVertical ">
-                            {moment(props.value).format('MM/DD/YYYY')}
+                            {props.value ? props.value : '-----'}
                           </div>
                         )
                       },
@@ -866,9 +861,7 @@ export default class Alerts extends React.Component {
                         sortable: false,
                         Cell: props => (
                           <div className="h100 flex flexCenterVertical ">
-                            {props.value
-                              ? moment.unix(props.value).format('MM/DD/YYYY')
-                              : '-----'}
+                            {props.value ? props.value : '-----'}
                           </div>
                         )
                       },
