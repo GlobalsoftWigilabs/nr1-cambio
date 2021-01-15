@@ -622,7 +622,7 @@ export default class Synthetics extends React.Component {
                     columns={[
                       {
                         Header: () => (
-                          <div className="table__headerSticky fontSmall">
+                          <div className="darkLine table__headerSticky fontSmall">
                             <div
                               className="pointer flex "
                               style={{ marginLeft: '15px' }}
@@ -664,7 +664,7 @@ export default class Synthetics extends React.Component {
                                   ? this.saveAction('data', props.original)
                                   : ''
                               }
-                              className={`h100 flex flexCenterVertical ${
+                              className={`darkLine h100 flex flexCenterVertical ${
                                 modal ? 'pointer' : ''
                               }`}
                               style={{

@@ -827,7 +827,7 @@ export default class Metrics extends React.Component {
                     columns={[
                       {
                         Header: () => (
-                          <div className="table__headerAlignRight fontSmall">
+                          <div className="darkLine table__headerSticky fontSmall">
                             <div
                               className="pointer flex flexCenterHorizontal"
                               style={{ marginLeft: '15px' }}
@@ -870,7 +870,7 @@ export default class Metrics extends React.Component {
                           }
                           return (
                             <div
-                              className="h100 flex flexCenterVertical"
+                              className="darkLine h100 flex flexCenterVertical"
                               style={{
                                 background:
                                   props.index % 2 ? '#F7F7F8' : 'white'

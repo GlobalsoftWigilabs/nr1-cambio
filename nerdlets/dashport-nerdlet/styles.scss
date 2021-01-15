@@ -73,7 +73,6 @@
 }
 
 .containerStylesBarTitle {
-  // margin-top: 10%;
   min-height: 60px !important;
   margin-left: 20% !important;
   text-transform: capitalize !important;
@@ -85,15 +84,20 @@
   grid-template-columns: 20% 80% !important;
 }
 
+.darkLine {
+  border-right: none;
+}
+
 @media (max-width: 1024px) {
   .containerStylesBarTitle {
     margin-bottom: 5px;
-    min-height: 60px !important;
-    margin-left: 20% !important;
-    text-transform: capitalize !important;
   }
   .distributionQuantityAndBar {
     grid-template-columns: 35% 65% !important;
+  }
+  .darkLine {   
+    border-right: 5px solid rgba(208, 208, 209, 0.1);
+    border-right-style: groove;
   }
   .fontSmall {
     font-family: Open Sans;

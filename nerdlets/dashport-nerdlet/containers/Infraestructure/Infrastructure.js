@@ -561,7 +561,7 @@ export default class Infrastructure extends React.Component {
                     columns={[
                       {
                         Header: () => (
-                          <div className="table__headerSticky fontSmall">
+                          <div className="darkLine table__headerSticky fontSmall">
                             <div
                               className="pointer flex"
                               style={{ marginLeft: '15px' }}
@@ -601,7 +601,7 @@ export default class Infrastructure extends React.Component {
                               onClick={() =>
                                 this.saveAction('data', props.original)
                               }
-                              className="h100 flex flexCenterVertical pointer"
+                              className="darkLine h100 flex flexCenterVertical pointer"
                               style={{
                                 background:
                                   props.index % 2 ? '#F7F7F8' : 'white',
