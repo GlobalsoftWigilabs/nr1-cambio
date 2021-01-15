@@ -909,7 +909,7 @@ export default class Dashboard extends React.Component {
                               POPULARITY
                               <Tooltip
                                 placementType={Tooltip.PLACEMENT_TYPE.BOTTOM}
-                                text="Popularity is based on the amount of traffic a dashboard receives. Popularity is updated daily; new dashboards have zero popularity bars for up to 24 hours."
+                                text="The greater number of lines the more popular the dashboard."
                               >
                                 <img
                                   src={interrogationIcon}
