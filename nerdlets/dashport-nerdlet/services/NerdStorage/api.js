@@ -203,6 +203,7 @@ async function writeNerdStorage(
       date: new Date().toLocaleString()
     };
     reportLogFetch(response);
+    throw err;
   });
 }
 

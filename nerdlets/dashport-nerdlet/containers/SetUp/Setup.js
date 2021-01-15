@@ -104,7 +104,8 @@ export default class Setup extends React.Component {
       completed,
       viewKeyAction,
       openToast,
-      deleteSetup
+      deleteSetup,
+      hasErrorFetch
     } = this.props;
     const { enableDownload } = this.state;
     switch (step) {
@@ -345,7 +346,7 @@ export default class Setup extends React.Component {
               style={{paddingLeft:"10px",paddingRight:"10px"}}
               >
                 {fetchingData? <ProgressBar bgcolor="#007E8A" completed={completed} /> :
-                  <ProgressBar bgcolor="#007E8A" completed={100} />
+                  <ProgressBar bgcolor="#007E8A" completed={hasErrorFetch?completed:100} />
                 }
               </div>
               <div className="flex flexCenterHorizontal flexCenterVertical">

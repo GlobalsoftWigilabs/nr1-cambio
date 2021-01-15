@@ -146,8 +146,8 @@ export default class Metrics extends React.Component {
     this.setState({ hidden: !actualValue, viewWarning: true });
   };
 
-  componentDidMount() {
-    const { accountId, metrics } = this.props;
+  componentWillReceiveProps(){
+    const { metrics } = this.props; 
     const { searchTermMetric, sortColumn } = this.state;
 
     const dataGraph = [];
@@ -174,12 +174,44 @@ export default class Metrics extends React.Component {
     this.setState({
       dataGraph: dataGraph,
       metricsTotal: metrics.length,
-      metrics: metrics,
       finalListRespaldo: metrics,
-      pagePag: 0,
-      page: 1
+      pagePag: 0
     });
+    this.loadData(metrics, searchTermMetric, sortColumn);
+    this.calcTable(metrics);
+  }
 
+  componentDidMount() {
+    const { metrics } = this.props; 
+    const { searchTermMetric, sortColumn } = this.state;
+
+    const dataGraph = [];
+    for (const metric of metrics) {
+      metric.type = metric.type ? metric.type : 'unknow';
+    }
+    // eslint-disable-next-line require-atomic-updates
+    for (const metric of metrics) {
+      if (metric.type) {
+        const index = dataGraph.findIndex(
+          element => element.name === metric.type
+        );
+        if (index !== -1) {
+          dataGraph[index].uv = dataGraph[index].uv + 1;
+        } else {
+          dataGraph.push({
+            name: metric.type,
+            pv: metrics.length,
+            uv: 1
+          });
+        }
+      }
+    }
+    this.setState({
+      dataGraph: dataGraph,
+      metricsTotal: metrics.length,
+      finalListRespaldo: metrics,
+      pagePag: 0
+    });
     this.loadData(metrics, searchTermMetric, sortColumn);
     this.calcTable(metrics);
   }

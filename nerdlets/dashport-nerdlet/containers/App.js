@@ -64,6 +64,7 @@ export default class App extends React.Component {
       loadingContent: true,
       writingSetup: false,
       fetchingData: false,
+      hasErrorFetch: false,
       // DASHBOARDS
       dataDashboards: [],
       emptyData: false,
@@ -805,7 +806,9 @@ export default class App extends React.Component {
             `${collectionName}-obj`,
             monitorObj,
             this.reportLogFetch
-          );
+          ).catch(err => {
+            throw err;
+          });
           const pagesMonitors = this.pagesOfData(listMonitors);
           for (const keyMonitor in pagesMonitors) {
             if (pagesMonitors[keyMonitor]) {
@@ -815,7 +818,9 @@ export default class App extends React.Component {
                 `${collectionName}-${keyMonitor}`,
                 pagesMonitors[keyMonitor],
                 this.reportLogFetch
-              );
+              ).catch(err => {
+                throw err;
+              });
             }
           }
           const pagesTypes = this.pagesOfData(listTypes);
@@ -827,7 +832,9 @@ export default class App extends React.Component {
                 `${collectionName}-${keyTypes}`,
                 pagesTypes[keyTypes],
                 this.reportLogFetch
-              );
+              ).catch(err => {
+                throw err;
+              });
             }
           }
         }
@@ -846,7 +853,9 @@ export default class App extends React.Component {
             `${collectionName}-obj`,
             dashBoardObj,
             this.reportLogFetch
-          );
+          ).catch(err => {
+            throw err;
+          });
           const pagesDashboards = this.pagesOfData(listDashboards);
           for (const keyDashboard in pagesDashboards) {
             if (pagesDashboards[keyDashboard]) {
@@ -856,7 +865,9 @@ export default class App extends React.Component {
                 `${collectionName}-${keyDashboard}`,
                 pagesDashboards[keyDashboard],
                 this.reportLogFetch
-              );
+              ).catch(err => {
+                throw err;
+              });
             }
           }
         }
@@ -874,7 +885,9 @@ export default class App extends React.Component {
                 `${collectionName}-${keyHost}`,
                 pagesHost[keyHost],
                 this.reportLogFetch
-              );
+              ).catch(err => {
+                throw err;
+              });
             }
           }
           data.data.hostList = [];
@@ -884,7 +897,9 @@ export default class App extends React.Component {
             `${collectionName}-obj`,
             data,
             this.reportLogFetch
-          );
+          ).catch(err => {
+            throw err;
+          });
         }
         break;
       case 'logs':
@@ -905,7 +920,9 @@ export default class App extends React.Component {
                 `${collectionName}-archives-${keyArchives}`,
                 pagesArchives[keyArchives],
                 this.reportLogFetch
-              );
+              ).catch(err => {
+                throw err;
+              });
             }
           }
           await writeNerdStorage(
@@ -914,7 +931,9 @@ export default class App extends React.Component {
             `${collectionName}-metrics-obj`,
             data.data.metricsStatus,
             this.reportLogFetch
-          );
+          ).catch(err => {
+            throw err;
+          });
           const pagesMetricsLogs = this.pagesOfData(data.data.metricsLogs);
           for (const keyMetricLog in pagesMetricsLogs) {
             if (pagesMetricsLogs[keyMetricLog]) {
@@ -924,7 +943,9 @@ export default class App extends React.Component {
                 `${collectionName}-metrics-${keyMetricLog}`,
                 pagesMetricsLogs[keyMetricLog],
                 this.reportLogFetch
-              );
+              ).catch(err => {
+                throw err;
+              });
             }
           }
           await writeNerdStorage(
@@ -933,7 +954,9 @@ export default class App extends React.Component {
             `${collectionName}-pipelines-obj`,
             data.data.pipelinesStatus,
             this.reportLogFetch
-          );
+          ).catch(err => {
+            throw err;
+          });
           const pagesPipelines = this.pagesOfData(data.data.pipelines);
           for (const keyPipeline in pagesPipelines) {
             if (pagesPipelines[keyPipeline]) {
@@ -943,7 +966,9 @@ export default class App extends React.Component {
                 `${collectionName}-pipelines-${keyPipeline}`,
                 pagesPipelines[keyPipeline],
                 this.reportLogFetch
-              );
+              ).catch(err => {
+                throw err;
+              });
             }
           }
         }
@@ -959,7 +984,9 @@ export default class App extends React.Component {
             `${collectionName}-obj`,
             metricObj,
             this.reportLogFetch
-          );
+          ).catch(err => {
+            throw err;
+          });
           const pagesMetrics = this.pagesOfData(listMetrics);
           for (const keyMetric in pagesMetrics) {
             if (pagesMetrics[keyMetric]) {
@@ -969,7 +996,9 @@ export default class App extends React.Component {
                 `${collectionName}-${keyMetric}`,
                 pagesMetrics[keyMetric],
                 this.reportLogFetch
-              );
+              ).catch(err => {
+                throw err;
+              });
             }
           }
         }
@@ -987,7 +1016,9 @@ export default class App extends React.Component {
             `${collectionName}-obj`,
             syntheticObj,
             this.reportLogFetch
-          );
+          ).catch(err => {
+            throw err;
+          });
           const pagesList = this.pagesOfData(list);
           for (const keyList in pagesList) {
             if (pagesList[keyList]) {
@@ -997,7 +1028,9 @@ export default class App extends React.Component {
                 `${collectionName}-${keyList}`,
                 pagesList[keyList],
                 this.reportLogFetch
-              );
+              ).catch(err => {
+                throw err;
+              });
             }
           }
           // const pagesLocations = this.pagesOfData(listLocations);
@@ -1025,7 +1058,9 @@ export default class App extends React.Component {
             `${collectionName}-obj`,
             accountObj,
             this.reportLogFetch
-          );
+          ).catch(err => {
+            throw err;
+          });
           const pagesAccounts = this.pagesOfData(listUsers);
           for (const keyAccount in pagesAccounts) {
             if (pagesAccounts[keyAccount]) {
@@ -1035,7 +1070,9 @@ export default class App extends React.Component {
                 `${collectionName}-${keyAccount}`,
                 pagesAccounts[keyAccount],
                 this.reportLogFetch
-              );
+              ).catch(err => {
+                throw err;
+              });
             }
           }
         }
@@ -1157,7 +1194,8 @@ export default class App extends React.Component {
       });
       if (this.state.lastUpdate !== 'never') {
         this.setState({
-          fetchingData: false
+          fetchingData: false,
+          hasErrorFetch: true
         });
       } else {
         this.setState({
@@ -1213,24 +1251,69 @@ export default class App extends React.Component {
       });
     if (error) {
       Toast.showToast({
-        title: 'FAILED',
+        title: 'FAILED FETCH UPDATE METRICS',
         description: 'something went wrong please retry',
-        type: Toast.TYPE.NORMAL
+        type: Toast.TYPE.CRITICAL,
+        sticky: true
       });
       this.setState({
         fetchingMetrics: false,
-        progressMetrics: 100,
         errorMetric: true
       });
     } else {
-      await this.dataWriter('Get All Active Metrics', metrics);
-      await this.finalDataWriter('metrics', { data: metrics });
-      this.setState({
-        metrics: metrics,
-        metricsTotal: metrics.length,
-        fetchingMetrics: false,
-        progressMetrics: 100
+      await this.dataWriter('Get All Active Metrics', metrics).catch(err => {
+        const response = {
+          message: err,
+          type: 'Error',
+          event: 'Format data',
+          date: new Date().toLocaleString()
+        };
+        this.reportLogFetch(response);
+        error = true;
       });
+      if (error) {
+        Toast.showToast({
+          title: 'FAILED FETCH UPDATE METRICS',
+          description: 'something went wrong please retry',
+          type: Toast.TYPE.CRITICAL,
+          sticky: true
+        });
+        this.setState({
+          fetchingMetrics: false,
+          errorMetric: true
+        });
+      } else {
+        await this.finalDataWriter('metrics', { data: metrics }).catch(err => {
+          const response = {
+            message: err,
+            type: 'Error',
+            event: 'Format data',
+            date: new Date().toLocaleString()
+          };
+          this.reportLogFetch(response);
+          error = true;
+        });
+        if (error) {
+          Toast.showToast({
+            title: 'FAILED FETCH UPDATE METRICS',
+            description: 'something went wrong please retry',
+            type: Toast.TYPE.CRITICAL,
+            sticky: true
+          });
+          this.setState({
+            fetchingMetrics: false,
+            errorMetric: true
+          });
+        } else {
+          console.log(metrics);
+          this.setState({
+            metrics: metrics,
+            metricsTotal: metrics.length,
+            fetchingMetrics: false,
+            progressMetrics: 100
+          });
+        }
+      }
     }
   };
 
@@ -1296,7 +1379,9 @@ export default class App extends React.Component {
                 `${documentName}-${keyAllDashboard}`,
                 pagesDashboards[keyAllDashboard],
                 this.reportLogFetch
-              );
+              ).catch(err => {
+                throw err;
+              });
             }
           }
         }
@@ -1313,7 +1398,9 @@ export default class App extends React.Component {
                 `${documentName}-${keyAllDashboard}`,
                 pagesDashboards[keyAllDashboard],
                 this.reportLogFetch
-              );
+              ).catch(err => {
+                throw err;
+              });
             }
           }
         }
@@ -1330,7 +1417,9 @@ export default class App extends React.Component {
             `${documentName}-obj`,
             archiveObj,
             this.reportLogFetch
-          );
+          ).catch(err => {
+            throw err;
+          });
           for (const keyArchives in pagesArchives) {
             if (pagesArchives[keyArchives]) {
               await writeNerdStorage(
@@ -1339,7 +1428,9 @@ export default class App extends React.Component {
                 `${documentName}-${keyArchives}`,
                 pagesArchives[keyArchives],
                 this.reportLogFetch
-              );
+              ).catch(err => {
+                throw err;
+              });
             }
           }
         }
@@ -1356,7 +1447,9 @@ export default class App extends React.Component {
             `${documentName}-obj`,
             basedObj,
             this.reportLogFetch
-          );
+          ).catch(err => {
+            throw err;
+          });
           for (const keyLogsMetrics in pagesLogsMetrics) {
             if (pagesLogsMetrics[keyLogsMetrics]) {
               await writeNerdStorage(
@@ -1365,7 +1458,9 @@ export default class App extends React.Component {
                 `${documentName}-${keyLogsMetrics}`,
                 pagesLogsMetrics[keyLogsMetrics],
                 this.reportLogFetch
-              );
+              ).catch(err => {
+                throw err;
+              });
             }
           }
         }
@@ -1381,7 +1476,9 @@ export default class App extends React.Component {
                 `${documentName}-${keyDashboard}`,
                 pagesDashboard[keyDashboard],
                 this.reportLogFetch
-              );
+              ).catch(err => {
+                throw err;
+              });
             }
           }
         }
@@ -1397,7 +1494,9 @@ export default class App extends React.Component {
                 `${documentName}-${keyItemDashboard}`,
                 pagesDashboardList[keyItemDashboard],
                 this.reportLogFetch
-              );
+              ).catch(err => {
+                throw err;
+              });
             }
           }
         }
@@ -1414,7 +1513,9 @@ export default class App extends React.Component {
                 `${documentName}-${keyAllDashboardList}`,
                 pagesAllDashboardsList[keyAllDashboardList],
                 this.reportLogFetch
-              );
+              ).catch(err => {
+                throw err;
+              });
             }
           }
         }
@@ -1430,7 +1531,9 @@ export default class App extends React.Component {
                 `${documentName}-${keyDashboardList}`,
                 pagesDashboardsList[keyDashboardList],
                 this.reportLogFetch
-              );
+              ).catch(err => {
+                throw err;
+              });
             }
           }
         }
@@ -1446,7 +1549,9 @@ export default class App extends React.Component {
                 `${documentName}-${keyEmbeddablet}`,
                 pagesEmbeddable[keyEmbeddablet],
                 this.reportLogFetch
-              );
+              ).catch(err => {
+                throw err;
+              });
             }
           }
         }
@@ -1464,7 +1569,9 @@ export default class App extends React.Component {
             `${documentName}-obj`,
             hostObj,
             this.reportLogFetch
-          );
+          ).catch(err => {
+            throw err;
+          });
           // guardo la lista de host con el for
           for (const keyHostList in pagesHostList) {
             if (pagesHostList[keyHostList]) {
@@ -1474,7 +1581,9 @@ export default class App extends React.Component {
                 `${documentName}-${keyHostList}`,
                 pagesHostList[keyHostList],
                 this.reportLogFetch
-              );
+              ).catch(err => {
+                throw err;
+              });
             }
           }
         }
@@ -1492,7 +1601,9 @@ export default class App extends React.Component {
                 `${documentName}-${keyIndexes}`,
                 pagesIndexes[keyIndexes],
                 this.reportLogFetch
-              );
+              ).catch(err => {
+                throw err;
+              });
             }
           }
         }
@@ -1509,7 +1620,9 @@ export default class App extends React.Component {
                 `${documentName}-${keyIndexesNames}`,
                 pagesIndexesNames[keyIndexesNames],
                 this.reportLogFetch
-              );
+              ).catch(err => {
+                throw err;
+              });
             }
           }
         }
@@ -1526,7 +1639,9 @@ export default class App extends React.Component {
                 `${documentName}-${keyPipeLine}`,
                 pagesPipeline[keyPipeLine],
                 this.reportLogFetch
-              );
+              ).catch(err => {
+                throw err;
+              });
             }
           }
         }
@@ -1544,7 +1659,9 @@ export default class App extends React.Component {
             `${documentName}-obj`,
             pipeObj,
             this.reportLogFetch
-          );
+          ).catch(err => {
+            throw err;
+          });
           for (const keyAllPipeLine in pagesAllPipeline) {
             if (pagesAllPipeline[keyAllPipeLine]) {
               await writeNerdStorage(
@@ -1553,7 +1670,9 @@ export default class App extends React.Component {
                 `${documentName}-${keyAllPipeLine}`,
                 pagesAllPipeline[keyAllPipeLine],
                 this.reportLogFetch
-              );
+              ).catch(err => {
+                throw err;
+              });
             }
           }
         }
@@ -1571,7 +1690,9 @@ export default class App extends React.Component {
             `${documentName}-obj`,
             monitorObj,
             this.reportLogFetch
-          );
+          ).catch(err => {
+            throw err;
+          });
           // guardo lista de metricas
           for (const keyMonitorMeta in pagesCountsTypeList) {
             if (pagesCountsTypeList[keyMonitorMeta]) {
@@ -1581,7 +1702,9 @@ export default class App extends React.Component {
                 `${documentName}-${keyMonitorMeta}`,
                 pagesCountsTypeList[keyMonitorMeta],
                 this.reportLogFetch
-              );
+              ).catch(err => {
+                throw err;
+              });
             }
           }
         }
@@ -1597,7 +1720,9 @@ export default class App extends React.Component {
                 `${documentName}-${keyMonitorSearch}`,
                 pagesMonitorsSearch[keyMonitorSearch],
                 this.reportLogFetch
-              );
+              ).catch(err => {
+                throw err;
+              });
             }
           }
         }
@@ -1614,7 +1739,9 @@ export default class App extends React.Component {
                 `${documentName}-${keyTest}`,
                 pagesTest[keyTest],
                 this.reportLogFetch
-              );
+              ).catch(err => {
+                throw err;
+              });
             }
           }
         }
@@ -1631,7 +1758,9 @@ export default class App extends React.Component {
                 `${documentName}-${keyDevices}`,
                 pageDevices[keyDevices],
                 this.reportLogFetch
-              );
+              ).catch(err => {
+                throw err;
+              });
             }
           }
         }
@@ -1648,7 +1777,9 @@ export default class App extends React.Component {
                 `${documentName}-${keyLocations}`,
                 pageLocations[keyLocations],
                 this.reportLogFetch
-              );
+              ).catch(err => {
+                throw err;
+              });
             }
           }
         }
@@ -1669,7 +1800,9 @@ export default class App extends React.Component {
             `${documentName}-obj`,
             allUserObj,
             this.reportLogFetch
-          );
+          ).catch(err => {
+            throw err;
+          });
           // guardo la lista de pages data
           for (const keyData in pagesData) {
             if (pagesData[keyData]) {
@@ -1679,7 +1812,9 @@ export default class App extends React.Component {
                 `${documentName}-${keyData}`,
                 pagesData[keyData],
                 this.reportLogFetch
-              );
+              ).catch(err => {
+                throw err;
+              });
             }
           }
           // guardo la lista de pages include
@@ -1691,7 +1826,9 @@ export default class App extends React.Component {
                 `${documentName}-${keyIncluded}`,
                 pagesIncluded[keyIncluded],
                 this.reportLogFetch
-              );
+              ).catch(err => {
+                throw err;
+              });
             }
           }
         }
@@ -1708,7 +1845,9 @@ export default class App extends React.Component {
             `${documentName}-obj`,
             monitorSearchObj,
             this.reportLogFetch
-          );
+          ).catch(err => {
+            throw err;
+          });
           // guardo la lista de pages include
           for (const keyIncluded in pagesGroups) {
             if (pagesGroups[keyIncluded]) {
@@ -1718,7 +1857,9 @@ export default class App extends React.Component {
                 `${documentName}-${keyIncluded}`,
                 pagesGroups[keyIncluded],
                 this.reportLogFetch
-              );
+              ).catch(err => {
+                throw err;
+              });
             }
           }
         }
@@ -1745,7 +1886,9 @@ export default class App extends React.Component {
                 `${documentName}-${keyTags}`,
                 pagesTags[keyTags],
                 this.reportLogFetch
-              );
+              ).catch(err => {
+                throw err;
+              });
             }
           }
         }
@@ -1763,7 +1906,9 @@ export default class App extends React.Component {
             `${documentName}-obj`,
             metricObj,
             this.reportLogFetch
-          );
+          ).catch(err => {
+            throw err;
+          });
           // guardo lista de metricas
           for (const keyMetrics in pagesMetricsList) {
             if (pagesMetricsList[keyMetrics]) {
@@ -1773,7 +1918,9 @@ export default class App extends React.Component {
                 `${documentName}-${keyMetrics}`,
                 pagesMetricsList[keyMetrics],
                 this.reportLogFetch
-              );
+              ).catch(err => {
+                throw err;
+              });
             }
           }
         }
@@ -1787,7 +1934,9 @@ export default class App extends React.Component {
           `${documentName}-obj`,
           documentData,
           this.reportLogFetch
-        );
+        ).catch(err => {
+          throw err;
+        });
         break;
     }
     if (completed <= 50) {
@@ -2041,7 +2190,8 @@ export default class App extends React.Component {
       fetchingMetrics,
       progressMetrics,
       emptyData,
-      errorMetric
+      errorMetric,
+      hasErrorFetch
     } = this.state;
     // console.log('accountsTotal', accountsTotal, dataTableAccounts);
     switch (selectedMenu) {
@@ -2049,6 +2199,7 @@ export default class App extends React.Component {
         return (
           <Setup
             completed={completed}
+            hasErrorFetch={hasErrorFetch}
             platformSelect={platformSelect}
             setupComplete={setupComplete}
             deleteSetup={deleteSetup}
@@ -2066,7 +2217,6 @@ export default class App extends React.Component {
             writeSetup={this.writeSetup}
             openToast={this.openToast}
             handleChangeMenu={this.handleChangeMenu}
-            cancel={this.cancel}
           />
         );
       case 1:

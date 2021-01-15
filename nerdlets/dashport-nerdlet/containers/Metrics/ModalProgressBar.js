@@ -77,19 +77,25 @@ function ModalProgressBar(props) {
                         </div>
                         <div className="flex flexCenterHorizontal">
                             {
-                                completed === 100 ?
+                                errorMetric?
                                     <div className="contentFetching__info fontNormal flex flexCenterVertical flexCenterHorizontal">
-                                        {errorMetric?'The process has an error':'Process Completed'}
+                                        {'The process has an error'}
+                                    </div>
+                                    :
+                                    <>
+                                    {completed===100?
+                                    <div className="contentFetching__info fontNormal flex flexCenterVertical flexCenterHorizontal">
+                                        {'Process Completed'}
                                     </div>
                                     :
                                     <div className="contentFetching__info  fontNormal flex flexCenterVertical flexCenterHorizontal">
-                                        <div className="info__loading">
+                                       <div className="info__loading">
                                             <Spinner />
                                             <span>Loading</span>
                                         </div>
-                                    </div>
+                                    </div>}
+                                    </>
                             }
-
                         </div>
                     </div>
                 }
