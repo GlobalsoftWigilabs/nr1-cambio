@@ -8,6 +8,7 @@ import ReactTable from 'react-table-v6';
 import Pagination from '../../components/Pagination/Pagination';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
+import { Tooltip } from 'nr1';
 
 const KEYS_TO_FILTERS = [
   'id',
@@ -254,11 +255,16 @@ export default class TableMetrics extends React.Component {
             }
             onClick={this.onClickDownloadData(data.length)}
           >
-            <img
-              src={iconDownload}
-              style={{ marginLeft: '20px' }}
-              height="18px"
-            />
+            <Tooltip
+              placementType={Tooltip.PLACEMENT_TYPE.BOTTOM}
+              text="Download"
+            >
+              <img
+                src={iconDownload}
+                style={{ marginLeft: '20px' }}
+                height="18px"
+              />
+            </Tooltip>
           </div>
           {data.length !== 0 && (
             <Pagination
@@ -413,7 +419,8 @@ export default class TableMetrics extends React.Component {
                   ),
                   headerClassName: 'w100I',
                   accessor: 'aggrType',
-                  className: 'table__cell fontNormal flex flexCenterVertical h100 w100I',
+                  className:
+                    'table__cell fontNormal flex flexCenterVertical h100 w100I',
                   sortable: false,
                   Cell: props => (
                     <div className="h100 flex flexCenterVertical ">
@@ -454,7 +461,8 @@ export default class TableMetrics extends React.Component {
                   ),
                   headerClassName: 'w100I',
                   accessor: 'path',
-                  className: 'table__cell fontNormal flex flexCenterVertical h100 w100I',
+                  className:
+                    'table__cell fontNormal flex flexCenterVertical h100 w100I',
                   sortable: false,
                   Cell: props => (
                     <div className="h100 flex flexCenterVertical ">
@@ -495,7 +503,8 @@ export default class TableMetrics extends React.Component {
                   ),
                   headerClassName: 'w100I',
                   accessor: 'filterQuery',
-                  className: 'table__cell fontNormal flex flexCenterVertical h100 w100I',
+                  className:
+                    'table__cell fontNormal flex flexCenterVertical h100 w100I',
                   sortable: false,
                   Cell: props => (
                     <div className="h100 flex flexCenterVertical ">
@@ -536,7 +545,8 @@ export default class TableMetrics extends React.Component {
                   ),
                   headerClassName: 'w100I',
                   accessor: 'groupByPath',
-                  className: 'table__cell fontNormal flex flexCenterVertical h100 w100I',
+                  className:
+                    'table__cell fontNormal flex flexCenterVertical h100 w100I',
                   sortable: false,
                   Cell: props => (
                     <div className="h100 flex flexCenterVertical ">
@@ -577,7 +587,8 @@ export default class TableMetrics extends React.Component {
                   ),
                   headerClassName: 'w100I',
                   accessor: 'tagName',
-                  className: 'table__cell fontNormal flex flexCenterVertical h100 w100I',
+                  className:
+                    'table__cell fontNormal flex flexCenterVertical h100 w100I',
                   sortable: false,
                   Cell: props => (
                     <div className="h100 flex flexCenterVertical ">
