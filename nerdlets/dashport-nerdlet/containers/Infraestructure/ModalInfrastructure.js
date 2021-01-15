@@ -16,7 +16,7 @@ export default class ModalInfrastructure extends React.Component {
               backgroundColor: `${color}`,
               display: 'flex',
               height: '3vw',
-              alignItems: 'center',
+              alignItems: 'center'
             }}
           >
             <div
@@ -34,7 +34,12 @@ export default class ModalInfrastructure extends React.Component {
               display: 'flex'
             }}
           >
-            <div className="h100 flex flexCenterVertical">{content}</div>
+            <div
+              style={{ overflow: 'hidden' }}
+              className="h100 flex flexCenterVertical"
+            >
+              {content}
+            </div>
           </div>
         </div>
       </>

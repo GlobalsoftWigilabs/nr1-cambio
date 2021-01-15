@@ -14,11 +14,32 @@
 }
 .fontPagination{
   font-family: Open Sans;
-  font-size: 14px !important;
+  font-size: 12px !important;
 }
-// @media (min-width: 1920px) {
-
-// }
+@media (min-width: 1920px) and (min-height: 1080px) {
+  .fontPagination{
+    font-family: Open Sans;
+    font-size: 14px !important;
+  }
+}
+@media (max-width: 1024px) and (max-height: 768px) {
+  .fontPagination{
+    font-family: Open Sans;
+    font-size: 8px !important;
+  }
+  .pageNumber-active {
+    margin-right: 0.5em;
+    margin-left: 0.5em;
+  }
+  .pageNumber-continue {
+    margin-right: 0.5em;
+    margin-left: 0.5em;
+  }
+  .pageNumber-inactive {
+    margin-right: 0.5em;
+    margin-left: 0.5em;
+  }
+}
 .pageNumber-active {
   display: flex;
   align-items: center;

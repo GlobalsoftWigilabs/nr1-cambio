@@ -56,7 +56,8 @@ export default class Logs extends React.Component {
           name: element.name,
           enabled: element.is_enabled,
           type: element.type,
-          processors: processors
+          processors: processors,
+          dataProcessors: element.processors
         });
       });
       this.setState({
@@ -136,11 +137,11 @@ export default class Logs extends React.Component {
       if (dataArchives) {
         dataArchives.forEach(element => {
           archives.push({
-            NAME: element.name,
-            DESTINATION: element.type,
-            QUERY_USED: element.query,
-            TAGS: element.tags,
-            STATE: element.state
+            NAME: element.name ? element.name : '-----',
+            DESTINATION: element.type ? element.type : '-----',
+            QUERY_USED: element.query ? element.query : '-----',
+            TAGS: element.tags ? element.tags : '-----',
+            STATE: element.state ? element.state : '-----'
           });
         });
       }
@@ -155,12 +156,12 @@ export default class Logs extends React.Component {
       if (dataMetrics) {
         dataMetrics.forEach(element => {
           metrics.push({
-            ID: element.id,
-            COMPUTE_AGGT_TYPE: element.aggrType,
-            COMPUTE_PATH: element.path,
-            FILTER_QUERY: element.filterQuery,
-            GROUP_BY_PATH: element.groupByPath,
-            GROUP_TAG_NAME: element.tagName
+            ID: element.id ? element.id : '-----',
+            COMPUTE_AGGT_TYPE: element.aggrType ? element.aggrType : '-----',
+            COMPUTE_PATH: element.path ? element.path : '-----',
+            FILTER_QUERY: element.filterQuery ? element.filterQuery : '-----',
+            GROUP_BY_PATH: element.groupByPath ? element.groupByPath : '-----',
+            GROUP_TAG_NAME: element.tagName ? element.tagName : '-----'
           });
         });
       }
@@ -174,11 +175,24 @@ export default class Logs extends React.Component {
       const pipeline = [];
       if (dataPipeline) {
         for (const element of dataPipeline) {
+          let processors = '';
+          if (element.processors) {
+            for (const processor of element.dataProcessors) {
+              if (processor.name !== '') {
+                processors = `${processors} ${processor.name} \n`;
+              } else {
+                processors = `${processors} ${processor.type} \n`;
+              }
+            }
+          }
+          if (processors === '') {
+            processors = '-----';
+          }
           pipeline.push({
-            NAME: element.name,
-            ENABLED: element.enabled,
-            TYPE: element.type,
-            ORDER_PROCESSORS: element.processors
+            NAME: element.name ? element.name : '-----',
+            ENABLED: element.enabled ? element.enabled : '-----',
+            TYPE: element.type ? element.type : '-----',
+            ORDER_PROCESSORS: processors
           });
         }
       }

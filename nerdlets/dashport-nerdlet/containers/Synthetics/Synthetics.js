@@ -49,7 +49,7 @@ export default class Synthetics extends React.Component {
         } else {
           const limitData = element.locations.splice(0, 3);
           for (const location of limitData) {
-            loca = ` ${loca} ${location} \n`;
+            loca = `${loca} ${location} \n`;
           }
           if (element.locations.length > 3) loca = `${loca} ...`;
         }
@@ -65,9 +65,18 @@ export default class Synthetics extends React.Component {
         element.config.variables.forEach(elementvariables => {
           let tags = '';
           if (elementvariables.tags) {
-            elementvariables.tags.forEach(tag => {
-              tags = ` ${tags} ${tag} \n`;
-            });
+            if (tags === '') {
+              elementvariables.tags.forEach(tag => {
+                tags = `${tag}`;
+              });
+            } else {
+              elementvariables.tags.forEach(tag => {
+                tags = `${tags} ${tag} \n`;
+              });
+            }
+          }
+          if (tags === '') {
+            tags = '-----';
           }
           let value1 = {};
           if (elementvariables.value) {
@@ -333,11 +342,11 @@ export default class Synthetics extends React.Component {
     const dataCsv = [];
     data.forEach((row, index) => {
       dataCsv.push({
-        NAME: row.name,
-        TYPE: row.type,
-        LOCATION: row.location,
-        STATUS: row.status,
-        MESSAGE: row.message,
+        NAME: row.name ? row.name : '-----',
+        TYPE: row.type ? row.type : '-----',
+        LOCATION: row.location ? row.location : '-----',
+        STATUS: row.status ? row.status : '-----',
+        MESSAGE: row.message ? row.message : '-----',
         HOST: '-----',
         URL: '-----',
         METHOD: '-----',
@@ -358,29 +367,39 @@ export default class Synthetics extends React.Component {
         row.method === '-----' ||
         row.query === '-----'
       ) {
-        dataCsv[index].HOST = row.host;
-        dataCsv[index].URL = row.url;
-        dataCsv[index].METHOD = row.method;
-        dataCsv[index].QUERY = row.query;
+        dataCsv[index].HOST = row.host ? row.host : '-----';
+        dataCsv[index].URL = row.url ? row.url : '-----';
+        dataCsv[index].METHOD = row.method ? row.method : '-----';
+        dataCsv[index].QUERY = row.query ? row.query : '-----';
       }
       if (row.variables.length >= 1) {
         for (const iteratorVariable of row.variables) {
           dataCsv.push({
-            NAME: row.name,
-            TYPE: row.type,
-            LOCATION: row.location,
-            STATUS: row.status,
-            MESSAGE: row.message,
+            NAME: row.name ? row.name : '-----',
+            TYPE: row.type ? row.type : '-----',
+            LOCATION: row.location ? row.location : '-----',
+            STATUS: row.status ? row.status : '-----',
+            MESSAGE: row.message ? row.message : '-----',
             HOST: '-----',
             URL: '-----',
             METHOD: '-----',
             QUERY: '-----',
-            VARIABLES_NAME: iteratorVariable.name,
-            VARIABLES_ID: iteratorVariable.id,
-            VARIABLES_DESCRIPTION: iteratorVariable.description,
-            VARIABLES_SECURE: iteratorVariable.secure,
-            VARIABLES_VALUE: iteratorVariable.value,
-            VARIABLES_TAGS: iteratorVariable.tags,
+            VARIABLES_NAME: iteratorVariable.name
+              ? iteratorVariable.name
+              : '-----',
+            VARIABLES_ID: iteratorVariable.id ? iteratorVariable.id : '-----',
+            VARIABLES_DESCRIPTION: iteratorVariable.description
+              ? iteratorVariable.description
+              : '-----',
+            VARIABLES_SECURE: iteratorVariable.secure
+              ? iteratorVariable.secure
+              : '-----',
+            VARIABLES_VALUE: iteratorVariable.value
+              ? iteratorVariable.value
+              : '-----',
+            VARIABLES_TAGS: iteratorVariable.tags
+              ? iteratorVariable.tags
+              : '-----',
             ASSERTIONS_VALUE: '-----',
             STEPS_PARAMS: '-----',
             STEPS_TYPE: '-----'
@@ -390,11 +409,11 @@ export default class Synthetics extends React.Component {
       if (row.assertions.length >= 1) {
         for (const iteratorAssertion of row.assertions) {
           dataCsv.push({
-            NAME: row.name,
-            TYPE: row.type,
-            LOCATION: row.location,
-            STATUS: row.status,
-            MESSAGE: row.message,
+            NAME: row.name ? row.name : '-----',
+            TYPE: row.type ? row.type : '-----',
+            LOCATION: row.location ? row.location : '-----',
+            STATUS: row.status ? row.status : '-----',
+            MESSAGE: row.message ? row.message : '-----',
             HOST: '-----',
             URL: '-----',
             METHOD: '-----',
@@ -405,7 +424,9 @@ export default class Synthetics extends React.Component {
             VARIABLES_SECURE: '-----',
             VARIABLES_VALUE: '-----',
             VARIABLES_TAGS: '-----',
-            ASSERTIONS_VALUE: iteratorAssertion.value,
+            ASSERTIONS_VALUE: iteratorAssertion.value
+              ? iteratorAssertion.value
+              : '-----',
             STEPS_PARAMS: '-----',
             STEPS_TYPE: '-----'
           });
@@ -414,11 +435,11 @@ export default class Synthetics extends React.Component {
       if (row.steps.length >= 1) {
         for (const iteratorStep of row.steps) {
           dataCsv.push({
-            NAME: row.name,
-            TYPE: row.type,
-            LOCATION: row.location,
-            STATUS: row.status,
-            MESSAGE: row.message,
+            NAME: row.name ? row.name : '-----',
+            TYPE: row.type ? row.type : '-----',
+            LOCATION: row.location ? row.location : '-----',
+            STATUS: row.status ? row.status : '-----',
+            MESSAGE: row.message ? row.message : '-----',
             HOST: '-----',
             URL: '-----',
             METHOD: '-----',
@@ -430,8 +451,8 @@ export default class Synthetics extends React.Component {
             VARIABLES_VALUE: '-----',
             VARIABLES_TAGS: '-----',
             ASSERTIONS_VALUE: '-----',
-            STEPS_PARAMS: iteratorStep.params,
-            STEPS_TYPE: iteratorStep.type
+            STEPS_PARAMS: iteratorStep.params ? iteratorStep.params : '-----',
+            STEPS_TYPE: iteratorStep.type ? iteratorStep.type : '-----'
           });
         }
       }

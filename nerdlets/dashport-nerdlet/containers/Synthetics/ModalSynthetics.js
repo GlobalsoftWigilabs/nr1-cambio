@@ -374,7 +374,12 @@ export default class ModalSynthetics extends React.Component {
             </div>
           </div>
           <div style={{ width: '70%' }} className="fontNormal">
-            <div className="h100 flex flexCenterVertical">{content}</div>
+            <div
+              style={{ overflow: 'hidden' }}
+              className="h100 flex flexCenterVertical"
+            >
+              {content}
+            </div>
           </div>
         </div>
       </>
@@ -651,7 +656,8 @@ export default class ModalSynthetics extends React.Component {
                 ),
                 headerClassName: 'w100I',
                 accessor: 'id',
-                className: 'table__cell fontNormal flex flexCenterVertical h100 w100I',
+                className:
+                  'table__cell fontNormal flex flexCenterVertical h100 w100I',
                 sortable: false,
                 Cell: props => (
                   <div className="h100 flex flexCenterVertical ">
@@ -692,7 +698,8 @@ export default class ModalSynthetics extends React.Component {
                 ),
                 headerClassName: 'w100I',
                 accessor: 'description',
-                className: 'table__cell fontNormal flex flexCenterVertical h100 w100I',
+                className:
+                  'table__cell fontNormal flex flexCenterVertical h100 w100I',
                 sortable: false,
                 Cell: props => (
                   <div className="h100 flex flexCenterVertical ">
@@ -733,7 +740,8 @@ export default class ModalSynthetics extends React.Component {
                 ),
                 headerClassName: 'w100I',
                 accessor: 'secure',
-                className: 'table__cell fontNormal flex flexCenterVertical h100 w100I',
+                className:
+                  'table__cell fontNormal flex flexCenterVertical h100 w100I',
                 sortable: false,
                 Cell: props => (
                   <div className="h100 flex flexCenterVertical ">
@@ -774,7 +782,8 @@ export default class ModalSynthetics extends React.Component {
                 ),
                 headerClassName: 'w100I',
                 accessor: 'value',
-                className: 'table__cell fontNormal flex flexCenterVertical h100 w100I',
+                className:
+                  'table__cell fontNormal flex flexCenterVertical h100 w100I',
                 sortable: false,
                 Cell: props => (
                   <div className="h100 flex flexCenterVertical ">
@@ -815,7 +824,8 @@ export default class ModalSynthetics extends React.Component {
                 ),
                 headerClassName: 'w100I',
                 accessor: 'tags',
-                className: 'table__cell fontNormal flex flexCenterVertical h100 w100I',
+                className:
+                  'table__cell fontNormal flex flexCenterVertical h100 w100I',
                 sortable: false,
                 Cell: props => (
                   <div className="h100 flex flexCenterVertical ">
@@ -1127,7 +1137,8 @@ export default class ModalSynthetics extends React.Component {
                 ),
                 headerClassName: 'w100I',
                 accessor: 'type',
-                className: 'table__cell fontNormal flex flexCenterVertical h100 w100I',
+                className:
+                  'table__cell fontNormal flex flexCenterVertical h100 w100I',
                 sortable: false,
                 Cell: props => (
                   <div className="h100 flex flexCenterVertical ">
