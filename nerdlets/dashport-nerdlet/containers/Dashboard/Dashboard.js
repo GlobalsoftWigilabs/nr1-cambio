@@ -7,6 +7,7 @@ import iconDownload from '../../images/download.svg';
 import interrogationIcon from '../../images/interrogation.svg';
 import ArrowDown from '../../components/ArrowsTable/ArrowDown';
 import ArrowTop from '../../components/ArrowsTable/ArrowTop';
+import ArrowUnion from '../../components/ArrowsTable/ArrowUnion';
 import Modal from './Modal';
 
 import { sendLogsSlack } from '../../services/Wigilabs/api';
@@ -574,7 +575,7 @@ export default class Dashboard extends React.Component {
                     color: '#007E8A'
                   }}
                 >
-                  All 
+                  All
                 </span>
                 <div>
                   <span
@@ -718,18 +719,17 @@ export default class Dashboard extends React.Component {
                             >
                               NAME
                               <div className="flexColumn table__sort">
-                                <ArrowTop
-                                  color={
+                                <ArrowUnion
+                                  sortColumn={sortColumn}
+                                  colorArrowOne={
                                     sortColumn.column === 'name' &&
-                                    sortColumn.order === 'ascendant'
+                                    sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
-                                />
-                                <ArrowDown
-                                  color={
+                                  colorArrowTwo={
                                     sortColumn.column === 'name' &&
-                                    sortColumn.order === 'descent'
+                                    sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
                                   }
@@ -739,7 +739,8 @@ export default class Dashboard extends React.Component {
                           </div>
                         ),
                         headerClassName: 'stycky w100I',
-                        className: ' stycky table__cellSticky fontNormal h100 w100I',
+                        className:
+                          ' stycky table__cellSticky fontNormal h100 w100I',
                         accessor: 'name',
                         sortable: false,
                         Cell: props => {
@@ -781,18 +782,17 @@ export default class Dashboard extends React.Component {
                             >
                               AUTHOR
                               <div className="flexColumn table__sort">
-                                <ArrowTop
-                                  color={
+                                <ArrowUnion
+                                  sortColumn={sortColumn}
+                                  colorArrowOne={
                                     sortColumn.column === 'autor' &&
-                                    sortColumn.order === 'ascendant'
+                                    sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
-                                />
-                                <ArrowDown
-                                  color={
+                                  colorArrowTwo={
                                     sortColumn.column === 'autor' &&
-                                    sortColumn.order === 'descent'
+                                    sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
                                   }
@@ -826,18 +826,17 @@ export default class Dashboard extends React.Component {
                             >
                               CREATION DATE
                               <div className="flexColumn table__sort">
-                                <ArrowTop
-                                  color={
+                                <ArrowUnion
+                                  sortColumn={sortColumn}
+                                  colorArrowOne={
                                     sortColumn.column === 'creation' &&
-                                    sortColumn.order === 'ascendant'
+                                    sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
-                                />
-                                <ArrowDown
-                                  color={
+                                  colorArrowTwo={
                                     sortColumn.column === 'creation' &&
-                                    sortColumn.order === 'descent'
+                                    sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
                                   }
@@ -868,18 +867,17 @@ export default class Dashboard extends React.Component {
                             >
                               MOD DATE
                               <div className="flexColumn table__sort">
-                                <ArrowTop
-                                  color={
+                                <ArrowUnion
+                                  sortColumn={sortColumn}
+                                  colorArrowOne={
                                     sortColumn.column === 'modified' &&
-                                    sortColumn.order === 'ascendant'
+                                    sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
-                                />
-                                <ArrowDown
-                                  color={
+                                  colorArrowTwo={
                                     sortColumn.column === 'modified' &&
-                                    sortColumn.order === 'descent'
+                                    sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
                                   }
@@ -922,18 +920,16 @@ export default class Dashboard extends React.Component {
                                 />
                               </Tooltip>
                               <div className="flexColumn table__sort ">
-                                <ArrowTop
-                                  color={
+                                <ArrowUnion
+                                  colorArrowOne={
                                     sortColumn.column === 'popularity' &&
-                                    sortColumn.order === 'ascendant'
+                                    sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
-                                />
-                                <ArrowDown
-                                  color={
+                                  colorArrowTwo={
                                     sortColumn.column === 'popularity' &&
-                                    sortColumn.order === 'descent'
+                                    sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
                                   }
@@ -964,18 +960,16 @@ export default class Dashboard extends React.Component {
                             >
                               WIDGETS
                               <div className="flexColumn table__sort">
-                                <ArrowTop
-                                  color={
+                                <ArrowUnion
+                                  colorArrowOne={
                                     sortColumn.column === 'widgets' &&
-                                    sortColumn.order === 'ascendant'
+                                    sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
-                                />
-                                <ArrowDown
-                                  color={
+                                  colorArrowTwo={
                                     sortColumn.column === 'widgets' &&
-                                    sortColumn.order === 'descent'
+                                    sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
                                   }
@@ -1006,18 +1000,16 @@ export default class Dashboard extends React.Component {
                             >
                               DESCRIPTION
                               <div className="flexColumn table__sort">
-                                <ArrowTop
-                                  color={
+                                <ArrowUnion
+                                  colorArrowOne={
                                     sortColumn.column === 'description' &&
-                                    sortColumn.order === 'ascendant'
+                                    sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
-                                />
-                                <ArrowDown
-                                  color={
+                                  colorArrowTwo={
                                     sortColumn.column === 'description' &&
-                                    sortColumn.order === 'descent'
+                                    sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
                                   }
@@ -1060,18 +1052,16 @@ export default class Dashboard extends React.Component {
                             >
                               LAYOUT TYPE
                               <div className="flexColumn table__sort">
-                                <ArrowTop
-                                  color={
+                                <ArrowUnion
+                                  colorArrowOne={
                                     sortColumn.column === 'layoutType' &&
-                                    sortColumn.order === 'ascendant'
+                                    sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
-                                />
-                                <ArrowDown
-                                  color={
+                                  colorArrowTwo={
                                     sortColumn.column === 'layoutType' &&
-                                    sortColumn.order === 'descent'
+                                    sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
                                   }
@@ -1102,18 +1092,16 @@ export default class Dashboard extends React.Component {
                             >
                               URL
                               <div className="flexColumn table__sort">
-                                <ArrowTop
-                                  color={
+                                <ArrowUnion
+                                  colorArrowOne={
                                     sortColumn.column === 'url' &&
-                                    sortColumn.order === 'ascendant'
+                                    sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
-                                />
-                                <ArrowDown
-                                  color={
+                                  colorArrowTwo={
                                     sortColumn.column === 'url' &&
-                                    sortColumn.order === 'descent'
+                                    sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
                                   }
@@ -1147,18 +1135,16 @@ export default class Dashboard extends React.Component {
                             >
                               DASHBOARD LIST
                               <div className="flexColumn table__sort">
-                                <ArrowTop
-                                  color={
+                                <ArrowUnion
+                                  colorArrowOne={
                                     sortColumn.column === 'dashboardList' &&
-                                    sortColumn.order === 'ascendant'
+                                    sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
-                                />
-                                <ArrowDown
-                                  color={
+                                  colorArrowTwo={
                                     sortColumn.column === 'dashboardList' &&
-                                    sortColumn.order === 'descent'
+                                    sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
                                   }
