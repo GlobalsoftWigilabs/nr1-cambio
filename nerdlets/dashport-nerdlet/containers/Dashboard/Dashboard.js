@@ -26,7 +26,8 @@ const KEYS_TO_FILTERS = [
   'description',
   'layoutType',
   'url',
-  'widgetsCount'
+  'widgetsCount',
+  'dashboardListTxt'
 ];
 
 /**
@@ -383,6 +384,18 @@ export default class Dashboard extends React.Component {
         });
         return sortUrl;
       }
+      case 'dashboardListTxt': {
+        const sortDashboardList = finalList.sort(function(a, b) {
+          if (a.dashboardListTxt > b.dashboardListTxt) {
+            return valueOne;
+          }
+          if (a.dashboardListTxt < b.dashboardListTxt) {
+            return valueTwo;
+          }
+          return 0;
+        });
+        return sortDashboardList;
+      }
       default:
         return finalList;
     }
@@ -439,11 +452,11 @@ export default class Dashboard extends React.Component {
   };
 
   downloadData = async () => {
-    const { finalList } = this.state;
+    const { dashboards } = this.state;
     const date = new Date();
     const zip = new JSZip();
     const dataFiltrada = [];
-    for (const dd of finalList) {
+    for (const dd of dashboards) {
       let dashboardList = '';
       if (dd.dashboardList.length === 0) dashboardList = '-----';
       for (const ddList of dd.dashboardList) {
@@ -1133,20 +1146,20 @@ export default class Dashboard extends React.Component {
                             <div
                               className="pointer flex "
                               onClick={() => {
-                                this.setSortColumn('dashboardList');
+                                this.setSortColumn('dashboardListTxt');
                               }}
                             >
                               DASHBOARD LIST
                               <div className="flexColumn table__sort">
                                 <ArrowUnion
                                   colorArrowOne={
-                                    sortColumn.column === 'dashboardList' &&
+                                    sortColumn.column === 'dashboardListTxt' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
                                   colorArrowTwo={
-                                    sortColumn.column === 'dashboardList' &&
+                                    sortColumn.column === 'dashboardListTxt' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
