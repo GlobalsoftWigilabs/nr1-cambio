@@ -1,3 +1,7 @@
+.darkLine {
+  border-right: 5px solid rgba(208, 208, 209, 0.1);
+  border-right-style: groove
+}
 .mainDashboard {
     display: grid;
     grid-template: 1fr / 13% 87%;
