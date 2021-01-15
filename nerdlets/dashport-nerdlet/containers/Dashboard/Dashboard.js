@@ -5,8 +5,6 @@ import ReactTable from 'react-table-v6';
 import { Spinner, Tooltip } from 'nr1';
 import iconDownload from '../../images/download.svg';
 import interrogationIcon from '../../images/interrogation.svg';
-import ArrowDown from '../../components/ArrowsTable/ArrowDown';
-import ArrowTop from '../../components/ArrowsTable/ArrowTop';
 import ArrowUnion from '../../components/ArrowsTable/ArrowUnion';
 import Modal from './Modal';
 
@@ -907,18 +905,6 @@ export default class Dashboard extends React.Component {
                               }}
                             >
                               POPULARITY
-                              <Tooltip
-                                placementType={Tooltip.PLACEMENT_TYPE.BOTTOM}
-                                text="The greater number of lines the more popular the dashboard."
-                              >
-                                <img
-                                  src={interrogationIcon}
-                                  style={{
-                                    width: '0.8vw',
-                                    margin: '5px'
-                                  }}
-                                />
-                              </Tooltip>
                               <div className="flexColumn table__sort ">
                                 <ArrowUnion
                                   colorArrowOne={
@@ -936,6 +922,18 @@ export default class Dashboard extends React.Component {
                                 />
                               </div>
                             </div>
+                            <Tooltip
+                              placementType={Tooltip.PLACEMENT_TYPE.BOTTOM}
+                              text="The greater number of lines the more popular the dashboard."
+                            >
+                              <img
+                                src={interrogationIcon}
+                                style={{
+                                  width: '0.8vw',
+                                  margin: '5px'
+                                }}
+                              />
+                            </Tooltip>
                           </div>
                         ),
                         headerClassName: 'w100I',
