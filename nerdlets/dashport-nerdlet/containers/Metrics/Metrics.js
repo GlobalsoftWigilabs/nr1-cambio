@@ -146,8 +146,8 @@ export default class Metrics extends React.Component {
     this.setState({ hidden: !actualValue, viewWarning: true });
   };
 
-  componentWillReceiveProps(){
-    const { metrics } = this.props; 
+  componentWillReceiveProps() {
+    const { metrics } = this.props;
     const { searchTermMetric, sortColumn } = this.state;
 
     const dataGraph = [];
@@ -182,7 +182,7 @@ export default class Metrics extends React.Component {
   }
 
   componentDidMount() {
-    const { metrics } = this.props; 
+    const { metrics } = this.props;
     const { searchTermMetric, sortColumn } = this.state;
 
     const dataGraph = [];
@@ -540,7 +540,7 @@ export default class Metrics extends React.Component {
       hidden,
       viewWarning
     } = this.state;
-    const { fetchingMetrics, completed,errorMetric } = this.props;
+    const { fetchingMetrics, completed, errorMetric } = this.props;
     return (
       <div className="h100">
         {loading ? (
@@ -784,7 +784,7 @@ export default class Metrics extends React.Component {
                                 rowInfo.index % 2 ? '#F7F7F8' : 'white',
                               borderBottom: 'none',
                               display: 'grid',
-                              gridTemplate: '1fr/ 35% 15% 10% 15% 15% 10%'
+                              gridTemplate: '1fr/20% repeat(5,16%)'
                             }
                           };
                         } else {
@@ -792,7 +792,7 @@ export default class Metrics extends React.Component {
                             style: {
                               borderBottom: 'none',
                               display: 'grid',
-                              gridTemplate: '1fr/ 35% 15% 10% 15% 15% 10%'
+                              gridTemplate: '1fr/ 20% repeat(5,16%)'
                             }
                           };
                         }
@@ -819,7 +819,7 @@ export default class Metrics extends React.Component {
                           color: '#333333',
                           fontWeight: 'bold',
                           display: 'grid',
-                          gridTemplate: ' 1fr/ 35% 15% 10% 15% 15% 10%'
+                          gridTemplate: ' 1fr/ 20% repeat(5,16%)'
                         }
                       };
                     }}
@@ -885,7 +885,10 @@ export default class Metrics extends React.Component {
                       },
                       {
                         Header: () => (
-                          <div className="table__headerAlignRight fontSmall">
+                          <div
+                            className="table__headerAlignRight fontSmall"
+                            style={{ marginLeft: '15px' }}
+                          >
                             <div
                               className="pointer flex "
                               onClick={() => {
@@ -920,7 +923,10 @@ export default class Metrics extends React.Component {
                           'table__cell fontNormal flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
-                          <div className="h100 flex flexCenterVertical">
+                          <div
+                            className="h100 flex flexCenterVertical"
+                            style={{ marginLeft: '15px' }}
+                          >
                             {props.value ? props.value : '-----'}
                           </div>
                         )
