@@ -82,17 +82,21 @@ export default class Alerts extends React.Component {
         }
       }
       data.push({
-        name: element.name,
-        classification: element.classification,
-        type: element.type,
-        author: element.creator.name,
-        creation_date: element.created,
-        date_last_triggered: element.last_triggered_ts,
-        overall_state: element.status,
+        name: element.name ? element.name : '-----',
+        classification: element.classification
+          ? element.classification
+          : '-----',
+        type: element.type ? element.type : '-----',
+        author: element.creator.name ? element.creator.name : '-----',
+        creation_date: element.created ? element.created : '-----',
+        date_last_triggered: element.last_triggered_ts
+          ? element.last_triggered_ts
+          : '-----',
+        overall_state: element.status ? element.status : '-----',
         multi: element.multi ? 'yes' : 'no',
         priority: element.priority ? element.priority : '-----',
-        message: `${element.message} \n`,
-        query: element.query,
+        message: `${element.message ? element.message : '-----'} \n`,
+        query: element.query ? element.query : '-----',
         aggregation: aggregation,
         evaluation_delay: element.evaluation_delay
           ? element.evaluation_delay
@@ -193,17 +197,19 @@ export default class Alerts extends React.Component {
         }
       }
       dataCsv.push({
-        NAME: row.name,
-        CLASSIFICATION: row.classification,
-        TYPE: row.type,
-        AUTHOR: row.author,
-        CREATION_DATE: row.creation_date,
-        DATE_LAST_TRIGGERED: row.date_last_triggered,
-        OVERALL_STATE: row.overall_state,
-        MULTI: row.multi,
-        PRIORITY: row.priority,
-        MESSAGE: `${row.message} \n`,
-        QUERY: row.query,
+        NAME: row.name ? row.name : '-----',
+        CLASSIFICATION: row.classification ? row.classification : '-----',
+        TYPE: row.type ? row.type : '-----',
+        AUTHOR: row.author ? row.author : '-----',
+        CREATION_DATE: row.creation_date ? row.creation_date : '----',
+        DATE_LAST_TRIGGERED: row.date_last_triggered
+          ? row.date_last_triggered
+          : '-----',
+        OVERALL_STATE: row.overall_state ? row.overall_state : '-----',
+        MULTI: row.multi ? row.multi : '-----',
+        PRIORITY: row.priority ? row.priority : '-----',
+        MESSAGE: `${row.message ? row.message : '-----'}`,
+        QUERY: row.query ? row.query : '-----',
         AGGREGATION: row.aggregation ? row.aggregation : '-----',
         EVALUATION_DELAY: row.evaluation_delay ? row.evaluation_delay : '-----',
         FAILURE_DURATION: row.min_failure_duration
@@ -219,7 +225,7 @@ export default class Alerts extends React.Component {
         NOTIFY_AUDIT: row.notify_audit ? row.notify_audit : '-----',
         THRESHOLDS: thresholds,
         NOTIFY_NO_DATA: row.notify_no_data ? row.notify_no_data : '-----',
-        TAGS: row.name
+        TAGS: row.name ? row.name : '-----'
       });
     });
 
@@ -463,8 +469,8 @@ export default class Alerts extends React.Component {
                           key={index}
                           className="w100"
                           style={{
-                            paddingBottom: '10px',
-                            paddingTop: '10px',
+                            paddingBottom: '4%',
+                            paddingTop: '4%',
                             width: '94%'
                           }}
                         >
