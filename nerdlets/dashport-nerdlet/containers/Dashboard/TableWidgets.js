@@ -214,7 +214,6 @@ export default class TableWidgets extends React.Component {
       checkVariables,
       handleCheck
     } = this.props;
-    console.log(infoAditional);
     const { data, pagePag, pages, sortColumn, totalRows } = this.state;
     return (
       <Modal.Body>

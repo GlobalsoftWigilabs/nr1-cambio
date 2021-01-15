@@ -1305,7 +1305,6 @@ export default class App extends React.Component {
             errorMetric: true
           });
         } else {
-          console.log(metrics);
           this.setState({
             metrics: metrics,
             metricsTotal: metrics.length,

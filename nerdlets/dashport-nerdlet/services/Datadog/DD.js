@@ -585,7 +585,6 @@ const getManualDashboard = async (id, reportLog) => {
     if (error.response) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx
-      console.log(error.response);
       if (error.response.status >= 400 && error.response.status <= 499) {
         const response = {
           message: error.response.data.errors
@@ -651,7 +650,6 @@ const getPageUser = async (page, reportLog) => {
     if (error.response) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx
-      console.log(error.response);
       if (error.response.status >= 400 && error.response.status <= 499) {
         const response = {
           message: error.response.data.errors

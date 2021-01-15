@@ -101,7 +101,6 @@ export default class Pagination extends React.Component {
             </button>
             <div className="numbersPagination fontPagination">
               {visiblePages.map((page, index, array) => {
-                console.log(index, array);
                 return (
                   <div key={page} className="flex">
                     {array[index - 1] + 2 < page ? (
