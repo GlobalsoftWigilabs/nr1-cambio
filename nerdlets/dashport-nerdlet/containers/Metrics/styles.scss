@@ -1,3 +1,7 @@
+.darkLine {
+  border-right: 5px solid rgba(208, 208, 209, 0.1);
+  border-right-style: groove
+}
 .tableContent__filterMetric {
   display: grid;
   grid-template: 1fr / 36% 12.5% 6% 45.5%;
