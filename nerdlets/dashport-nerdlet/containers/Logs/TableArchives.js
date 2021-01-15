@@ -252,7 +252,7 @@ export default class TableArchives extends React.Component {
           )}
         </div>
         <div className="tableContent__table">
-          <div style={{ width: '100%' }} className="h100">
+          <div style={{ width: '1338px' }} className="h100">
             <ReactTable
               loading={savingAllChecks}
               loadingText="Processing..."
@@ -394,7 +394,8 @@ export default class TableArchives extends React.Component {
                   ),
                   headerClassName: 'w100I',
                   accessor: 'destination',
-                  className: 'table__cell fontNormal flex flexCenterVertical h100 w100I',
+                  className:
+                    'table__cell fontNormal flex flexCenterVertical h100 w100I',
                   sortable: false,
                   Cell: props => (
                     <div className="h100 flex flexCenterVertical ">
@@ -435,7 +436,8 @@ export default class TableArchives extends React.Component {
                   ),
                   headerClassName: 'w100I',
                   accessor: 'query',
-                  className: 'table__cell fontNormal flex flexCenterVertical h100 w100I',
+                  className:
+                    'table__cell fontNormal flex flexCenterVertical h100 w100I',
                   sortable: false,
                   Cell: props => (
                     <div className="h100 flex flexCenterVertical ">
@@ -476,7 +478,8 @@ export default class TableArchives extends React.Component {
                   ),
                   headerClassName: 'w100I',
                   accessor: 'tags',
-                  className: 'table__cell fontNormal flex flexCenterVertical h100 w100I',
+                  className:
+                    'table__cell fontNormal flex flexCenterVertical h100 w100I',
                   sortable: false,
                   Cell: props => (
                     <div className="h100 flex flexCenterVertical ">
@@ -517,7 +520,8 @@ export default class TableArchives extends React.Component {
                   ),
                   headerClassName: 'w100I',
                   accessor: 'state',
-                  className: 'table__cell fontNormal flex flexCenterVertical h100 w100I',
+                  className:
+                    'table__cell fontNormal flex flexCenterVertical h100 w100I',
                   sortable: false,
                   Cell: props => (
                     <div className="h100 flex flexCenterVertical ">

@@ -453,7 +453,7 @@ export default class Infrastructure extends React.Component {
                 )}
               </div>
               <div className="tableContent__table">
-                <div className="h100">
+                <div style={{ width: '1338px' }} className="h100">
                   <ReactTable
                     loading={savingAllChecks}
                     loadingText="Processing..."

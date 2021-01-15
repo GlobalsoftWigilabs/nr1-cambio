@@ -271,7 +271,7 @@ export default class TableMetrics extends React.Component {
           )}
         </div>
         <div className="tableContent__table">
-          <div style={{ width: '100%' }} className="h100">
+          <div style={{ width: '1338px' }} className="h100">
             <ReactTable
               loading={savingAllChecks}
               loadingText="Processing..."
