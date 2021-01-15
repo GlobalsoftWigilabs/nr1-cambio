@@ -337,11 +337,11 @@ export default class Synthetics extends React.Component {
   };
 
   downloadData = async () => {
-    const { data } = this.state;
+    const { dataRespaldo } = this.state;
     const date = new Date();
     const zip = new JSZip();
     const dataCsv = [];
-    data.forEach((row, index) => {
+    dataRespaldo.forEach((row, index) => {
       dataCsv.push({
         NAME: row.name ? row.name : '-----',
         TYPE: row.type ? row.type : '-----',
