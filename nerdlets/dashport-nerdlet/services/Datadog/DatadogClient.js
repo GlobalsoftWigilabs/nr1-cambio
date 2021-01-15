@@ -56,6 +56,7 @@ class DatadogClient {
             date: new Date().toLocaleString()
           };
           await reportLog(response);
+          throw error;
         }
       } else if (error.request) {
         // The request was made but no response was received
@@ -74,14 +75,18 @@ class DatadogClient {
         host: host
       }
     };
-    return this.callApi(request, this.reportLog);
+    return this.callApi(request, this.reportLog).catch(err => {
+      throw err;
+    });
   }
 
   async getMetricMetadata(metricName) {
     const request = {
       pathname: `/api/v1/metrics/${metricName}`
     };
-    return this.callApi(request, this.reportLog);
+    return this.callApi(request, this.reportLog).catch(err => {
+      throw err;
+    });
   }
 
   async queryTimeSeriesPoints(from, to, query) {
@@ -93,7 +98,9 @@ class DatadogClient {
         query: query
       }
     };
-    return this.callApi(request, this.reportLog);
+    return this.callApi(request, this.reportLog).catch(err => {
+      throw err;
+    });
   }
 }
 

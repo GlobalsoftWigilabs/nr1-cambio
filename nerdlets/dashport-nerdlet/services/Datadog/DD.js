@@ -36,7 +36,9 @@ const callApis = async (
       const list = _getPartentList(endpoints);
       for (let i = 0; i < list.length; i++) {
         if (list[i].name !== 'Get All Active Metrics') {
-          obj = await _callApi(list[i], reportLog);
+          obj = await _callApi(list[i], reportLog).catch(err => {
+            throw err;
+          });
         }
         // if obj is different of null
         if (obj) {
@@ -71,7 +73,9 @@ const callApis = async (
                       const variableDetail = await getVariableDetails(
                         variable.id,
                         reportLog
-                      );
+                      ).catch(err => {
+                        throw err;
+                      });
                       variable.description = variableDetail.data.description;
                       variable.value = variableDetail.data.value;
                       variable.tags = variableDetail.data.tags;
@@ -85,7 +89,11 @@ const callApis = async (
               if (obj.data.meta.page.total_count > 100) {
                 const pages = Math.ceil(obj.data.meta.page.total_count / 100);
                 for (let j = 1; j < pages; j++) {
-                  const pageUser = await getPageUser(j, reportLog);
+                  const pageUser = await getPageUser(j, reportLog).catch(
+                    err => {
+                      throw err;
+                    }
+                  );
                   if (
                     pageUser.data.data &&
                     pageUser.data.data instanceof Array
@@ -120,7 +128,9 @@ const callApis = async (
                 const response = await getManualDashboard(
                   obj.data.dashboard_lists[j].id,
                   reportLog
-                );
+                ).catch(err => {
+                  throw err;
+                });
                 if (response) {
                   obj.data.dashboard_lists[j].dashboards =
                     response.data.dashboards;
@@ -166,7 +176,9 @@ const callApis = async (
                     const responseDetailsMonitorPages = await getMonitorDetails(
                       monitor.id,
                       reportLog
-                    );
+                    ).catch(err => {
+                      throw err;
+                    });
                     const {
                       created,
                       message,
@@ -207,7 +219,9 @@ const callApis = async (
                     const responseDetailsMonitor = await getMonitorDetails(
                       monitor.id,
                       reportLog
-                    );
+                    ).catch(err => {
+                      throw err;
+                    });
                     const {
                       created,
                       message,
@@ -262,7 +276,9 @@ const callApis = async (
                     initial,
                     1000,
                     reportLog
-                  );
+                  ).catch(err => {
+                    throw err;
+                  });
                   if (resultadoHost.data) {
                     resultadoHost.data.host_list.map(host =>
                       hostList.push(host)
@@ -312,7 +328,9 @@ const callApis = async (
                     : childList[i].search,
                   headers: childList[i].headers
                 };
-                const objChild = await _callApi(objInfo);
+                const objChild = await _callApi(objInfo).catch(err => {
+                  throw err;
+                });
 
                 if (objChild) {
                   childCollection.data.push({
@@ -391,10 +409,7 @@ const _callApi = async (info, reportLog) => {
           date: new Date().toLocaleString()
         };
         await reportLog(response);
-        return {
-          data: [],
-          status: error.response.status
-        };
+        throw error;
       }
     } else if (error.request) {
       // The request was made but no response was received
@@ -544,6 +559,7 @@ const getMonitorsPage = async (info, page, reportLog) => {
           date: new Date().toLocaleString()
         };
         await reportLog(response);
+        throw error;
       }
     } else if (error.request) {
       // The request was made but no response was received
@@ -606,6 +622,7 @@ const getManualDashboard = async (id, reportLog) => {
           date: new Date().toLocaleString()
         };
         await reportLog(response);
+        throw error;
       }
     } else if (error.request) {
       // The request was made but no response was received
@@ -671,6 +688,7 @@ const getPageUser = async (page, reportLog) => {
           date: new Date().toLocaleString()
         };
         await reportLog(response);
+        throw error;
       }
     } else if (error.request) {
       // The request was made but no response was received
@@ -733,6 +751,7 @@ const getMonitorDetails = async (id, reportLog) => {
           date: new Date().toLocaleString()
         };
         await reportLog(response);
+        throw error;
       }
     } else if (error.request) {
       // The request was made but no response was received
@@ -795,6 +814,7 @@ const getVariableDetails = async (id, reportLog) => {
           date: new Date().toLocaleString()
         };
         await reportLog(response);
+        throw error;
       }
     } else if (error.request) {
       // The request was made but no response was received
@@ -854,6 +874,7 @@ const getHosPage = async (info, start, count, reportLog) => {
           date: new Date().toLocaleString()
         };
         await reportLog(response);
+        throw error;
       }
     } else if (error.request) {
       // The request was made but no response was received

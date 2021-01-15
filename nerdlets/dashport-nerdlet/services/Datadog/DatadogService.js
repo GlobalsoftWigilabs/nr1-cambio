@@ -12,7 +12,9 @@ class DatadogService {
     let count = 0;
     let gcount = 0;
     let totalRequest = 0;
-    const response = await this.client.getActiveMetricList(from);
+    const response = await this.client.getActiveMetricList(from).catch(err => {
+      throw err;
+    });
     console.log('getActiveMetricList END');
 
     if (response) {
@@ -38,9 +40,13 @@ class DatadogService {
           aggr: null
         };
 
-        const responseMetricMetadata = await this.client.getMetricMetadata(metricName);
+        const responseMetricMetadata = await this.client
+          .getMetricMetadata(metricName)
+          .catch(err => {
+            throw err;
+          });
         if (updateProgress) {
-          updateProgress(gcount / totalRequest * 100);
+          updateProgress((gcount / totalRequest) * 100);
         }
 
         if (
@@ -67,7 +73,6 @@ class DatadogService {
         if (maxGroups !== null && groups.length === maxGroups) {
           break;
         }
-
       }
 
       const to = Math.floor(new Date() / 1000);
@@ -75,9 +80,13 @@ class DatadogService {
         gcount++;
         const query = group.join(',');
 
-        const responseTimeSeries = await this.client.queryTimeSeriesPoints(from, to, query);
+        const responseTimeSeries = await this.client
+          .queryTimeSeriesPoints(from, to, query)
+          .catch(err => {
+            throw err;
+          });
         if (updateProgress) {
-          updateProgress(gcount / totalRequest * 100);
+          updateProgress((gcount / totalRequest) * 100);
         }
 
         if (responseTimeSeries && responseTimeSeries.data) {
