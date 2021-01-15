@@ -264,7 +264,7 @@ export default class TablePipelines extends React.Component {
                         background: rowInfo.index % 2 ? '#F7F7F8' : 'white',
                         borderBottom: 'none',
                         display: 'grid',
-                        gridTemplate: '1fr / 25% 25% 25% 25%'
+                        gridTemplate: '1fr / 20% 26.7% 26.7% 26.7%'
                       }
                     };
                   } else {
@@ -272,7 +272,7 @@ export default class TablePipelines extends React.Component {
                       style: {
                         borderBottom: 'none',
                         display: 'grid',
-                        gridTemplate: '1fr / 25% 25% 25% 25%'
+                        gridTemplate: '1fr / 20% 26.7% 26.7% 26.7%'
                       }
                     };
                   }
@@ -299,7 +299,7 @@ export default class TablePipelines extends React.Component {
                     color: '#333333',
                     fontWeight: 'bold',
                     display: 'grid',
-                    gridTemplate: '1fr / 25% 25% 25% 25%'
+                    gridTemplate: '1fr / 20% 26.7% 26.7% 26.7%'
                   }
                 };
               }}

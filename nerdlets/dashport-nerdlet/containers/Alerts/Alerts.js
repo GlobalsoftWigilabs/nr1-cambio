@@ -530,7 +530,7 @@ export default class Alerts extends React.Component {
                 )}
               </div>
               <div className="tableContent__table">
-                <div style={{ width: '2500px' }} className="h100">
+                <div style={{ width: '1700px' }} className="h100">
                   <ReactTable
                     loading={savingAllChecks}
                     loadingText="Processing..."
