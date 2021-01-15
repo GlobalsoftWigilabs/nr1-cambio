@@ -514,7 +514,7 @@ export default class ModalSynthetics extends React.Component {
     } = this.state;
     if (dataVariables.length >= 1) {
       return (
-        <div style={{ height: '500px' }}>
+        <div style={{ height: '500px', width: '1312px' }}>
           <ReactTable
             loading={savingAllChecks}
             loadingText="Processing..."
@@ -574,7 +574,7 @@ export default class ModalSynthetics extends React.Component {
             columns={[
               {
                 Header: () => (
-                  <div className="table__headerSticky fontSmall">
+                  <div className="darkLine table__headerSticky fontSmall">
                     <div
                       className="pointer flex "
                       style={{ marginLeft: '15px' }}
@@ -604,14 +604,14 @@ export default class ModalSynthetics extends React.Component {
                     </div>
                   </div>
                 ),
-                headerClassName: 'stycky w100I',
-                className: ' stycky table__cellSticky fontNormal h100 w100I',
+                headerClassName: 'w100I',
+                className: 'table__cellSticky fontNormal h100 w100I',
                 accessor: 'name',
                 sortable: false,
                 Cell: props => {
                   return (
                     <div
-                      className="h100 flex flexCenterVertical"
+                      className="darkLine h100 flex flexCenterVertical"
                       style={{
                         background: props.index % 2 ? '#F7F7F8' : 'white'
                       }}
@@ -858,7 +858,7 @@ export default class ModalSynthetics extends React.Component {
     } = this.state;
     if (dataAssertions.length >= 1) {
       return (
-        <div style={{ height: '500px' }}>
+        <div style={{ height: '500px', width: '1312px' }}>
           <ReactTable
             loading={savingAllChecks}
             loadingText="Processing..."
@@ -921,7 +921,7 @@ export default class ModalSynthetics extends React.Component {
             columns={[
               {
                 Header: () => (
-                  <div className="table__headerSticky fontSmall">
+                  <div className="darkLine table__headerSticky fontSmall">
                     <div
                       className="pointer flex "
                       style={{ marginLeft: '15px' }}
@@ -958,7 +958,7 @@ export default class ModalSynthetics extends React.Component {
                 Cell: props => {
                   return (
                     <div
-                      className="h100 flex flexCenterVertical"
+                      className="darkLine h100 flex flexCenterVertical"
                       style={{
                         background: props.index % 2 ? '#F7F7F8' : 'white'
                       }}

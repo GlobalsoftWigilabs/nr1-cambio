@@ -336,7 +336,7 @@ export default class TableMetrics extends React.Component {
               columns={[
                 {
                   Header: () => (
-                    <div className="table__headerSticky fontSmall">
+                    <div className="darkLine table__headerSticky fontSmall">
                       <div
                         className="pointer flex "
                         style={{ marginLeft: '15px' }}
@@ -372,7 +372,7 @@ export default class TableMetrics extends React.Component {
                   Cell: props => {
                     return (
                       <div
-                        className="h100 flex flexCenterVertical"
+                        className="darkLine h100 flex flexCenterVertical"
                         style={{
                           background: props.index % 2 ? '#F7F7F8' : 'white'
                         }}
