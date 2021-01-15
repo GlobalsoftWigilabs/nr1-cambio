@@ -718,7 +718,6 @@ export default class Dashboard extends React.Component {
                               NAME
                               <div className="flexColumn table__sort">
                                 <ArrowUnion
-                                  sortColumn={sortColumn}
                                   colorArrowOne={
                                     sortColumn.column === 'name' &&
                                     sortColumn.order === 'descent'
@@ -745,11 +744,20 @@ export default class Dashboard extends React.Component {
                           return (
                             <div
                               onClick={() => this.saveAction(props.original)}
-                              className="h100 flex flexCenterVertical pointer"
+                              className={
+                                props.original.widgets.length !== 0 ||
+                                props.original.templateVariables.length !== 0
+                                  ? 'h100 flex flexCenterVertical pointer'
+                                  : 'h100 flex flexCenterVertical'
+                                }
                               style={{
                                 background:
                                   props.index % 2 ? '#F7F7F8' : 'white',
-                                color: '#0078BF',
+                                color:
+                                  props.original.widgets.length !== 0 ||
+                                  props.original.templateVariables.length !== 0
+                                    ? '#0078BF'
+                                    : '#333333',
                                 borderRight:
                                   '5px solid rgba(208, 208, 209, 0.1)',
                                 borderRightStyle: 'groove'
@@ -781,7 +789,6 @@ export default class Dashboard extends React.Component {
                               AUTHOR
                               <div className="flexColumn table__sort">
                                 <ArrowUnion
-                                  sortColumn={sortColumn}
                                   colorArrowOne={
                                     sortColumn.column === 'autor' &&
                                     sortColumn.order === 'descent'
@@ -825,7 +832,6 @@ export default class Dashboard extends React.Component {
                               CREATION DATE
                               <div className="flexColumn table__sort">
                                 <ArrowUnion
-                                  sortColumn={sortColumn}
                                   colorArrowOne={
                                     sortColumn.column === 'creation' &&
                                     sortColumn.order === 'descent'
@@ -866,7 +872,6 @@ export default class Dashboard extends React.Component {
                               MOD DATE
                               <div className="flexColumn table__sort">
                                 <ArrowUnion
-                                  sortColumn={sortColumn}
                                   colorArrowOne={
                                     sortColumn.column === 'modified' &&
                                     sortColumn.order === 'descent'
