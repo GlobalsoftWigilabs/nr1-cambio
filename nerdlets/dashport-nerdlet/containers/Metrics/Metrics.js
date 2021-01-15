@@ -535,7 +535,8 @@ export default class Metrics extends React.Component {
       loadingTable,
       metricsTotal,
       hidden,
-      viewWarning
+      viewWarning,
+      finalListRespaldo
     } = this.state;
     const { fetchingMetrics, completed, errorMetric } = this.props;
     return (
@@ -732,12 +733,12 @@ export default class Metrics extends React.Component {
                 />
                 <div
                   className={
-                    finalList.length === 0
+                    finalListRespaldo.length === 0
                       ? 'pointerBlock flex flexCenterVertical'
                       : 'pointer flex flexCenterVertical'
                   }
                   onClick={() => {
-                    if (finalList.length !== 0) this.downloadData();
+                    if (finalListRespaldo.length !== 0) this.downloadData(); 
                   }}
                 >
                   <Tooltip

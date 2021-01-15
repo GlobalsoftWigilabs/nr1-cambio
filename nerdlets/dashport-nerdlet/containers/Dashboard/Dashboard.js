@@ -633,13 +633,13 @@ export default class Dashboard extends React.Component {
                 </div>
                 <div
                   className={
-                    finalList.length === 0
+                    dashboards.length === 0
                       ? 'pointerBlock flex flexCenterVertical'
                       : 'pointer flex flexCenterVertical'
                   }
                   style={{ width: '30%' }}
                   onClick={() => {
-                    if (finalList.length !== 0) this.downloadData();
+                    if (dashboards.length !== 0) this.downloadData();
                   }}
                 >
                   <Tooltip

@@ -252,7 +252,8 @@ export default class Accounts extends React.Component {
       pages,
       totalRows,
       sortColumn,
-      data
+      data,
+      dataRespaldo
     } = this.state;
     const { accountsTotal = 0 } = this.props;
     return (
@@ -302,7 +303,7 @@ export default class Accounts extends React.Component {
                   }
                   style={{ width: '30%' }}
                   onClick={() => {
-                    if (data.length !== 0) this.downloadData();
+                    if (dataRespaldo.length !== 0) this.downloadData();
                   }}
                 >
                   <Tooltip

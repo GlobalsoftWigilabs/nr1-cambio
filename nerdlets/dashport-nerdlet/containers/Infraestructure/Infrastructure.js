@@ -48,7 +48,8 @@ export default class Infrastructure extends React.Component {
         column: '',
         order: ''
       },
-      hidden: false
+      hidden: false,
+      dataRespaldo: []
     };
   }
 
@@ -367,7 +368,8 @@ export default class Infrastructure extends React.Component {
       hidden,
       sortColumn,
       data,
-      infoAditional
+      infoAditional,
+      dataRespaldo
     } = this.state;
     const { infrastructureDataGraph = [] } = this.props;
     return (
@@ -393,7 +395,7 @@ export default class Infrastructure extends React.Component {
                       color: greenColor
                     }}
                   >
-                    {data.length}
+                    {dataRespaldo.length}
                   </span>
                 </div>
               </div>
@@ -413,7 +415,7 @@ export default class Infrastructure extends React.Component {
                       color: greenColor
                     }}
                   >
-                    {data.length}
+                    {dataRespaldo.length}
                   </span>
                 </div>
               </div>
@@ -475,7 +477,7 @@ export default class Infrastructure extends React.Component {
                   }
                   style={{ width: '30%' }}
                   onClick={() => {
-                    if (data.length !== 0) this.downloadData();
+                    if (dataRespaldo.length !== 0) this.downloadData();
                   }}
                 >
                   <Tooltip
