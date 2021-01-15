@@ -243,11 +243,7 @@ export default class Metrics extends React.Component {
 
   loadData = (metrics, searchTerm, sortColumn) => {
     let finalList = metrics;
-    const { pagePag, totalRows } = this.state;
     if (searchTerm !== '') {
-      const init = pagePag * totalRows;
-      const final = (pagePag + 1) * totalRows;
-      finalList = finalList.slice(init, final);
       finalList = finalList.filter(createFilter(searchTerm, KEYS_TO_FILTERS));
     }
     finalList = this.sortData(finalList, sortColumn);
@@ -346,7 +342,7 @@ export default class Metrics extends React.Component {
   searchUpdated = term => {
     const { sortColumn, finalListRespaldo } = this.state;
     this.loadData(finalListRespaldo, term, sortColumn);
-    this.setState({ searchTermDashboards: term });
+    this.setState({ searchTermMetric: term });
   };
 
   setSortColumn = column => {
@@ -495,9 +491,9 @@ export default class Metrics extends React.Component {
   };
 
   downloadData = async () => {
-    const { finalList } = this.state;
+    const { finalListRespaldo } = this.state ;
     const dataFiltrada = [];
-    for (const metric of finalList) {
+    for (const metric of finalListRespaldo) {
       dataFiltrada.push({
         NAME: metric.name,
         INTEGRATION: metric.integration ? metric.integration : '-----',
