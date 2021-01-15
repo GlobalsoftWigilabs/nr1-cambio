@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import jsoncsv from 'json-2-csv';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
+import ArrowUnion from '../../components/ArrowsTable/ArrowUnion';
 
 const greenColor = '#007E8A';
 const KEYS_TO_FILTERS = ['name', 'email', 'status', 'organizations', 'roles'];
@@ -397,18 +398,17 @@ export default class Accounts extends React.Component {
                             >
                               NAME
                               <div className="flexColumn table__sort">
-                                <ArrowTop
-                                  color={
+                                <ArrowUnion
+                                  sortColumn={sortColumn}
+                                  colorArrowOne={
                                     sortColumn.column === 'name' &&
-                                    sortColumn.order === 'ascendant'
+                                    sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
-                                />
-                                <ArrowDown
-                                  color={
+                                  colorArrowTwo={
                                     sortColumn.column === 'name' &&
-                                    sortColumn.order === 'descent'
+                                    sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
                                   }
@@ -448,18 +448,17 @@ export default class Accounts extends React.Component {
                             >
                               EMAIL
                               <div className="flexColumn table__sort">
-                                <ArrowTop
-                                  color={
-                                    sortColumn.column === 'email' &&
-                                    sortColumn.order === 'ascendant'
+                                <ArrowUnion
+                                  sortColumn={sortColumn}
+                                  colorArrowOne={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
-                                />
-                                <ArrowDown
-                                  color={
-                                    sortColumn.column === 'email' &&
-                                    sortColumn.order === 'descent'
+                                  colorArrowTwo={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
                                   }
@@ -490,18 +489,17 @@ export default class Accounts extends React.Component {
                             >
                               ORGANIZATIONS
                               <div className="flexColumn table__sort">
-                                <ArrowTop
-                                  color={
-                                    sortColumn.column === 'organizations' &&
-                                    sortColumn.order === 'ascendant'
+                                <ArrowUnion
+                                  sortColumn={sortColumn}
+                                  colorArrowOne={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
-                                />
-                                <ArrowDown
-                                  color={
-                                    sortColumn.column === 'organizations' &&
-                                    sortColumn.order === 'descent'
+                                  colorArrowTwo={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
                                   }
@@ -532,18 +530,17 @@ export default class Accounts extends React.Component {
                             >
                               ACCESS ROLE
                               <div className="flexColumn table__sort">
-                                <ArrowTop
-                                  color={
-                                    sortColumn.column === 'roles' &&
-                                    sortColumn.order === 'ascendant'
+                                <ArrowUnion
+                                  sortColumn={sortColumn}
+                                  colorArrowOne={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
-                                />
-                                <ArrowDown
-                                  color={
-                                    sortColumn.column === 'roles' &&
-                                    sortColumn.order === 'descent'
+                                  colorArrowTwo={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
                                   }
@@ -574,18 +571,17 @@ export default class Accounts extends React.Component {
                             >
                               STATUS
                               <div className="flexColumn table__sort">
-                                <ArrowTop
-                                  color={
-                                    sortColumn.column === 'status' &&
-                                    sortColumn.order === 'ascendant'
+                                <ArrowUnion
+                                  sortColumn={sortColumn}
+                                  colorArrowOne={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
-                                />
-                                <ArrowDown
-                                  color={
-                                    sortColumn.column === 'status' &&
-                                    sortColumn.order === 'descent'
+                                  colorArrowTwo={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
                                   }

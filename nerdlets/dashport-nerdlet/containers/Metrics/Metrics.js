@@ -3,12 +3,11 @@ import { Spinner, Button, Tooltip } from 'nr1';
 import Popup from 'reactjs-popup';
 import information from '../../images/information.svg';
 import informationMetrics from '../../images/metrics.png';
+import ArrowUnion from '../../components/ArrowsTable/ArrowUnion';
 import PropTypes from 'prop-types';
 import SearchInput, { createFilter } from 'react-search-input';
 import { BsSearch } from 'react-icons/bs';
 import iconDownload from '../../images/download.svg';
-import ArrowDown from '../../components/ArrowsTable/ArrowDown';
-import ArrowTop from '../../components/ArrowsTable/ArrowTop';
 import ReactTable from 'react-table-v6';
 import Pagination from '../../components/Pagination/Pagination';
 import Bar from '../../components/Bar';
@@ -147,7 +146,7 @@ export default class Metrics extends React.Component {
   };
 
   componentWillReceiveProps(){
-    const { metrics } = this.props; 
+    const { metrics } = this.props;
     const { searchTermMetric, sortColumn } = this.state;
 
     const dataGraph = [];
@@ -182,7 +181,7 @@ export default class Metrics extends React.Component {
   }
 
   componentDidMount() {
-    const { metrics } = this.props; 
+    const { metrics } = this.props;
     const { searchTermMetric, sortColumn } = this.state;
 
     const dataGraph = [];
@@ -836,18 +835,17 @@ export default class Metrics extends React.Component {
                             >
                               NAME
                               <div className="flexColumn table__sort">
-                                <ArrowTop
-                                  color={
+                                <ArrowUnion
+                                  sortColumn={sortColumn}
+                                  colorArrowOne={
                                     sortColumn.column === 'name' &&
-                                    sortColumn.order === 'ascendant'
+                                    sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
-                                />
-                                <ArrowDown
-                                  color={
+                                  colorArrowTwo={
                                     sortColumn.column === 'name' &&
-                                    sortColumn.order === 'descent'
+                                    sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
                                   }
@@ -894,18 +892,17 @@ export default class Metrics extends React.Component {
                             >
                               INTEGRATION
                               <div className="flexColumn table__sort">
-                                <ArrowTop
-                                  color={
-                                    sortColumn.column === 'integration' &&
-                                    sortColumn.order === 'ascendant'
+                                <ArrowUnion
+                                  sortColumn={sortColumn}
+                                  colorArrowOne={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
-                                />
-                                <ArrowDown
-                                  color={
-                                    sortColumn.column === 'integration' &&
-                                    sortColumn.order === 'descent'
+                                  colorArrowTwo={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
                                   }
@@ -936,18 +933,17 @@ export default class Metrics extends React.Component {
                             >
                               TYPE
                               <div className="flexColumn table__sort">
-                                <ArrowTop
-                                  color={
-                                    sortColumn.column === 'type' &&
-                                    sortColumn.order === 'ascendant'
+                                <ArrowUnion
+                                  sortColumn={sortColumn}
+                                  colorArrowOne={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
-                                />
-                                <ArrowDown
-                                  color={
-                                    sortColumn.column === 'type' &&
-                                    sortColumn.order === 'descent'
+                                  colorArrowTwo={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
                                   }
@@ -978,18 +974,17 @@ export default class Metrics extends React.Component {
                             >
                               HOST
                               <div className="flexColumn table__sort">
-                                <ArrowTop
-                                  color={
-                                    sortColumn.column === 'host' &&
-                                    sortColumn.order === 'ascendant'
+                                <ArrowUnion
+                                  sortColumn={sortColumn}
+                                  colorArrowOne={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
-                                />
-                                <ArrowDown
-                                  color={
-                                    sortColumn.column === 'host' &&
-                                    sortColumn.order === 'descent'
+                                  colorArrowTwo={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
                                   }
@@ -1026,18 +1021,17 @@ export default class Metrics extends React.Component {
                             >
                               UNIT
                               <div className="flexColumn table__sort">
-                                <ArrowTop
-                                  color={
-                                    sortColumn.column === 'unit' &&
-                                    sortColumn.order === 'ascendant'
+                                <ArrowUnion
+                                  sortColumn={sortColumn}
+                                  colorArrowOne={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
-                                />
-                                <ArrowDown
-                                  color={
-                                    sortColumn.column === 'unit' &&
-                                    sortColumn.order === 'descent'
+                                  colorArrowTwo={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
                                   }
@@ -1068,18 +1062,17 @@ export default class Metrics extends React.Component {
                             >
                               AGNN.TYPE
                               <div className="flexColumn table__sort">
-                                <ArrowTop
-                                  color={
-                                    sortColumn.column === 'unit' &&
-                                    sortColumn.order === 'ascendant'
+                                <ArrowUnion
+                                  sortColumn={sortColumn}
+                                  colorArrowOne={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
-                                />
-                                <ArrowDown
-                                  color={
-                                    sortColumn.column === 'unit' &&
-                                    sortColumn.order === 'descent'
+                                  colorArrowTwo={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
                                   }

@@ -1,12 +1,10 @@
 import React from 'react';
-
-import ArrowDown from '../../components/ArrowsTable/ArrowDown';
-import ArrowTop from '../../components/ArrowsTable/ArrowTop';
 import ReactTable from 'react-table-v6';
 import Pagination from '../../components/Pagination/Pagination';
 import { Modal } from 'react-bootstrap';
 import closeIcon from '../../images/close.svg';
 import { qregExr } from '../../dd2nr/transpiler/regexr';
+import ArrowUnion from '../../components/ArrowsTable/ArrowUnion';
 
 export default class ModalWidgets extends React.Component {
     constructor(props) {
@@ -338,10 +336,23 @@ export default class ModalWidgets extends React.Component {
                                                             <div className="table__headerSticky fontSmall">
                                                                 <div className="pointer flex " style={{ marginLeft: "15px" }} onClick={() => { this.setSortColumn('title') }}>
                                                                     TITLE
-                                                                    <div className="flexColumn table__sort">
-                                                                        <ArrowTop color={sortColumn.column === 'title' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
-                                                                        <ArrowDown color={sortColumn.column === 'title' && sortColumn.order === 'descent' ? "black" : "gray"} />
-                                                                    </div>
+                                                                  <div className="flexColumn table__sort">
+                                                                    <ArrowUnion
+                                                                      sortColumn={sortColumn}
+                                                                      colorArrowOne={
+                                                                        sortColumn.column === 'name' &&
+                                                                        sortColumn.order === 'descent'
+                                                                          ? 'black'
+                                                                          : 'gray'
+                                                                      }
+                                                                      colorArrowTwo={
+                                                                        sortColumn.column === 'name' &&
+                                                                        sortColumn.order === 'ascendant'
+                                                                          ? 'black'
+                                                                          : 'gray'
+                                                                      }
+                                                                    />
+                                                                  </div>
                                                                 </div>
                                                             </div>
                                                         ),
@@ -375,10 +386,23 @@ export default class ModalWidgets extends React.Component {
                                                             <div className="table__headerAlignRight fontSmall">
                                                                 <div className="pointer flex " onClick={() => { this.setSortColumn('query') }}>
                                                                     QUERY
-                                                                    <div className="flexColumn table__sort">
-                                                                        <ArrowTop color={sortColumn.column === 'query' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
-                                                                        <ArrowDown color={sortColumn.column === 'query' && sortColumn.order === 'descent' ? "black" : "gray"} />
-                                                                    </div>
+                                                                  <div className="flexColumn table__sort">
+                                                                    <ArrowUnion
+                                                                      sortColumn={sortColumn}
+                                                                      colorArrowOne={
+                                                                        sortColumn.column === 'name' &&
+                                                                        sortColumn.order === 'descent'
+                                                                          ? 'black'
+                                                                          : 'gray'
+                                                                      }
+                                                                      colorArrowTwo={
+                                                                        sortColumn.column === 'name' &&
+                                                                        sortColumn.order === 'ascendant'
+                                                                          ? 'black'
+                                                                          : 'gray'
+                                                                      }
+                                                                    />
+                                                                  </div>
                                                                 </div>
                                                             </div>
                                                         ),
@@ -395,10 +419,23 @@ export default class ModalWidgets extends React.Component {
                                                             <div className="table__header fontSmall">
                                                                 <div className="pointer flex " onClick={() => { this.setSortColumn('type') }}>
                                                                     TYPE
-                                                                    <div className="flexColumn table__sort">
-                                                                        <ArrowTop color={sortColumn.column === 'type' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
-                                                                        <ArrowDown color={sortColumn.column === 'type' && sortColumn.order === 'descent' ? "black" : "gray"} />
-                                                                    </div>
+                                                                  <div className="flexColumn table__sort">
+                                                                    <ArrowUnion
+                                                                      sortColumn={sortColumn}
+                                                                      colorArrowOne={
+                                                                        sortColumn.column === 'name' &&
+                                                                        sortColumn.order === 'descent'
+                                                                          ? 'black'
+                                                                          : 'gray'
+                                                                      }
+                                                                      colorArrowTwo={
+                                                                        sortColumn.column === 'name' &&
+                                                                        sortColumn.order === 'ascendant'
+                                                                          ? 'black'
+                                                                          : 'gray'
+                                                                      }
+                                                                    />
+                                                                  </div>
                                                                 </div>
                                                             </div>
                                                         ),
@@ -415,10 +452,23 @@ export default class ModalWidgets extends React.Component {
                                                             <div className="table__headerAlignRight fontSmall">
                                                                 <div className="pointer flex" onClick={() => { this.setSortColumn('queryParameters') }}>
                                                                     QUERY PARAMETERS
-                                                                    <div className="flexColumn table__sort">
-                                                                        <ArrowTop color={sortColumn.column === 'queryParameters' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
-                                                                        <ArrowDown color={sortColumn.column === 'queryParameters' && sortColumn.order === 'descent' ? "black" : "gray"} />
-                                                                    </div>
+                                                                  <div className="flexColumn table__sort">
+                                                                    <ArrowUnion
+                                                                      sortColumn={sortColumn}
+                                                                      colorArrowOne={
+                                                                        sortColumn.column === 'name' &&
+                                                                        sortColumn.order === 'descent'
+                                                                          ? 'black'
+                                                                          : 'gray'
+                                                                      }
+                                                                      colorArrowTwo={
+                                                                        sortColumn.column === 'name' &&
+                                                                        sortColumn.order === 'ascendant'
+                                                                          ? 'black'
+                                                                          : 'gray'
+                                                                      }
+                                                                    />
+                                                                  </div>
                                                                 </div>
                                                             </div>
                                                         ),
@@ -435,10 +485,23 @@ export default class ModalWidgets extends React.Component {
                                                             <div className="table__headerAlignRight fontSmall">
                                                                 <div className="pointer flex" onClick={() => { this.setSortColumn('source') }}>
                                                                     SOURCE OF DATA
-                                                                    <div className="flexColumn table__sort">
-                                                                        <ArrowTop color={sortColumn.column === 'source' && sortColumn.order === 'ascendant' ? "black" : "gray"} />
-                                                                        <ArrowDown color={sortColumn.column === 'source' && sortColumn.order === 'descent' ? "black" : "gray"} />
-                                                                    </div>
+                                                                  <div className="flexColumn table__sort">
+                                                                    <ArrowUnion
+                                                                      sortColumn={sortColumn}
+                                                                      colorArrowOne={
+                                                                        sortColumn.column === 'name' &&
+                                                                        sortColumn.order === 'descent'
+                                                                          ? 'black'
+                                                                          : 'gray'
+                                                                      }
+                                                                      colorArrowTwo={
+                                                                        sortColumn.column === 'name' &&
+                                                                        sortColumn.order === 'ascendant'
+                                                                          ? 'black'
+                                                                          : 'gray'
+                                                                      }
+                                                                    />
+                                                                  </div>
                                                                 </div>
                                                             </div>
                                                         ),

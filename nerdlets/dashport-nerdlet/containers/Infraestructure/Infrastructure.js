@@ -5,8 +5,7 @@ import { Spinner, Tooltip } from 'nr1';
 import SearchInput, { createFilter } from 'react-search-input';
 import { BsSearch } from 'react-icons/bs';
 import iconDownload from '../../images/download.svg';
-import ArrowDown from '../../components/ArrowsTable/ArrowDown';
-import ArrowTop from '../../components/ArrowsTable/ArrowTop';
+import ArrowUnion from '../../components/ArrowsTable/ArrowUnion';
 import ReactTable from 'react-table-v6';
 import Pagination from '../../components/Pagination/Pagination';
 import Bar from '../../components/Bar';
@@ -524,18 +523,17 @@ export default class Infrastructure extends React.Component {
                             >
                               HOST NAME
                               <div className="flexColumn table__sort">
-                                <ArrowTop
-                                  color={
-                                    sortColumn.column === 'host_name' &&
-                                    sortColumn.order === 'ascendant'
+                                <ArrowUnion
+                                  sortColumn={sortColumn}
+                                  colorArrowOne={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
-                                />
-                                <ArrowDown
-                                  color={
-                                    sortColumn.column === 'host_name' &&
-                                    sortColumn.order === 'descent'
+                                  colorArrowTwo={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
                                   }
@@ -580,18 +578,17 @@ export default class Infrastructure extends React.Component {
                             >
                               ALIASES
                               <div className="flexColumn table__sort">
-                                <ArrowTop
-                                  color={
-                                    sortColumn.column === 'aliases' &&
-                                    sortColumn.order === 'ascendant'
+                                <ArrowUnion
+                                  sortColumn={sortColumn}
+                                  colorArrowOne={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
-                                />
-                                <ArrowDown
-                                  color={
-                                    sortColumn.column === 'aliases' &&
-                                    sortColumn.order === 'descent'
+                                  colorArrowTwo={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
                                   }
@@ -621,19 +618,18 @@ export default class Infrastructure extends React.Component {
                               }}
                             >
                               APPS
-                              <div className="flexColumn table__sort ">
-                                <ArrowTop
-                                  color={
-                                    sortColumn.column === 'apps' &&
-                                    sortColumn.order === 'ascendant'
+                              <div className="flexColumn table__sort">
+                                <ArrowUnion
+                                  sortColumn={sortColumn}
+                                  colorArrowOne={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
-                                />
-                                <ArrowDown
-                                  color={
-                                    sortColumn.column === 'apps' &&
-                                    sortColumn.order === 'descent'
+                                  colorArrowTwo={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
                                   }
@@ -664,18 +660,17 @@ export default class Infrastructure extends React.Component {
                             >
                               SOURCES
                               <div className="flexColumn table__sort">
-                                <ArrowTop
-                                  color={
-                                    sortColumn.column === 'sources' &&
-                                    sortColumn.order === 'ascendant'
+                                <ArrowUnion
+                                  sortColumn={sortColumn}
+                                  colorArrowOne={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
-                                />
-                                <ArrowDown
-                                  color={
-                                    sortColumn.column === 'sources' &&
-                                    sortColumn.order === 'descent'
+                                  colorArrowTwo={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
                                   }
@@ -706,18 +701,17 @@ export default class Infrastructure extends React.Component {
                             >
                               MUTED
                               <div className="flexColumn table__sort">
-                                <ArrowTop
-                                  color={
-                                    sortColumn.column === 'muted' &&
-                                    sortColumn.order === 'ascendant'
+                                <ArrowUnion
+                                  sortColumn={sortColumn}
+                                  colorArrowOne={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
-                                />
-                                <ArrowDown
-                                  color={
-                                    sortColumn.column === 'muted' &&
-                                    sortColumn.order === 'descent'
+                                  colorArrowTwo={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
                                   }
@@ -748,18 +742,17 @@ export default class Infrastructure extends React.Component {
                             >
                               TAGS BY SOURCE
                               <div className="flexColumn table__sort">
-                                <ArrowTop
-                                  color={
-                                    sortColumn.column === 'tags_by_source' &&
-                                    sortColumn.order === 'ascendant'
+                                <ArrowUnion
+                                  sortColumn={sortColumn}
+                                  colorArrowOne={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
-                                />
-                                <ArrowDown
-                                  color={
-                                    sortColumn.column === 'tags_by_source' &&
-                                    sortColumn.order === 'descent'
+                                  colorArrowTwo={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
                                   }

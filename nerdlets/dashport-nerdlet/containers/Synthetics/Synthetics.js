@@ -11,6 +11,7 @@ import ReactTable from 'react-table-v6';
 import Pagination from '../../components/Pagination/Pagination';
 import jsoncsv from 'json-2-csv';
 import JSZip from 'jszip';
+import ArrowUnion from '../../components/ArrowsTable/ArrowUnion';
 import { saveAs } from 'file-saver';
 
 const greenColor = '#007E8A';
@@ -631,18 +632,17 @@ export default class Synthetics extends React.Component {
                             >
                               NAME
                               <div className="flexColumn table__sort">
-                                <ArrowTop
-                                  color={
+                                <ArrowUnion
+                                  sortColumn={sortColumn}
+                                  colorArrowOne={
                                     sortColumn.column === 'name' &&
-                                    sortColumn.order === 'ascendant'
+                                    sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
-                                />
-                                <ArrowDown
-                                  color={
+                                  colorArrowTwo={
                                     sortColumn.column === 'name' &&
-                                    sortColumn.order === 'descent'
+                                    sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
                                   }
@@ -690,19 +690,18 @@ export default class Synthetics extends React.Component {
                               }}
                             >
                               TYPE
-                              <div className="flexColumn table__sort ">
-                                <ArrowTop
-                                  color={
-                                    sortColumn.column === 'type' &&
-                                    sortColumn.order === 'ascendant'
+                              <div className="flexColumn table__sort">
+                                <ArrowUnion
+                                  sortColumn={sortColumn}
+                                  colorArrowOne={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
-                                />
-                                <ArrowDown
-                                  color={
-                                    sortColumn.column === 'type' &&
-                                    sortColumn.order === 'descent'
+                                  colorArrowTwo={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
                                   }
@@ -734,18 +733,17 @@ export default class Synthetics extends React.Component {
                             >
                               LOCATION
                               <div className="flexColumn table__sort">
-                                <ArrowTop
-                                  color={
-                                    sortColumn.column === 'location' &&
-                                    sortColumn.order === 'ascendant'
+                                <ArrowUnion
+                                  sortColumn={sortColumn}
+                                  colorArrowOne={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
-                                />
-                                <ArrowDown
-                                  color={
-                                    sortColumn.column === 'location' &&
-                                    sortColumn.order === 'descent'
+                                  colorArrowTwo={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
                                   }
@@ -776,18 +774,17 @@ export default class Synthetics extends React.Component {
                             >
                               STATUS
                               <div className="flexColumn table__sort">
-                                <ArrowTop
-                                  color={
-                                    sortColumn.column === 'status' &&
-                                    sortColumn.order === 'ascendant'
+                                <ArrowUnion
+                                  sortColumn={sortColumn}
+                                  colorArrowOne={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
-                                />
-                                <ArrowDown
-                                  color={
-                                    sortColumn.column === 'status' &&
-                                    sortColumn.order === 'descent'
+                                  colorArrowTwo={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
                                   }
@@ -818,18 +815,17 @@ export default class Synthetics extends React.Component {
                             >
                               MESSAGE
                               <div className="flexColumn table__sort">
-                                <ArrowTop
-                                  color={
-                                    sortColumn.column === 'message' &&
-                                    sortColumn.order === 'ascendant'
+                                <ArrowUnion
+                                  sortColumn={sortColumn}
+                                  colorArrowOne={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
-                                />
-                                <ArrowDown
-                                  color={
-                                    sortColumn.column === 'message' &&
-                                    sortColumn.order === 'descent'
+                                  colorArrowTwo={
+                                    sortColumn.column === 'name' &&
+                                    sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
                                   }

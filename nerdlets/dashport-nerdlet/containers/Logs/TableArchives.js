@@ -2,13 +2,12 @@ import React from 'react';
 import SearchInput, { createFilter } from 'react-search-input';
 import { BsSearch } from 'react-icons/bs';
 import iconDownload from '../../images/download.svg';
-import ArrowDown from '../../components/ArrowsTable/ArrowDown';
-import ArrowTop from '../../components/ArrowsTable/ArrowTop';
 import ReactTable from 'react-table-v6';
 import Pagination from '../../components/Pagination/Pagination';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 import { Tooltip } from 'nr1';
+import ArrowUnion from '../../components/ArrowsTable/ArrowUnion';
 
 const KEYS_TO_FILTERS = ['name', 'destination', 'query', 'tags', 'state'];
 
@@ -328,18 +327,17 @@ export default class TableArchives extends React.Component {
                       >
                         NAME
                         <div className="flexColumn table__sort">
-                          <ArrowTop
-                            color={
+                          <ArrowUnion
+                            sortColumn={sortColumn}
+                            colorArrowOne={
                               sortColumn.column === 'name' &&
-                              sortColumn.order === 'ascendant'
+                              sortColumn.order === 'descent'
                                 ? 'black'
                                 : 'gray'
                             }
-                          />
-                          <ArrowDown
-                            color={
+                            colorArrowTwo={
                               sortColumn.column === 'name' &&
-                              sortColumn.order === 'descent'
+                              sortColumn.order === 'ascendant'
                                 ? 'black'
                                 : 'gray'
                             }
@@ -378,18 +376,17 @@ export default class TableArchives extends React.Component {
                       >
                         DESTINATION
                         <div className="flexColumn table__sort">
-                          <ArrowTop
-                            color={
-                              sortColumn.column === 'destination' &&
-                              sortColumn.order === 'ascendant'
+                          <ArrowUnion
+                            sortColumn={sortColumn}
+                            colorArrowOne={
+                              sortColumn.column === 'name' &&
+                              sortColumn.order === 'descent'
                                 ? 'black'
                                 : 'gray'
                             }
-                          />
-                          <ArrowDown
-                            color={
-                              sortColumn.column === 'destination' &&
-                              sortColumn.order === 'descent'
+                            colorArrowTwo={
+                              sortColumn.column === 'name' &&
+                              sortColumn.order === 'ascendant'
                                 ? 'black'
                                 : 'gray'
                             }
@@ -420,18 +417,17 @@ export default class TableArchives extends React.Component {
                       >
                         QUERY USED
                         <div className="flexColumn table__sort">
-                          <ArrowTop
-                            color={
-                              sortColumn.column === 'query' &&
-                              sortColumn.order === 'ascendant'
+                          <ArrowUnion
+                            sortColumn={sortColumn}
+                            colorArrowOne={
+                              sortColumn.column === 'name' &&
+                              sortColumn.order === 'descent'
                                 ? 'black'
                                 : 'gray'
                             }
-                          />
-                          <ArrowDown
-                            color={
-                              sortColumn.column === 'query' &&
-                              sortColumn.order === 'descent'
+                            colorArrowTwo={
+                              sortColumn.column === 'name' &&
+                              sortColumn.order === 'ascendant'
                                 ? 'black'
                                 : 'gray'
                             }
@@ -462,18 +458,17 @@ export default class TableArchives extends React.Component {
                       >
                         TAGS
                         <div className="flexColumn table__sort">
-                          <ArrowTop
-                            color={
-                              sortColumn.column === 'tags' &&
-                              sortColumn.order === 'ascendant'
+                          <ArrowUnion
+                            sortColumn={sortColumn}
+                            colorArrowOne={
+                              sortColumn.column === 'name' &&
+                              sortColumn.order === 'descent'
                                 ? 'black'
                                 : 'gray'
                             }
-                          />
-                          <ArrowDown
-                            color={
-                              sortColumn.column === 'tags' &&
-                              sortColumn.order === 'descent'
+                            colorArrowTwo={
+                              sortColumn.column === 'name' &&
+                              sortColumn.order === 'ascendant'
                                 ? 'black'
                                 : 'gray'
                             }
@@ -504,18 +499,17 @@ export default class TableArchives extends React.Component {
                       >
                         STATE
                         <div className="flexColumn table__sort">
-                          <ArrowTop
-                            color={
-                              sortColumn.column === 'state' &&
-                              sortColumn.order === 'ascendant'
+                          <ArrowUnion
+                            sortColumn={sortColumn}
+                            colorArrowOne={
+                              sortColumn.column === 'name' &&
+                              sortColumn.order === 'descent'
                                 ? 'black'
                                 : 'gray'
                             }
-                          />
-                          <ArrowDown
-                            color={
-                              sortColumn.column === 'state' &&
-                              sortColumn.order === 'descent'
+                            colorArrowTwo={
+                              sortColumn.column === 'name' &&
+                              sortColumn.order === 'ascendant'
                                 ? 'black'
                                 : 'gray'
                             }

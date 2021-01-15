@@ -2,12 +2,11 @@ import React from 'react';
 import SearchInput, { createFilter } from 'react-search-input';
 import { BsSearch } from 'react-icons/bs';
 import iconDownload from '../../images/download.svg';
-import ArrowDown from '../../components/ArrowsTable/ArrowDown';
-import ArrowTop from '../../components/ArrowsTable/ArrowTop';
 import ReactTable from 'react-table-v6';
 import Pagination from '../../components/Pagination/Pagination';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
+import ArrowUnion from '../../components/ArrowsTable/ArrowUnion';
 import { Tooltip } from 'nr1';
 
 const KEYS_TO_FILTERS = [
@@ -347,18 +346,17 @@ export default class TableMetrics extends React.Component {
                       >
                         ID
                         <div className="flexColumn table__sort">
-                          <ArrowTop
-                            color={
-                              sortColumn.column === 'id' &&
-                              sortColumn.order === 'ascendant'
+                          <ArrowUnion
+                            sortColumn={sortColumn}
+                            colorArrowOne={
+                              sortColumn.column === 'name' &&
+                              sortColumn.order === 'descent'
                                 ? 'black'
                                 : 'gray'
                             }
-                          />
-                          <ArrowDown
-                            color={
-                              sortColumn.column === 'id' &&
-                              sortColumn.order === 'descent'
+                            colorArrowTwo={
+                              sortColumn.column === 'name' &&
+                              sortColumn.order === 'ascendant'
                                 ? 'black'
                                 : 'gray'
                             }
@@ -397,18 +395,17 @@ export default class TableMetrics extends React.Component {
                       >
                         COMPUTE AGGR TYPE
                         <div className="flexColumn table__sort">
-                          <ArrowTop
-                            color={
-                              sortColumn.column === 'aggrType' &&
-                              sortColumn.order === 'ascendant'
+                          <ArrowUnion
+                            sortColumn={sortColumn}
+                            colorArrowOne={
+                              sortColumn.column === 'name' &&
+                              sortColumn.order === 'descent'
                                 ? 'black'
                                 : 'gray'
                             }
-                          />
-                          <ArrowDown
-                            color={
-                              sortColumn.column === 'aggrType' &&
-                              sortColumn.order === 'descent'
+                            colorArrowTwo={
+                              sortColumn.column === 'name' &&
+                              sortColumn.order === 'ascendant'
                                 ? 'black'
                                 : 'gray'
                             }
@@ -439,18 +436,17 @@ export default class TableMetrics extends React.Component {
                       >
                         COMPUTE PATH
                         <div className="flexColumn table__sort">
-                          <ArrowTop
-                            color={
-                              sortColumn.column === 'path' &&
-                              sortColumn.order === 'ascendant'
+                          <ArrowUnion
+                            sortColumn={sortColumn}
+                            colorArrowOne={
+                              sortColumn.column === 'name' &&
+                              sortColumn.order === 'descent'
                                 ? 'black'
                                 : 'gray'
                             }
-                          />
-                          <ArrowDown
-                            color={
-                              sortColumn.column === 'path' &&
-                              sortColumn.order === 'descent'
+                            colorArrowTwo={
+                              sortColumn.column === 'name' &&
+                              sortColumn.order === 'ascendant'
                                 ? 'black'
                                 : 'gray'
                             }
@@ -481,18 +477,17 @@ export default class TableMetrics extends React.Component {
                       >
                         FILTER QUERY
                         <div className="flexColumn table__sort">
-                          <ArrowTop
-                            color={
-                              sortColumn.column === 'filterQuery' &&
-                              sortColumn.order === 'ascendant'
+                          <ArrowUnion
+                            sortColumn={sortColumn}
+                            colorArrowOne={
+                              sortColumn.column === 'name' &&
+                              sortColumn.order === 'descent'
                                 ? 'black'
                                 : 'gray'
                             }
-                          />
-                          <ArrowDown
-                            color={
-                              sortColumn.column === 'filterQuery' &&
-                              sortColumn.order === 'descent'
+                            colorArrowTwo={
+                              sortColumn.column === 'name' &&
+                              sortColumn.order === 'ascendant'
                                 ? 'black'
                                 : 'gray'
                             }
@@ -523,18 +518,17 @@ export default class TableMetrics extends React.Component {
                       >
                         GROUP BY PATH
                         <div className="flexColumn table__sort">
-                          <ArrowTop
-                            color={
-                              sortColumn.column === 'groupByPath' &&
-                              sortColumn.order === 'ascendant'
+                          <ArrowUnion
+                            sortColumn={sortColumn}
+                            colorArrowOne={
+                              sortColumn.column === 'name' &&
+                              sortColumn.order === 'descent'
                                 ? 'black'
                                 : 'gray'
                             }
-                          />
-                          <ArrowDown
-                            color={
-                              sortColumn.column === 'groupByPath' &&
-                              sortColumn.order === 'descent'
+                            colorArrowTwo={
+                              sortColumn.column === 'name' &&
+                              sortColumn.order === 'ascendant'
                                 ? 'black'
                                 : 'gray'
                             }
@@ -565,18 +559,17 @@ export default class TableMetrics extends React.Component {
                       >
                         GROUP TAG NAME
                         <div className="flexColumn table__sort">
-                          <ArrowTop
-                            color={
-                              sortColumn.column === 'tagName' &&
-                              sortColumn.order === 'ascendant'
+                          <ArrowUnion
+                            sortColumn={sortColumn}
+                            colorArrowOne={
+                              sortColumn.column === 'name' &&
+                              sortColumn.order === 'descent'
                                 ? 'black'
                                 : 'gray'
                             }
-                          />
-                          <ArrowDown
-                            color={
-                              sortColumn.column === 'tagName' &&
-                              sortColumn.order === 'descent'
+                            colorArrowTwo={
+                              sortColumn.column === 'name' &&
+                              sortColumn.order === 'ascendant'
                                 ? 'black'
                                 : 'gray'
                             }

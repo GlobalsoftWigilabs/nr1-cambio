@@ -2,13 +2,12 @@ import React from 'react';
 import SearchInput, { createFilter } from 'react-search-input';
 import { BsSearch } from 'react-icons/bs';
 import iconDownload from '../../images/download.svg';
-import ArrowDown from '../../components/ArrowsTable/ArrowDown';
-import ArrowTop from '../../components/ArrowsTable/ArrowTop';
 import ReactTable from 'react-table-v6';
 import Pagination from '../../components/Pagination/Pagination';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 import { Tooltip } from 'nr1';
+import ArrowUnion from '../../components/ArrowsTable/ArrowUnion';
 
 const KEYS_TO_FILTERS = ['name', 'enabled', 'type', 'processors'];
 
@@ -317,18 +316,17 @@ export default class TablePipelines extends React.Component {
                       >
                         NAME
                         <div className="flexColumn table__sort">
-                          <ArrowTop
-                            color={
+                          <ArrowUnion
+                            sortColumn={sortColumn}
+                            colorArrowOne={
                               sortColumn.column === 'name' &&
-                              sortColumn.order === 'ascendant'
+                              sortColumn.order === 'descent'
                                 ? 'black'
                                 : 'gray'
                             }
-                          />
-                          <ArrowDown
-                            color={
+                            colorArrowTwo={
                               sortColumn.column === 'name' &&
-                              sortColumn.order === 'descent'
+                              sortColumn.order === 'ascendant'
                                 ? 'black'
                                 : 'gray'
                             }
@@ -367,18 +365,17 @@ export default class TablePipelines extends React.Component {
                       >
                         ENABLED
                         <div className="flexColumn table__sort">
-                          <ArrowTop
-                            color={
-                              sortColumn.column === 'enabled' &&
-                              sortColumn.order === 'ascendant'
+                          <ArrowUnion
+                            sortColumn={sortColumn}
+                            colorArrowOne={
+                              sortColumn.column === 'name' &&
+                              sortColumn.order === 'descent'
                                 ? 'black'
                                 : 'gray'
                             }
-                          />
-                          <ArrowDown
-                            color={
-                              sortColumn.column === 'enabled' &&
-                              sortColumn.order === 'descent'
+                            colorArrowTwo={
+                              sortColumn.column === 'name' &&
+                              sortColumn.order === 'ascendant'
                                 ? 'black'
                                 : 'gray'
                             }
@@ -409,18 +406,17 @@ export default class TablePipelines extends React.Component {
                       >
                         TYPE
                         <div className="flexColumn table__sort">
-                          <ArrowTop
-                            color={
-                              sortColumn.column === 'type' &&
-                              sortColumn.order === 'ascendant'
+                          <ArrowUnion
+                            sortColumn={sortColumn}
+                            colorArrowOne={
+                              sortColumn.column === 'name' &&
+                              sortColumn.order === 'descent'
                                 ? 'black'
                                 : 'gray'
                             }
-                          />
-                          <ArrowDown
-                            color={
-                              sortColumn.column === 'type' &&
-                              sortColumn.order === 'descent'
+                            colorArrowTwo={
+                              sortColumn.column === 'name' &&
+                              sortColumn.order === 'ascendant'
                                 ? 'black'
                                 : 'gray'
                             }
@@ -451,18 +447,17 @@ export default class TablePipelines extends React.Component {
                       >
                         ORDER PROCESSORS
                         <div className="flexColumn table__sort">
-                          <ArrowTop
-                            color={
-                              sortColumn.column === 'processors' &&
-                              sortColumn.order === 'ascendant'
+                          <ArrowUnion
+                            sortColumn={sortColumn}
+                            colorArrowOne={
+                              sortColumn.column === 'name' &&
+                              sortColumn.order === 'descent'
                                 ? 'black'
                                 : 'gray'
                             }
-                          />
-                          <ArrowDown
-                            color={
-                              sortColumn.column === 'processors' &&
-                              sortColumn.order === 'descent'
+                            colorArrowTwo={
+                              sortColumn.column === 'name' &&
+                              sortColumn.order === 'ascendant'
                                 ? 'black'
                                 : 'gray'
                             }
