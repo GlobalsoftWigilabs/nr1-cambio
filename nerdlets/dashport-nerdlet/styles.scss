@@ -189,6 +189,7 @@ a[target='_blank']:after {
   background-color: #f7f7f8;
   display: flex;
   height: 2vw;
+  min-height: 30px;
   align-items: center;
   /* justify-content: center; */
 }
@@ -200,6 +201,7 @@ a[target='_blank']:after {
   background-color: #f7f7f8;
   display: flex;
   height: 2vw;
+  min-height: 30px;
   align-items: center;
 }
 .table__sort {
@@ -231,6 +233,7 @@ a[target='_blank']:after {
   background-color: #f7f7f8;
   display: flex;
   height: 2vw;
+  min-height: 30px;
   align-items: center;
 }
 ///////////////// Values exclusive for library
