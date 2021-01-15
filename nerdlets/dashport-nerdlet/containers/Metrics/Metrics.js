@@ -651,7 +651,7 @@ export default class Metrics extends React.Component {
                 </div>
                 <div
                   style={{ height: '50%', width: '95%' }}
-                  className="graphsBarAlert__containeScroll"
+                  className="graph_bar"
                 >
                   {dataGraph &&
                     dataGraph.map((data, index) => {

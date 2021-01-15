@@ -631,7 +631,8 @@ export default class Synthetics extends React.Component {
                           </div>
                         ),
                         headerClassName: 'stycky w100I',
-                        className: ' stycky table__cellSticky fontNormal h100 w100I',
+                        className:
+                          ' stycky table__cellSticky fontNormal h100 w100I',
                         accessor: 'name',
                         sortable: false,
                         Cell: props => {

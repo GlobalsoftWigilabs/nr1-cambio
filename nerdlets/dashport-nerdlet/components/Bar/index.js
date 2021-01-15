@@ -5,14 +5,8 @@ const Bar = props => {
   const { bgcolorMain, bgColor, quantityPercentage, title, quantity } = props;
   const containerStylesBar = {
     width: '99%',
-    height:'1.3vw',
     backgroundColor: bgColor,
     borderRadius: 0
-  };
-
-  const containerStylesBarTitle = {
-    marginLeft: '20%',
-    textTransform: 'capitalize'
   };
 
   const fillerStyles = {
@@ -29,13 +23,10 @@ const Bar = props => {
 
   const containerStyles = {
     display: 'grid',
-    gridTemplate: '50% 50% /1fr'
+    gridTemplate: '50% 50% /1fr',
+    height: '70px'
   };
 
-  const distributionQuantityAndBar = {
-    display: 'grid',
-    gridTemplate: '1fr / 20% 80%'
-  };
   const barQuantity = {
     display: 'flex',
     justifyContent: 'center',
@@ -44,10 +35,8 @@ const Bar = props => {
 
   return (
     <div style={containerStyles}>
-      <div style={containerStylesBarTitle} className="fontSmall">
-        {title}
-      </div>
-      <div style={distributionQuantityAndBar} className="fontMedium">
+      <div className="containerStylesBarTitle fontSmall">{title}</div>
+      <div className="distributionQuantityAndBar fontMedium">
         <div style={barQuantity}>{quantity}</div>
         <div style={containerStylesBar}>
           <div style={fillerStyles} />

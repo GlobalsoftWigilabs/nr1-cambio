@@ -51,40 +51,83 @@
   height: auto !important;
 }
 /////////////STYLES COMMON
-.fontSmall{
+.fontSmall {
   font-family: Open Sans;
   font-size: 10px !important;
 }
-.fontNormal{
+.fontNormal {
   font-family: Open Sans;
   font-size: 12px !important;
 }
-.fontMedium{
+.fontMedium {
   font-family: Open Sans;
   font-size: 14px !important;
 }
-.fontHight{
+.fontHight {
   font-family: Open Sans;
   font-size: 16px !important;
 }
-.fontBigger{
+.fontBigger {
   font-family: Open Sans;
   font-size: 50px !important;
 }
-@media (min-width: 1920px) {
-  .fontSmall{
+
+.containerStylesBarTitle {
+  // margin-top: 10%;
+  min-height: 60px !important;
+  margin-left: 20% !important;
+  text-transform: capitalize !important;
+}
+
+.distributionQuantityAndBar {
+  height: 1.3vw !important;
+  display: grid !important;
+  grid-template-columns: 20% 80% !important;
+}
+
+@media (max-width: 1024px) {
+  .containerStylesBarTitle {
+    margin-bottom: 5px;
+    min-height: 60px !important;
+    margin-left: 20% !important;
+    text-transform: capitalize !important;
+  }
+  .distributionQuantityAndBar {
+    grid-template-columns: 35% 65% !important;
+  }
+  .fontSmall {
     font-family: Open Sans;
     font-size: 12px !important;
   }
-  .fontNormal{
+  .fontNormal {
     font-family: Open Sans;
     font-size: 14px !important;
   }
-  .fontMedium{
+  .fontMedium {
+    font-family: Open Sans;
+    font-size: 13px !important;
+  }
+  .fontBigger {
+    font-family: Open Sans;
+    font-size: 45px !important;
+  }
+}
+
+@media (min-width: 1920px) {
+  .fontSmall {
+    font-family: Open Sans;
+    font-size: 12px !important;
+  }
+  .fontNormal {
+    font-family: Open Sans;
+    font-size: 14px !important;
+  }
+  .fontMedium {
     font-family: Open Sans;
     font-size: 16px !important;
   }
 }
+
 input[type='search'] {
   background: white !important;
 }
@@ -175,7 +218,7 @@ a[target='_blank']:after {
   -webkit-box-orient: vertical;
 }
 
-.table__cellSticky{
+.table__cellSticky {
   width: 100%;
   display: block;
   align-items: center;
@@ -232,7 +275,7 @@ a[target='_blank']:after {
   display: grid;
   grid-template: 40% 50% / 1fr;
 }
-.box--title  {
+.box--title {
   font-style: normal;
   font-weight: normal;
   line-height: 19px;
@@ -244,7 +287,7 @@ a[target='_blank']:after {
   justify-content: center;
   height: 100%;
 }
-.box--quantity{
+.box--quantity {
   font-style: normal;
   font-weight: 600;
   line-height: 68px;

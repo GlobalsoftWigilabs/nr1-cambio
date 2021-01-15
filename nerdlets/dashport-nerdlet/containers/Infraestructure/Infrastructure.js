@@ -371,7 +371,7 @@ export default class Infrastructure extends React.Component {
                 </div>
               </div>
               <div
-                style={{ height: '50%', width: '95%' }}
+                style={{ height: '100%', width: '100%' }}
                 className="graph_bar"
               >
                 <div
@@ -389,8 +389,8 @@ export default class Infrastructure extends React.Component {
                         key={index}
                         className="w100"
                         style={{
-                          paddingBottom: '10px',
-                          paddingTop: '10px',
+                          paddingBottom: '4%',
+                          paddingTop: '4%',
                           width: '94%'
                         }}
                       >
