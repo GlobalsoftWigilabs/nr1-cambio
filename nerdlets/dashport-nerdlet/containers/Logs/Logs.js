@@ -56,7 +56,8 @@ export default class Logs extends React.Component {
           name: element.name,
           enabled: element.is_enabled,
           type: element.type,
-          processors: processors
+          processors: processors,
+          dataProcessors: element.processors
         });
       });
       this.setState({
@@ -174,11 +175,24 @@ export default class Logs extends React.Component {
       const pipeline = [];
       if (dataPipeline) {
         for (const element of dataPipeline) {
+          let processors = '';
+          if (element.processors) {
+            for (const processor of element.dataProcessors) {
+              if (processor.name !== '') {
+                processors = `${processors} ${processor.name} \n`;
+              } else {
+                processors = `${processors} ${processor.type} \n`;
+              }
+            }
+          }
+          if (processors === '') {
+            processors = '-----';
+          }
           pipeline.push({
             NAME: element.name ? element.name : '-----',
             ENABLED: element.enabled ? element.enabled : '-----',
             TYPE: element.type ? element.type : '-----',
-            ORDER_PROCESSORS: element.processors ? element.processors : '-----'
+            ORDER_PROCESSORS: processors
           });
         }
       }
