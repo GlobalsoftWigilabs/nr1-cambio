@@ -554,8 +554,7 @@ export default class Alerts extends React.Component {
                                 rowInfo.index % 2 ? '#F7F7F8' : 'white',
                               borderBottom: 'none',
                               display: 'grid',
-                              gridTemplate:
-                                '1fr / 16% repeat(3, 14.33%) 8% 9% repeat(3, 8%)'
+                              gridTemplate: '1fr / 16% repeat(8, 10.5%)'
                             }
                           };
                         } else {
@@ -563,8 +562,7 @@ export default class Alerts extends React.Component {
                             style: {
                               borderBottom: 'none',
                               display: 'grid',
-                              gridTemplate:
-                                '1fr / 16% repeat(3, 14.33%) 8% 9% repeat(3, 8%)'
+                              gridTemplate: '1fr / 16% repeat(8, 10.5%)'
                             }
                           };
                         }
@@ -591,8 +589,7 @@ export default class Alerts extends React.Component {
                           color: '#333333',
                           fontWeight: 'bold',
                           display: 'grid',
-                          gridTemplate:
-                            '1fr / 16% repeat(3, 14.33%) 8% 9% repeat(3, 8%)'
+                          gridTemplate: '1fr / 16% repeat(8, 10.5%)'
                         }
                       };
                     }}
@@ -635,7 +632,8 @@ export default class Alerts extends React.Component {
                           </div>
                         ),
                         headerClassName: 'stycky w100I',
-                        className: ' stycky table__cellSticky fontNormal h100 w100I',
+                        className:
+                          ' stycky table__cellSticky fontNormal h100 w100I',
                         accessor: 'name',
                         sortable: false,
                         Cell: props => {

@@ -65,9 +65,26 @@ export default class Infrastructure extends React.Component {
     infraestructureList.forEach(element => {
       let tags = '';
       if (element.tags_by_source) {
-        element.tags_by_source.Datadog.forEach(tag => {
-          tags = `${tags} ${tag} \n`;
-        });
+        for (const key in element.tags_by_source) {
+          if (Object.hasOwnProperty.call(element.tags_by_source, key)) {
+            const elementKey = element.tags_by_source[key];
+            if (tags === '') {
+              tags = `${key}:\n`;
+            } else {
+              tags = `${tags}\n${key}:\n`;
+            }
+            const limitData = elementKey.slice(0, 3);
+            for (const processor of limitData) {
+              tags = `${tags}-${processor}\n`;
+            }
+            if (limitData.length === 3) {
+              tags = `${tags}  ...`;
+            }
+          }
+        }
+      }
+      if (tags === '') {
+        tags = '-----';
       }
       let apps = '';
       if (element.apps) {
@@ -75,11 +92,17 @@ export default class Infrastructure extends React.Component {
           apps = `${apps} ${app} \n`;
         });
       }
+      if (apps === '') {
+        apps = '-----';
+      }
       let sources = '';
       if (element.sources) {
         element.sources.forEach(source => {
           sources = `${sources} ${source} \n`;
         });
+      }
+      if (sources === '') {
+        sources = '-----';
       }
       let aliases = '';
       if (element.aliases) {
@@ -87,13 +110,19 @@ export default class Infrastructure extends React.Component {
           aliases = `${aliases} ${alias} \n`;
         });
       }
+      if (aliases === '') {
+        aliases = '-----';
+      }
       data.push({
-        host_name: element.host_name,
+        host_name: element.host_name ? element.host_name : '-----',
         aliases: aliases,
         apps: apps,
         sources: sources,
-        muted: element.is_muted,
+        muted: element.is_muted ? element.is_muted : '-----',
         tags_by_source: tags,
+        dataTags_by_source: element.tags_by_source
+          ? element.tags_by_source
+          : [],
         cpu: element.metrics.cpu ? element.metrics.cpu : '-----',
         iowait: element.metrics.iowait ? element.metrics.iowait : '-----',
         load: element.metrics.load ? element.metrics.load : '-----'
@@ -109,13 +138,32 @@ export default class Infrastructure extends React.Component {
     const zip = new JSZip();
     const dataCsv = [];
     data.forEach(row => {
+      let tags = '';
+      if (row.dataTags_by_source) {
+        for (const key in row.dataTags_by_source) {
+          if (Object.hasOwnProperty.call(row.dataTags_by_source, key)) {
+            const elementKey = row.dataTags_by_source[key];
+            if (tags === '') {
+              tags = `${key}:\n`;
+            } else {
+              tags = `${tags}\n${key}:\n`;
+            }
+            for (const processor of elementKey) {
+              tags = `${tags}  -${processor}\n`;
+            }
+          }
+        }
+      }
+      if (tags === '') {
+        tags = '-----';
+      }
       dataCsv.push({
-        HOST_NAME: row.host_name,
-        ALIASES: row.aliases,
-        APPS: row.apps,
-        SOURCES: row.sources,
-        MUTED: row.muted,
-        TAGS_BY_SOURCE: row.tags_by_source,
+        HOST_NAME: row.host_name ? row.host_name : '-----',
+        ALIASES: row.aliases ? row.aliases : '-----',
+        APPS: row.apps ? row.apps : '-----',
+        SOURCES: row.sources ? row.sources : '-----',
+        MUTED: row.muted ? row.muted : '-----',
+        TAGS_BY_SOURCE: tags,
         CPU: row.cpu ? row.cpu : '-----',
         IOWAIT: row.iowait ? row.iowait : '-----',
         LOAD: row.load ? row.load : '-----'
