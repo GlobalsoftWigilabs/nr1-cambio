@@ -1055,7 +1055,7 @@ export default class ModalSynthetics extends React.Component {
             columns={[
               {
                 Header: () => (
-                  <div className="table__headerSticky fontSmall">
+                  <div className="table__headerSticky fontSmall" >
                     <div
                       className="pointer flex "
                       style={{ marginLeft: '15px' }}
@@ -1106,7 +1106,7 @@ export default class ModalSynthetics extends React.Component {
               },
               {
                 Header: () => (
-                  <div className="table__header fontSmall">
+                  <div className="table__header fontSmall" style={{ marginLeft: '15px' }}>
                     <div
                       className="pointer flex "
                       onClick={() => {
@@ -1141,7 +1141,7 @@ export default class ModalSynthetics extends React.Component {
                   'table__cell fontNormal flex flexCenterVertical h100 w100I',
                 sortable: false,
                 Cell: props => (
-                  <div className="h100 flex flexCenterVertical ">
+                  <div className="h100 flex flexCenterVertical " style={{ marginLeft: '15px' }}>
                     {props.value ? props.value : '-----'}
                   </div>
                 )
