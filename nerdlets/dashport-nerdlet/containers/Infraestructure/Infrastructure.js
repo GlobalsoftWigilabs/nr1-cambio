@@ -574,13 +574,13 @@ export default class Infrastructure extends React.Component {
                                 <ArrowUnion
                                   sortColumn={sortColumn}
                                   colorArrowOne={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'host_name' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
                                   colorArrowTwo={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'host_name' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -629,13 +629,13 @@ export default class Infrastructure extends React.Component {
                                 <ArrowUnion
                                   sortColumn={sortColumn}
                                   colorArrowOne={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'aliases' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
                                   colorArrowTwo={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'aliases' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -670,13 +670,13 @@ export default class Infrastructure extends React.Component {
                                 <ArrowUnion
                                   sortColumn={sortColumn}
                                   colorArrowOne={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'apps' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
                                   colorArrowTwo={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'apps' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -711,13 +711,13 @@ export default class Infrastructure extends React.Component {
                                 <ArrowUnion
                                   sortColumn={sortColumn}
                                   colorArrowOne={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'sources' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
                                   colorArrowTwo={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'sources' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -752,13 +752,13 @@ export default class Infrastructure extends React.Component {
                                 <ArrowUnion
                                   sortColumn={sortColumn}
                                   colorArrowOne={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'muted' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
                                   colorArrowTwo={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'muted' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -793,13 +793,13 @@ export default class Infrastructure extends React.Component {
                                 <ArrowUnion
                                   sortColumn={sortColumn}
                                   colorArrowOne={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'tags_by_source' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
                                   colorArrowTwo={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'tags_by_source' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'

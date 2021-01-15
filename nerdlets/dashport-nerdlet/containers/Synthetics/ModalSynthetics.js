@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Select from 'react-select';
 import ArrowDown from '../../components/ArrowsTable/ArrowDown';
 import ArrowTop from '../../components/ArrowsTable/ArrowTop';
+import ArrowUnion from '../../components/ArrowsTable/ArrowUnion';
 import ReactTable from 'react-table-v6';
 import { Modal } from 'react-bootstrap';
 import closeIcon from '../../images/close.svg';
@@ -584,18 +585,17 @@ export default class ModalSynthetics extends React.Component {
                     >
                       NAME
                       <div className="flexColumn table__sort">
-                        <ArrowTop
-                          color={
+                        <ArrowUnion
+                          sortColumn={sortColumn}
+                          colorArrowOne={
                             sortColumn.column === 'name' &&
-                            sortColumn.order === 'ascendant'
+                            sortColumn.order === 'descent'
                               ? 'black'
                               : 'gray'
                           }
-                        />
-                        <ArrowDown
-                          color={
+                          colorArrowTwo={
                             sortColumn.column === 'name' &&
-                            sortColumn.order === 'descent'
+                            sortColumn.order === 'ascendant'
                               ? 'black'
                               : 'gray'
                           }
@@ -634,18 +634,17 @@ export default class ModalSynthetics extends React.Component {
                     >
                       ID
                       <div className="flexColumn table__sort">
-                        <ArrowTop
-                          color={
+                        <ArrowUnion
+                          sortColumn={sortColumn}
+                          colorArrowOne={
                             sortColumn.column === 'id' &&
-                            sortColumn.order === 'ascendant'
+                            sortColumn.order === 'descent'
                               ? 'black'
                               : 'gray'
                           }
-                        />
-                        <ArrowDown
-                          color={
+                          colorArrowTwo={
                             sortColumn.column === 'id' &&
-                            sortColumn.order === 'descent'
+                            sortColumn.order === 'ascendant'
                               ? 'black'
                               : 'gray'
                           }
@@ -676,18 +675,17 @@ export default class ModalSynthetics extends React.Component {
                     >
                       DESCRIPTION
                       <div className="flexColumn table__sort">
-                        <ArrowTop
-                          color={
+                        <ArrowUnion
+                          sortColumn={sortColumn}
+                          colorArrowOne={
                             sortColumn.column === 'description' &&
-                            sortColumn.order === 'ascendant'
+                            sortColumn.order === 'descent'
                               ? 'black'
                               : 'gray'
                           }
-                        />
-                        <ArrowDown
-                          color={
+                          colorArrowTwo={
                             sortColumn.column === 'description' &&
-                            sortColumn.order === 'descent'
+                            sortColumn.order === 'ascendant'
                               ? 'black'
                               : 'gray'
                           }
@@ -718,18 +716,17 @@ export default class ModalSynthetics extends React.Component {
                     >
                       SECURE
                       <div className="flexColumn table__sort">
-                        <ArrowTop
-                          color={
+                        <ArrowUnion
+                          sortColumn={sortColumn}
+                          colorArrowOne={
                             sortColumn.column === 'secure' &&
-                            sortColumn.order === 'ascendant'
+                            sortColumn.order === 'descent'
                               ? 'black'
                               : 'gray'
                           }
-                        />
-                        <ArrowDown
-                          color={
+                          colorArrowTwo={
                             sortColumn.column === 'secure' &&
-                            sortColumn.order === 'descent'
+                            sortColumn.order === 'ascendant'
                               ? 'black'
                               : 'gray'
                           }
@@ -760,18 +757,17 @@ export default class ModalSynthetics extends React.Component {
                     >
                       VALUE
                       <div className="flexColumn table__sort">
-                        <ArrowTop
-                          color={
+                        <ArrowUnion
+                          sortColumn={sortColumn}
+                          colorArrowOne={
                             sortColumn.column === 'value' &&
-                            sortColumn.order === 'ascendant'
+                            sortColumn.order === 'descent'
                               ? 'black'
                               : 'gray'
                           }
-                        />
-                        <ArrowDown
-                          color={
+                          colorArrowTwo={
                             sortColumn.column === 'value' &&
-                            sortColumn.order === 'descent'
+                            sortColumn.order === 'ascendant'
                               ? 'black'
                               : 'gray'
                           }
@@ -802,18 +798,17 @@ export default class ModalSynthetics extends React.Component {
                     >
                       TAGS
                       <div className="flexColumn table__sort">
-                        <ArrowTop
-                          color={
+                        <ArrowUnion
+                          sortColumn={sortColumn}
+                          colorArrowOne={
                             sortColumn.column === 'tags' &&
-                            sortColumn.order === 'ascendant'
+                            sortColumn.order === 'descent'
                               ? 'black'
                               : 'gray'
                           }
-                        />
-                        <ArrowDown
-                          color={
+                          colorArrowTwo={
                             sortColumn.column === 'tags' &&
-                            sortColumn.order === 'descent'
+                            sortColumn.order === 'ascendant'
                               ? 'black'
                               : 'gray'
                           }
@@ -931,18 +926,17 @@ export default class ModalSynthetics extends React.Component {
                     >
                       VALUE
                       <div className="flexColumn table__sort">
-                        <ArrowTop
-                          color={
+                        <ArrowUnion
+                          sortColumn={sortColumn}
+                          colorArrowOne={
                             sortColumn.column === 'value' &&
-                            sortColumn.order === 'ascendant'
+                            sortColumn.order === 'descent'
                               ? 'black'
                               : 'gray'
                           }
-                        />
-                        <ArrowDown
-                          color={
+                          colorArrowTwo={
                             sortColumn.column === 'value' &&
-                            sortColumn.order === 'descent'
+                            sortColumn.order === 'ascendant'
                               ? 'black'
                               : 'gray'
                           }
@@ -1055,7 +1049,7 @@ export default class ModalSynthetics extends React.Component {
             columns={[
               {
                 Header: () => (
-                  <div className="table__headerSticky fontSmall" >
+                  <div className="table__headerSticky fontSmall">
                     <div
                       className="pointer flex "
                       style={{ marginLeft: '15px' }}
@@ -1065,18 +1059,17 @@ export default class ModalSynthetics extends React.Component {
                     >
                       PARAMETERS
                       <div className="flexColumn table__sort">
-                        <ArrowTop
-                          color={
+                        <ArrowUnion
+                          sortColumn={sortColumn}
+                          colorArrowOne={
                             sortColumn.column === 'params' &&
-                            sortColumn.order === 'ascendant'
+                            sortColumn.order === 'descent'
                               ? 'black'
                               : 'gray'
                           }
-                        />
-                        <ArrowDown
-                          color={
+                          colorArrowTwo={
                             sortColumn.column === 'params' &&
-                            sortColumn.order === 'descent'
+                            sortColumn.order === 'ascendant'
                               ? 'black'
                               : 'gray'
                           }
@@ -1106,7 +1099,10 @@ export default class ModalSynthetics extends React.Component {
               },
               {
                 Header: () => (
-                  <div className="table__header fontSmall" style={{ marginLeft: '15px' }}>
+                  <div
+                    className="table__header fontSmall"
+                    style={{ marginLeft: '15px' }}
+                  >
                     <div
                       className="pointer flex "
                       onClick={() => {
@@ -1115,18 +1111,17 @@ export default class ModalSynthetics extends React.Component {
                     >
                       TYPE
                       <div className="flexColumn table__sort">
-                        <ArrowTop
-                          color={
+                        <ArrowUnion
+                          sortColumn={sortColumn}
+                          colorArrowOne={
                             sortColumn.column === 'type' &&
-                            sortColumn.order === 'ascendant'
+                            sortColumn.order === 'descent'
                               ? 'black'
                               : 'gray'
                           }
-                        />
-                        <ArrowDown
-                          color={
+                          colorArrowTwo={
                             sortColumn.column === 'type' &&
-                            sortColumn.order === 'descent'
+                            sortColumn.order === 'ascendant'
                               ? 'black'
                               : 'gray'
                           }
@@ -1141,7 +1136,10 @@ export default class ModalSynthetics extends React.Component {
                   'table__cell fontNormal flex flexCenterVertical h100 w100I',
                 sortable: false,
                 Cell: props => (
-                  <div className="h100 flex flexCenterVertical " style={{ marginLeft: '15px' }}>
+                  <div
+                    className="h100 flex flexCenterVertical "
+                    style={{ marginLeft: '15px' }}
+                  >
                     {props.value ? props.value : '-----'}
                   </div>
                 )

@@ -368,13 +368,13 @@ export default class TablePipelines extends React.Component {
                           <ArrowUnion
                             sortColumn={sortColumn}
                             colorArrowOne={
-                              sortColumn.column === 'name' &&
+                              sortColumn.column === 'enabled' &&
                               sortColumn.order === 'descent'
                                 ? 'black'
                                 : 'gray'
                             }
                             colorArrowTwo={
-                              sortColumn.column === 'name' &&
+                              sortColumn.column === 'enabled' &&
                               sortColumn.order === 'ascendant'
                                 ? 'black'
                                 : 'gray'
@@ -409,13 +409,13 @@ export default class TablePipelines extends React.Component {
                           <ArrowUnion
                             sortColumn={sortColumn}
                             colorArrowOne={
-                              sortColumn.column === 'name' &&
+                              sortColumn.column === 'type' &&
                               sortColumn.order === 'descent'
                                 ? 'black'
                                 : 'gray'
                             }
                             colorArrowTwo={
-                              sortColumn.column === 'name' &&
+                              sortColumn.column === 'type' &&
                               sortColumn.order === 'ascendant'
                                 ? 'black'
                                 : 'gray'
@@ -450,13 +450,13 @@ export default class TablePipelines extends React.Component {
                           <ArrowUnion
                             sortColumn={sortColumn}
                             colorArrowOne={
-                              sortColumn.column === 'name' &&
+                              sortColumn.column === 'processors' &&
                               sortColumn.order === 'descent'
                                 ? 'black'
                                 : 'gray'
                             }
                             colorArrowTwo={
-                              sortColumn.column === 'name' &&
+                              sortColumn.column === 'processors' &&
                               sortColumn.order === 'ascendant'
                                 ? 'black'
                                 : 'gray'

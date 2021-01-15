@@ -896,13 +896,13 @@ export default class Metrics extends React.Component {
                                 <ArrowUnion
                                   sortColumn={sortColumn}
                                   colorArrowOne={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'integration' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
                                   colorArrowTwo={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'integration' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -940,13 +940,13 @@ export default class Metrics extends React.Component {
                                 <ArrowUnion
                                   sortColumn={sortColumn}
                                   colorArrowOne={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'type' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
                                   colorArrowTwo={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'type' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -981,13 +981,13 @@ export default class Metrics extends React.Component {
                                 <ArrowUnion
                                   sortColumn={sortColumn}
                                   colorArrowOne={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'host' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
                                   colorArrowTwo={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'host' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -1028,13 +1028,13 @@ export default class Metrics extends React.Component {
                                 <ArrowUnion
                                   sortColumn={sortColumn}
                                   colorArrowOne={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'unit' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
                                   colorArrowTwo={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'unit' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -1069,13 +1069,13 @@ export default class Metrics extends React.Component {
                                 <ArrowUnion
                                   sortColumn={sortColumn}
                                   colorArrowOne={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'aggr' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
                                   colorArrowTwo={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'aggr' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'

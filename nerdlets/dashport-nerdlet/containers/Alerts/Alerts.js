@@ -676,13 +676,13 @@ export default class Alerts extends React.Component {
                                 <ArrowUnion
                                   sortColumn={sortColumn}
                                   colorArrowOne={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'classification' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
                                   colorArrowTwo={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'classification' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -720,13 +720,13 @@ export default class Alerts extends React.Component {
                                 <ArrowUnion
                                   sortColumn={sortColumn}
                                   colorArrowOne={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'type' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
                                   colorArrowTwo={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'type' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -761,13 +761,13 @@ export default class Alerts extends React.Component {
                                 <ArrowUnion
                                   sortColumn={sortColumn}
                                   colorArrowOne={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'author' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
                                   colorArrowTwo={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'author' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -802,13 +802,13 @@ export default class Alerts extends React.Component {
                                 <ArrowUnion
                                   sortColumn={sortColumn}
                                   colorArrowOne={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'creation_date' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
                                   colorArrowTwo={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'creation_date' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -843,13 +843,13 @@ export default class Alerts extends React.Component {
                                 <ArrowUnion
                                   sortColumn={sortColumn}
                                   colorArrowOne={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'date_last_triggered' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
                                   colorArrowTwo={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'date_last_triggered' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -886,13 +886,13 @@ export default class Alerts extends React.Component {
                                 <ArrowUnion
                                   sortColumn={sortColumn}
                                   colorArrowOne={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'overall_state' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
                                   colorArrowTwo={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'overall_state' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -927,13 +927,13 @@ export default class Alerts extends React.Component {
                                 <ArrowUnion
                                   sortColumn={sortColumn}
                                   colorArrowOne={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'multi' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
                                   colorArrowTwo={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'multi' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -968,13 +968,13 @@ export default class Alerts extends React.Component {
                                 <ArrowUnion
                                   sortColumn={sortColumn}
                                   colorArrowOne={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'priority' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
                                   colorArrowTwo={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'priority' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'

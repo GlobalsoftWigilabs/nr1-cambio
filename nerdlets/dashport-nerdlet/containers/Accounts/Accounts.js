@@ -106,12 +106,12 @@ export default class Accounts extends React.Component {
   };
 
   downloadData = async () => {
-    const { data } = this.state;
+    const { dataRespaldo } = this.state;
     const date = new Date();
     const zip = new JSZip();
     const dataCsv = [];
 
-    data.forEach(element => {
+    dataRespaldo.forEach(element => {
       dataCsv.push({
         NAME: element.name ? element.name : '-----',
         EMAIL: element.email ? element.email : '-----',
@@ -451,13 +451,13 @@ export default class Accounts extends React.Component {
                                 <ArrowUnion
                                   sortColumn={sortColumn}
                                   colorArrowOne={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'email' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
                                   colorArrowTwo={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'email' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -492,13 +492,13 @@ export default class Accounts extends React.Component {
                                 <ArrowUnion
                                   sortColumn={sortColumn}
                                   colorArrowOne={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'organizations' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
                                   colorArrowTwo={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'organizations' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -533,13 +533,13 @@ export default class Accounts extends React.Component {
                                 <ArrowUnion
                                   sortColumn={sortColumn}
                                   colorArrowOne={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'roles' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
                                   colorArrowTwo={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'roles' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -574,13 +574,13 @@ export default class Accounts extends React.Component {
                                 <ArrowUnion
                                   sortColumn={sortColumn}
                                   colorArrowOne={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'status' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
                                   colorArrowTwo={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'status' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'

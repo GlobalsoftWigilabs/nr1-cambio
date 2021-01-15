@@ -379,13 +379,13 @@ export default class TableArchives extends React.Component {
                           <ArrowUnion
                             sortColumn={sortColumn}
                             colorArrowOne={
-                              sortColumn.column === 'name' &&
+                              sortColumn.column === 'destination' &&
                               sortColumn.order === 'descent'
                                 ? 'black'
                                 : 'gray'
                             }
                             colorArrowTwo={
-                              sortColumn.column === 'name' &&
+                              sortColumn.column === 'destination' &&
                               sortColumn.order === 'ascendant'
                                 ? 'black'
                                 : 'gray'
@@ -420,13 +420,13 @@ export default class TableArchives extends React.Component {
                           <ArrowUnion
                             sortColumn={sortColumn}
                             colorArrowOne={
-                              sortColumn.column === 'name' &&
+                              sortColumn.column === 'query' &&
                               sortColumn.order === 'descent'
                                 ? 'black'
                                 : 'gray'
                             }
                             colorArrowTwo={
-                              sortColumn.column === 'name' &&
+                              sortColumn.column === 'query' &&
                               sortColumn.order === 'ascendant'
                                 ? 'black'
                                 : 'gray'
@@ -461,13 +461,13 @@ export default class TableArchives extends React.Component {
                           <ArrowUnion
                             sortColumn={sortColumn}
                             colorArrowOne={
-                              sortColumn.column === 'name' &&
+                              sortColumn.column === 'tags' &&
                               sortColumn.order === 'descent'
                                 ? 'black'
                                 : 'gray'
                             }
                             colorArrowTwo={
-                              sortColumn.column === 'name' &&
+                              sortColumn.column === 'tags' &&
                               sortColumn.order === 'ascendant'
                                 ? 'black'
                                 : 'gray'
@@ -502,13 +502,13 @@ export default class TableArchives extends React.Component {
                           <ArrowUnion
                             sortColumn={sortColumn}
                             colorArrowOne={
-                              sortColumn.column === 'name' &&
+                              sortColumn.column === 'state' &&
                               sortColumn.order === 'descent'
                                 ? 'black'
                                 : 'gray'
                             }
                             colorArrowTwo={
-                              sortColumn.column === 'name' &&
+                              sortColumn.column === 'state' &&
                               sortColumn.order === 'ascendant'
                                 ? 'black'
                                 : 'gray'

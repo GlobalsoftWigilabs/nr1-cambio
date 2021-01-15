@@ -694,13 +694,13 @@ export default class Synthetics extends React.Component {
                                 <ArrowUnion
                                   sortColumn={sortColumn}
                                   colorArrowOne={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'type' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
                                   colorArrowTwo={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'type' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -736,13 +736,13 @@ export default class Synthetics extends React.Component {
                                 <ArrowUnion
                                   sortColumn={sortColumn}
                                   colorArrowOne={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'location' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
                                   colorArrowTwo={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'location' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -777,13 +777,13 @@ export default class Synthetics extends React.Component {
                                 <ArrowUnion
                                   sortColumn={sortColumn}
                                   colorArrowOne={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'status' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
                                   colorArrowTwo={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'status' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'
@@ -818,13 +818,13 @@ export default class Synthetics extends React.Component {
                                 <ArrowUnion
                                   sortColumn={sortColumn}
                                   colorArrowOne={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'message' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
                                   colorArrowTwo={
-                                    sortColumn.column === 'name' &&
+                                    sortColumn.column === 'message' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'

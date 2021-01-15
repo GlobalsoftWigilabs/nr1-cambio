@@ -349,13 +349,13 @@ export default class TableMetrics extends React.Component {
                           <ArrowUnion
                             sortColumn={sortColumn}
                             colorArrowOne={
-                              sortColumn.column === 'name' &&
+                              sortColumn.column === 'id' &&
                               sortColumn.order === 'descent'
                                 ? 'black'
                                 : 'gray'
                             }
                             colorArrowTwo={
-                              sortColumn.column === 'name' &&
+                              sortColumn.column === 'id' &&
                               sortColumn.order === 'ascendant'
                                 ? 'black'
                                 : 'gray'
@@ -398,13 +398,13 @@ export default class TableMetrics extends React.Component {
                           <ArrowUnion
                             sortColumn={sortColumn}
                             colorArrowOne={
-                              sortColumn.column === 'name' &&
+                              sortColumn.column === 'aggrType' &&
                               sortColumn.order === 'descent'
                                 ? 'black'
                                 : 'gray'
                             }
                             colorArrowTwo={
-                              sortColumn.column === 'name' &&
+                              sortColumn.column === 'aggrType' &&
                               sortColumn.order === 'ascendant'
                                 ? 'black'
                                 : 'gray'
@@ -439,13 +439,13 @@ export default class TableMetrics extends React.Component {
                           <ArrowUnion
                             sortColumn={sortColumn}
                             colorArrowOne={
-                              sortColumn.column === 'name' &&
+                              sortColumn.column === 'path' &&
                               sortColumn.order === 'descent'
                                 ? 'black'
                                 : 'gray'
                             }
                             colorArrowTwo={
-                              sortColumn.column === 'name' &&
+                              sortColumn.column === 'path' &&
                               sortColumn.order === 'ascendant'
                                 ? 'black'
                                 : 'gray'
@@ -480,13 +480,13 @@ export default class TableMetrics extends React.Component {
                           <ArrowUnion
                             sortColumn={sortColumn}
                             colorArrowOne={
-                              sortColumn.column === 'name' &&
+                              sortColumn.column === 'filterQuery' &&
                               sortColumn.order === 'descent'
                                 ? 'black'
                                 : 'gray'
                             }
                             colorArrowTwo={
-                              sortColumn.column === 'name' &&
+                              sortColumn.column === 'filterQuery' &&
                               sortColumn.order === 'ascendant'
                                 ? 'black'
                                 : 'gray'
@@ -521,13 +521,13 @@ export default class TableMetrics extends React.Component {
                           <ArrowUnion
                             sortColumn={sortColumn}
                             colorArrowOne={
-                              sortColumn.column === 'name' &&
+                              sortColumn.column === 'groupByPath' &&
                               sortColumn.order === 'descent'
                                 ? 'black'
                                 : 'gray'
                             }
                             colorArrowTwo={
-                              sortColumn.column === 'name' &&
+                              sortColumn.column === 'groupByPath' &&
                               sortColumn.order === 'ascendant'
                                 ? 'black'
                                 : 'gray'
@@ -562,13 +562,13 @@ export default class TableMetrics extends React.Component {
                           <ArrowUnion
                             sortColumn={sortColumn}
                             colorArrowOne={
-                              sortColumn.column === 'name' &&
+                              sortColumn.column === 'tagName' &&
                               sortColumn.order === 'descent'
                                 ? 'black'
                                 : 'gray'
                             }
                             colorArrowTwo={
-                              sortColumn.column === 'name' &&
+                              sortColumn.column === 'tagName' &&
                               sortColumn.order === 'ascendant'
                                 ? 'black'
                                 : 'gray'
