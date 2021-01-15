@@ -69,12 +69,16 @@ export default class Pagination extends React.Component {
    */
   getVisiblePages = (page, total) => {
     if (total < 7) {
+      console.log('ere 1 ');
       return this.filterPages([1, 2, 3, 4, 5, 6], total);
     } else if (page % 4 >= 0 && page > 3 && page + 2 < total) {
+      console.log('ere 2');
       return [1, page - 1, page, page + 1, total];
     } else if (page % 4 >= 0 && page > 3 && page + 2 >= total) {
+      console.log('ere 3');
       return [1, total - 3, total - 2, total - 1, total];
     } else {
+      console.log('ere 4');
       return [1, 2, 3, 4, total];
     }
   };
@@ -85,68 +89,73 @@ export default class Pagination extends React.Component {
     const activePage = page + 1;
     const canPrevious = page <= 0;
     const canNext = page + 1 >= pages;
+    console.log(visiblePages);
+
     return (
       <div className="divPagination">
-        <button
-          type="button"
-          className="buttonPagination"
-          disabled={canPrevious}
-          onClick={() => {
-            downPage();
-          }}
-        >
-          <img width="15px" height="15px" src={arrowLeft} />
-        </button>
-        <div className="numbersPagination fontPagination">
-          {visiblePages.map((page, index, array) => {
-            return (
-              <div key={page} className="flex">
-                {array[index - 1] + 2 < page ? (
-                  <>
-                    <div className="pageNumber-continue">
-                      ...
-                    </div>
-                    <div
-                      className={
-                        activePage === page
-                          ? 'pageNumber-active'
-                          : 'pageNumber-inactive'
-                      }
-                      onClick={() => {
-                        this.changePage(page);
-                      }}
-                    >
-                      {page}
-                    </div>
-                  </>
-                ) : (
-                  <div
-                    className={
-                      activePage === page
-                        ? 'pageNumber-active'
-                        : 'pageNumber-inactive'
-                    }
-                    onClick={() => {
-                      this.changePage(page);
-                    }}
-                  >
-                    {page}
+        {visiblePages.length !== 0 && visiblePages.length !== 1 && (
+          <>
+            <button
+              type="button"
+              className="buttonPagination"
+              disabled={canPrevious}
+              onClick={() => {
+                downPage();
+              }}
+            >
+              <img width="15px" height="15px" src={arrowLeft} />
+            </button>
+            <div className="numbersPagination fontPagination">
+              {visiblePages.map((page, index, array) => {
+                console.log(index, array);
+                return (
+                  <div key={page} className="flex">
+                    {array[index - 1] + 2 < page ? (
+                      <>
+                        <div className="pageNumber-continue">...</div>
+                        <div
+                          className={
+                            activePage === page
+                              ? 'pageNumber-active'
+                              : 'pageNumber-inactive'
+                          }
+                          onClick={() => {
+                            this.changePage(page);
+                          }}
+                        >
+                          {page}
+                        </div>
+                      </>
+                    ) : (
+                      <div
+                        className={
+                          activePage === page
+                            ? 'pageNumber-active'
+                            : 'pageNumber-inactive'
+                        }
+                        onClick={() => {
+                          this.changePage(page);
+                        }}
+                      >
+                        {page}
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
-        <button
-          type="button"
-          className="buttonPagination"
-          disabled={canNext}
-          onClick={() => {
-            upPage();
-          }}
-        >
-          <img width="15px" height="15px" src={arrowRight} />
-        </button>
+                );
+              })}
+            </div>
+            <button
+              type="button"
+              className="buttonPagination"
+              disabled={canNext}
+              onClick={() => {
+                upPage();
+              }}
+            >
+              <img width="15px" height="15px" src={arrowRight} />
+            </button>
+          </>
+        )}
       </div>
     );
   }
