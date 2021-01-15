@@ -579,7 +579,7 @@ export default class Synthetics extends React.Component {
                                 rowInfo.index % 2 ? '#F7F7F8' : 'white',
                               borderBottom: 'none',
                               display: 'grid',
-                              gridTemplate: '1fr/ 40% 10% 15% 10% 25%'
+                              gridTemplate: '1fr/ repeat(5,20%)'
                             }
                           };
                         } else {
@@ -587,7 +587,7 @@ export default class Synthetics extends React.Component {
                             style: {
                               borderBottom: 'none',
                               display: 'grid',
-                              gridTemplate: '1fr/ 40% 10% 15% 10% 25%'
+                              gridTemplate: '1fr/  repeat(5,20%)'
                             }
                           };
                         }
@@ -614,7 +614,7 @@ export default class Synthetics extends React.Component {
                           color: '#333333',
                           fontWeight: 'bold',
                           display: 'grid',
-                          gridTemplate: '1fr/ 40% 10% 15% 10% 25%'
+                          gridTemplate: '1fr/  repeat(5,20%)'
                         }
                       };
                     }}
