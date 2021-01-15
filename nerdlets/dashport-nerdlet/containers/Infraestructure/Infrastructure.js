@@ -133,11 +133,11 @@ export default class Infrastructure extends React.Component {
   }
 
   downloadData = async () => {
-    const { data } = this.state;
+    const { dataRespaldo } = this.state; 
     const date = new Date();
     const zip = new JSZip();
     const dataCsv = [];
-    data.forEach(row => {
+    dataRespaldo.forEach(row => {
       let tags = '';
       if (row.dataTags_by_source) {
         for (const key in row.dataTags_by_source) {
