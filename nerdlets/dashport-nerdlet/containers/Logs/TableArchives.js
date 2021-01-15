@@ -8,6 +8,7 @@ import ReactTable from 'react-table-v6';
 import Pagination from '../../components/Pagination/Pagination';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
+import { Tooltip } from 'nr1';
 
 const KEYS_TO_FILTERS = ['name', 'destination', 'query', 'tags', 'state'];
 
@@ -235,11 +236,16 @@ export default class TableArchives extends React.Component {
             }
             onClick={this.onClickDownloadData(data.length)}
           >
-            <img
-              src={iconDownload}
-              style={{ marginLeft: '20px' }}
-              height="18px"
-            />
+            <Tooltip
+              placementType={Tooltip.PLACEMENT_TYPE.BOTTOM}
+              text="Download"
+            >
+              <img
+                src={iconDownload}
+                style={{ marginLeft: '20px' }}
+                height="18px"
+              />
+            </Tooltip>
           </div>
           {data.length !== 0 && (
             <Pagination
