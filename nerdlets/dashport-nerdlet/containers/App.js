@@ -92,6 +92,7 @@ export default class App extends React.Component {
       // Metrics
       metricsTotal: 0,
       metrics: [],
+      timeRangeMetrics: { value: '30 minutes', label: '30 minutes' },
       fetchingMetrics: false,
       progressMetrics: 0,
       errorMetric: false,
@@ -1951,6 +1952,10 @@ export default class App extends React.Component {
     this.setState(prevState => ({ completed: prevState.completed + value }));
   };
 
+  updateRangeMetrics = value => {
+    this.setState({ timeRangeMetrics: value });
+  };
+
   pagesOfData = list => {
     const limit = 1000000;
     let page = [];
@@ -2190,7 +2195,8 @@ export default class App extends React.Component {
       progressMetrics,
       emptyData,
       errorMetric,
-      hasErrorFetch
+      hasErrorFetch,
+      timeRangeMetrics
     } = this.state;
     // console.log('accountsTotal', accountsTotal, dataTableAccounts);
     switch (selectedMenu) {
@@ -2247,10 +2253,12 @@ export default class App extends React.Component {
             metrics={metrics}
             errorMetric={errorMetric}
             metricsTotal={metricsTotal}
-            updateProgressMetrics={this.updateProgressMetrics}
             completed={progressMetrics}
-            updateMetricsSection={this.updateMetricsSection}
             fetchingMetrics={fetchingMetrics}
+            timeRangeMetrics={timeRangeMetrics}
+            updateRangeMetrics={this.updateRangeMetrics}
+            updateMetricsSection={this.updateMetricsSection}
+            updateProgressMetrics={this.updateProgressMetrics}
           />
         );
       case 7:

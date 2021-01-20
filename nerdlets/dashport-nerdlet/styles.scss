@@ -19,7 +19,7 @@
 @import './components/ModalSupport/style.scss';
 @import './components//Pagination/style.scss';
 @import './components/ModalSetup/styles.scss';
-
+@import './components/Bar/styles.scss';
 //////////////// Metrics
 .box--metrics .popup-content {
   background: none !important;
@@ -239,7 +239,6 @@ a[target='_blank']:after {
   display: block;
   align-items: center;
   white-space: pre-wrap !important;
-  padding-left: 5px !important;
 }
 .table__headerSticky {
   width: 100%;
@@ -357,7 +356,7 @@ a[target='_blank']:after {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
   width: 100%;
-  max-height: calc(100vh - 129px);
+  max-height: calc(109vh - 129px);
   overflow-x: auto;
   overflow-y: auto;
   position: relative;
@@ -370,8 +369,8 @@ a[target='_blank']:after {
   }
 
   &::-webkit-scrollbar {
-    height: 7px;
-    width: 7px;
+    height: 0.5em;
+    width: 0.5em;
     background-color: #f1f2f3;
   }
 

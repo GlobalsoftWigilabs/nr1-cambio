@@ -5,6 +5,8 @@ const Bar = props => {
   const { bgcolorMain, bgColor, quantityPercentage, title, quantity } = props;
   const containerStylesBar = {
     width: '99%',
+    height: '1.3vw',
+    minHeight: '17px',
     backgroundColor: bgColor,
     borderRadius: 0
   };
@@ -20,26 +22,17 @@ const Bar = props => {
     justifyContent: 'flex-end',
     content: ' '
   };
-
-  const containerStyles = {
-    display: 'grid',
-    gridTemplate: '50% 50% /1fr',
-    height: '70px'
-  };
-
-  const barQuantity = {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
-  };
-
   return (
-    <div style={containerStyles}>
-      <div className="containerStylesBarTitle fontSmall">{title}</div>
-      <div className="distributionQuantityAndBar fontMedium">
-        <div style={barQuantity}>{quantity}</div>
-        <div style={containerStylesBar}>
-          <div style={fillerStyles} />
+    <div className="barContainer">
+      <div className="barContainer__quantity">
+        <div className="barContainer--quantity fontMedium">{quantity}</div>
+      </div>
+      <div className="barContainer__content">
+        <div className="fontSmall">{title}</div>
+        <div className="barContainer__bar">
+          <div style={containerStylesBar}>
+            <div style={fillerStyles} />
+          </div>
         </div>
       </div>
     </div>

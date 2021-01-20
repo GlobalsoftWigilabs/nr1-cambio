@@ -408,13 +408,13 @@ export default class Metrics extends React.Component {
 
   handleRange = value => {
     this._openPopUp();
-    this.setState({ rangeSelected: value });
+    this.props.updateRangeMetrics(value);
   };
 
   fetchData = async () => {
-    const { rangeSelected } = this.state;
+    const { timeRangeMetrics } = this.props;
     const date = new Date();
-    switch (rangeSelected.value) {
+    switch (timeRangeMetrics.value) {
       case '30 minutes':
         date.setMinutes(date.getMinutes() - 30);
         break;
@@ -538,7 +538,7 @@ export default class Metrics extends React.Component {
       viewWarning,
       finalListRespaldo
     } = this.state;
-    const { fetchingMetrics, completed, errorMetric } = this.props;
+    const { fetchingMetrics, completed, errorMetric,timeRangeMetrics } = this.props;
     return (
       <div className="h100">
         {loading ? (
@@ -728,7 +728,7 @@ export default class Metrics extends React.Component {
                   isSearchable={false}
                   options={timeRanges}
                   onChange={this.handleRange}
-                  value={rangeSelected}
+                  value={timeRangeMetrics}
                   placeholder="All"
                 />
                 <div
