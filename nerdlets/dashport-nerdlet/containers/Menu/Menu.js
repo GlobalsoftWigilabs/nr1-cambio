@@ -196,14 +196,6 @@ class Menu extends React.Component {
                 iconActive={syntheticsIconA}
                 iconInactive={syntheticsIcon}
               />
-              <Item
-                identifier={8}
-                handleChangeMenu={handleChangeMenu}
-                selectedMenu={selectedMenu}
-                text="Users"
-                iconActive={accountsIconA}
-                iconInactive={accountsIcon}
-              />
             </>
           )}
         </div>

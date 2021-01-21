@@ -36,8 +36,7 @@ const apiDataDigest = async (
       'infraestructure',
       'logs',
       'metrics',
-      'synthetics',
-      'accounts'
+      'synthetics'
     ];
     data.push(
       await _parseDashboars(
@@ -72,13 +71,6 @@ const apiDataDigest = async (
     );
     data.push(
       await _parseSynthetics(
-        functionReader,
-        functionReaderCollection,
-        reportLogFetch
-      )
-    );
-    data.push(
-      await _parseAccounts(
         functionReader,
         functionReaderCollection,
         reportLogFetch

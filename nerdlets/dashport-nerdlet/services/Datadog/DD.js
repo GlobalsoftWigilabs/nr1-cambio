@@ -1,4 +1,5 @@
 import axios from 'axios';
+import moment from 'moment';
 
 import endpoints from './data/formatted_endpoints.json';
 import cpanel from './data/cpanel.json';
@@ -45,7 +46,9 @@ const callApis = async (
           switch (list[i].name) {
             case 'Get All Active Metrics':
               {
-                const from = Math.floor(new Date() / 1000) - 60 * 30;
+                const date = new Date();
+                date.setMinutes(date.getMinutes() - 30);
+                const from = moment(date).unix();
                 const metrics = await datadogService.fetchMetrics(
                   from,
                   null,

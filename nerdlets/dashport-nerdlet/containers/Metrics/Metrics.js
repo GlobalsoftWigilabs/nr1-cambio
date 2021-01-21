@@ -1,30 +1,18 @@
 import React from 'react';
-import { Spinner, Button, Tooltip } from 'nr1';
-import Popup from 'reactjs-popup';
-import information from '../../images/information.svg';
-import informationMetrics from '../../images/metrics.png';
+import { Spinner, Tooltip } from 'nr1';
 import ArrowUnion from '../../components/ArrowsTable/ArrowUnion';
 import PropTypes from 'prop-types';
 import SearchInput, { createFilter } from 'react-search-input';
 import { BsSearch } from 'react-icons/bs';
 import iconDownload from '../../images/download.svg';
-import ArrowDown from '../../components/ArrowsTable/ArrowDown';
-import ArrowTop from '../../components/ArrowsTable/ArrowTop';
 import ReactTable from 'react-table-v6';
 import Pagination from '../../components/Pagination/Pagination';
 import Bar from '../../components/Bar';
 import Select from 'react-select';
-import axios from 'axios';
 import iconInformation from '../../images/information.svg';
 import metricsData from '../../images/metricsData.svg';
 import ReactTooltip from 'react-tooltip';
 import Modal from './ModalProgressBar';
-import {
-  readNerdStorage,
-  readSingleSecretKey,
-  readNerdStorageOnlyCollection,
-  writeNerdStorage
-} from '../../services/NerdStorage/api';
 import moment from 'moment';
 import JSZip from 'jszip';
 import jsoncsv from 'json-2-csv';
@@ -40,96 +28,114 @@ const KEYS_TO_FILTERS = [
   'unit',
   'aggr'
 ];
-
-const contentStyle = {
-  maxWidth: '600px',
-  width: '90%'
-};
-
 export default class Metrics extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       loading: false,
-      allChecked: false,
-      all: true,
-      favorite: false,
-      visited: false,
-      complex: '',
-      dashboards: [],
-      average: 0,
-      categorizedList: [],
-      avaliableList: [],
-      mostVisited: [],
-      favoriteDashboards: [],
-      savingAllChecks: false,
       logs: [],
-      selectedTag: 'all',
+      timeRangeMetrics: { value: '30 minutes', label: '30 minutes' },
+      timeRangeMetricsBackUp: {},
       timeRanges: [
         { value: '30 minutes', label: '30 minutes' },
         { value: '60 minutes', label: '60 minutes' },
         { value: '3 Hours', label: '3 Hours' },
         { value: '6 Hours', label: '6 Hours' }
       ],
-      listChecked: {
-        value: 'All',
-        label: 'All list',
-        id: 0,
-        dashboards: []
-      },
-      listPopUp: [],
-      valueListPopUp: {},
       // Pagination
       pagePag: 0,
       pages: 0,
       totalRows: 10,
-      page: 1,
       // //////////
       finalList: [],
-      textTag: '',
       searchTermMetric: '',
       sortColumn: {
         column: '',
         order: ''
       },
       hidden: false,
-      action: '',
-      checksDownload: [
-        { value: 'CSV', label: 'CSV' },
-        { value: 'JSON', label: 'JSON' }
-      ],
-      selectFormat: { value: 'CSV', label: 'CSV' },
-      emptyData: false,
       dataGraph: [],
-      rangeSelected: { value: '30 minutes', label: '30 minutes' },
-      logs: [],
       loadingTable: false,
-      metrics: [],
       metricsTotal: 0,
-      keyApi: null,
-      keyApp: null,
       finalListRespaldo: [],
-      hidden: false,
-      viewWarning: false,
-      info: {
-        name: 'Get All Active Metrics',
-        url: 'https://api.datadoghq.{{datadog_site}}/api/v1/metrics?',
-        proto: 'https',
-        host: 'api.datadoghq.{{datadog_site}}',
-        pathname: '/api/v1/metrics?',
-        headers: [
-          {
-            key: 'DD-API-KEY',
-            value: '{{datadog_api_key}}'
-          },
-          {
-            key: 'DD-APPLICATION-KEY',
-            value: '{{datadog_application_key}}'
-          }
-        ]
-      }
+      viewWarning: false
     };
   }
+
+  componentDidMount() {
+    const { metrics } = this.props;
+    const { searchTermMetric, sortColumn } = this.state;
+
+    const dataGraph = [];
+    for (const metric of metrics) {
+      metric.type = metric.type ? metric.type : 'unknow';
+    }
+
+    for (const metric of metrics) {
+      if (metric.type) {
+        const index = dataGraph.findIndex(
+          element => element.name === metric.type
+        );
+        if (index !== -1) {
+          dataGraph[index].uv = dataGraph[index].uv + 1;
+        } else {
+          dataGraph.push({
+            name: metric.type,
+            pv: metrics.length,
+            uv: 1
+          });
+        }
+      }
+    }
+    this.setState({
+      dataGraph: dataGraph,
+      metricsTotal: metrics.length,
+      finalListRespaldo: metrics,
+      pagePag: 0
+    });
+    this.updateDataGraph(dataGraph, metrics);
+    this.loadData(metrics, searchTermMetric, sortColumn);
+    this.calcTable(metrics);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.metrics !== this.props.metrics) {
+      const { metrics } = this.props;
+      const { searchTermMetric, sortColumn } = this.state;
+      const dataGraph = [];
+      for (const metric of metrics) {
+        metric.type = metric.type ? metric.type : 'unknow';
+      }
+      for (const metric of metrics) {
+        if (metric.type) {
+          const index = dataGraph.findIndex(
+            element => element.name === metric.type
+          );
+          if (index !== -1) {
+            dataGraph[index].uv = dataGraph[index].uv + 1;
+          } else {
+            dataGraph.push({
+              name: metric.type,
+              pv: metrics.length,
+              uv: 1
+            });
+          }
+        }
+      }
+      this.updateDataGraph(dataGraph, metrics);
+      this.loadData(metrics, searchTermMetric, sortColumn);
+      this.calcTable(metrics);
+    }
+  }
+
+  updateDataGraph = (dataGraph, metrics) => {
+    this.setState({
+      dataGraph: dataGraph,
+      metricsTotal: metrics.length,
+      finalListRespaldo: metrics,
+      pagePag: 0
+    });
+  };
 
   _onClose = () => {
     if (this.props.completed === 100) this.props.updateProgressMetrics(0);
@@ -147,79 +153,9 @@ export default class Metrics extends React.Component {
     this.setState({ hidden: !actualValue, viewWarning: true });
   };
 
-  componentWillReceiveProps() {
-    const { metrics } = this.props;
-    const { searchTermMetric, sortColumn } = this.state;
-
-    const dataGraph = [];
-    for (const metric of metrics) {
-      metric.type = metric.type ? metric.type : 'unknow';
-    }
-    // eslint-disable-next-line require-atomic-updates
-    for (const metric of metrics) {
-      if (metric.type) {
-        const index = dataGraph.findIndex(
-          element => element.name === metric.type
-        );
-        if (index !== -1) {
-          dataGraph[index].uv = dataGraph[index].uv + 1;
-        } else {
-          dataGraph.push({
-            name: metric.type,
-            pv: metrics.length,
-            uv: 1
-          });
-        }
-      }
-    }
-    this.setState({
-      dataGraph: dataGraph,
-      metricsTotal: metrics.length,
-      finalListRespaldo: metrics,
-      pagePag: 0
-    });
-    this.loadData(metrics, searchTermMetric, sortColumn);
-    this.calcTable(metrics);
-  }
-
-  componentDidMount() {
-    const { metrics } = this.props;
-    const { searchTermMetric, sortColumn } = this.state;
-
-    const dataGraph = [];
-    for (const metric of metrics) {
-      metric.type = metric.type ? metric.type : 'unknow';
-    }
-    // eslint-disable-next-line require-atomic-updates
-    for (const metric of metrics) {
-      if (metric.type) {
-        const index = dataGraph.findIndex(
-          element => element.name === metric.type
-        );
-        if (index !== -1) {
-          dataGraph[index].uv = dataGraph[index].uv + 1;
-        } else {
-          dataGraph.push({
-            name: metric.type,
-            pv: metrics.length,
-            uv: 1
-          });
-        }
-      }
-    }
-    this.setState({
-      dataGraph: dataGraph,
-      metricsTotal: metrics.length,
-      finalListRespaldo: metrics,
-      pagePag: 0
-    });
-    this.loadData(metrics, searchTermMetric, sortColumn);
-    this.calcTable(metrics);
-  }
-
-  fetchMetrics = async from => {
+  fetchMetrics = async (from, timeRange) => {
     const { updateMetricsSection } = this.props;
-    await updateMetricsSection(from);
+    await updateMetricsSection(from, timeRange);
   };
 
   calcTable = finalList => {
@@ -325,17 +261,16 @@ export default class Metrics extends React.Component {
   };
 
   upPage = async () => {
-    const { totalRows, pagePag } = this.state;
+    const { pagePag } = this.state;
     this.setState({ pagePag: pagePag + 1, loadingTable: false });
   };
 
   changePage = async pagePag => {
-    const { totalRows } = this.state;
     this.setState({ pagePag: pagePag - 1, loadingTable: false });
   };
 
   downPage = async () => {
-    const { totalRows, pagePag } = this.state;
+    const { pagePag } = this.state;
     this.setState({ pagePag: pagePag - 1, loadingTable: false });
   };
 
@@ -408,13 +343,15 @@ export default class Metrics extends React.Component {
 
   handleRange = value => {
     this._openPopUp();
-    this.props.updateRangeMetrics(value);
+    this.props.updateProgressMetrics(0);
+    this.setState({ timeRangeMetricsBackUp: value, viewWarning: true });
   };
 
   fetchData = async () => {
-    const { timeRangeMetrics } = this.props;
+    const { timeRangeMetricsBackUp } = this.state;
+    this.setState({ timeRangeMetrics: timeRangeMetricsBackUp });
     const date = new Date();
-    switch (timeRangeMetrics.value) {
+    switch (timeRangeMetricsBackUp.value) {
       case '30 minutes':
         date.setMinutes(date.getMinutes() - 30);
         break;
@@ -429,24 +366,7 @@ export default class Metrics extends React.Component {
         break;
     }
     const from = moment(date).unix();
-    await this.fetchMetrics(from);
-  };
-
-  saveNerdstorage = async metricList => {
-    const { accountId } = this.props;
-    const pagesMetricsList = this.pagesOfData(metricList);
-    // guardo lista de metricas
-    for (const keyMetrics in pagesMetricsList) {
-      if (pagesMetricsList[keyMetrics]) {
-        await writeNerdStorage(
-          accountId,
-          'metrics',
-          `metrics-${keyMetrics}`,
-          pagesMetricsList[keyMetrics],
-          this.reportLogFetch
-        );
-      }
-    }
+    await this.fetchMetrics(from, timeRangeMetricsBackUp);
   };
 
   reportLogFetch = async response => {
@@ -491,7 +411,7 @@ export default class Metrics extends React.Component {
   };
 
   downloadData = async () => {
-    const { finalListRespaldo } = this.state ;
+    const { finalListRespaldo } = this.state;
     const dataFiltrada = [];
     for (const metric of finalListRespaldo) {
       dataFiltrada.push({
@@ -531,14 +451,19 @@ export default class Metrics extends React.Component {
       finalList,
       dataGraph,
       timeRanges,
-      rangeSelected,
       loadingTable,
       metricsTotal,
       hidden,
       viewWarning,
-      finalListRespaldo
+      finalListRespaldo,
+      timeRangeMetrics
     } = this.state;
-    const { fetchingMetrics, completed, errorMetric,timeRangeMetrics } = this.props;
+    const {
+      fetchingMetrics,
+      completed,
+      errorMetric,
+      historyUpdateMetric
+    } = this.props;
     return (
       <div className="h100">
         {loading ? (
@@ -728,7 +653,7 @@ export default class Metrics extends React.Component {
                   isSearchable={false}
                   options={timeRanges}
                   onChange={this.handleRange}
-                  value={timeRangeMetrics}
+                  value={historyUpdateMetric || timeRangeMetrics}
                   placeholder="All"
                 />
                 <div
@@ -738,7 +663,7 @@ export default class Metrics extends React.Component {
                       : 'pointer flex flexCenterVertical'
                   }
                   onClick={() => {
-                    if (finalListRespaldo.length !== 0) this.downloadData(); 
+                    if (finalListRespaldo.length !== 0) this.downloadData();
                   }}
                 >
                   <Tooltip
@@ -1119,6 +1044,10 @@ export default class Metrics extends React.Component {
 }
 Metrics.propTypes = {
   metrics: PropTypes.array.isRequired,
-  metricsTotal: PropTypes.number.isRequired,
-  updateMetricsSection: PropTypes.func.isRequired
+  updateMetricsSection: PropTypes.func.isRequired,
+  completed: PropTypes.number.isRequired,
+  updateProgressMetrics: PropTypes.func.isRequired,
+  fetchingMetrics: PropTypes.bool.isRequired,
+  errorMetric: PropTypes.bool.isRequired,
+  historyUpdateMetric: PropTypes.object
 };

@@ -300,6 +300,7 @@ const deleteSetup = async (accountId) => {
     'logs-metrics',
     'logs-pipelines',
     'metrics',
+    'metricsUpdate',
     'synthetics',
     'synthetics-list',
     'synthetics-locations',

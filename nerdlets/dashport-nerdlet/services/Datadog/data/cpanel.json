@@ -289,7 +289,7 @@
     },
     {
         "name": "Get all users",
-        "enable": true
+        "enable": false
     },
     {
         "name": "Get a user",

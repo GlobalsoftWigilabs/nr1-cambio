@@ -90,12 +90,12 @@ export default class App extends React.Component {
         metricsStatus: 0
       },
       // Metrics
-      metricsTotal: 0,
       metrics: [],
       timeRangeMetrics: { value: '30 minutes', label: '30 minutes' },
       fetchingMetrics: false,
       progressMetrics: 0,
       errorMetric: false,
+      historyUpdateMetric: null,
       // SYNTHETICS
       testTotal: 0,
       testList: [],
@@ -140,25 +140,8 @@ export default class App extends React.Component {
         description: 'Please wait delete data',
         type: Toast.TYPE.NORMAL
       });
-    } else if (
-      value === 0 ||
-      value === 1 ||
-      value === 2 ||
-      value === 3 ||
-      value === 5 ||
-      value === 6 ||
-      value === 4 ||
-      value === 8 ||
-      value === 5 ||
-      value === 7
-    ) {
-      this.setState({ selectedMenu: value });
     } else {
-      Toast.showToast({
-        title: 'In process',
-        description: 'Views are in process develop',
-        type: Toast.TYPE.NORMAL
-      });
+      this.setState({ selectedMenu: value });
     }
   };
 
@@ -288,7 +271,7 @@ export default class App extends React.Component {
         `dashboards-obj`,
         this.reportLogFetch
       );
-      if (dashboardObj.status === 'EMPTY') {
+      if (dashboardObj && dashboardObj.status === 'EMPTY') {
         emptyData = true;
       }
       if (fetchingData) {
@@ -302,7 +285,7 @@ export default class App extends React.Component {
       const response = {
         message: err.message,
         type: 'Error',
-        event: `Recove alerts data`,
+        event: `Recove dashboards data`,
         date: new Date().toLocaleString()
       };
       this.reportLogFetch(response);
@@ -590,10 +573,21 @@ export default class App extends React.Component {
             listMetrics.push(iterator);
           }
         }
+        let historyUpdateMetric = await readNerdStorage(
+          accountId,
+          'metricsUpdate',
+          'metricsUpdate',
+          this.reportLogFetch
+        );
+        if (
+          historyUpdateMetric &&
+          Object.entries(historyUpdateMetric).length === 0
+        )
+          historyUpdateMetric = null;
         metrics.data = listMetrics;
         this.setState({
-          metricsTotal: metrics.data.length,
-          metrics: metrics.data
+          metrics: metrics.data,
+          historyUpdateMetric
         });
       }
       if (fetchingData) {
@@ -693,58 +687,6 @@ export default class App extends React.Component {
         message: err.message,
         type: 'Error',
         event: `Recove synthetics data`,
-        date: new Date().toLocaleString()
-      };
-      this.reportLogFetch(response);
-    }
-    // ACCOUNTS
-    try {
-      const accounts = await readNerdStorage(
-        accountId,
-        'accounts',
-        'accounts-obj',
-        this.reportLogFetch
-      );
-      if (accounts) {
-        const sizeUsers = await readNerdStorageOnlyCollection(
-          accountId,
-          'accounts',
-          this.reportLogFetch
-        );
-        const listUsers = [];
-        for (let k = 0; k < sizeUsers.length - 1; k++) {
-          let page = [];
-          page = await readNerdStorage(
-            accountId,
-            'accounts',
-            `accounts-${k}`,
-            this.reportLogFetch
-          );
-          for (const iterator of page) {
-            listUsers.push(iterator);
-          }
-        }
-        accounts.data.data = listUsers;
-        const accountsArray = [];
-        for (const account of accounts.data.data) {
-          accountsArray.push({
-            name: account.name,
-            email: account.email,
-            status: account.status,
-            roles: account.roles,
-            organizations: account.organizations
-          });
-        }
-        this.setState({
-          accountsTotal: accounts.data.total,
-          dataTableAccounts: accountsArray
-        });
-      }
-    } catch (err) {
-      const response = {
-        message: err.message,
-        type: 'Error',
-        event: `Recove accounts data`,
         date: new Date().toLocaleString()
       };
       this.reportLogFetch(response);
@@ -1234,8 +1176,11 @@ export default class App extends React.Component {
     }
   };
 
-  updateMetricsSection = async from => {
-    const { datadogService } = this.state;
+  updateMetricsSection = async (from, timeRangeMetrics) => {
+    this.setState({
+      historyUpdateMetric: timeRangeMetrics
+    });
+    const { datadogService, accountId, historyUpdateMetric } = this.state;
     let error = false;
     this.setState({ fetchingMetrics: true });
     const metrics = await datadogService
@@ -1259,7 +1204,8 @@ export default class App extends React.Component {
       });
       this.setState({
         fetchingMetrics: false,
-        errorMetric: true
+        errorMetric: true,
+        historyUpdateMetric
       });
     } else {
       await this.dataWriter('Get All Active Metrics', metrics).catch(err => {
@@ -1281,7 +1227,8 @@ export default class App extends React.Component {
         });
         this.setState({
           fetchingMetrics: false,
-          errorMetric: true
+          errorMetric: true,
+          historyUpdateMetric
         });
       } else {
         await this.finalDataWriter('metrics', { data: metrics }).catch(err => {
@@ -1303,14 +1250,23 @@ export default class App extends React.Component {
           });
           this.setState({
             fetchingMetrics: false,
-            errorMetric: true
+            errorMetric: true,
+            historyUpdateMetric
           });
         } else {
+          // Guardar update
+          await writeNerdStorageReturnData(
+            accountId,
+            'metricsUpdate',
+            'metricsUpdate',
+            timeRangeMetrics,
+            this.reportLogFetch
+          );
           this.setState({
             metrics: metrics,
-            metricsTotal: metrics.length,
             fetchingMetrics: false,
-            progressMetrics: 100
+            progressMetrics: 100,
+            historyUpdateMetric: timeRangeMetrics
           });
         }
       }
@@ -1923,6 +1879,13 @@ export default class App extends React.Component {
               });
             }
           }
+          await writeNerdStorageReturnData(
+            accountId,
+            'metricsUpdate',
+            'metricsUpdate',
+            { value: '30 minutes', label: '30 minutes' },
+            this.reportLogFetch
+          );
         }
         break;
       default:
@@ -2171,7 +2134,6 @@ export default class App extends React.Component {
       monitorsData,
       infrastructureDataGraph,
       infraestructureList,
-      metricsTotal,
       metrics,
       testTotal,
       testList,
@@ -2196,7 +2158,8 @@ export default class App extends React.Component {
       emptyData,
       errorMetric,
       hasErrorFetch,
-      timeRangeMetrics
+      timeRangeMetrics,
+      historyUpdateMetric
     } = this.state;
     // console.log('accountsTotal', accountsTotal, dataTableAccounts);
     switch (selectedMenu) {
@@ -2252,10 +2215,10 @@ export default class App extends React.Component {
           <Metrics
             metrics={metrics}
             errorMetric={errorMetric}
-            metricsTotal={metricsTotal}
             completed={progressMetrics}
             fetchingMetrics={fetchingMetrics}
             timeRangeMetrics={timeRangeMetrics}
+            historyUpdateMetric={historyUpdateMetric}
             updateRangeMetrics={this.updateRangeMetrics}
             updateMetricsSection={this.updateMetricsSection}
             updateProgressMetrics={this.updateProgressMetrics}
