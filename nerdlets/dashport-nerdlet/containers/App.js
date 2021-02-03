@@ -5,14 +5,13 @@ import Menu from './Menu/Menu';
 import Setup from './SetUp/Setup';
 import Data from './Data';
 import Dashboard from './Dashboard/Dashboard.js';
-import Migration from './Migration';
-import Status from './Status';
 import Alerts from './Alerts/Alerts';
 import Infrastructure from './Infraestructure/Infrastructure';
 import Synthetics from './Synthetics/Synthetics';
 import Accounts from './Accounts/Accounts';
 import Logs from './Logs/Logs';
 import Metrics from './Metrics/Metrics';
+
 // services
 import {
   deleteSetup,
@@ -37,7 +36,7 @@ const siteApi = 'com';
  * Class that render de dashboard
  *
  * @export
- * @class Dashport
+ * @class App
  * @extends {React.Component}
  */
 export default class App extends React.Component {
@@ -91,7 +90,6 @@ export default class App extends React.Component {
       },
       // Metrics
       metrics: [],
-      timeRangeMetrics: { value: '30 minutes', label: '30 minutes' },
       fetchingMetrics: false,
       progressMetrics: 0,
       errorMetric: false,
@@ -124,7 +122,7 @@ export default class App extends React.Component {
    * Method that changes the selected option in menu
    *
    * @param {number} value
-   * @memberof Dashport
+   * @memberof App
    */
   handleChangeMenu = value => {
     const { fetchingData, deleteSetup } = this.state;
@@ -145,6 +143,11 @@ export default class App extends React.Component {
     }
   };
 
+  /**
+   * Method that change progress when fetching metrics is active
+   *
+   * @memberof App
+   */
   updateProgressMetrics = value => {
     value = parseInt(value);
     this.setState({ progressMetrics: value });
@@ -154,12 +157,20 @@ export default class App extends React.Component {
    * Method that change the selected menu from other component
    *
    * @param {number} value
-   * @memberof Dashport
+   * @memberof App
    */
   ChangeMenuExternal = value => {
     this.setState({ selectedMenu: value });
   };
 
+  /**
+   * Method that instance datadog service for fetch metrics
+   *
+   * @param {*} keyApi
+   * @param {*} keyApp
+   * @returns
+   * @memberof App
+   */
   createDatadogServiceInstance(keyApi, keyApp) {
     const datadogClient = new DatadogClient(
       keyApi,
@@ -174,7 +185,7 @@ export default class App extends React.Component {
   /**
    * Method that load from NerdStorage the information from account
    *
-   * @memberof Dashport
+   * @memberof App
    */
   async loadAccount() {
     const accountId = await loadAccountId();
@@ -194,7 +205,7 @@ export default class App extends React.Component {
         if (!keyApi) keyApi = await readSingleSecretKey(keysName[0]);
 
         if (!keyApp) keyApp = await readSingleSecretKey(keysName[1]);
-
+        console.log(keyApi,keyApp);
         if (keyApi && keyApp) {
           retrys = 5;
         } else {
@@ -403,32 +414,31 @@ export default class App extends React.Component {
             hostList.push(iterator);
           }
         }
-        const {
-          total,
-          linuxCount,
-          windowsCount,
-          unknowCount
-        } = infraestructureObj.data;
+        const sizeTypes = await readNerdStorageOnlyCollection(
+          accountId,
+          'infraestructure-types',
+          this.reportLogFetch
+        );
+        const types = [];
+        for (let i = 0; i < sizeTypes.length; i++) {
+          let page = [];
+          page = await readNerdStorage(
+            accountId,
+            'infraestructure-types',
+            `infraestructure-types-${i}`,
+            this.reportLogFetch
+          );
+          for (const iterator of page) {
+            types.push(iterator);
+          }
+        }
+        const { total } = infraestructureObj.data;
         const hostsData = [];
-        if (windowsCount && windowsCount !== 0) {
+        for (const type of types) {
           hostsData.push({
-            name: 'windows',
-            uv: Math.abs(windowsCount),
-            pv: Math.abs(total - windowsCount)
-          });
-        }
-        if (linuxCount && linuxCount !== 0) {
-          hostsData.push({
-            name: 'linux',
-            uv: Math.abs(linuxCount),
-            pv: Math.abs(total - linuxCount)
-          });
-        }
-        if (unknowCount && unknowCount !== 0) {
-          hostsData.push({
-            name: 'unknow',
-            uv: Math.abs(unknowCount),
-            pv: Math.abs(total - unknowCount)
+            name: type.platform,
+            uv: Math.abs(type.count),
+            pv: Math.abs(total - type.count)
           });
         }
         this.setState({
@@ -629,51 +639,7 @@ export default class App extends React.Component {
             listSynthetics.push(iterator);
           }
         }
-        // const sizeLocations = await readNerdStorageOnlyCollection(
-        //   accountId,
-        //   'synthetics-locations',
-        //   this.reportLogFetch
-        // );
-        // const listLocations = [];
-        // for (let i = 0; i < sizeLocations.length; i++) {
-        //   let page = [];
-        //   page = await readNerdStorage(
-        //     accountId,
-        //     'synthetics-locations',
-        //     `synthetics-${i}`,
-        //     this.reportLogFetch
-        //   );
-        //   for (const iterator of page) {
-        //     listLocations.push(iterator);
-        //   }
-        // }
         synthetics.list = listSynthetics;
-        // synthetics.locations = listLocations;
-        // const { list, locations, count } = synthetics;
-        // const urls = [];
-        // countColor = 1;
-        // for (const element of list) {
-        //   if (element.type === 'api') {
-        //     urls.push({
-        //       url: element.url,
-        //       api: true,
-        //       browser: false,
-        //       color: countColor % 2 ? 'white' : '#F7F7F8'
-        //     });
-        //   } else {
-        //     urls.push({
-        //       url: element.url,
-        //       api: false,
-        //       browser: true,
-        //       color: countColor % 2 ? 'white' : '#F7F7F8'
-        //     });
-        //   }
-        //   countColor += 1;
-        // }
-        // const locationsArray = [];
-        // for (const element of locations) {
-        //   locationsArray.push(`${element.id}  /  ${element.name}`);
-        // }
         if (fetchingData) {
           this.updateProgressFetch(5);
         }
@@ -695,10 +661,9 @@ export default class App extends React.Component {
   }
 
   /**
-   * Method that reads an document on the nerdStorage
-   * @param {String} documentId the document id to search
+   * Method that read nerdstorage
    *
-   * @memberof Dashport
+   * @memberof App
    */
   readNerdStorage = async (collection, documentId) => {
     let result = null;
@@ -716,9 +681,9 @@ export default class App extends React.Component {
 
   /**
    * Method that reads an document on the nerdStorage
-   * @param {String} documentId the document id to search
+   * @param {String} collection the document id to search
    *
-   * @memberof Dashport
+   * @memberof App
    */
   readNerdStorageOnlyCollection = async collection => {
     let result = null;
@@ -733,6 +698,11 @@ export default class App extends React.Component {
     return result;
   };
 
+  /**
+   * Method that save data for parser file
+   *
+   * @memberof App
+   */
   finalDataWriter = async (collectionName, data) => {
     const { accountId, completed } = this.state;
     switch (collectionName) {
@@ -834,6 +804,21 @@ export default class App extends React.Component {
             }
           }
           data.data.hostList = [];
+          const pagesTypes = this.pagesOfData(data.data.types);
+          for (const keyTypes in pagesTypes) {
+            if (pagesTypes[keyTypes]) {
+              await writeNerdStorage(
+                accountId,
+                `${collectionName}-types`,
+                `${collectionName}-types-${keyTypes}`,
+                pagesTypes[keyTypes],
+                this.reportLogFetch
+              ).catch(err => {
+                throw err;
+              });
+            }
+          }
+          data.data.types = [];
           await writeNerdStorage(
             accountId,
             collectionName,
@@ -1041,10 +1026,9 @@ export default class App extends React.Component {
    * Method that saves a log
    *
    * @param {Object} response Response object, expected: message, event, type, date
-   * @memberof Dashport
+   * @memberof App
    */
   reportLogFetch = async response => {
-    console.log(response);
     const { logs } = this.state;
     const arrayLogs = logs;
     arrayLogs.push({
@@ -1059,7 +1043,7 @@ export default class App extends React.Component {
   /**
    * Method that fetch the data from Datadog
    *
-   * @memberof Dashport
+   * @memberof App
    */
   fetchData = async () => {
     this.setState({ fetchingData: true, completed: 0 });
@@ -1176,6 +1160,11 @@ export default class App extends React.Component {
     }
   };
 
+  /**
+   * Method that call function for fetching metrics
+   *
+   * @memberof App
+   */
   updateMetricsSection = async (from, timeRangeMetrics) => {
     this.setState({
       historyUpdateMetric: timeRangeMetrics
@@ -1273,6 +1262,11 @@ export default class App extends React.Component {
     }
   };
 
+  /**
+   * Method for view keys save for the user
+   *
+   * @memberof App
+   */
   viewKeyAction = async keyInput => {
     const { apikeyS, appkeyS } = this.state;
     if (keyInput === 'apikey') {
@@ -1288,8 +1282,7 @@ export default class App extends React.Component {
           apikeyS: '*'.repeat(apikeyS.length)
         });
       }
-      // eslint-disable-next-line no-constant-condition
-    } else if ((keyInput = 'appkey')) {
+    } else if (keyInput === 'appkey') {
       if (appkeyS && appkeyS[0] === '*') {
         const keyRecove = await readSingleSecretKey(keyInput);
         if (keyRecove) {
@@ -1305,6 +1298,11 @@ export default class App extends React.Component {
     }
   };
 
+  /**
+   * Method for send logs to channel external
+   *
+   * @memberof App
+   */
   async sendLogs() {
     const { logs, accountId } = this.state;
     if (logs.length !== 0) {
@@ -1318,7 +1316,7 @@ export default class App extends React.Component {
    *
    * @param {String} documentName Document name
    * @param {Object} documentData Document data
-   * @memberof Dashport
+   * @memberof App
    */
   dataWriter = async (documentName, documentData) => {
     const { accountId, completed } = this.state;
@@ -1911,12 +1909,13 @@ export default class App extends React.Component {
     }
   };
 
+  /**
+   * Method that update progress of fetch principal
+   *
+   * @memberof App
+   */
   updateProgressFetch = value => {
     this.setState(prevState => ({ completed: prevState.completed + value }));
-  };
-
-  updateRangeMetrics = value => {
-    this.setState({ timeRangeMetrics: value });
   };
 
   pagesOfData = list => {
@@ -1952,7 +1951,7 @@ export default class App extends React.Component {
    * Method that validate the data and writes the form API into the datadog-setup document on NerdStorage
    *
    * @param {Object} values
-   * @memberof Dashport
+   * @memberof App
    */
   writeSetup = async values => {
     try {
@@ -1975,11 +1974,17 @@ export default class App extends React.Component {
           let saveApiKey = null;
           let saveAppKey = null;
           let retrys = 0;
-          while (retrys !== 5) {
+          while (
+            saveAppKey &&
+            saveAppKey.status === 'SUCCESS' &&
+            saveAppKey &&
+            saveAppKey.status === 'SUCCESS') {
             if (!saveApiKey || saveApiKey.status !== 'SUCCESS')
               saveApiKey = await writeSecretKey('apikey', apikey);
             if (!saveAppKey || saveAppKey.status !== 'SUCCESS')
               saveAppKey = await writeSecretKey('appkey', appkey);
+            
+            console.log(saveApiKey,saveAppKey);
             if (
               saveAppKey &&
               saveAppKey.status === 'SUCCESS' &&
@@ -2085,7 +2090,7 @@ export default class App extends React.Component {
   /**
    * Method that open a Toast notification from confirm delete API setup
    *
-   * @memberof Dashport
+   * @memberof App
    */
   openToast = () => {
     const { accountId } = this.state;
@@ -2123,12 +2128,11 @@ export default class App extends React.Component {
    * Method that changes the component to render according to the selected menu option
    *
    * @returns
-   * @memberof Dashport
+   * @memberof App
    */
   renderContent() {
     const {
       selectedMenu,
-      accountId,
       alertsData,
       alertsTotal,
       monitorsData,
@@ -2158,7 +2162,6 @@ export default class App extends React.Component {
       emptyData,
       errorMetric,
       hasErrorFetch,
-      timeRangeMetrics,
       historyUpdateMetric
     } = this.state;
     // console.log('accountsTotal', accountsTotal, dataTableAccounts);
@@ -2217,9 +2220,7 @@ export default class App extends React.Component {
             errorMetric={errorMetric}
             completed={progressMetrics}
             fetchingMetrics={fetchingMetrics}
-            timeRangeMetrics={timeRangeMetrics}
             historyUpdateMetric={historyUpdateMetric}
-            updateRangeMetrics={this.updateRangeMetrics}
             updateMetricsSection={this.updateMetricsSection}
             updateProgressMetrics={this.updateProgressMetrics}
           />
@@ -2233,15 +2234,6 @@ export default class App extends React.Component {
             dataTableAccounts={dataTableAccounts}
           />
         );
-      case 9:
-        return (
-          <Migration
-            accountId={accountId}
-            goToStatus={this.ChangeMenuExternal}
-          />
-        );
-      case 10:
-        return <Status accountId={accountId} />;
       default:
         return null;
     }

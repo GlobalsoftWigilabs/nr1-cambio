@@ -1044,10 +1044,10 @@ export default class Metrics extends React.Component {
 }
 Metrics.propTypes = {
   metrics: PropTypes.array.isRequired,
-  updateMetricsSection: PropTypes.func.isRequired,
-  completed: PropTypes.number.isRequired,
-  updateProgressMetrics: PropTypes.func.isRequired,
-  fetchingMetrics: PropTypes.bool.isRequired,
   errorMetric: PropTypes.bool.isRequired,
-  historyUpdateMetric: PropTypes.object
+  completed: PropTypes.number.isRequired,
+  fetchingMetrics: PropTypes.bool.isRequired,
+  historyUpdateMetric: PropTypes.object,
+  updateProgressMetrics: PropTypes.func.isRequired,
+  updateMetricsSection: PropTypes.func.isRequired
 };

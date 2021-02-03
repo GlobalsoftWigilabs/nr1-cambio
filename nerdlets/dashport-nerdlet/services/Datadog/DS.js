@@ -2,25 +2,6 @@
  * Read DD StorageFiles using an external function,
  * then creates a Summary for App visualizations.
  */
-
-const widget2nerdlet = [
-  'alert_graph',
-  'change',
-  'check_status',
-  'event_timeline',
-  'group',
-  'hostmap',
-  'iframe',
-  'log_stream',
-  'manage_status',
-  'scatterplot',
-  'slo',
-  'servicemap',
-  'trace_service'
-];
-
-const highComplexityWidgetCount = 10;
-
 const apiDataDigest = async (
   functionReader,
   functionWritter,
@@ -99,8 +80,6 @@ const _parseDashboars = async (
       list: []
     }
   };
-  const errors = [];
-
   try {
     // dashboards Manual
     let data = [];
@@ -229,7 +208,6 @@ const _parseMonitors = async (
       monitors: []
     }
   };
-  const errors = [];
   try {
     const data = await functionReader('Monitors meta', 'Monitors meta-obj');
     const sizeData = await functionReaderCollection('Monitors meta');
@@ -286,23 +264,9 @@ const _parseInfra = async (
     data: {
       total: 0,
       hostList: [],
-      windowsCount: 0,
-      linuxCount: 0,
-      unknowCount: 0
-      // cpuCount: 0,
-      // platform: {
-      //   linux: {
-      //     count: 0,
-      //     versions: []
-      //   },
-      //   win: {
-      //     count: 0,
-      //     versions: []
-      //   }
-      // }
+      types: []
     }
   };
-  const errors = [];
   try {
     const data = await functionReader('Search hosts', 'Search hosts-obj');
     const sizeData = await functionReaderCollection('Search hosts');
@@ -320,44 +284,32 @@ const _parseInfra = async (
       for (const host of data.host_list) {
         if (Object.entries(host.meta).length !== 0) {
           obj.data.total++;
-          // obj.data.cpuCount += host.meta.cpuCores;
-          // let memoryTotal = JSON.parse(host.meta.gohai).memory.total;
-          // memoryTotal = memoryTotal.substring(0, memoryTotal.length - 1);
-          // memoryTotal = memoryTotal.substring(0, memoryTotal.length - 1);
-          // const memoryGB = parseInt(memoryTotal) / 1e+6;
-          if (host.meta.platform === 'linux') {
-            obj.data.linuxCount++;
-            // obj.data.platform.linux.count++;
-            // const version = `${host.meta.nixV[0]} ${host.meta.nixV[1]}`;
-            // // const RAM=JSON.parse(host.meta.gohai).memory.total;
-            // obj.data.platform.linux.versions.push({
-            //   name: version,
-            //   count: 1,
-            //   processorModel: host.meta.processor,
-            //   memory: `${memoryGB.toFixed(1)}GB`
-            // });
+          const index = obj.data.types.findIndex(
+            element => element.platform === host.meta.platform ?? 'unknow'
+          );
+          if (index !== -1) {
+            obj.data.types[index].count = obj.data.types[index].count + 1;
           } else {
-            obj.data.windowsCount++;
-            // obj.data.platform.win.count++;
-            // const version = `${host.meta.nixV[0]} ${host.meta.nixV[1]}`;
-            // obj.data.platform.win.versions.push({
-            //   name: version,
-            //   count: 1,
-            //   processorModel: host.meta.processor,
-            //   memory: `${memoryGB.toFixed(1)}GB`
-            // });
+            obj.data.types.push({
+              platform: host.meta.platform ?? 'unknow',
+              count: 1
+            });
           }
         } else {
           obj.data.total++;
-          obj.data.unknowCount++;
+          const index = obj.data.types.findIndex(
+            element => element.platform === 'unknow'
+          );
+          if (index !== -1) {
+            obj.data.types[index].count = obj.data.types[index].count + 1;
+          } else {
+            obj.data.types.push({
+              platform: 'unknow',
+              count: 1
+            });
+          }
         }
       }
-      // obj.data.platform.win.versions = agroupData(
-      //   obj.data.platform.win.versions
-      // );
-      // obj.data.platform.linux.versions = agroupData(
-      //   obj.data.platform.linux.versions
-      // );
     }
   } catch (error) {
     const response = {
@@ -371,37 +323,6 @@ const _parseInfra = async (
   }
   return obj;
 };
-
-function agroupData(dataRepeat) {
-  const filtrado = dataRepeat.reduce((acumu, valueActual) => {
-    const existElement = acumu.find(
-      element => element.name.toLowerCase() === valueActual.name.toLowerCase()
-    );
-    if (existElement) {
-      return acumu.map(element => {
-        if (element.name.toLowerCase() === valueActual.name.toLowerCase()) {
-          return {
-            ...element,
-            count: element.count + valueActual.count
-          };
-        }
-        return element;
-      });
-    }
-    return [...acumu, valueActual];
-  }, []);
-  filtrado.sort(function(a, b) {
-    if (a.count < b.count) {
-      return 1;
-    }
-    if (a.count > b.count) {
-      return -1;
-    }
-    // a must be equal to b
-    return 0;
-  });
-  return filtrado;
-}
 
 const _parseLogs = async (
   functionReader,
@@ -512,7 +433,6 @@ const _parseMetrics = async (
     view: 'metrics',
     data: []
   };
-  const errors = [];
   try {
     const sizeData = await functionReaderCollection('Get All Active Metrics');
     const data = await functionReader(
@@ -558,8 +478,6 @@ const _parseSynthetics = async (
       test: []
     }
   };
-  const errors = [];
-
   try {
     // TEST
     const sizeData = await functionReaderCollection('Get all tests');
@@ -575,98 +493,10 @@ const _parseSynthetics = async (
       obj.data.count = data.length;
       obj.data.test = data;
     }
-    // sizeData = await functionReaderCollection('Get available locations');
-    // data = [];
-    // for (let i = 0; i < sizeData.length; i++) {
-    //   let listo = [];
-    //   listo = await functionReader(
-    //     'Get available locations',
-    //     `Get available locations-${i}`
-    //   );
-    //   for (const iterator of listo) {
-    //     data.push(iterator);
-    //   }
-    // }
-    // if (data && data instanceof Array) {
-    //   obj.data.locations = data;
-    // }
   } catch (error) {
     const response = {
       message: error.message,
       event: 'Get synthetics data',
-      type: 'Error',
-      date: new Date().toLocaleString()
-    };
-    await reportLogFetch(response);
-    throw error;
-  }
-  return obj;
-};
-
-const _parseAccounts = async (
-  functionReader,
-  functionReaderCollection,
-  reportLogFetch
-) => {
-  const obj = {
-    view: 'accounts',
-    data: {
-      total: 0,
-      list: []
-    }
-  };
-  try {
-    let data = await functionReader('Get all users', 'Get all users-obj');
-    const sizeDataList = await functionReaderCollection('Get all users-data');
-    const dataList = [];
-    for (let i = 0; i < sizeDataList.length; i++) {
-      let page = [];
-      page = await functionReader('Get all users-data', `Get all users-${i}`);
-      for (const iterator of page) {
-        dataList.push(iterator);
-      }
-    }
-    const sizeIncludedList = await functionReaderCollection(
-      'Get all users-included'
-    );
-    const includeList = [];
-    for (let i = 0; i < sizeIncludedList.length; i++) {
-      let pageIncluded = [];
-      pageIncluded = await functionReader(
-        'Get all users-included',
-        `Get all users-${i}`
-      );
-      for (const iterator of pageIncluded) {
-        includeList.push(iterator);
-      }
-    }
-    if (data) {
-      data.data = dataList;
-      data.included = includeList;
-      data = data.data.map(x => {
-        if (x.type === 'users') {
-          return {
-            name: x.attributes.name,
-            email: x.attributes.email,
-            verified: x.attributes.verified,
-            disabled: x.attributes.disabled,
-            status: x.attributes.status,
-            created_at: x.attributes.created_at,
-            roles: x.roles,
-            organizations: x.organizations
-          };
-        }
-        return false;
-      });
-      obj.data = {
-        total: data.length,
-        data: data
-      };
-    }
-  } catch (error) {
-    const response = {
-      message: error.message,
-      event: 'Get accounts data',
       type: 'Error',
       date: new Date().toLocaleString()
     };
