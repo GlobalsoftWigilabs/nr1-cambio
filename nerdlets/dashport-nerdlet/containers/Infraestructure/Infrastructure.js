@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ModalInfrastructure from './ModalInfrastructure';
 import { Spinner, Tooltip } from 'nr1';
-import SearchInput, { createFilter } from 'react-search-input';
+import SearchInput from 'react-search-input';
 import { BsSearch } from 'react-icons/bs';
 import iconDownload from '../../images/download.svg';
 import ArrowUnion from '../../components/ArrowsTable/ArrowUnion';
@@ -62,7 +61,9 @@ export default class Infrastructure extends React.Component {
 
   componentDidMount() {
     const { infraestructureList = [] } = this.props;
+    const { searchHosts, sortColumn } = this.state;
     const data = [];
+    const dataRespaldo = [];
     infraestructureList.forEach(element => {
       let tags = '';
       if (element.tags_by_source) {
@@ -108,13 +109,25 @@ export default class Infrastructure extends React.Component {
       let aliases = '';
       if (element.aliases) {
         element.aliases.forEach(alias => {
-          aliases = `${aliases} ${alias} \n`;
+          if (aliases === '') {
+            aliases = `${alias}:\n`;
+          } else {
+            aliases = `${aliases} ${alias} \n`;
+          }
         });
       }
       if (aliases === '') {
         aliases = '-----';
       }
       data.push({
+        host_name: element.host_name ? element.host_name : '-----',
+        aliases: aliases,
+        apps: apps,
+        sources: sources,
+        muted: element.is_muted ? element.is_muted : '-----',
+        tags_by_source: tags
+      });
+      dataRespaldo.push({
         host_name: element.host_name ? element.host_name : '-----',
         aliases: aliases,
         apps: apps,
@@ -130,7 +143,8 @@ export default class Infrastructure extends React.Component {
       });
     });
     this.calcTable(data);
-    this.setState({ data, dataRespaldo: data });
+    this.loadData(dataRespaldo, searchHosts, sortColumn);
+    this.setState({ data, dataRespaldo });
   }
 
   downloadData = async () => {
@@ -274,7 +288,17 @@ export default class Infrastructure extends React.Component {
   loadData = (hosts, searchTerm, sortColumn) => {
     let finalList = hosts;
     if (searchTerm !== '') {
-      finalList = finalList.filter(createFilter(searchTerm, KEYS_TO_FILTERS));
+      const filteredData = finalList.filter(item => {
+        return Object.keys(item).some(key => {
+          if (KEYS_TO_FILTERS.find(KEY => KEY === key)) {
+            return `${item[key]}`
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase());
+          }
+          return false;
+        });
+      });
+      finalList = filteredData;
     }
     finalList = this.sortData(finalList, sortColumn);
     this.calcTable(finalList);
@@ -346,16 +370,12 @@ export default class Infrastructure extends React.Component {
   searchUpdated = term => {
     const { sortColumn, dataRespaldo } = this.state;
     this.loadData(dataRespaldo, term, sortColumn);
+    this.setState({ searchHosts: term });
   };
 
   _onClose = () => {
     const actualValue = this.state.hidden;
     this.setState({ hidden: !actualValue });
-  };
-
-  saveAction = async (action, infoAditional) => {
-    this._onClose();
-    this.setState({ infoAditional });
   };
 
   render() {
@@ -365,10 +385,8 @@ export default class Infrastructure extends React.Component {
       pagePag,
       pages,
       totalRows,
-      hidden,
       sortColumn,
       data,
-      infoAditional,
       dataRespaldo
     } = this.state;
     const { infrastructureDataGraph = [] } = this.props;
@@ -429,7 +447,7 @@ export default class Infrastructure extends React.Component {
                   }}
                   className="fontMedium"
                 >
-                  {data.length !== 0 && 'Platform'}
+                  {dataRespaldo.length !== 0 && 'Platform'}
                 </div>
                 <div
                   style={{ height: '50%', width: '98%' }}
@@ -604,14 +622,10 @@ export default class Infrastructure extends React.Component {
                         Cell: props => {
                           return (
                             <div
-                              onClick={() =>
-                                this.saveAction('data', props.original)
-                              }
-                              className="darkLine h100 flex flexCenterVertical pointer"
+                              className="darkLine h100 flex flexCenterVertical"
                               style={{
                                 background:
-                                  props.index % 2 ? '#F7F7F8' : 'white',
-                                color: '#0078BF'
+                                  props.index % 2 ? '#F7F7F8' : 'white'
                               }}
                             >
                               <span style={{ marginLeft: '15px' }}>
@@ -832,13 +846,6 @@ export default class Infrastructure extends React.Component {
               </div>
             </div>
           </div>
-        )}
-        {hidden && (
-          <ModalInfrastructure
-            hidden={hidden}
-            _onClose={this._onClose}
-            infoAditional={infoAditional}
-          />
         )}
       </div>
     );
