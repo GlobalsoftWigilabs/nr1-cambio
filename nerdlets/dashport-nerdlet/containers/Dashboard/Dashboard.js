@@ -9,7 +9,7 @@ import ArrowUnion from '../../components/ArrowsTable/ArrowUnion';
 import Modal from './Modal';
 
 import { sendLogsSlack } from '../../services/Wigilabs/api';
-import SearchInput, { createFilter } from 'react-search-input';
+import SearchInput from 'react-search-input';
 import { BsSearch } from 'react-icons/bs';
 import Pagination from '../../components/Pagination/Pagination';
 import JSZip from 'jszip';
@@ -230,7 +230,23 @@ export default class Dashboard extends React.Component {
   loadData = (dashboards, searchTerm, sortColumn) => {
     let finalList = dashboards;
     if (searchTerm !== '') {
-      finalList = finalList.filter(createFilter(searchTerm, KEYS_TO_FILTERS));
+      const filteredData = finalList.filter(item => {
+        return Object.keys(item).some(key => {
+          if (KEYS_TO_FILTERS.find(KEY => KEY === key)) {
+            if (key === 'creation' || key === 'modified') {
+              return `${this.dateToYMD(new Date(item[key]))}`
+                .toLowerCase()
+                .includes(searchTerm.toLowerCase());
+            } else {
+              return `${item[key]}`
+                .toLowerCase()
+                .includes(searchTerm.toLowerCase());
+            }
+          }
+          return false;
+        });
+      });
+      finalList = filteredData;
     }
     finalList = this.sortData(finalList, sortColumn);
     this.calcTable(finalList);
@@ -238,7 +254,7 @@ export default class Dashboard extends React.Component {
   };
 
   searchUpdated = term => {
-    const { dashboards, sortColumn } = this.state;
+    const { sortColumn, dashboards } = this.state;
     this.loadData(dashboards, term, sortColumn);
     this.setState({ searchTermDashboards: term });
   };
@@ -762,7 +778,7 @@ export default class Dashboard extends React.Component {
                                 props.original.templateVariables.length !== 0
                                   ? 'h100 flex flexCenterVertical pointer'
                                   : 'h100 flex flexCenterVertical'
-                                }
+                              }
                               style={{
                                 background:
                                   props.index % 2 ? '#F7F7F8' : 'white',
@@ -1206,7 +1222,7 @@ export default class Dashboard extends React.Component {
 const Popularity = ({ quantity }) => {
   const lines = [];
   for (let i = 0; i < 5; i++) {
-    if (i <= quantity - 1) {
+    if (i <= parseInt(quantity - 1)) {
       lines.push('filled');
     } else {
       lines.push('empty');

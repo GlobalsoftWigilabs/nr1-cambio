@@ -1,11 +1,11 @@
 import React from 'react';
-import ArrowDown from '../../components/ArrowsTable/ArrowDown';
-import ArrowTop from '../../components/ArrowsTable/ArrowTop';
+import ArrowUnion from '../../components/ArrowsTable/ArrowUnion';
 import ReactTable from 'react-table-v6';
 import Pagination from '../../components/Pagination/Pagination';
 import closeIcon from '../../images/close.svg';
 import { qregExr } from '../../dd2nr/transpiler/regexr';
 import { Modal } from 'react-bootstrap';
+import { PropTypes } from 'prop-types';
 
 export default class TableWidgets extends React.Component {
   constructor(props) {
@@ -15,7 +15,6 @@ export default class TableWidgets extends React.Component {
       pagePag: 0,
       pages: 0,
       totalRows: 10,
-      page: 1,
       sortColumn: {
         column: '',
         order: ''
@@ -114,7 +113,7 @@ export default class TableWidgets extends React.Component {
       valueTwo = 1;
     }
     switch (column) {
-      case 'title':
+      case 'title': {
         const sortTitle = finalList.sort(function(a, b) {
           if (a.title > b.title) {
             return valueOne;
@@ -125,7 +124,8 @@ export default class TableWidgets extends React.Component {
           return 0;
         });
         return sortTitle;
-      case 'query':
+      }
+      case 'query': {
         const sortQuery = finalList.sort(function(a, b) {
           if (a.query > b.query) {
             return valueOne;
@@ -136,7 +136,8 @@ export default class TableWidgets extends React.Component {
           return 0;
         });
         return sortQuery;
-      case 'type':
+      }
+      case 'type': {
         const sortType = finalList.sort(function(a, b) {
           if (a.type > b.type) {
             return valueOne;
@@ -147,7 +148,8 @@ export default class TableWidgets extends React.Component {
           return 0;
         });
         return sortType;
-      case 'queryParameters':
+      }
+      case 'queryParameters': {
         const sortQueryParamaters = finalList.sort(function(a, b) {
           if (a.queryParameters > b.queryParameters) {
             return valueOne;
@@ -158,7 +160,8 @@ export default class TableWidgets extends React.Component {
           return 0;
         });
         return sortQueryParamaters;
-      case 'source':
+      }
+      case 'source': {
         const sortSource = finalList.sort(function(a, b) {
           if (a.source > b.source) {
             return valueOne;
@@ -169,6 +172,7 @@ export default class TableWidgets extends React.Component {
           return 0;
         });
         return sortSource;
+      }
       default:
         return finalList;
     }
@@ -240,7 +244,7 @@ export default class TableWidgets extends React.Component {
                 <div className="titleSo fontSmall">{`Variable List (${infoAditional.templateVariables.length})`}</div>
               </div>
             </div>
-            <div className="flex" style={{justifyContent:"flex-end"}}>
+            <div className="flex" style={{ justifyContent: 'flex-end' }}>
               <Pagination
                 page={pagePag}
                 pages={pages}
@@ -282,26 +286,15 @@ export default class TableWidgets extends React.Component {
                 data={data}
                 defaultPageSize={totalRows}
                 getTrProps={(state, rowInfo) => {
-                  {
-                    if (rowInfo) {
-                      return {
-                        style: {
-                          background: rowInfo.index % 2 ? '#F7F7F8' : 'white',
-                          borderBottom: 'none',
-                          display: 'grid',
-                          gridTemplate: '1fr / 20% 36% 8% 18% 18%'
-                        }
-                      };
-                    } else {
-                      return {
-                        style: {
-                          borderBottom: 'none',
-                          display: 'grid',
-                          gridTemplate: '1fr / 20% 36% 8% 18% 18%'
-                        }
-                      };
+                  return {
+                    style: {
+                      background:
+                        rowInfo && rowInfo.index % 2 ? '#F7F7F8' : 'white',
+                      borderBottom: 'none',
+                      display: 'grid',
+                      gridTemplate: '1fr / 20% 36% 8% 18% 18%'
                     }
-                  }
+                  };
                 }}
                 getTrGroupProps={() => {
                   return {
@@ -341,18 +334,16 @@ export default class TableWidgets extends React.Component {
                         >
                           TITLE
                           <div className="flexColumn table__sort">
-                            <ArrowTop
-                              color={
+                            <ArrowUnion
+                              colorArrowOne={
                                 sortColumn.column === 'title' &&
-                                sortColumn.order === 'ascendant'
+                                sortColumn.order === 'descent'
                                   ? 'black'
                                   : 'gray'
                               }
-                            />
-                            <ArrowDown
-                              color={
+                              colorArrowTwo={
                                 sortColumn.column === 'title' &&
-                                sortColumn.order === 'descent'
+                                sortColumn.order === 'ascendant'
                                   ? 'black'
                                   : 'gray'
                               }
@@ -397,18 +388,16 @@ export default class TableWidgets extends React.Component {
                         >
                           QUERY
                           <div className="flexColumn table__sort">
-                            <ArrowTop
-                              color={
+                            <ArrowUnion
+                              colorArrowOne={
                                 sortColumn.column === 'query' &&
-                                sortColumn.order === 'ascendant'
+                                sortColumn.order === 'descent'
                                   ? 'black'
                                   : 'gray'
                               }
-                            />
-                            <ArrowDown
-                              color={
+                              colorArrowTwo={
                                 sortColumn.column === 'query' &&
-                                sortColumn.order === 'descent'
+                                sortColumn.order === 'ascendant'
                                   ? 'black'
                                   : 'gray'
                               }
@@ -439,18 +428,16 @@ export default class TableWidgets extends React.Component {
                         >
                           TYPE
                           <div className="flexColumn table__sort">
-                            <ArrowTop
-                              color={
+                            <ArrowUnion
+                              colorArrowOne={
                                 sortColumn.column === 'type' &&
-                                sortColumn.order === 'ascendant'
+                                sortColumn.order === 'descent'
                                   ? 'black'
                                   : 'gray'
                               }
-                            />
-                            <ArrowDown
-                              color={
+                              colorArrowTwo={
                                 sortColumn.column === 'type' &&
-                                sortColumn.order === 'descent'
+                                sortColumn.order === 'ascendant'
                                   ? 'black'
                                   : 'gray'
                               }
@@ -481,18 +468,16 @@ export default class TableWidgets extends React.Component {
                         >
                           QUERY PARAMETERS
                           <div className="flexColumn table__sort">
-                            <ArrowTop
-                              color={
+                            <ArrowUnion
+                              colorArrowOne={
                                 sortColumn.column === 'queryParameters' &&
-                                sortColumn.order === 'ascendant'
+                                sortColumn.order === 'descent'
                                   ? 'black'
                                   : 'gray'
                               }
-                            />
-                            <ArrowDown
-                              color={
+                              colorArrowTwo={
                                 sortColumn.column === 'queryParameters' &&
-                                sortColumn.order === 'descent'
+                                sortColumn.order === 'ascendant'
                                   ? 'black'
                                   : 'gray'
                               }
@@ -523,18 +508,16 @@ export default class TableWidgets extends React.Component {
                         >
                           SOURCE OF DATA
                           <div className="flexColumn table__sort">
-                            <ArrowTop
-                              color={
+                            <ArrowUnion
+                              colorArrowOne={
                                 sortColumn.column === 'source' &&
-                                sortColumn.order === 'ascendant'
+                                sortColumn.order === 'descent'
                                   ? 'black'
                                   : 'gray'
                               }
-                            />
-                            <ArrowDown
-                              color={
+                              colorArrowTwo={
                                 sortColumn.column === 'source' &&
-                                sortColumn.order === 'descent'
+                                sortColumn.order === 'ascendant'
                                   ? 'black'
                                   : 'gray'
                               }
@@ -563,3 +546,11 @@ export default class TableWidgets extends React.Component {
     );
   }
 }
+
+TableWidgets.propTypes = {
+  infoAditional: PropTypes.object.isRequired,
+  handleCheck: PropTypes.func.isRequired,
+  _onClose: PropTypes.func.isRequired,
+  checkWidgets: PropTypes.bool.isRequired,
+  checkVariables: PropTypes.bool.isRequired
+};

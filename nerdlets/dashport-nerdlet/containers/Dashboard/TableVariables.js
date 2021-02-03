@@ -1,26 +1,10 @@
 import React from 'react';
-import { Spinner } from 'nr1';
-import SearchInput, { createFilter } from 'react-search-input';
-import { BsSearch } from 'react-icons/bs';
-import iconDownload from '../../images/download.svg';
-import ArrowDown from '../../components/ArrowsTable/ArrowDown';
-import ArrowTop from '../../components/ArrowsTable/ArrowTop';
+import ArrowUnion from '../../components/ArrowsTable/ArrowUnion';
 import ReactTable from 'react-table-v6';
 import Pagination from '../../components/Pagination/Pagination';
 import closeIcon from '../../images/close.svg';
 import { Modal } from 'react-bootstrap';
-
-const greenColor = '#007E8A';
-const textGray = '#767B7F';
-const grayColor = '#ADADAD';
-
-const DATA = [
-  { name: 'pepe', age: 26, job: 'farmer' },
-  { name: 'pepe 2', age: 26, job: 'farmer' },
-  { name: 'pepe 3', age: 26, job: 'farmer' },
-  { name: 'pepe 4', age: 26, job: 'farmer' },
-  { name: 'pepe 5', age: 26, job: 'farmer' }
-];
+import { PropTypes } from 'prop-types';
 
 export default class TableVariables extends React.Component {
   constructor(props) {
@@ -30,7 +14,6 @@ export default class TableVariables extends React.Component {
       pagePag: 0,
       pages: 0,
       totalRows: 10,
-      page: 1,
       // //////////
       sortColumn: {
         column: '',
@@ -120,7 +103,7 @@ export default class TableVariables extends React.Component {
       valueTwo = 1;
     }
     switch (column) {
-      case 'name':
+      case 'name': {
         const sortName = finalList.sort(function(a, b) {
           if (a.name > b.name) {
             return valueOne;
@@ -131,7 +114,8 @@ export default class TableVariables extends React.Component {
           return 0;
         });
         return sortName;
-      case 'prefix':
+      }
+      case 'prefix': {
         const sortPrefix = finalList.sort(function(a, b) {
           if (a.prefix > b.prefix) {
             return valueOne;
@@ -142,7 +126,8 @@ export default class TableVariables extends React.Component {
           return 0;
         });
         return sortPrefix;
-      case 'default':
+      }
+      case 'default': {
         const sortDefault = finalList.sort(function(a, b) {
           if (a.default > b.default) {
             return valueOne;
@@ -153,6 +138,7 @@ export default class TableVariables extends React.Component {
           return 0;
         });
         return sortDefault;
+      }
       default:
         return finalList;
     }
@@ -192,7 +178,7 @@ export default class TableVariables extends React.Component {
                 <div className="titleSo fontSmall">{`Variable List (${infoAditional.templateVariables.length})`}</div>
               </div>
             </div>
-            <div className="flex" style={{justifyContent:"flex-end"}}>
+            <div className="flex" style={{ justifyContent: 'flex-end' }}>
               <Pagination
                 page={pagePag}
                 pages={pages}
@@ -234,26 +220,15 @@ export default class TableVariables extends React.Component {
                 data={data}
                 defaultPageSize={totalRows}
                 getTrProps={(state, rowInfo) => {
-                  {
-                    if (rowInfo) {
-                      return {
-                        style: {
-                          background: rowInfo.index % 2 ? '#F7F7F8' : 'white',
-                          borderBottom: 'none',
-                          display: 'grid',
-                          gridTemplate: '1fr/ 33% 33% 34% '
-                        }
-                      };
-                    } else {
-                      return {
-                        style: {
-                          borderBottom: 'none',
-                          display: 'grid',
-                          gridTemplate: '1fr/ 33% 33% 34%'
-                        }
-                      };
+                  return {
+                    style: {
+                      background:
+                        rowInfo && rowInfo.index % 2 ? '#F7F7F8' : 'white',
+                      borderBottom: 'none',
+                      display: 'grid',
+                      gridTemplate: '1fr/ 33% 33% 34% '
                     }
-                  }
+                  };
                 }}
                 getTrGroupProps={() => {
                   return {
@@ -293,18 +268,16 @@ export default class TableVariables extends React.Component {
                         >
                           NAME
                           <div className="flexColumn table__sort">
-                            <ArrowTop
-                              color={
+                            <ArrowUnion
+                              colorArrowOne={
                                 sortColumn.column === 'name' &&
-                                sortColumn.order === 'ascendant'
+                                sortColumn.order === 'descent'
                                   ? 'black'
                                   : 'gray'
                               }
-                            />
-                            <ArrowDown
-                              color={
+                              colorArrowTwo={
                                 sortColumn.column === 'name' &&
-                                sortColumn.order === 'descent'
+                                sortColumn.order === 'ascendant'
                                   ? 'black'
                                   : 'gray'
                               }
@@ -338,18 +311,16 @@ export default class TableVariables extends React.Component {
                         >
                           DEFAULT
                           <div className="flexColumn table__sort">
-                            <ArrowTop
-                              color={
+                            <ArrowUnion
+                              colorArrowOne={
                                 sortColumn.column === 'default' &&
-                                sortColumn.order === 'ascendant'
+                                sortColumn.order === 'descent'
                                   ? 'black'
                                   : 'gray'
                               }
-                            />
-                            <ArrowDown
-                              color={
+                              colorArrowTwo={
                                 sortColumn.column === 'default' &&
-                                sortColumn.order === 'descent'
+                                sortColumn.order === 'ascendant'
                                   ? 'black'
                                   : 'gray'
                               }
@@ -380,18 +351,16 @@ export default class TableVariables extends React.Component {
                         >
                           PREFIX
                           <div className="flexColumn table__sort">
-                            <ArrowTop
-                              color={
+                            <ArrowUnion
+                              colorArrowOne={
                                 sortColumn.column === 'prefix' &&
-                                sortColumn.order === 'ascendant'
+                                sortColumn.order === 'descent'
                                   ? 'black'
                                   : 'gray'
                               }
-                            />
-                            <ArrowDown
-                              color={
+                              colorArrowTwo={
                                 sortColumn.column === 'prefix' &&
-                                sortColumn.order === 'descent'
+                                sortColumn.order === 'ascendant'
                                   ? 'black'
                                   : 'gray'
                               }
@@ -420,3 +389,10 @@ export default class TableVariables extends React.Component {
     );
   }
 }
+TableVariables.propTypes = {
+  infoAditional: PropTypes.object.isRequired,
+  handleCheck: PropTypes.func.isRequired,
+  _onClose: PropTypes.func.isRequired,
+  checkWidgets: PropTypes.bool.isRequired,
+  checkVariables: PropTypes.bool.isRequired
+};
