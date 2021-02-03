@@ -134,7 +134,7 @@ export default class Infrastructure extends React.Component {
   }
 
   downloadData = async () => {
-    const { dataRespaldo } = this.state; 
+    const { dataRespaldo } = this.state;
     const date = new Date();
     const zip = new JSZip();
     const dataCsv = [];
@@ -419,43 +419,47 @@ export default class Infrastructure extends React.Component {
                   </span>
                 </div>
               </div>
-              <div
-                style={{ height: '100%', width: '100%' }}
-                className="graph_bar"
-              >
+              <div>
                 <div
-                  style={{ textAlign: 'center', marginTop: '90%' }}
+                  style={{
+                    height: '49%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'flex-end'
+                  }}
                   className="fontMedium"
                 >
                   {data.length !== 0 && 'Platform'}
                 </div>
-                {infrastructureDataGraph ? (
-                  infrastructureDataGraph.map((data, index) => {
-                    const { name, uv, pv } = data;
-                    const total = (uv * 100) / (uv + pv);
-                    return (
-                      <div
-                        key={index}
-                        className="w100"
-                        style={{
-                          paddingBottom: '4%',
-                          paddingTop: '4%',
-                          width: '94%'
-                        }}
-                      >
-                        <Bar
-                          bgColor="#ECEEEE"
-                          bgcolorMain="#007E8A"
-                          title={name}
-                          quantityPercentage={total}
-                          quantity={uv}
-                        />
-                      </div>
-                    );
-                  })
-                ) : (
-                  <div />
-                )}
+                <div
+                  style={{ height: '50%', width: '98%' }}
+                  className="graph_bar"
+                >
+                  {infrastructureDataGraph &&
+                    infrastructureDataGraph.map((data, index) => {
+                      const { name, uv, pv } = data;
+                      const total = (uv * 100) / (uv + pv);
+                      return (
+                        <div
+                          key={index}
+                          className="w100"
+                          style={{
+                            paddingBottom: '4%',
+                            paddingTop: '4%',
+                            width: '94%'
+                          }}
+                        >
+                          <Bar
+                            bgColor="#ECEEEE"
+                            bgcolorMain="#007E8A"
+                            title={name}
+                            quantityPercentage={total}
+                            quantity={uv}
+                          />
+                        </div>
+                      );
+                    })}
+                </div>
               </div>
             </div>
             <div className="mainContent__tableContent">
