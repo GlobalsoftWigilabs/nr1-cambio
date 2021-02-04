@@ -4,7 +4,7 @@ import moment from 'moment';
 import SearchInput from 'react-search-input';
 import { BsSearch } from 'react-icons/bs';
 import iconDownload from '../../images/download.svg';
-import ModalAlert from './ModalAlert';
+import ModalMonitor from './ModalMonitor';
 import ReactTable from 'react-table-v6';
 import Pagination from '../../components/Pagination/Pagination';
 import PropTypes from 'prop-types';
@@ -27,12 +27,12 @@ const KEYS_TO_FILTERS = [
   'priority'
 ];
 
-export default class Alerts extends React.Component {
+export default class Monitors extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       data: [],
-      searchAlerts: '',
+      searchMonitors: '',
       loading: false,
       savingAllChecks: false,
       pagePag: 0,
@@ -141,7 +141,7 @@ export default class Alerts extends React.Component {
   searchUpdated = term => {
     const { sortColumn, dataRespaldo } = this.state;
     this.loadData(dataRespaldo, term, sortColumn);
-    this.setState({ searchAlerts: term });
+    this.setState({ searchMonitors: term });
   };
 
   _onClose = () => {
@@ -155,7 +155,7 @@ export default class Alerts extends React.Component {
   };
 
   setSortColumn = column => {
-    const { sortColumn, data, searchAlerts } = this.state;
+    const { sortColumn, data, searchMonitors } = this.state;
     let order = '';
     if (sortColumn.column === column) {
       if (sortColumn.order === '') {
@@ -171,7 +171,7 @@ export default class Alerts extends React.Component {
     if (sortColumn.column === column && sortColumn.order === 'descent') {
       column = '';
     }
-    this.loadData(data, searchAlerts, {
+    this.loadData(data, searchMonitors, {
       column: column,
       order: order
     });
@@ -235,12 +235,12 @@ export default class Alerts extends React.Component {
       if (err) {
         throw err;
       }
-      zip.file(`Alerts.csv`, csv);
+      zip.file(`Monitors.csv`, csv);
       zip.generateAsync({ type: 'blob' }).then(function(content) {
         // see FileSaver.js
         saveAs(
           content,
-          `Alerts ${date.getDate()}-${date.getMonth() +
+          `Monitors ${date.getDate()}-${date.getMonth() +
             1}-${date.getFullYear()}.zip`
         );
       });
@@ -271,8 +271,8 @@ export default class Alerts extends React.Component {
     this.setState({ pages: totalPages, pagePag: pageNext });
   };
 
-  loadData = (alerts, searchTerm, sortColumn) => {
-    let finalList = alerts;
+  loadData = (monitors, searchTerm, sortColumn) => {
+    let finalList = monitors;
     if (searchTerm !== '') {
       const filteredData = finalList.filter(item => {
         return Object.keys(item).some(key => {
@@ -420,7 +420,7 @@ export default class Alerts extends React.Component {
       data,
       infoAditional
     } = this.state;
-    const { alertsData = [], alertsTotal = 0 } = this.props;
+    const { monitorsGraph = [], monitorsTotal = 0 } = this.props;
     return (
       <div className="h100">
         {loading ? (
@@ -435,7 +435,7 @@ export default class Alerts extends React.Component {
                     color: greenColor
                   }}
                 >
-                  Alerts
+                  Monitors
                 </span>
                 <div>
                   <span
@@ -444,7 +444,7 @@ export default class Alerts extends React.Component {
                       color: greenColor
                     }}
                   >
-                    {alertsTotal}
+                    {monitorsTotal}
                   </span>
                 </div>
               </div>
@@ -458,14 +458,14 @@ export default class Alerts extends React.Component {
                     alignItems: 'flex-end'
                   }}
                 >
-                  Alerts by type
+                  Monitors by type
                 </div>
                 <div
                   style={{ height: '50%', width: '95%' }}
                   className="graph_bar"
                 >
-                  {alertsData ? (
-                    alertsData.map((data, index) => {
+                  {monitorsGraph &&
+                    monitorsGraph.map((data, index) => {
                       const { name, uv, pv } = data;
                       const total = (uv * 100) / (uv + pv);
                       return (
@@ -487,10 +487,7 @@ export default class Alerts extends React.Component {
                           />
                         </div>
                       );
-                    })
-                  ) : (
-                    <div />
-                  )}
+                    })}
                 </div>
               </div>
             </div>
@@ -1006,7 +1003,7 @@ export default class Alerts extends React.Component {
           </div>
         )}
         {hidden && (
-          <ModalAlert
+          <ModalMonitor
             hidden={hidden}
             _onClose={this._onClose}
             infoAditional={infoAditional}
@@ -1017,8 +1014,8 @@ export default class Alerts extends React.Component {
   }
 }
 
-Alerts.propTypes = {
-  alertsTotal: PropTypes.number.isRequired,
+Monitors.propTypes = {
+  monitorsTotal: PropTypes.number.isRequired,
   monitorsData: PropTypes.array.isRequired,
-  alertsData: PropTypes.array.isRequired
+  monitorsGraph: PropTypes.array.isRequired
 };

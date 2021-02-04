@@ -160,7 +160,7 @@ class Menu extends React.Component {
                 identifier={3}
                 handleChangeMenu={handleChangeMenu}
                 selectedMenu={selectedMenu}
-                text="Alerts"
+                text="Monitors"
                 iconActive={alertsIconA}
                 iconInactive={alertsIcon}
               />

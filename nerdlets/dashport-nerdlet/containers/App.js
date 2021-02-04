@@ -3,12 +3,10 @@ import React from 'react';
 // Containers
 import Menu from './Menu/Menu';
 import Setup from './SetUp/Setup';
-import Data from './Data';
 import Dashboard from './Dashboard/Dashboard.js';
-import Alerts from './Alerts/Alerts';
+import Monitors from './Monitors/Monitors';
 import Infrastructure from './Infraestructure/Infrastructure';
 import Synthetics from './Synthetics/Synthetics';
-import Accounts from './Accounts/Accounts';
 import Logs from './Logs/Logs';
 import Metrics from './Metrics/Metrics';
 
@@ -67,9 +65,9 @@ export default class App extends React.Component {
       // DASHBOARDS
       dataDashboards: [],
       emptyData: false,
-      // ALERTS
-      alertsTotal: 0,
-      alertsData: [
+      // MONITORS
+      monitorsTotal: 0,
+      monitorsGraph: [
         { name: 'Host', uv: 0, pv: 0 },
         { name: 'Metric', uv: 0, pv: 0 },
         { name: 'Anomaly', uv: 0, pv: 0 },
@@ -97,9 +95,6 @@ export default class App extends React.Component {
       // SYNTHETICS
       testTotal: 0,
       testList: [],
-      // ACCOUNTS
-      accountsTotal: 0,
-      dataTableAccounts: [],
       // LogsDashport
       logs: [],
       completed: 0,
@@ -205,7 +200,7 @@ export default class App extends React.Component {
         if (!keyApi) keyApi = await readSingleSecretKey(keysName[0]);
 
         if (!keyApp) keyApp = await readSingleSecretKey(keysName[1]);
-        console.log(keyApi,keyApp);
+
         if (keyApi && keyApp) {
           retrys = 5;
         } else {
@@ -353,15 +348,15 @@ export default class App extends React.Component {
           total += iterator.count;
         }
         data.data.total = total;
-        const alertsData = [];
+        const monitorsGraph = [];
         for (const monitor of data.data.monitors) {
-          const index = alertsData.findIndex(
+          const index = monitorsGraph.findIndex(
             element => element.name === monitor.type
           );
           if (index !== -1) {
-            alertsData[index].uv = alertsData[index].uv + 1;
+            monitorsGraph[index].uv = monitorsGraph[index].uv + 1;
           } else {
-            alertsData.push({
+            monitorsGraph.push({
               name: monitor.type,
               pv: data.data.monitors.length,
               uv: 1
@@ -370,8 +365,8 @@ export default class App extends React.Component {
         }
 
         this.setState({
-          alertsTotal: data.data.total,
-          alertsData: alertsData,
+          monitorsTotal: data.data.total,
+          monitorsGraph: monitorsGraph,
           monitorsData: data.data.monitors
         });
       }
@@ -961,18 +956,6 @@ export default class App extends React.Component {
               });
             }
           }
-          // const pagesLocations = this.pagesOfData(listLocations);
-          // for (const keyLocation in pagesLocations) {
-          //   if (pagesLocations[keyLocation]) {
-          //     await writeNerdStorage(
-          //       accountId,
-          //       `${collectionName}-locations`,
-          //       `${collectionName}-${keyLocation}`,
-          //       pagesLocations[keyLocation],
-          //       this.reportLogFetch
-          //     );
-          //   }
-          // }
         }
         break;
       case 'accounts':
@@ -1974,17 +1957,12 @@ export default class App extends React.Component {
           let saveApiKey = null;
           let saveAppKey = null;
           let retrys = 0;
-          while (
-            saveAppKey &&
-            saveAppKey.status === 'SUCCESS' &&
-            saveAppKey &&
-            saveAppKey.status === 'SUCCESS') {
+          while (retrys !== 5) {
             if (!saveApiKey || saveApiKey.status !== 'SUCCESS')
               saveApiKey = await writeSecretKey('apikey', apikey);
             if (!saveAppKey || saveAppKey.status !== 'SUCCESS')
               saveAppKey = await writeSecretKey('appkey', appkey);
-            
-            console.log(saveApiKey,saveAppKey);
+
             if (
               saveAppKey &&
               saveAppKey.status === 'SUCCESS' &&
@@ -2133,16 +2111,14 @@ export default class App extends React.Component {
   renderContent() {
     const {
       selectedMenu,
-      alertsData,
-      alertsTotal,
+      monitorsGraph,
+      monitorsTotal,
       monitorsData,
       infrastructureDataGraph,
       infraestructureList,
       metrics,
       testTotal,
       testList,
-      accountsTotal,
-      dataTableAccounts,
       fetchingData,
       writingSetup,
       logsData,
@@ -2164,7 +2140,6 @@ export default class App extends React.Component {
       hasErrorFetch,
       historyUpdateMetric
     } = this.state;
-    // console.log('accountsTotal', accountsTotal, dataTableAccounts);
     switch (selectedMenu) {
       case 0:
         return (
@@ -2190,17 +2165,15 @@ export default class App extends React.Component {
             handleChangeMenu={this.handleChangeMenu}
           />
         );
-      case 1:
-        return <Data />;
       case 2:
         return (
           <Dashboard dataDashboards={dataDashboards} emptyData={emptyData} />
         );
       case 3:
         return (
-          <Alerts
-            alertsData={alertsData}
-            alertsTotal={alertsTotal}
+          <Monitors
+            monitorsGraph={monitorsGraph}
+            monitorsTotal={monitorsTotal}
             monitorsData={monitorsData}
           />
         );
@@ -2227,15 +2200,8 @@ export default class App extends React.Component {
         );
       case 7:
         return <Synthetics testTotal={testTotal} testList={testList} />;
-      case 8:
-        return (
-          <Accounts
-            accountsTotal={accountsTotal}
-            dataTableAccounts={dataTableAccounts}
-          />
-        );
       default:
-        return null;
+        return <div />;
     }
   }
 
