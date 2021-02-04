@@ -141,8 +141,18 @@ export default class Dashboard extends React.Component {
     // average widgets
     let quantityTotal = 0;
     for (const dd of dataDashboards) {
+      let widgets = [];
+      for (const widget of dd.widgets) {
+        if (widget.definition.type === 'group') {
+          widgets.push(widget);
+          widgets = widgets.concat(widget.definition.widgets);
+        } else {
+          widgets.push(widget);
+        }
+      }
+      dd.widgets = widgets;
       dd.popularity = dd.popularity ? dd.popularity : 0;
-      dd.widgetsCount = dd.widgets.length;
+      dd.widgetsCount = widgets.length;
       dd.autor = dd.autor !== '' ? dd.autor : '-----';
       dd.description = dd.description !== '' ? dd.description : '-----';
       let dashboardList = '';
@@ -159,7 +169,7 @@ export default class Dashboard extends React.Component {
         }
       }
       dd.dashboardListTxt = dashboardList;
-      quantityTotal += dd.widgets.length;
+      quantityTotal += widgets.length;
     }
     this.setState({
       dashboards: dataDashboards,
