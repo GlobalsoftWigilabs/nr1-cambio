@@ -1,5 +1,5 @@
 import React from 'react';
-import SearchInput, { createFilter } from 'react-search-input';
+import SearchInput from 'react-search-input';
 import { BsSearch } from 'react-icons/bs';
 import iconDownload from '../../images/download.svg';
 import ReactTable from 'react-table-v6';
@@ -117,7 +117,17 @@ export default class TableMetrics extends React.Component {
   loadData = (alerts, searchTerm, sortColumn) => {
     let finalList = alerts;
     if (searchTerm !== '') {
-      finalList = finalList.filter(createFilter(searchTerm, KEYS_TO_FILTERS));
+      const filteredData = finalList.filter(item => {
+        return Object.keys(item).some(key => {
+          if (KEYS_TO_FILTERS.find(KEY => KEY === key)) {
+            return `${item[key]}`
+              .toLowerCase()
+              .includes(searchTerm.trim().toLowerCase());
+          }
+          return false;
+        });
+      });
+      finalList = filteredData;
     }
     finalList = this.sortData(finalList, sortColumn);
     this.calcTable(finalList);
@@ -132,8 +142,7 @@ export default class TableMetrics extends React.Component {
       valueTwo = 1;
     }
     switch (column) {
-      case 'id':
-        // eslint-disable-next-line no-case-declarations
+      case 'id': {
         const sortId = finalList.sort(function(a, b) {
           if (a.id > b.id) {
             return valueOne;
@@ -144,8 +153,8 @@ export default class TableMetrics extends React.Component {
           return 0;
         });
         return sortId;
-      case 'aggrType':
-        // eslint-disable-next-line no-case-declarations
+      }
+      case 'aggrType': {
         const sortAggrType = finalList.sort(function(a, b) {
           if (a.aggrType > b.aggrType) {
             return valueOne;
@@ -156,8 +165,8 @@ export default class TableMetrics extends React.Component {
           return 0;
         });
         return sortAggrType;
-      case 'path':
-        // eslint-disable-next-line no-case-declarations
+      }
+      case 'path': {
         const sortPath = finalList.sort(function(a, b) {
           if (a.path > b.path) {
             return valueOne;
@@ -168,8 +177,8 @@ export default class TableMetrics extends React.Component {
           return 0;
         });
         return sortPath;
-      case 'filterQuery':
-        // eslint-disable-next-line no-case-declarations
+      }
+      case 'filterQuery': {
         const sortFilterQuery = finalList.sort(function(a, b) {
           if (a.filterQuery > b.filterQuery) {
             return valueOne;
@@ -180,8 +189,8 @@ export default class TableMetrics extends React.Component {
           return 0;
         });
         return sortFilterQuery;
-      case 'groupByPath':
-        // eslint-disable-next-line no-case-declarations
+      }
+      case 'groupByPath': {
         const sortGroupByPath = finalList.sort(function(a, b) {
           if (a.groupByPath > b.groupByPath) {
             return valueOne;
@@ -192,8 +201,8 @@ export default class TableMetrics extends React.Component {
           return 0;
         });
         return sortGroupByPath;
-      case 'tagName':
-        // eslint-disable-next-line no-case-declarations
+      }
+      case 'tagName': {
         const sortTagName = finalList.sort(function(a, b) {
           if (a.tagName > b.tagName) {
             return valueOne;
@@ -204,6 +213,7 @@ export default class TableMetrics extends React.Component {
           return 0;
         });
         return sortTagName;
+      }
       default:
         return finalList;
     }

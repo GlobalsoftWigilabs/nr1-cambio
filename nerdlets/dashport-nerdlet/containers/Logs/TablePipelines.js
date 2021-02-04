@@ -111,7 +111,17 @@ export default class TablePipelines extends React.Component {
   loadData = (alerts, searchTerm, sortColumn) => {
     let finalList = alerts;
     if (searchTerm !== '') {
-      finalList = finalList.filter(createFilter(searchTerm, KEYS_TO_FILTERS));
+      const filteredData = finalList.filter(item => {
+        return Object.keys(item).some(key => {
+          if (KEYS_TO_FILTERS.find(KEY => KEY === key)) {
+            return `${item[key]}`
+              .toLowerCase()
+              .includes(searchTerm.trim().toLowerCase());
+          }
+          return false;
+        });
+      });
+      finalList = filteredData;
     }
     finalList = this.sortData(finalList, sortColumn);
     this.calcTable(finalList);

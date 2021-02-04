@@ -1,11 +1,9 @@
 import React from 'react';
 import { Spinner, Tooltip } from 'nr1';
 import moment from 'moment';
-import SearchInput, { createFilter } from 'react-search-input';
+import SearchInput from 'react-search-input';
 import { BsSearch } from 'react-icons/bs';
 import iconDownload from '../../images/download.svg';
-import ArrowDown from '../../components/ArrowsTable/ArrowDown';
-import ArrowTop from '../../components/ArrowsTable/ArrowTop';
 import ModalAlert from './ModalAlert';
 import ReactTable from 'react-table-v6';
 import Pagination from '../../components/Pagination/Pagination';
@@ -276,7 +274,17 @@ export default class Alerts extends React.Component {
   loadData = (alerts, searchTerm, sortColumn) => {
     let finalList = alerts;
     if (searchTerm !== '') {
-      finalList = finalList.filter(createFilter(searchTerm, KEYS_TO_FILTERS));
+      const filteredData = finalList.filter(item => {
+        return Object.keys(item).some(key => {
+          if (KEYS_TO_FILTERS.find(KEY => KEY === key)) {
+            return `${item[key]}`
+              .toLowerCase()
+              .includes(searchTerm.trim().toLowerCase());
+          }
+          return false;
+        });
+      });
+      finalList = filteredData;
     }
     finalList = this.sortData(finalList, sortColumn);
     this.calcTable(finalList);
@@ -291,8 +299,7 @@ export default class Alerts extends React.Component {
       valueTwo = 1;
     }
     switch (column) {
-      case 'name':
-        // eslint-disable-next-line no-case-declarations
+      case 'name': {
         const sortName = finalList.sort(function(a, b) {
           if (a.name > b.name) {
             return valueOne;
@@ -303,8 +310,8 @@ export default class Alerts extends React.Component {
           return 0;
         });
         return sortName;
-      case 'classification':
-        // eslint-disable-next-line no-case-declarations
+      }
+      case 'classification': {
         const sortClassification = finalList.sort(function(a, b) {
           if (a.classification > b.classification) {
             return valueOne;
@@ -315,8 +322,8 @@ export default class Alerts extends React.Component {
           return 0;
         });
         return sortClassification;
-      case 'creation_date':
-        // eslint-disable-next-line no-case-declarations
+      }
+      case 'creation_date': {
         const sortCreated = finalList.sort(function(a, b) {
           const date1 = new Date(a.creation_date);
           const date2 = new Date(b.creation_date);
@@ -325,8 +332,8 @@ export default class Alerts extends React.Component {
           return 0;
         });
         return sortCreated;
-      case 'date_last_triggered':
-        // eslint-disable-next-line no-case-declarations
+      }
+      case 'date_last_triggered': {
         const sortLast_triggered_ts = finalList.sort(function(a, b) {
           const date1 = new Date(a.date_last_triggered);
           const date2 = new Date(b.date_last_triggered);
@@ -335,8 +342,8 @@ export default class Alerts extends React.Component {
           return 0;
         });
         return sortLast_triggered_ts;
-      case 'author':
-        // eslint-disable-next-line no-case-declarations
+      }
+      case 'author': {
         const sortAuthor = finalList.sort(function(a, b) {
           if (a.author > b.author) {
             return valueOne;
@@ -347,8 +354,8 @@ export default class Alerts extends React.Component {
           return 0;
         });
         return sortAuthor;
-      case 'type':
-        // eslint-disable-next-line no-case-declarations
+      }
+      case 'type': {
         const sortType = finalList.sort(function(a, b) {
           if (a.type > b.type) {
             return valueOne;
@@ -359,8 +366,8 @@ export default class Alerts extends React.Component {
           return 0;
         });
         return sortType;
-      case 'overall_state':
-        // eslint-disable-next-line no-case-declarations
+      }
+      case 'overall_state': {
         const sortStatus = finalList.sort(function(a, b) {
           if (a.overall_state > b.overall_state) {
             return valueOne;
@@ -371,8 +378,8 @@ export default class Alerts extends React.Component {
           return 0;
         });
         return sortStatus;
-      case 'multi':
-        // eslint-disable-next-line no-case-declarations
+      }
+      case 'multi': {
         const sortMulti = finalList.sort(function(a, b) {
           if (a.multi > b.multi) {
             return valueOne;
@@ -383,8 +390,8 @@ export default class Alerts extends React.Component {
           return 0;
         });
         return sortMulti;
-      case 'priority':
-        // eslint-disable-next-line no-case-declarations
+      }
+      case 'priority': {
         const sortPriority = finalList.sort(function(a, b) {
           if (a.priority > b.priority) {
             return valueOne;
@@ -395,6 +402,7 @@ export default class Alerts extends React.Component {
           return 0;
         });
         return sortPriority;
+      }
       default:
         return finalList;
     }
@@ -838,13 +846,15 @@ export default class Alerts extends React.Component {
                                 <ArrowUnion
                                   sortColumn={sortColumn}
                                   colorArrowOne={
-                                    sortColumn.column === 'date_last_triggered' &&
+                                    sortColumn.column ===
+                                      'date_last_triggered' &&
                                     sortColumn.order === 'descent'
                                       ? 'black'
                                       : 'gray'
                                   }
                                   colorArrowTwo={
-                                    sortColumn.column === 'date_last_triggered' &&
+                                    sortColumn.column ===
+                                      'date_last_triggered' &&
                                     sortColumn.order === 'ascendant'
                                       ? 'black'
                                       : 'gray'

@@ -208,8 +208,7 @@ export default class Infrastructure extends React.Component {
       valueTwo = 1;
     }
     switch (column) {
-      case 'host_name':
-        // eslint-disable-next-line no-case-declarations
+      case 'host_name': {
         const sortHostname = finalList.sort(function(a, b) {
           if (a.host_name > b.host_name) {
             return valueOne;
@@ -220,8 +219,8 @@ export default class Infrastructure extends React.Component {
           return 0;
         });
         return sortHostname;
-      case 'aliases':
-        // eslint-disable-next-line no-case-declarations
+      }
+      case 'aliases': {
         const sortAliases = finalList.sort(function(a, b) {
           if (a.aliases > b.aliases) {
             return valueOne;
@@ -232,8 +231,8 @@ export default class Infrastructure extends React.Component {
           return 0;
         });
         return sortAliases;
-      case 'apps':
-        // eslint-disable-next-line no-case-declarations
+      }
+      case 'apps': {
         const sortApps = finalList.sort(function(a, b) {
           if (a.apps > b.apps) {
             return valueOne;
@@ -244,8 +243,8 @@ export default class Infrastructure extends React.Component {
           return 0;
         });
         return sortApps;
-      case 'sources':
-        // eslint-disable-next-line no-case-declarations
+      }
+      case 'sources': {
         const sortSources = finalList.sort(function(a, b) {
           if (a.sources > b.sources) {
             return valueOne;
@@ -256,8 +255,8 @@ export default class Infrastructure extends React.Component {
           return 0;
         });
         return sortSources;
-      case 'muted':
-        // eslint-disable-next-line no-case-declarations
+      }
+      case 'muted': {
         const sortMuted = finalList.sort(function(a, b) {
           if (a.muted > b.muted) {
             return valueOne;
@@ -268,8 +267,8 @@ export default class Infrastructure extends React.Component {
           return 0;
         });
         return sortMuted;
-      case 'tags_by_source':
-        // eslint-disable-next-line no-case-declarations
+      }
+      case 'tags_by_source': {
         const sortTags = finalList.sort(function(a, b) {
           if (a.tags_by_source > b.tags_by_source) {
             return valueOne;
@@ -280,6 +279,7 @@ export default class Infrastructure extends React.Component {
           return 0;
         });
         return sortTags;
+      }
       default:
         return finalList;
     }
@@ -293,7 +293,7 @@ export default class Infrastructure extends React.Component {
           if (KEYS_TO_FILTERS.find(KEY => KEY === key)) {
             return `${item[key]}`
               .toLowerCase()
-              .includes(searchTerm.toLowerCase());
+              .includes(searchTerm.trim().toLowerCase());
           }
           return false;
         });

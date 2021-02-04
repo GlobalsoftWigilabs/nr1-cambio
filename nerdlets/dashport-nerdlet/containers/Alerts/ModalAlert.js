@@ -55,27 +55,24 @@ export default class ModalAlert extends React.Component {
         >
           <Modal.Body>
             <Modal.Header>
-              <div className=" modalWidgets__closeIcon">
+              <div
+                className="flex"
+                style={{
+                  justifyContent: 'space-between'
+                }}
+              >
                 <div className="infoAditional--title">{`${infoAditional.name}`}</div>
-                <div
-                  className="flex"
-                  style={{
-                    justifyContent: 'space-between'
+                <img
+                  onClick={() => {
+                    _onClose();
                   }}
-                >
-                  <div>&nbsp;</div>
-                  <img
-                    onClick={() => {
-                      _onClose();
-                    }}
-                    className="pointer"
-                    style={{
-                      width: '26px',
-                      height: '26px'
-                    }}
-                    src={closeIcon}
-                  />
-                </div>
+                  className="pointer"
+                  style={{
+                    width: '26px',
+                    height: '26px'
+                  }}
+                  src={closeIcon}
+                />
               </div>
             </Modal.Header>
             <div>

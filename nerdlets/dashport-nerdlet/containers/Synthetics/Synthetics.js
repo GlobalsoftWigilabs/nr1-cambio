@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Spinner, Tooltip } from 'nr1';
-import SearchInput, { createFilter } from 'react-search-input';
+import SearchInput from 'react-search-input';
 import { BsSearch } from 'react-icons/bs';
 import iconDownload from '../../images/download.svg';
-import ArrowDown from '../../components/ArrowsTable/ArrowDown';
-import ArrowTop from '../../components/ArrowsTable/ArrowTop';
 import ModalSynthetics from './ModalSynthetics';
 import ReactTable from 'react-table-v6';
 import Pagination from '../../components/Pagination/Pagination';
@@ -232,7 +230,17 @@ export default class Synthetics extends React.Component {
   loadData = (test, searchTerm, sortColumn) => {
     let finalList = test;
     if (searchTerm !== '') {
-      finalList = finalList.filter(createFilter(searchTerm, KEYS_TO_FILTERS));
+      const filteredData = finalList.filter(item => {
+        return Object.keys(item).some(key => {
+          if (KEYS_TO_FILTERS.find(KEY => KEY === key)) {
+            return `${item[key]}`
+              .toLowerCase()
+              .includes(searchTerm.trim().toLowerCase());
+          }
+          return false;
+        });
+      });
+      finalList = filteredData;
     }
     finalList = this.sortData(finalList, sortColumn);
     this.calcTable(finalList);

@@ -236,11 +236,11 @@ export default class Dashboard extends React.Component {
             if (key === 'creation' || key === 'modified') {
               return `${this.dateToYMD(new Date(item[key]))}`
                 .toLowerCase()
-                .includes(searchTerm.toLowerCase());
+                .includes(searchTerm.trim().toLowerCase());
             } else {
               return `${item[key]}`
                 .toLowerCase()
-                .includes(searchTerm.toLowerCase());
+                .includes(searchTerm.trim().toLowerCase());
             }
           }
           return false;

@@ -1,5 +1,5 @@
 import React from 'react';
-import SearchInput, { createFilter } from 'react-search-input';
+import SearchInput from 'react-search-input';
 import { BsSearch } from 'react-icons/bs';
 import iconDownload from '../../images/download.svg';
 import ReactTable from 'react-table-v6';
@@ -110,7 +110,17 @@ export default class TableArchives extends React.Component {
   loadData = (alerts, searchTerm, sortColumn) => {
     let finalList = alerts;
     if (searchTerm !== '') {
-      finalList = finalList.filter(createFilter(searchTerm, KEYS_TO_FILTERS));
+      const filteredData = finalList.filter(item => {
+        return Object.keys(item).some(key => {
+          if (KEYS_TO_FILTERS.find(KEY => KEY === key)) {
+            return `${item[key]}`
+              .toLowerCase()
+              .includes(searchTerm.trim().toLowerCase());
+          }
+          return false;
+        });
+      });
+      finalList = filteredData;
     }
     finalList = this.sortData(finalList, sortColumn);
     this.calcTable(finalList);
