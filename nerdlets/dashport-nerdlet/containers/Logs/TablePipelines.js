@@ -256,7 +256,7 @@ export default class TablePipelines extends React.Component {
           )}
         </div>
         <div className="tableContent__table">
-          <div style={{ width: '1338px' }} className="h100">
+          <div className="h100">
             <ReactTable
               loading={savingAllChecks}
               loadingText="Processing..."
@@ -266,27 +266,15 @@ export default class TablePipelines extends React.Component {
               data={data}
               defaultPageSize={totalRows}
               getTrProps={(state, rowInfo) => {
-                // eslint-disable-next-line no-lone-blocks
-                {
-                  if (rowInfo) {
-                    return {
-                      style: {
-                        background: rowInfo.index % 2 ? '#F7F7F8' : 'white',
-                        borderBottom: 'none',
-                        display: 'grid',
-                        gridTemplate: '1fr / 20% 26.7% 26.7% 26.7%'
-                      }
-                    };
-                  } else {
-                    return {
-                      style: {
-                        borderBottom: 'none',
-                        display: 'grid',
-                        gridTemplate: '1fr / 20% 26.7% 26.7% 26.7%'
-                      }
-                    };
+                return {
+                  style: {
+                    background:
+                      rowInfo && rowInfo.index % 2 ? '#F7F7F8' : 'white',
+                    borderBottom: 'none',
+                    display: 'grid',
+                    gridTemplate: '1fr / 33% 33% 34%'
                   }
-                }
+                };
               }}
               getTrGroupProps={() => {
                 return {
@@ -309,7 +297,7 @@ export default class TablePipelines extends React.Component {
                     color: '#333333',
                     fontWeight: 'bold',
                     display: 'grid',
-                    gridTemplate: '1fr / 20% 26.7% 26.7% 26.7%'
+                    gridTemplate: '1fr / 33% 33% 34%'
                   }
                 };
               }}
@@ -411,47 +399,6 @@ export default class TablePipelines extends React.Component {
                       <div
                         className="pointer flex"
                         onClick={() => {
-                          this.setSortColumn('type');
-                        }}
-                      >
-                        TYPE
-                        <div className="flexColumn table__sort">
-                          <ArrowUnion
-                            sortColumn={sortColumn}
-                            colorArrowOne={
-                              sortColumn.column === 'type' &&
-                              sortColumn.order === 'descent'
-                                ? 'black'
-                                : 'gray'
-                            }
-                            colorArrowTwo={
-                              sortColumn.column === 'type' &&
-                              sortColumn.order === 'ascendant'
-                                ? 'black'
-                                : 'gray'
-                            }
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  ),
-                  headerClassName: 'w100I',
-                  accessor: 'type',
-                  className:
-                    'table__cell fontNormal flex flexCenterVertical h100 w100I',
-                  sortable: false,
-                  Cell: props => (
-                    <div className="h100 flex flexCenterVertical">
-                      {props.value ? props.value : '-----'}
-                    </div>
-                  )
-                },
-                {
-                  Header: () => (
-                    <div className="table__header fontSmall">
-                      <div
-                        className="pointer flex"
-                        onClick={() => {
                           this.setSortColumn('processors');
                         }}
                       >
@@ -477,13 +424,22 @@ export default class TablePipelines extends React.Component {
                     </div>
                   ),
                   headerClassName: 'w100I',
-                  accessor: 'processors',
+                  accessor: 'dataProcessors',
                   className:
                     'table__cell fontNormal flex flexCenterVertical h100 w100I',
                   sortable: false,
                   Cell: props => (
-                    <div className="h100 flex flexCenterVertical">
-                      {props.value ? props.value : '-----'}
+                    <div
+                      className="h100 flex flexCenterVertical"
+                      style={{
+                        lineHeight: '1.8em',
+                        flexDirection: 'column',
+                        alignItems: 'flex-start'
+                      }}
+                    >
+                      {props.value.map((obj, index) => {
+                        return <span key={index}>{obj.name}</span>;
+                      })}
                     </div>
                   )
                 }

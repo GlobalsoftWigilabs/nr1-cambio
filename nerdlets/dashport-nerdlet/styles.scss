@@ -114,6 +114,9 @@
     font-family: Open Sans;
     font-size: 45px !important;
   }
+  .tableContent__table {
+    max-height: calc(108vh - 129px);
+  }
 }
 @media (max-width: 1680px) {
   .darkLine {
@@ -355,7 +358,7 @@ a[target='_blank']:after {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
   width: 100%;
-  max-height: calc(109vh - 129px);
+  max-height: calc(104vh - 129px);
   overflow-x: auto;
   overflow-y: auto;
   position: relative;

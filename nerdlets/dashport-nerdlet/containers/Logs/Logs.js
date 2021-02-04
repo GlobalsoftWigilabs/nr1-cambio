@@ -40,16 +40,12 @@ export default class Logs extends React.Component {
       logsData.pipelines.forEach(element => {
         let processors = '';
         if (element.processors) {
-          const limitData = element.processors.slice(0, 3);
-          for (const processor of limitData) {
+          for (const processor of element.processors) {
             if (processor.name !== '') {
               processors = `${processors} ${processor.name} \n`;
             } else {
               processors = `${processors} ${processor.type} \n`;
             }
-          }
-          if (limitData.length === 3) {
-            processors = `${processors} ...`;
           }
         }
         data.push({
