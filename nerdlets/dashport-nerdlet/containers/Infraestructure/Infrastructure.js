@@ -835,7 +835,10 @@ export default class Infrastructure extends React.Component {
                           'table__cell fontNormal flex flexCenterVertical h100 w100I',
                         sortable: false,
                         Cell: props => (
-                          <div className="h100 flex flexCenterVertical">
+                          <div
+                            className="h100 flex flexCenterVertical"
+                            style={{ lineHeight: '1.8em' }}
+                          >
                             {props.value}
                           </div>
                         )
