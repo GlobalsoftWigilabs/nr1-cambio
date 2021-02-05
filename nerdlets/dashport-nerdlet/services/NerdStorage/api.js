@@ -275,15 +275,15 @@ async function readDocumentSetup(accountId) {
 /**
  * Method that deletes the setup, ddFetch,ddDashboards, and DashboardData collections from NerdStorage
  */
-const deleteSetup = async (accountId) => {
+const deleteSetup = async accountId => {
   // Delete setup
   await AccountStorageMutation.mutate({
     accountId: accountId,
     actionType: AccountStorageMutation.ACTION_TYPE.DELETE_COLLECTION,
     collection: 'setup'
   });
-  await deletSecretKey("appkey");
-  await deletSecretKey("apikey");
+  await deletSecretKey('appkey');
+  await deletSecretKey('apikey');
   // Delete date fetch
   await AccountStorageMutation.mutate({
     accountId: accountId,
@@ -350,12 +350,12 @@ const deleteSetup = async (accountId) => {
       collection: nameApi
     });
   }
-}
+};
 
-const recoveDataDashboards = async (accountId) => {
+const recoveDataDashboards = async accountId => {
   // widgets in dashboards
-  let other = [];
-  let data = await readNerdStorageOnlyCollectionNoLogger(
+  const other = [];
+  const data = await readNerdStorageOnlyCollectionNoLogger(
     accountId,
     'Get a Dashboard'
   );
@@ -371,7 +371,7 @@ const recoveDataDashboards = async (accountId) => {
     }
   }
   return other;
-}
+};
 
 async function downloadJSON(enableButton) {
   const accountId = await loadAccountId();
@@ -843,7 +843,7 @@ async function downloadJSON(enableButton) {
       `dateFetch`
     );
     zip.file('dateFetch.json', JSON.stringify(dateFetch, null, 2));
-    zip.generateAsync({ type: 'blob' }).then(function (content) {
+    zip.generateAsync({ type: 'blob' }).then(function(content) {
       // see FileSaver.js
       saveAs(content, 'Datadog.zip');
     });
@@ -1476,7 +1476,7 @@ async function downloadCSV(enableButton) {
         throw err;
       }
       zip.file(`dateFetch.csv`, csv);
-      zip.generateAsync({ type: 'blob' }).then(function (content) {
+      zip.generateAsync({ type: 'blob' }).then(function(content) {
         // see FileSaver.js
         saveAs(content, 'Datadogcsv.zip');
       });
@@ -1496,8 +1496,8 @@ async function downloadCSV(enableButton) {
 }
 /**
  * Function that save in nerdstorage vault
- * @param {String} key 
- * @param {String} value 
+ * @param {String} key
+ * @param {String} value
  */
 async function writeSecretKey(key, value) {
   const gql = `
@@ -1521,11 +1521,13 @@ async function writeSecretKey(key, value) {
       key,
       value
     }
-  }).then((response) => {
-    return response.data.nerdStorageVaultWriteSecret;
-  }).catch(err => {
-    return err.message;
-  });
+  })
+    .then(response => {
+      return response.data.nerdStorageVaultWriteSecret;
+    })
+    .catch(err => {
+      return err.message;
+    });
 }
 
 /**
@@ -1543,11 +1545,13 @@ async function readSecretKeys() {
       }
     }
   }`;
-  const dataInside = await NerdGraphQuery.query({ query: gql }).then((response) => {
-    return response.data.actor.nerdStorageVault.secrets;
-  }).catch(err => {
-    return err.message;
-  });
+  const dataInside = await NerdGraphQuery.query({ query: gql })
+    .then(response => {
+      return response.data.actor.nerdStorageVault.secrets;
+    })
+    .catch(err => {
+      return err.message;
+    });
   return dataInside;
 }
 
@@ -1566,17 +1570,19 @@ async function readSingleSecretKey(key) {
       }
     }
   }`;
-  const dataInside = await NerdGraphQuery.query({ query: gql }).then((response) => {
-    return response.data.actor.nerdStorageVault.secret.value;
-  }).catch(err => {
-    return null;
-  });
+  const dataInside = await NerdGraphQuery.query({ query: gql })
+    .then(response => {
+      return response.data.actor.nerdStorageVault.secret.value;
+    })
+    .catch(() => {
+      return null;
+    });
   return dataInside;
 }
 
 /**
  * Function that delete key save in nerdstorage vault
- * @param {String} key 
+ * @param {String} key
  */
 async function deletSecretKey(key) {
   const gql = `
@@ -1598,11 +1604,13 @@ async function deletSecretKey(key) {
     variables: {
       key
     }
-  }).then((response) => {
-    return response;
-  }).catch(err => {
-    return err.message;
-  });
+  })
+    .then(response => {
+      return response;
+    })
+    .catch(err => {
+      return err.message;
+    });
 }
 
 export {

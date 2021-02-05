@@ -42,7 +42,7 @@ async function sendLogsSlack(logs, accountId) {
 function replaceErrors(key, value) {
   if (value instanceof Error) {
     const error = {};
-    Object.getOwnPropertyNames(value).forEach(function (key) {
+    Object.getOwnPropertyNames(value).forEach(function(key) {
       error[key] = value[key];
     });
     return error;

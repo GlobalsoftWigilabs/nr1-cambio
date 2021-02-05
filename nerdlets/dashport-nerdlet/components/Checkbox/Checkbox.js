@@ -32,4 +32,9 @@ const styleCheckedRadio = {
   backgroundRepeat: 'no-repeat'
 };
 
-export { styleChecked, styleUnChecked, styleDisabledChecked,styleCheckedRadio };
+export {
+  styleChecked,
+  styleUnChecked,
+  styleDisabledChecked,
+  styleCheckedRadio
+};

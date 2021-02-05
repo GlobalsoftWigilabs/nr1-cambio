@@ -21,8 +21,6 @@ import metricsIcon from '../../images/metrics.svg';
 import metricsIconA from '../../images/metricsA.svg';
 import syntheticsIcon from '../../images/synthetics.svg';
 import syntheticsIconA from '../../images/syntheticsA.svg';
-import accountsIcon from '../../images/accounts.svg';
-import accountsIconA from '../../images/accountsA.svg';
 
 const ACTIVE_COLOR = '#007E8A';
 const INACTIVE_COLOR = '#767B7F';
@@ -63,6 +61,14 @@ const ItemDivider = props => {
     </div>
   );
 };
+ItemDivider.propTypes = {
+  iconInactive: PropTypes.string.isRequired,
+  iconActive: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
+  selectedMenu: PropTypes.number.isRequired,
+  handleChangeMenu: PropTypes.number.isRequired,
+  identifier: PropTypes.number.isRequired
+};
 
 const Item = props => {
   const {
@@ -100,7 +106,14 @@ const Item = props => {
     </div>
   );
 };
-
+Item.propTypes = {
+  iconInactive: PropTypes.string.isRequired,
+  iconActive: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
+  selectedMenu: PropTypes.number.isRequired,
+  handleChangeMenu: PropTypes.number.isRequired,
+  identifier: PropTypes.number.isRequired
+};
 class Menu extends React.Component {
   constructor(props) {
     super(props);
@@ -128,7 +141,7 @@ class Menu extends React.Component {
           <ItemDivider
             identifier={0}
             handleChangeMenu={handleChangeMenu}
-            selectedMenu={selectedMenu} 
+            selectedMenu={selectedMenu}
             text="Setup"
             iconActive={setupIconA}
             iconInactive={setupIcon}

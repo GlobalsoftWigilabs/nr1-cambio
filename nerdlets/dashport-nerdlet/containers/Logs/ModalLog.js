@@ -5,6 +5,7 @@ import { Modal } from 'react-bootstrap';
 import closeIcon from '../../images/buttonOk.png';
 import pipeline from '../../images/pipelineAlert.png';
 import alert from '../../images/logNota.svg';
+import PropTypes from 'prop-types';
 
 function ModalLog(props) {
   const { hidden, _onClose, title } = props;
@@ -15,7 +16,7 @@ function ModalLog(props) {
       aria-labelledby="contained-modal-title-vcenter"
       dialogClassName="wSetup"
       style={{
-        marginTop: '5%',
+        marginTop: '5%'
       }}
     >
       <Modal.Body style={{ background: '#333333' }}>
@@ -43,12 +44,18 @@ function ModalLog(props) {
                   href="https://docs.datadoghq.com/account_management/api-app-keys/"
                   className="apiKeys--learnMore"
                   target="_blank"
+                  rel="noreferrer"
                 >
-                  <h4 style={{ color: '#F2C94C', fontSize: '14px' }}>Learn more</h4>
+                  <h4 style={{ color: '#F2C94C', fontSize: '14px' }}>
+                    Learn more
+                  </h4>
                 </a>
               </div>
             </div>
-            <img style={{ marginLeft: '15%', width: '70%', height: 'auto' }} src={pipeline} />
+            <img
+              style={{ marginLeft: '15%', width: '70%', height: 'auto' }}
+              src={pipeline}
+            />
             <div className="p20">
               <div className="answer" style={{ color: 'white' }}>
                 <h4 style={{ fontSize: '14px', color: 'white' }}>
@@ -76,5 +83,10 @@ function ModalLog(props) {
     </Modal>
   );
 }
+ModalLog.propTypes = {
+  title: PropTypes.string.isRequired,
+  _onClose: PropTypes.func.isRequired,
+  hidden: PropTypes.bool.isRequired
+};
 
 export default ModalLog;

@@ -1,14 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Tooltip, Button,Icon } from 'nr1';
+import { Button } from 'nr1';
 import { Formik, Form, Field } from 'formik';
 // Schemas
 import {
   DatadogTempSchema,
   DatadogSchema
 } from '../../constants/ValidationSchemas';
-// Images
-import datadogIcon from '../../images/datadog.svg';
 import datadogAIcon from '../../images/datadogA.svg';
 import stepOne from '../../images/stepOneIndicator.svg';
 import stepTwo from '../../images/stepTwoIndicator.svg';
@@ -16,11 +14,7 @@ import stepOneDisabled from '../../images/stepOneIndicatorDisabled.svg';
 import stepTwoDisabled from '../../images/stepTwoIndicatorDisabled.svg';
 import eyeIcon from '../../images/eyeIconGray.svg';
 import warningIcon from '../../images/warning.svg';
-import {
-  downloadJSON,
-  downloadCSV,
-  deleteSetup
-} from '../../services/NerdStorage/api';
+import { downloadJSON, downloadCSV } from '../../services/NerdStorage/api';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';
 import iconInformation from '../../images/information.svg';
 import ReactTooltip from 'react-tooltip';
@@ -47,6 +41,11 @@ const CustomInputComponent = ({ field, viewKeyAction, disabled, ...props }) => {
     </div>
   );
 };
+CustomInputComponent.propTypes = {
+  field: PropTypes.element,
+  viewKeyAction: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired
+};
 
 /**
  * Class that render the setup Container
@@ -71,7 +70,7 @@ export default class Setup extends React.Component {
   };
 
   _onClose = () => {
-    let actualValue = this.state.hidden;
+    const actualValue = this.state.hidden;
     this.setState({ hidden: !actualValue });
   };
 
@@ -117,6 +116,7 @@ export default class Setup extends React.Component {
               <a
                 href="https://docs.datadoghq.com/account_management/api-app-keys/"
                 className="apiKeys--learnMore fontSmall"
+                rel="noreferrer"
                 target="_blank"
               >
                 Learn more
@@ -141,7 +141,7 @@ export default class Setup extends React.Component {
                 }
                 onSubmit={(values, actions) => writeSetup(values, actions)}
               >
-                {({ errors, touched, submitForm, values, setFieldValue }) => (
+                {({ errors, touched, submitForm }) => (
                   <Form className="form__setup" autoComplete="off">
                     <div className="setup__textsFields">
                       <div className="setup__textfield">
@@ -155,13 +155,12 @@ export default class Setup extends React.Component {
                               <img
                                 height="10px"
                                 src={iconInformation}
-                                height="10px"
                                 className="apiKeys--iconInfo"
                               />
                             </a>
                             <ReactTooltip
                               id="custom-class-2"
-                              getContent={dataTip => (
+                              getContent={() => (
                                 <p>
                                   An API key is required by the Datadog Api to
                                   get the elements of your account.&nbsp;
@@ -206,13 +205,12 @@ export default class Setup extends React.Component {
                               <img
                                 height="10px"
                                 src={iconInformation}
-                                height="10px"
                                 className="apiKeys--iconInfo"
                               />
                             </a>
                             <ReactTooltip
                               id="custom-class"
-                              getContent={dataTip => (
+                              getContent={() => (
                                 <p>
                                   An Application key is required by the Datadog
                                   Api. It is used to log all requests made to
@@ -266,7 +264,7 @@ export default class Setup extends React.Component {
                           onClick={submitForm}
                           type={Button.TYPE.PRIMARY}
                           loading={writingSetup}
-                          disabled={setupComplete ? true : false}
+                          disabled={!!setupComplete}
                           className="buttonsSetup__buttonSave"
                         >
                           Validate
@@ -287,10 +285,14 @@ export default class Setup extends React.Component {
       case 2:
         return lastUpdate === 'never' ? (
           <div className="apiKeys__stepTwo">
-            <div className="stepTwo--title fontMedium"> Fetch Datadog Elements</div>
+            <div className="stepTwo--title fontMedium">
+              {' '}
+              Fetch Datadog Elements
+            </div>
             <div className="stepTwo__fetchSection">
-              <div className="flex flexCenterHorizontal flexCenterVertical"
-               style={{paddingLeft:"10px",paddingRight:"10px"}}
+              <div
+                className="flex flexCenterHorizontal flexCenterVertical"
+                style={{ paddingLeft: '10px', paddingRight: '10px' }}
               >
                 {fetchingData && (
                   <ProgressBar bgcolor="#007E8A" completed={completed} />
@@ -316,38 +318,57 @@ export default class Setup extends React.Component {
                   {lastUpdate}
                 </div>
               </div>
-              {fetchingData&&<div style={{paddingLeft:"10px",paddingRight:"10px"}}>
-                <div className="fetchSection__warningInfo flex flexCenterHorizontal">
-                  <div style={{width:"97%",marginTop:"3%"}}>
-                  <img
-                  style={{
-                    width: '20px',
-                    height: '20px'
-                   }}
-                  src={warningIcon}
-                 />
-                <span className="warningInfo--title fontNormal">Important Information</span>
-                <p className="warningInfo--description fontSmall">
-                                <span className="warningInfo--steps">This process may take more than 30 minutes.</span> <br />
-                                <span className="warningInfo--steps">This browser tab should not close until the process is complete.</span>  <br />
-                                <span className="warningInfo--steps">Your internet connection must be active to complete the process.</span>
-                            </p>
+              {fetchingData && (
+                <div style={{ paddingLeft: '10px', paddingRight: '10px' }}>
+                  <div className="fetchSection__warningInfo flex flexCenterHorizontal">
+                    <div style={{ width: '97%', marginTop: '3%' }}>
+                      <img
+                        style={{
+                          width: '20px',
+                          height: '20px'
+                        }}
+                        src={warningIcon}
+                      />
+                      <span className="warningInfo--title fontNormal">
+                        Important Information
+                      </span>
+                      <p className="warningInfo--description fontSmall">
+                        <span className="warningInfo--steps">
+                          This process may take more than 30 minutes.
+                        </span>{' '}
+                        <br />
+                        <span className="warningInfo--steps">
+                          This browser tab should not close until the process is
+                          complete.
+                        </span>{' '}
+                        <br />
+                        <span className="warningInfo--steps">
+                          Your internet connection must be active to complete
+                          the process.
+                        </span>
+                      </p>
+                    </div>
                   </div>
-
                 </div>
-              </div>}
+              )}
             </div>
           </div>
         ) : (
           <div className="apiKeys__stepTwo">
             <div className="stepTwo--title">Fetch Datadog Elements</div>
             <div className="stepTwo__fetchSection">
-              <div className="flex flexCenterHorizontal flexCenterVertical"
-              style={{paddingLeft:"10px",paddingRight:"10px"}}
+              <div
+                className="flex flexCenterHorizontal flexCenterVertical"
+                style={{ paddingLeft: '10px', paddingRight: '10px' }}
               >
-                {fetchingData? <ProgressBar bgcolor="#007E8A" completed={completed} /> :
-                  <ProgressBar bgcolor="#007E8A" completed={hasErrorFetch?completed:100} />
-                }
+                {fetchingData ? (
+                  <ProgressBar bgcolor="#007E8A" completed={completed} />
+                ) : (
+                  <ProgressBar
+                    bgcolor="#007E8A"
+                    completed={hasErrorFetch ? completed : 100}
+                  />
+                )}
               </div>
               <div className="flex flexCenterHorizontal flexCenterVertical">
                 <Button
@@ -369,26 +390,39 @@ export default class Setup extends React.Component {
                   {lastUpdate}
                 </div>
               </div>
-              {fetchingData&&<div style={{paddingLeft:"10px",paddingRight:"10px"}}>
-                <div className="fetchSection__warningInfo flex flexCenterHorizontal">
-                  <div style={{width:"97%",marginTop:"3%"}}>
-                  <img
-                  style={{
-                    width: '20px',
-                    height: '20px'
-                   }}
-                  src={warningIcon}
-                 />
-                <span className="warningInfo--title fontNormal">Important Information</span>
-                <p className="warningInfo--description fontSmall">
-                                <span className="warningInfo--steps">This process may take more than 30 minutes.</span> <br />
-                                <span className="warningInfo--steps">This browser tab should not close until the process is complete.</span>  <br />
-                                <span className="warningInfo--steps">Your internet connection must be active to complete the process.</span>
-                            </p>
+              {fetchingData && (
+                <div style={{ paddingLeft: '10px', paddingRight: '10px' }}>
+                  <div className="fetchSection__warningInfo flex flexCenterHorizontal">
+                    <div style={{ width: '97%', marginTop: '3%' }}>
+                      <img
+                        style={{
+                          width: '20px',
+                          height: '20px'
+                        }}
+                        src={warningIcon}
+                      />
+                      <span className="warningInfo--title fontNormal">
+                        Important Information
+                      </span>
+                      <p className="warningInfo--description fontSmall">
+                        <span className="warningInfo--steps">
+                          This process may take more than 30 minutes.
+                        </span>{' '}
+                        <br />
+                        <span className="warningInfo--steps">
+                          This browser tab should not close until the process is
+                          complete.
+                        </span>{' '}
+                        <br />
+                        <span className="warningInfo--steps">
+                          Your internet connection must be active to complete
+                          the process.
+                        </span>
+                      </p>
+                    </div>
                   </div>
-
                 </div>
-              </div>}
+              )}
             </div>
           </div>
         );
@@ -402,10 +436,7 @@ export default class Setup extends React.Component {
   render() {
     const {
       handlePlatformChange,
-      platformSelect,
       setupComplete,
-      handleChangeMenu,
-      lastUpdate,
       fetchingData,
       deleteSetup
     } = this.props;
@@ -419,7 +450,9 @@ export default class Setup extends React.Component {
                 <span className="step--title">Step</span>
                 <img src={stepOne} height="35px" />
               </div>
-              <span className="information--description fontMedium">{'Connect'}</span>
+              <span className="information--description fontMedium">
+                Connect
+              </span>
               <div
                 onClick={() => {
                   if (setupComplete && !deleteSetup) this.changeStep(2);
@@ -447,7 +480,7 @@ export default class Setup extends React.Component {
                   height="35px"
                 />
               </div>
-              <span className="information--description">{'Capture'}</span>
+              <span className="information--description">Capture</span>
             </div>
           )}
           <div className="content__setup">
@@ -499,9 +532,11 @@ Setup.propTypes = {
   apikey: PropTypes.string.isRequired,
   appkey: PropTypes.string.isRequired,
   lastUpdate: PropTypes.string.isRequired,
-  platformSelect: PropTypes.number,
   setupComplete: PropTypes.bool.isRequired,
   fetchingData: PropTypes.bool.isRequired,
   writingSetup: PropTypes.bool.isRequired,
-  completed: PropTypes.number.isRequired
+  completed: PropTypes.number.isRequired,
+  viewKeyAction: PropTypes.func.isRequired,
+  deleteSetup: PropTypes.func.isRequired,
+  hasErrorFetch: PropTypes.bool.isRequired
 };

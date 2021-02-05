@@ -13,7 +13,7 @@ const ProgressBar = props => {
   const fillerStyles = {
     height: '12px',
     transition: 'width 1s ease-in-out',
-    width: completed>0&&completed<=3?`${5}%`:`${completed}%`,
+    width: completed > 0 && completed <= 3 ? `${5}%` : `${completed}%`,
     backgroundColor: bgcolor,
     borderRadius: 'inherit',
     display: 'flex',

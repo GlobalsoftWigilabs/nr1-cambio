@@ -1,5 +1,5 @@
 import React from 'react';
-import { Spinner } from 'nr1';
+import { Spinner, logger } from 'nr1';
 import PropTypes from 'prop-types';
 import jsoncsv from 'json-2-csv';
 import { saveAs } from 'file-saver';
@@ -204,7 +204,7 @@ export default class Logs extends React.Component {
         });
       });
     } catch (error) {
-      console.log(error);
+      logger.error(error);
     }
   };
 

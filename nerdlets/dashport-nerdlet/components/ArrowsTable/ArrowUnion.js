@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const ArrowUnion = ({ colorArrowTwo, colorArrowOne }) => {
   return (
@@ -14,4 +15,10 @@ const ArrowUnion = ({ colorArrowTwo, colorArrowOne }) => {
     </svg>
   );
 };
+
+ArrowUnion.propTypes = {
+  colorArrowTwo: PropTypes.string.isRequired,
+  colorArrowOne: PropTypes.string.isRequired
+};
+
 export default ArrowUnion;

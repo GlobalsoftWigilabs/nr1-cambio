@@ -1,10 +1,12 @@
+import { logger } from 'nr1';
+
 class DatadogService {
   constructor(datadogClient) {
     this.client = datadogClient;
   }
 
   async fetchMetrics(from, maxGroups = null, updateProgress = null) {
-    console.log('INIT FETCH METRICS');
+    logger.log('INIT FETCH METRICS');
     const metrics = [];
     const metricsByGroup = 10;
     const groups = [];
@@ -15,7 +17,7 @@ class DatadogService {
     const response = await this.client.getActiveMetricList(from).catch(err => {
       throw err;
     });
-    console.log('getActiveMetricList END');
+    logger.log('getActiveMetricList END');
 
     if (response) {
       if (updateProgress) {

@@ -2,7 +2,7 @@ import React from 'react';
 import { Spinner, Tooltip } from 'nr1';
 import ArrowUnion from '../../components/ArrowsTable/ArrowUnion';
 import PropTypes from 'prop-types';
-import SearchInput, { createFilter } from 'react-search-input';
+import SearchInput from 'react-search-input';
 import { BsSearch } from 'react-icons/bs';
 import iconDownload from '../../images/download.svg';
 import ReactTable from 'react-table-v6';

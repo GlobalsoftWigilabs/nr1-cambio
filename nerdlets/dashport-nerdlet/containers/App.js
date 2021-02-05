@@ -47,7 +47,6 @@ export default class App extends React.Component {
     this.state = {
       // CONFIGURATION
       accountId: null,
-      platformSelect: 0,
       apiserver: '',
       apikey: '',
       apikeyS: '***',
@@ -1945,7 +1944,7 @@ export default class App extends React.Component {
       const { appkey, apikey } = values;
       let region = 'com';
       let validKeys = await DD.validateKeys(apikey, appkey, 'com');
-      if (!validKeys.appkey && !validKeys.apikey){
+      if (!validKeys.appkey && !validKeys.apikey) {
         validKeys = await DD.validateKeys(apikey, appkey, 'eu');
         region = 'eu';
       }
@@ -1995,7 +1994,7 @@ export default class App extends React.Component {
               data,
               this.reportLogFetch
             )
-              .then(({ data }) => {
+              .then(() => {
                 const datadogService = this.createDatadogServiceInstance(
                   apikey,
                   appkey,
@@ -2102,10 +2101,6 @@ export default class App extends React.Component {
     });
   };
 
-  handlePlatformChange = value => {
-    this.setState({ platformSelect: value });
-  };
-
   /**
    * Method that changes the component to render according to the selected menu option
    *
@@ -2132,7 +2127,6 @@ export default class App extends React.Component {
       appkeyS,
       lastUpdate,
       setupComplete,
-      platformSelect,
       completed,
       deleteSetup,
       dataDashboards,
@@ -2151,7 +2145,6 @@ export default class App extends React.Component {
           <Setup
             completed={completed}
             hasErrorFetch={hasErrorFetch}
-            platformSelect={platformSelect}
             setupComplete={setupComplete}
             deleteSetup={deleteSetup}
             viewKeyAction={this.viewKeyAction}
@@ -2166,7 +2159,6 @@ export default class App extends React.Component {
             fetchData={this.fetchData}
             writeSetup={this.writeSetup}
             openToast={this.openToast}
-            handleChangeMenu={this.handleChangeMenu}
           />
         );
       case 2:
