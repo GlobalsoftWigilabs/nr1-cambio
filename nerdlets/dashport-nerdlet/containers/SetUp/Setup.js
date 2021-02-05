@@ -42,7 +42,7 @@ const CustomInputComponent = ({ field, viewKeyAction, disabled, ...props }) => {
   );
 };
 CustomInputComponent.propTypes = {
-  field: PropTypes.element,
+  field: PropTypes.object,
   viewKeyAction: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired
 };
@@ -523,7 +523,6 @@ export default class Setup extends React.Component {
 }
 
 Setup.propTypes = {
-  handlePlatformChange: PropTypes.func.isRequired,
   writeSetup: PropTypes.func.isRequired,
   openToast: PropTypes.func.isRequired,
   fetchData: PropTypes.func.isRequired,
@@ -537,6 +536,6 @@ Setup.propTypes = {
   writingSetup: PropTypes.bool.isRequired,
   completed: PropTypes.number.isRequired,
   viewKeyAction: PropTypes.func.isRequired,
-  deleteSetup: PropTypes.func.isRequired,
+  deleteSetup: PropTypes.bool.isRequired,
   hasErrorFetch: PropTypes.bool.isRequired
 };

@@ -65,7 +65,6 @@ export default class Metrics extends React.Component {
   componentDidMount() {
     const { metrics } = this.props;
     const { searchTermMetric, sortColumn } = this.state;
-
     const dataGraph = [];
     for (const metric of metrics) {
       metric.type = metric.type ? metric.type : 'unknow';
@@ -940,8 +939,14 @@ export default class Metrics extends React.Component {
                         sortable: false,
                         Cell: props => {
                           let hosts = '';
+                          if (props.value && props.value.length === 0)
+                            hosts = '-----';
                           for (const host of props.value) {
-                            hosts = `${hosts} ${host} \n`;
+                            if (hosts === '') {
+                              hosts = `${host} \n`;
+                            } else {
+                              hosts = `${hosts} ${host} \n`;
+                            }
                           }
                           return (
                             <div className="h100 flex flexCenterVertical ">

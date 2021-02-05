@@ -66,7 +66,7 @@ ItemDivider.propTypes = {
   iconActive: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   selectedMenu: PropTypes.number.isRequired,
-  handleChangeMenu: PropTypes.number.isRequired,
+  handleChangeMenu: PropTypes.func.isRequired,
   identifier: PropTypes.number.isRequired
 };
 
@@ -111,7 +111,7 @@ Item.propTypes = {
   iconActive: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   selectedMenu: PropTypes.number.isRequired,
-  handleChangeMenu: PropTypes.number.isRequired,
+  handleChangeMenu: PropTypes.func.isRequired,
   identifier: PropTypes.number.isRequired
 };
 class Menu extends React.Component {
