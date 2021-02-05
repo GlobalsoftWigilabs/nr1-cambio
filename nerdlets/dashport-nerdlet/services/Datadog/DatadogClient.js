@@ -24,7 +24,7 @@ class DatadogClient {
     let ret = null;
 
     const options = {
-      baseURL: `${this.proxyUrl}?https://api.datadoghq.${this.site}`,
+      baseURL: `${this.proxyUrl}https://api.datadoghq.${this.site}`,
       url: req.pathname,
       headers: this.makeHeaders(),
       method: req.method

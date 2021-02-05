@@ -28,7 +28,6 @@ import DatadogClient from '../services/Datadog/DatadogClient';
 import DatadogService from '../services/Datadog/DatadogService';
 import { Spinner, Toast } from 'nr1';
 
-const siteApi = 'com';
 /**
  * Class that render de dashboard
  *
@@ -49,7 +48,7 @@ export default class App extends React.Component {
       // CONFIGURATION
       accountId: null,
       platformSelect: 0,
-      apiserver: false,
+      apiserver: '',
       apikey: '',
       apikeyS: '***',
       appkeyS: '***',
@@ -167,11 +166,11 @@ export default class App extends React.Component {
    * @returns
    * @memberof App
    */
-  createDatadogServiceInstance(keyApi, keyApp) {
+  createDatadogServiceInstance(keyApi, keyApp, region) {
     const datadogClient = new DatadogClient(
       keyApi,
       keyApp,
-      siteApi,
+      region,
       this.reportLogFetch
     );
     return new DatadogService(datadogClient);
@@ -210,7 +209,8 @@ export default class App extends React.Component {
       if (keyApi && keyApp) {
         const datadogService = this.createDatadogServiceInstance(
           keyApi,
-          keyApp
+          keyApp,
+          dataSetup.apiserver
         );
 
         this.setState({
@@ -219,7 +219,7 @@ export default class App extends React.Component {
           apikeyS: dataSetup.apikeyS,
           appkey: keyApp,
           appkeyS: dataSetup.appkeyS,
-          apiserver: dataSetup.apiserver === '.eu',
+          apiserver: dataSetup.apiserver,
           datadogService: datadogService
         });
         const dateFetch = await readNerdStorage(
@@ -1040,7 +1040,7 @@ export default class App extends React.Component {
     const DDConfig = {
       DD_API_KEY: apikey,
       DD_APP_KEY: appkey,
-      DD_EU: apiserver === '.eu',
+      DD_SITE: apiserver,
       DD_SUMMARY: 'DashportData'
     };
     await DD.callApis(
@@ -1943,16 +1943,17 @@ export default class App extends React.Component {
       this.setState({ writingSetup: true });
       const { accountId } = this.state;
       const { appkey, apikey } = values;
-      let region = '.com';
-      if (values.apiserver) {
-        region = '.eu';
+      let region = 'com';
+      let validKeys = await DD.validateKeys(apikey, appkey, 'com');
+      if (!validKeys.appkey && !validKeys.apikey){
+        validKeys = await DD.validateKeys(apikey, appkey, 'eu');
+        region = 'eu';
       }
       const data = {
         apiserver: region,
         apikeyS: '*'.repeat(apikey.length),
         appkeyS: '*'.repeat(appkey.length)
       };
-      const validKeys = await DD.validateKeys(apikey, appkey);
       if (validKeys.apikey) {
         if (validKeys.appkey) {
           // guardar en el vault
@@ -1997,7 +1998,8 @@ export default class App extends React.Component {
               .then(({ data }) => {
                 const datadogService = this.createDatadogServiceInstance(
                   apikey,
-                  appkey
+                  appkey,
+                  region
                 );
 
                 this.setState({
@@ -2006,7 +2008,7 @@ export default class App extends React.Component {
                   appkey: appkey,
                   apikeyS: '*'.repeat(apikey.length),
                   appkeyS: '*'.repeat(appkey.length),
-                  apiserver: data.nerdStorageWriteDocument.apiserver === '.eu',
+                  apiserver: region,
                   setupComplete: true,
                   lastUpdate: 'never',
                   datadogService: datadogService
@@ -2087,7 +2089,7 @@ export default class App extends React.Component {
             this.setState({
               apikey: '',
               appkey: '',
-              apiserver: false,
+              apiserver: '',
               lastUpdate: '',
               setupComplete: false,
               writingSetup: false,
@@ -2128,7 +2130,6 @@ export default class App extends React.Component {
       apikeyS,
       appkey,
       appkeyS,
-      apiserver,
       lastUpdate,
       setupComplete,
       platformSelect,
@@ -2155,7 +2156,6 @@ export default class App extends React.Component {
             deleteSetup={deleteSetup}
             viewKeyAction={this.viewKeyAction}
             apikeyS={apikeyS}
-            apiserver={apiserver}
             fetchingData={fetchingData}
             apikey={apikey}
             appkey={appkey}

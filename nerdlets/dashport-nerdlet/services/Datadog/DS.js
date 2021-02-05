@@ -313,7 +313,6 @@ const _parseInfra = async (
       }
     }
     const totalActive = await functionReader('Host totals', 'Host totals-obj');
-    debugger;
     if (totalActive) {
       obj.data.totalActive = totalActive.total_active;
     } else {

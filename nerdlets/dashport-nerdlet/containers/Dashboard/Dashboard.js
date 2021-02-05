@@ -154,7 +154,8 @@ export default class Dashboard extends React.Component {
       dd.popularity = dd.popularity ? dd.popularity : 0;
       dd.widgetsCount = widgets.length;
       dd.autor = dd.autor !== '' ? dd.autor : '-----';
-      dd.description = dd.description !== '' ? dd.description : '-----';
+      dd.description =
+        dd.description && dd.description !== '' ? dd.description : '-----';
       let dashboardList = '';
       if (dd.dashboardList) {
         if (dd.dashboardList.length === 0) {

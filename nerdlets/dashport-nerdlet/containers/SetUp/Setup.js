@@ -501,7 +501,6 @@ Setup.propTypes = {
   lastUpdate: PropTypes.string.isRequired,
   platformSelect: PropTypes.number,
   setupComplete: PropTypes.bool.isRequired,
-  apiserver: PropTypes.bool.isRequired,
   fetchingData: PropTypes.bool.isRequired,
   writingSetup: PropTypes.bool.isRequired,
   completed: PropTypes.number.isRequired

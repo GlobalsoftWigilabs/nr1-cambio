@@ -37,7 +37,7 @@ const callApis = async (
       // configuracion de authenticacion
       config.API_KEY = cfg.DD_API_KEY;
       config.APP_KEY = cfg.DD_APP_KEY;
-      config.API_SITE = cfg.DD_EU ? 'eu' : 'com';
+      config.API_SITE = cfg.DD_SITE;
       let obj = null;
       const list = _getPartentList(endpoints);
       for (let i = 0; i < list.length; i++) {
@@ -486,13 +486,13 @@ const _filterQueryParams = (queryString, filter) => {
  * @param {String} appKey Application key
  * @returns bool
  */
-const validateKeys = async (apikey, appkey) => {
+const validateKeys = async (apikey, appkey, site) => {
   const validation = {
     apikey: false,
     appkey: false
   };
   let options = {
-    baseURL: `${configuration.proxy}https://api.datadoghq.com`,
+    baseURL: `${configuration.proxy}https://api.datadoghq.${site}`,
     headers: {
       'DD-API-KEY': apikey
     },
@@ -507,7 +507,7 @@ const validateKeys = async (apikey, appkey) => {
       validation.apikey = false;
     });
   options = {
-    baseURL: `${configuration.proxy}https://api.datadoghq.com`,
+    baseURL: `${configuration.proxy}https://api.datadoghq.${site}`,
     headers: {
       'Content-Type': 'application/json',
       'DD-API-KEY': apikey,
@@ -711,7 +711,8 @@ const getPageUser = async (page, reportLog) => {
 
 const getMonitorDetails = async (id, reportLog) => {
   let ret = null;
-  let endpoint = 'https://api.datadoghq.com/api/v1/monitor/{{monitor_id}}';
+  let endpoint =
+    'https://api.datadoghq.{{datadog_site}}/api/v1/monitor/{{monitor_id}}';
   endpoint = endpoint.replace('{{monitor_id}}', id);
   const headers = [
     {
@@ -775,7 +776,7 @@ const getMonitorDetails = async (id, reportLog) => {
 const getVariableDetails = async (id, reportLog) => {
   let ret = null;
   let endpoint =
-    'https://api.datadoghq.com/api/v1/synthetics/variables/{variable_id}';
+    'https://api.datadoghq.{{datadog_site}}/api/v1/synthetics/variables/{variable_id}';
   endpoint = endpoint.replace('{variable_id}', id);
   const headers = [
     {

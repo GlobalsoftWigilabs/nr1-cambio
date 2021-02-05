@@ -38,7 +38,6 @@ export default class Logs extends React.Component {
     if (logsData.pipelines) {
       const data = [];
       logsData.pipelines.forEach(element => {
-        debugger
         let processors = '';
         if (element.processors) {
           for (const processor of element.processors) {
