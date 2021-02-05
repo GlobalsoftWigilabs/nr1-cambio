@@ -1,14 +1,14 @@
 {
   "tagline": "Datadog new relic migration",
-  "details": "Dashport allows you to connect to the Datadog API and show you important information such as your Dashboards, Alerts, integrations and much more",
-  "repository": "https://github.com/GlobalsoftWigilabs/dashport-nerdlet.git",
+  "details": "Cambio allows you to connect to the Datadog API and show you important information such as your Dashboards, Alerts, integrations and much more",
+  "repository": "https://github.com/GlobalsoftWigilabs/nr-cambio.git",
   "whatsNew": "This is awesome tool for datadog migration to new relic",
   "support": {
     "email": {
       "address": ""
     },
     "issues": {
-      "url": "https://github.com/GlobalsoftWigilabs/dashport-nerdlet/issues/new"
+      "url": "https://github.com/GlobalsoftWigilabs/nr-cambio/issues/new"
     },
     "community": {
       "url": ""

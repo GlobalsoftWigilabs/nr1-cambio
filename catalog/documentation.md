@@ -1,17 +1,13 @@
-
-# Dashport
+# Cambio
 
 Datadog - new relic migration
 
   
 
-Dashport allows you to connect to the Datadog API and show you important information such as your Dashboards, Alerts, integrations and much more
-
-## About nerdlet
-This nerdlet uses a proxy server to put the headers cors its link is this: https://long-meadow-1713.rsamanez.workers.dev/?
+Cambio allows you to connect to the Datadog API and show you important information such as your Dashboards, Alerts, integrations and much more
 
 
-## Getting started
+## Install
 
 First, ensure that you have [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [NPM](https://www.npmjs.com/get-npm) installed. If you're unsure whether you have one or both of them installed, run the following command(s) (If you have them installed these commands will return a version number, if not, the commands won't be recognized):
 
@@ -37,17 +33,36 @@ Next, to clone this repository and run the code locally against your New Relic d
 
 ```bash
 
-nr1 nerdpack:clone -r https://github.com/GlobalsoftWigilabs/Dashport
+nr1 nerdpack:clone -r https://github.com/GlobalsoftWigilabs/nr-cambio
 
-cd Dashport
-
-nr1 nerdpack:serve
+cd nr-cambio
 
 ```
 
-  
+This nerdlet has a configuration file located at:
+
+**nerdlets / cambio-nerdlet / services**
+
+Where should be placed a proxy address (configured to resolve the cors block) and an access link to the microsoft teams webhook for messages sent from the support form.
+
+ e.g:
+```
+{
+    "proxy":"https://long-meadow-1713.rsamanez.workers.dev/?",
+    "webhook_url_teams":"https://outlook.office.com/webhook/........"
+}
+```
+Execute the following commands:
+
+```
+nr1 nerdpack:uuid -gf
+
+nr1 nerdpack:serve
+```
 
 Visit [https://one.newrelic.com/?nerdpacks=local](https://one.newrelic.com/?nerdpacks=local), navigate to the Nerdpack, and :sparkles:
+
+  
 
 ## Deploying this Nerdpack
 
@@ -82,3 +97,10 @@ nr1 nerdpack:subscribe [-c [DEV|BETA|STABLE]] [--profile=your_profile_name]
   
 
 Visit [https://one.newrelic.com](https://one.newrelic.com), navigate to the Nerdpack, and :sparkles:
+
+
+
+## License
+
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
