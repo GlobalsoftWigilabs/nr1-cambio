@@ -28,7 +28,6 @@ import DatadogClient from '../services/Datadog/DatadogClient';
 import DatadogService from '../services/Datadog/DatadogService';
 import { Spinner, Toast } from 'nr1';
 
-const proxyUrl = 'https://long-meadow-1713.rsamanez.workers.dev';
 const siteApi = 'com';
 /**
  * Class that render de dashboard
@@ -77,6 +76,8 @@ export default class App extends React.Component {
       // INFRASTRUCTURE
       infrastructureDataGraph: [],
       infraestructureList: [],
+      totalActive: 0,
+      total: 0,
       // LOGS
       logsData: {
         archives: [],
@@ -171,7 +172,6 @@ export default class App extends React.Component {
       keyApi,
       keyApp,
       siteApi,
-      proxyUrl,
       this.reportLogFetch
     );
     return new DatadogService(datadogClient);
@@ -427,7 +427,7 @@ export default class App extends React.Component {
             types.push(iterator);
           }
         }
-        const { total } = infraestructureObj.data;
+        const { total, totalActive } = infraestructureObj.data;
         const hostsData = [];
         for (const type of types) {
           hostsData.push({
@@ -438,7 +438,9 @@ export default class App extends React.Component {
         }
         this.setState({
           infrastructureDataGraph: hostsData,
-          infraestructureList: hostList
+          infraestructureList: hostList,
+          totalActive,
+          total
         });
       }
       if (fetchingData) {
@@ -2138,7 +2140,9 @@ export default class App extends React.Component {
       emptyData,
       errorMetric,
       hasErrorFetch,
-      historyUpdateMetric
+      historyUpdateMetric,
+      total,
+      totalActive
     } = this.state;
     switch (selectedMenu) {
       case 0:
@@ -2182,6 +2186,8 @@ export default class App extends React.Component {
           <Infrastructure
             infrastructureDataGraph={infrastructureDataGraph}
             infraestructureList={infraestructureList}
+            total={total}
+            totalActive={totalActive}
           />
         );
       case 5:

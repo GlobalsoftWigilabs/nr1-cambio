@@ -1,12 +1,14 @@
 import axios from 'axios';
+import configuration from '../configuration.json';
+
 const queryString = require('query-string');
 
 class DatadogClient {
-  constructor(apiKey, applicationKey, site, proxyUrl, reportLog) {
+  constructor(apiKey, applicationKey, site, reportLog) {
     this.apiKey = apiKey;
     this.applicationKey = applicationKey;
     this.site = site;
-    this.proxyUrl = proxyUrl;
+    this.proxyUrl = configuration.proxy;
     this.reportLog = reportLog;
   }
 
@@ -60,8 +62,10 @@ class DatadogClient {
         }
       } else if (error.request) {
         // The request was made but no response was received
+        throw error;
       } else {
         // Something happened in setting up the request that triggered an Error
+        throw error;
       }
     });
     return ret;

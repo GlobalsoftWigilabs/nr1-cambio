@@ -3,8 +3,12 @@ import moment from 'moment';
 
 import endpoints from './data/formatted_endpoints.json';
 import cpanel from './data/cpanel.json';
-import dashboardsList from './data/dashboards.json';
-import metrics from './data/metrics.json';
+
+// Imports for test
+// import dashboardsList from './data/dashboards.json';
+// import metrics from './data/metrics.json';
+
+import configuration from '../configuration.json';
 
 const config = {
   API_KEY: null,
@@ -20,13 +24,14 @@ const callApis = async (
   datadogService
 ) => {
   if (ENABLE_LOAD_TEST) {
-    const dashboardsData = loadDashboards(6, dashboardsList);
-    const metricsData = loadDashboards(6, metrics.metrics);
-    let cantidadWidgets = 0;
-    for (const iterator of dashboardsData) {
-      cantidadWidgets += iterator.data.widgets.length;
-    }
-    // await callbackDataWritter('Monitors meta', dashboardsList);
+    // SPACE FOR TEST LOAD FOR NERDLET
+    // const dashboardsData = loadDashboards(6, dashboardsList);
+    // const metricsData = loadDashboards(6, metrics.metrics);
+    //  let cantidadWidgets = 0;
+    // for (const iterator of dashboardsData) {
+    //   cantidadWidgets += iterator.data.widgets.length;
+    // }
+    //  await callbackDataWritter('Monitors meta', dashboardsList);
   } else {
     try {
       // configuracion de authenticacion
@@ -371,9 +376,8 @@ const _callApi = async (info, reportLog) => {
   const end_ts = Math.floor(new Date() / 1000);
   const start_ts = end_ts - 60 * 60;
 
-  const proxyUrl = 'https://long-meadow-1713.rsamanez.workers.dev/?';
   const options = {
-    baseURL: `${proxyUrl + info.proto}://${info.host.replace(
+    baseURL: `${configuration.proxy + info.proto}://${info.host.replace(
       '{{datadog_site}}',
       config.API_SITE
     )}`,
@@ -416,8 +420,10 @@ const _callApi = async (info, reportLog) => {
       }
     } else if (error.request) {
       // The request was made but no response was received
+      throw error;
     } else {
       // Something happened in setting up the request that triggered an Error
+      throw error;
     }
   });
   return ret;
@@ -486,8 +492,7 @@ const validateKeys = async (apikey, appkey) => {
     appkey: false
   };
   let options = {
-    baseURL:
-      'https://long-meadow-1713.rsamanez.workers.dev/?https://api.datadoghq.com',
+    baseURL: `${configuration.proxy}https://api.datadoghq.com`,
     headers: {
       'DD-API-KEY': apikey
     },
@@ -502,8 +507,7 @@ const validateKeys = async (apikey, appkey) => {
       validation.apikey = false;
     });
   options = {
-    baseURL:
-      'https://long-meadow-1713.rsamanez.workers.dev/?https://api.datadoghq.com',
+    baseURL: `${configuration.proxy}https://api.datadoghq.com`,
     headers: {
       'Content-Type': 'application/json',
       'DD-API-KEY': apikey,
@@ -523,10 +527,9 @@ const validateKeys = async (apikey, appkey) => {
 };
 
 const getMonitorsPage = async (info, page, reportLog) => {
-  const proxyUrl = 'https://long-meadow-1713.rsamanez.workers.dev/?';
   let ret = null;
   const options = {
-    baseURL: `${proxyUrl + info.proto}://${info.host.replace(
+    baseURL: `${configuration.proxy + info.proto}://${info.host.replace(
       '{{datadog_site}}',
       config.API_SITE
     )}`,
@@ -566,14 +569,15 @@ const getMonitorsPage = async (info, page, reportLog) => {
       }
     } else if (error.request) {
       // The request was made but no response was received
+      throw error;
     } else {
       // Something happened in setting up the request that triggered an Error
+      throw error;
     }
   });
   return ret;
 };
 const getManualDashboard = async (id, reportLog) => {
-  const proxyUrl = 'https://long-meadow-1713.rsamanez.workers.dev/?';
   let ret = null;
   let endpoint =
     'https://api.datadoghq.{{datadog_site}}/api/v2/dashboard/lists/manual/{{id}}/dashboards';
@@ -593,7 +597,7 @@ const getManualDashboard = async (id, reportLog) => {
     }
   ];
   const options = {
-    baseURL: `${proxyUrl}${endpoint.replace(
+    baseURL: `${configuration.proxy}${endpoint.replace(
       '{{datadog_site}}',
       config.API_SITE
     )}`,
@@ -608,7 +612,7 @@ const getManualDashboard = async (id, reportLog) => {
         const response = {
           message: error.response.data.errors
             ? error.response.data.errors[0]
-            : `${error.response.status} - ${info.pathname}`,
+            : `${error.response.status} - /api/v2/dashboard/lists/manual/`,
           type: 'Warning',
           event: 'Fetch',
           date: new Date().toLocaleString()
@@ -619,7 +623,7 @@ const getManualDashboard = async (id, reportLog) => {
         const response = {
           message: error.response.data.errors
             ? error.response.data.errors[0]
-            : `${error.response.status} - ${info.pathname}`,
+            : `${error.response.status} - /api/v2/dashboard/lists/manual/`,
           type: 'Error',
           event: 'Fetch',
           date: new Date().toLocaleString()
@@ -629,15 +633,16 @@ const getManualDashboard = async (id, reportLog) => {
       }
     } else if (error.request) {
       // The request was made but no response was received
+      throw error;
     } else {
       // Something happened in setting up the request that triggered an Error
+      throw error;
     }
   });
   return ret;
 };
 
 const getPageUser = async (page, reportLog) => {
-  const proxyUrl = 'https://long-meadow-1713.rsamanez.workers.dev/?';
   let ret = null;
   const endpoint =
     'https://api.datadoghq.{{datadog_site}}/api/v2/users?page[size]=100';
@@ -656,7 +661,7 @@ const getPageUser = async (page, reportLog) => {
     }
   ];
   const options = {
-    baseURL: `${proxyUrl}${endpoint.replace(
+    baseURL: `${configuration.proxy}${endpoint.replace(
       '{{datadog_site}}',
       config.API_SITE
     )}`,
@@ -674,7 +679,7 @@ const getPageUser = async (page, reportLog) => {
         const response = {
           message: error.response.data.errors
             ? error.response.data.errors[0]
-            : `${error.response.status} - ${info.pathname}`,
+            : `${error.response.status} - /api/v2/users}`,
           type: 'Warning',
           event: 'Fetch',
           date: new Date().toLocaleString()
@@ -685,7 +690,7 @@ const getPageUser = async (page, reportLog) => {
         const response = {
           message: error.response.data.errors
             ? error.response.data.errors[0]
-            : `${error.response.status} - ${info.pathname}`,
+            : `${error.response.status} - /api/v2/users`,
           type: 'Error',
           event: 'Fetch',
           date: new Date().toLocaleString()
@@ -695,15 +700,16 @@ const getPageUser = async (page, reportLog) => {
       }
     } else if (error.request) {
       // The request was made but no response was received
+      throw error;
     } else {
       // Something happened in setting up the request that triggered an Error
+      throw error;
     }
   });
   return ret;
 };
 
 const getMonitorDetails = async (id, reportLog) => {
-  const proxyUrl = 'https://long-meadow-1713.rsamanez.workers.dev/?';
   let ret = null;
   let endpoint = 'https://api.datadoghq.com/api/v1/monitor/{{monitor_id}}';
   endpoint = endpoint.replace('{{monitor_id}}', id);
@@ -722,7 +728,7 @@ const getMonitorDetails = async (id, reportLog) => {
     }
   ];
   const options = {
-    baseURL: `${proxyUrl}${endpoint.replace(
+    baseURL: `${configuration.proxy}${endpoint.replace(
       '{{datadog_site}}',
       config.API_SITE
     )}`,
@@ -737,7 +743,7 @@ const getMonitorDetails = async (id, reportLog) => {
         const response = {
           message: error.response.data.errors
             ? error.response.data.errors[0]
-            : `${error.response.status} - ${info.pathname}`,
+            : `${error.response.status} - /api/v1/monitor/`,
           type: 'Warning',
           event: 'Fetch',
           date: new Date().toLocaleString()
@@ -748,7 +754,7 @@ const getMonitorDetails = async (id, reportLog) => {
         const response = {
           message: error.response.data.errors
             ? error.response.data.errors[0]
-            : `${error.response.status} - ${info.pathname}`,
+            : `${error.response.status} - /api/v1/monitor/`,
           type: 'Error',
           event: 'Fetch',
           date: new Date().toLocaleString()
@@ -758,14 +764,15 @@ const getMonitorDetails = async (id, reportLog) => {
       }
     } else if (error.request) {
       // The request was made but no response was received
+      throw error;
     } else {
       // Something happened in setting up the request that triggered an Error
+      throw error;
     }
   });
   return ret;
 };
 const getVariableDetails = async (id, reportLog) => {
-  const proxyUrl = 'https://long-meadow-1713.rsamanez.workers.dev/?';
   let ret = null;
   let endpoint =
     'https://api.datadoghq.com/api/v1/synthetics/variables/{variable_id}';
@@ -785,7 +792,7 @@ const getVariableDetails = async (id, reportLog) => {
     }
   ];
   const options = {
-    baseURL: `${proxyUrl}${endpoint.replace(
+    baseURL: `${configuration.proxy}${endpoint.replace(
       '{{datadog_site}}',
       config.API_SITE
     )}`,
@@ -800,7 +807,7 @@ const getVariableDetails = async (id, reportLog) => {
         const response = {
           message: error.response.data.errors
             ? error.response.data.errors[0]
-            : `${error.response.status} - ${info.pathname}`,
+            : `${error.response.status} - /api/v1/synthetics/variables/`,
           type: 'Warning',
           event: 'Fetch',
           date: new Date().toLocaleString()
@@ -811,7 +818,7 @@ const getVariableDetails = async (id, reportLog) => {
         const response = {
           message: error.response.data.errors
             ? error.response.data.errors[0]
-            : `${error.response.status} - ${info.pathname}`,
+            : `${error.response.status} - /api/v1/synthetics/variables/`,
           type: 'Error',
           event: 'Fetch',
           date: new Date().toLocaleString()
@@ -821,8 +828,10 @@ const getVariableDetails = async (id, reportLog) => {
       }
     } else if (error.request) {
       // The request was made but no response was received
+      throw error;
     } else {
       // Something happened in setting up the request that triggered an Error
+      throw error;
     }
   });
   return ret;
@@ -837,10 +846,9 @@ const loadDashboards = (numberRepition, source) => {
 };
 
 const getHosPage = async (info, start, count, reportLog) => {
-  const proxyUrl = 'https://long-meadow-1713.rsamanez.workers.dev/?';
   let ret = null;
   const options = {
-    baseURL: `${proxyUrl + info.proto}://${info.host.replace(
+    baseURL: `${configuration.proxy + info.proto}://${info.host.replace(
       '{{datadog_site}}',
       config.API_SITE
     )}`,
@@ -881,8 +889,10 @@ const getHosPage = async (info, start, count, reportLog) => {
       }
     } else if (error.request) {
       // The request was made but no response was received
+      throw error;
     } else {
       // Something happened in setting up the request that triggered an Error
+      throw error;
     }
   });
   return ret;

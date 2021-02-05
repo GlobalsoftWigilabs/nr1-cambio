@@ -263,6 +263,7 @@ const _parseInfra = async (
     view: 'infrastructure',
     data: {
       total: 0,
+      totalActive: 0,
       hostList: [],
       types: []
     }
@@ -310,6 +311,13 @@ const _parseInfra = async (
           }
         }
       }
+    }
+    const totalActive = await functionReader('Host totals', 'Host totals-obj');
+    debugger;
+    if (totalActive) {
+      obj.data.totalActive = totalActive.total_active;
+    } else {
+      obj.data.totalActive = obj.data.total;
     }
   } catch (error) {
     const response = {
