@@ -189,9 +189,9 @@ export default class Setup extends React.Component {
                           disabled={setupComplete}
                         />
                         {errors.apikey && touched.apikey ? (
-                          <div style={{ color: 'red' }}>{errors.apikey}</div>
+                          <div className="fontNormal" style={{ color: 'red' }}>{errors.apikey}</div>
                         ) : (
-                          <div style={{ color: 'white' }}>....</div>
+                          <div className="fontNormal" style={{ color: 'white' }}>....</div>
                         )}
                       </div>
                       <div className="setup__textfield">
@@ -240,9 +240,9 @@ export default class Setup extends React.Component {
                           disabled={setupComplete}
                         />
                         {errors.appkey && touched.appkey ? (
-                          <div style={{ color: 'red' }}>{errors.appkey}</div>
+                          <div className="fontNormal" style={{ color: 'red' }}>{errors.appkey}</div>
                         ) : (
-                          <div style={{ color: 'white' }}>....</div>
+                          <div className="fontNormal" style={{ color: 'white' }}>....</div>
                         )}
                       </div>
                     </div>
