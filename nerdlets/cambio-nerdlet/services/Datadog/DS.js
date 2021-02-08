@@ -399,6 +399,29 @@ const _parseLogs = async (
     // }
 
     // pipelines
+    sizeData = await functionReaderCollection('Get Pipeline Order');
+    data = [];
+    const dataOrder = [];
+    for (let i = 0; i < sizeData.length; i++) {
+      let listo = [];
+      listo = await functionReader(
+        'Get Pipeline Order',
+        `Get Pipeline Order-${i}`
+      );
+      for (const iterator of listo) {
+        data.push(iterator);
+      }
+    }
+    if (data && data instanceof Array) {
+      let value = 1;
+      for (const order of data) {
+        dataOrder.push({
+          id: order,
+          value: value
+        });
+        value++;
+      }
+    }
     obj.data.pipelinesStatus = await functionReader(
       'Get all Pipelines',
       'Get all Pipelines-obj'
@@ -415,7 +438,12 @@ const _parseLogs = async (
         data.push(iterator);
       }
     }
+
     if (data) {
+      for (const pipeline of data) {
+        const order = dataOrder.find(obj => obj.id === pipeline.id);
+        pipeline.order = order.value;
+      }
       obj.data.pipelines = data;
     }
   } catch (error) {

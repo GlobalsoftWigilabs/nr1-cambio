@@ -53,7 +53,8 @@ export default class Logs extends React.Component {
           enabled: element.is_enabled,
           type: element.type,
           processors: processors,
-          dataProcessors: element.processors
+          dataProcessors: element.processors,
+          order: element.order
         });
       });
       this.setState({

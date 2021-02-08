@@ -136,8 +136,7 @@ export default class TablePipelines extends React.Component {
       valueTwo = 1;
     }
     switch (column) {
-      case 'name':
-        // eslint-disable-next-line no-case-declarations
+      case 'name': {
         const sortName = finalList.sort(function(a, b) {
           if (a.name > b.name) {
             return valueOne;
@@ -148,8 +147,8 @@ export default class TablePipelines extends React.Component {
           return 0;
         });
         return sortName;
-      case 'enabled':
-        // eslint-disable-next-line no-case-declarations
+      }
+      case 'enabled': {
         const sortEnabled = finalList.sort(function(a, b) {
           if (a.enabled > b.enabled) {
             return valueOne;
@@ -160,8 +159,8 @@ export default class TablePipelines extends React.Component {
           return 0;
         });
         return sortEnabled;
-      case 'type':
-        // eslint-disable-next-line no-case-declarations
+      }
+      case 'type': {
         const sortType = finalList.sort(function(a, b) {
           if (a.type > b.type) {
             return valueOne;
@@ -172,8 +171,8 @@ export default class TablePipelines extends React.Component {
           return 0;
         });
         return sortType;
-      case 'processors':
-        // eslint-disable-next-line no-case-declarations
+      }
+      case 'processors': {
         const sortProcessors = finalList.sort(function(a, b) {
           if (a.processors > b.processors) {
             return valueOne;
@@ -184,6 +183,19 @@ export default class TablePipelines extends React.Component {
           return 0;
         });
         return sortProcessors;
+      }
+      case 'order': {
+        const sortOrder = finalList.sort(function(a, b) {
+          if (a.order > b.order) {
+            return valueOne;
+          }
+          if (a.order < b.order) {
+            return valueTwo;
+          }
+          return 0;
+        });
+        return sortOrder;
+      }
       default:
         return finalList;
     }
@@ -272,7 +284,7 @@ export default class TablePipelines extends React.Component {
                       rowInfo && rowInfo.index % 2 ? '#F7F7F8' : 'white',
                     borderBottom: 'none',
                     display: 'grid',
-                    gridTemplate: '1fr / 33% 33% 34%'
+                    gridTemplate: '1fr / repeat(4,25%)'
                   }
                 };
               }}
@@ -297,7 +309,7 @@ export default class TablePipelines extends React.Component {
                     color: '#333333',
                     fontWeight: 'bold',
                     display: 'grid',
-                    gridTemplate: '1fr / 33% 33% 34%'
+                    gridTemplate: '1fr / repeat(4,25%)'
                   }
                 };
               }}
@@ -384,6 +396,47 @@ export default class TablePipelines extends React.Component {
                   ),
                   headerClassName: 'w100I',
                   accessor: 'enabled',
+                  className:
+                    'table__cell fontNormal flex flexCenterVertical h100 w100I',
+                  sortable: false,
+                  Cell: props => (
+                    <div className="h100 flex flexCenterVertical">
+                      {props.value ? `${props.value}` : '-----'}
+                    </div>
+                  )
+                },
+                {
+                  Header: () => (
+                    <div className="table__header fontSmall">
+                      <div
+                        className="pointer flex"
+                        onClick={() => {
+                          this.setSortColumn('order');
+                        }}
+                      >
+                        ORDER
+                        <div className="flexColumn table__sort">
+                          <ArrowUnion
+                            sortColumn={sortColumn}
+                            colorArrowOne={
+                              sortColumn.column === 'order' &&
+                              sortColumn.order === 'descent'
+                                ? 'black'
+                                : 'gray'
+                            }
+                            colorArrowTwo={
+                              sortColumn.column === 'order' &&
+                              sortColumn.order === 'ascendant'
+                                ? 'black'
+                                : 'gray'
+                            }
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ),
+                  headerClassName: 'w100I',
+                  accessor: 'order',
                   className:
                     'table__cell fontNormal flex flexCenterVertical h100 w100I',
                   sortable: false,
