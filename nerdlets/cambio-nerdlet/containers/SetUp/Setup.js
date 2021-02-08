@@ -189,9 +189,16 @@ export default class Setup extends React.Component {
                           disabled={setupComplete}
                         />
                         {errors.apikey && touched.apikey ? (
-                          <div className="fontNormal" style={{ color: 'red' }}>{errors.apikey}</div>
+                          <div className="fontNormal" style={{ color: 'red' }}>
+                            {errors.apikey}
+                          </div>
                         ) : (
-                          <div className="fontNormal" style={{ color: 'white' }}>....</div>
+                          <div
+                            className="fontNormal"
+                            style={{ color: 'white' }}
+                          >
+                            ....
+                          </div>
                         )}
                       </div>
                       <div className="setup__textfield">
@@ -240,9 +247,16 @@ export default class Setup extends React.Component {
                           disabled={setupComplete}
                         />
                         {errors.appkey && touched.appkey ? (
-                          <div className="fontNormal" style={{ color: 'red' }}>{errors.appkey}</div>
+                          <div className="fontNormal" style={{ color: 'red' }}>
+                            {errors.appkey}
+                          </div>
                         ) : (
-                          <div className="fontNormal" style={{ color: 'white' }}>....</div>
+                          <div
+                            className="fontNormal"
+                            style={{ color: 'white' }}
+                          >
+                            ....
+                          </div>
                         )}
                       </div>
                     </div>
@@ -434,12 +448,7 @@ export default class Setup extends React.Component {
   };
 
   render() {
-    const {
-      handlePlatformChange,
-      setupComplete,
-      fetchingData,
-      deleteSetup
-    } = this.props;
+    const { setupComplete, fetchingData, deleteSetup } = this.props;
     const { stepActive, hidden } = this.state;
     return (
       <div className="mainSetup">
@@ -489,9 +498,6 @@ export default class Setup extends React.Component {
                 className="setup__iconOfPlatafform"
                 style={{ border: '1px solid #007E8A' }}
                 key={0}
-                onClick={() => {
-                  handlePlatformChange(stepActive);
-                }}
               >
                 <div className="iconOfPlatafform__content">
                   <img width="46px" height="46px" src={datadogAIcon} />
