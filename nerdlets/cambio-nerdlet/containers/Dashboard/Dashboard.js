@@ -145,6 +145,11 @@ export default class Dashboard extends React.Component {
       for (const widget of dd.widgets) {
         if (widget.definition.type === 'group') {
           widgets.push(widget);
+          if (widget.definition && widget.definition.widgets instanceof Array) {
+            for (const widgetG of widget.definition.widgets) {
+              widgetG.haveGroup = true;
+            }
+          }
           widgets = widgets.concat(widget.definition.widgets);
         } else {
           widgets.push(widget);

@@ -31,6 +31,7 @@ export default class TableWidgets extends React.Component {
         title: iterator.definition.title ? iterator.definition.title : '-----',
         query: this.returnQuery(iterator.definition),
         type: iterator.definition.type,
+        haveGroup: iterator.haveGroup ?? false,
         queryParameters: this.returnParams(iterator.definition),
         source: this.returnParams(iterator.definition)
       });
@@ -372,7 +373,15 @@ export default class TableWidgets extends React.Component {
                             background: props.index % 2 ? '#F7F7F8' : 'white'
                           }}
                         >
-                          <span style={{ marginLeft: '15px' }}>{txtName}</span>
+                          <span
+                            style={{
+                              marginLeft: props.original.haveGroup
+                                ? '25px'
+                                : '15px'
+                            }}
+                          >
+                            {txtName}
+                          </span>
                         </div>
                       );
                     }
