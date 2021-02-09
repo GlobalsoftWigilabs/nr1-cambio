@@ -345,10 +345,10 @@ export default class Monitors extends React.Component {
       }
       case 'author': {
         const sortAuthor = finalList.sort(function(a, b) {
-          if (a.author > b.author) {
+          if (a.author.toLowerCase() > b.author.toLowerCase()) {
             return valueOne;
           }
-          if (a.author < b.author) {
+          if (a.author.toLowerCase() < b.author.toLowerCase()) {
             return valueTwo;
           }
           return 0;

@@ -68,6 +68,7 @@ export default class Metrics extends React.Component {
     const dataGraph = [];
     for (const metric of metrics) {
       metric.type = metric.type ? metric.type : 'unknow';
+      metric.unit = metric.unit ? metric.unit : '-----';
     }
 
     for (const metric of metrics) {
@@ -104,6 +105,7 @@ export default class Metrics extends React.Component {
       const dataGraph = [];
       for (const metric of metrics) {
         metric.type = metric.type ? metric.type : 'unknow';
+        metric.unit = metric.unit ? metric.unit : '-----';
       }
       for (const metric of metrics) {
         if (metric.type) {

@@ -135,7 +135,7 @@ export default class Logs extends React.Component {
         dataArchives.forEach(element => {
           archives.push({
             NAME: element.name ? element.name : '-----',
-            DESTINATION: element.type ? element.type : '-----',
+            DESTINATION: element.destination ? element.destination : '-----',
             QUERY_USED: element.query ? element.query : '-----',
             TAGS: element.tags ? element.tags : '-----',
             STATE: element.state ? element.state : '-----'

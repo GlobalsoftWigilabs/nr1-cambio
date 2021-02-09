@@ -9,7 +9,7 @@ import Select from 'react-select';
 import { Tooltip } from 'nr1';
 import ArrowUnion from '../../components/ArrowsTable/ArrowUnion';
 
-const KEYS_TO_FILTERS = ['name', 'enabled', 'type', 'processors'];
+const KEYS_TO_FILTERS = ['name', 'enabled', 'order', 'processors'];
 
 export default class TablePipelines extends React.Component {
   constructor(props) {

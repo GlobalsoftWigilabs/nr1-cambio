@@ -314,10 +314,10 @@ export default class Dashboard extends React.Component {
     switch (column) {
       case 'name': {
         const sortName = finalList.sort(function(a, b) {
-          if (a.name > b.name) {
+          if (a.name.toLowerCase() > b.name.toLowerCase()) {
             return valueOne;
           }
-          if (a.name < b.name) {
+          if (a.name.toLowerCase() < b.name.toLowerCase()) {
             return valueTwo;
           }
           return 0;
@@ -326,10 +326,10 @@ export default class Dashboard extends React.Component {
       }
       case 'autor': {
         const sortAutor = finalList.sort(function(a, b) {
-          if (a.autor > b.autor) {
+          if (a.autor.toLowerCase() > b.autor.toLowerCase()) {
             return valueOne;
           }
-          if (a.autor < b.autor) {
+          if (a.autor.toLowerCase() < b.autor.toLowerCase()) {
             return valueTwo;
           }
           return 0;
@@ -810,7 +810,8 @@ export default class Dashboard extends React.Component {
                             >
                               <span
                                 style={{
-                                  marginLeft: '15px'
+                                  marginLeft: '15px',
+                                  textTransform: 'capitalize'
                                 }}
                               >
                                 {props.value}
@@ -859,7 +860,10 @@ export default class Dashboard extends React.Component {
                         Cell: props => (
                           <div
                             className="h100 flex flexCenterVertical "
-                            style={{ marginLeft: '15px' }}
+                            style={{
+                              marginLeft: '15px',
+                              textTransform: 'capitalize'
+                            }}
                           >
                             {props.value}
                           </div>
