@@ -188,7 +188,7 @@ export default class Logs extends React.Component {
           pipeline.push({
             NAME: element.name ? element.name : '-----',
             ENABLED: element.enabled ? element.enabled : '-----',
-            TYPE: element.type ? element.type : '-----',
+            ORDER: element.order ? element.order : '-----',
             ORDER_PROCESSORS: processors
           });
         }

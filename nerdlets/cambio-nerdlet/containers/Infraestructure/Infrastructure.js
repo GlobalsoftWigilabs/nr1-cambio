@@ -178,10 +178,7 @@ export default class Infrastructure extends React.Component {
         APPS: row.apps ? row.apps : '-----',
         SOURCES: row.sources ? row.sources : '-----',
         MUTED: row.muted ? row.muted : '-----',
-        TAGS_BY_SOURCE: tags,
-        CPU: row.cpu ? row.cpu : '-----',
-        IOWAIT: row.iowait ? row.iowait : '-----',
-        LOAD: row.load ? row.load : '-----'
+        TAGS_BY_SOURCE: tags
       });
     });
     jsoncsv.json2csv(dataCsv, (err, csv) => {

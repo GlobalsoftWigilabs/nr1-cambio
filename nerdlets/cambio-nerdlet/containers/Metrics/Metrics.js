@@ -427,7 +427,7 @@ export default class Metrics extends React.Component {
         NAME: metric.name,
         INTEGRATION: metric.integration ? metric.integration : '-----',
         TYPE: metric.type ? metric.type : '-----',
-        HOST: metric.hosts,
+        HOST: metric.hosts.length === 0 ? ['N/A'] : metric.hosts,
         UNIT: metric.unit ? metric.unit : '-----',
         AGNN_TYPE: metric.aggr ? metric.aggr : '-----'
       });
@@ -940,7 +940,7 @@ export default class Metrics extends React.Component {
                         Cell: props => {
                           let hosts = '';
                           if (props.value && props.value.length === 0)
-                            hosts = '-----';
+                            hosts = 'N/A';
                           for (const host of props.value) {
                             if (hosts === '') {
                               hosts = `${host} \n`;
