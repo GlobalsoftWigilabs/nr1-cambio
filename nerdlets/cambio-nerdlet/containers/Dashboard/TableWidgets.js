@@ -3,7 +3,7 @@ import ArrowUnion from '../../components/ArrowsTable/ArrowUnion';
 import ReactTable from 'react-table-v6';
 import Pagination from '../../components/Pagination/Pagination';
 import closeIcon from '../../images/close.svg';
-import { qregExr } from '../../dd2nr/transpiler/regexr';
+import { qregExr } from './expressionsRegular';
 import { Modal } from 'react-bootstrap';
 import { PropTypes } from 'prop-types';
 

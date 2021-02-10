@@ -2,7 +2,7 @@
   "tagline": "Datadog new relic migration",
   "details": "Cambio allows you to connect to the Datadog API and show you important information such as your Dashboards, Alerts, integrations and much more",
   "repository": "https://github.com/GlobalsoftWigilabs/nr-cambio.git",
-  "whatsNew": "This is awesome tool for datadog migration to new relic",
+  "whatsNew": "First release!",
   "support": {
     "email": {
       "address": ""

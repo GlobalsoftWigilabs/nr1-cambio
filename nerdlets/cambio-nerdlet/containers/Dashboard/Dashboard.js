@@ -15,7 +15,7 @@ import Pagination from '../../components/Pagination/Pagination';
 import JSZip from 'jszip';
 import jsoncsv from 'json-2-csv';
 import { saveAs } from 'file-saver';
-import { qregExr } from '../../dd2nr/transpiler/regexr';
+import { qregExr } from './expressionsRegular';
 
 const KEYS_TO_FILTERS = [
   'name',
