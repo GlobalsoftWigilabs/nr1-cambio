@@ -8,7 +8,7 @@ Allows you to connect to the Datadog API and show you important information such
 ## Usage
 Enter you api keys from datadog
 
-![Enter apis keys](screenshots/insert-apis.png)
+![Enter apis keys](screenshots/enter-apis.png)
 
 Once validated, press the continue button and then the fetch elements button
 
