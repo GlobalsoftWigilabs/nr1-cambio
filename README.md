@@ -16,7 +16,7 @@ Once validated, press the continue button and then the fetch elements button
 
 ![Fetch elements](screenshots/fetch-elements.png)
 
-When the process is finished you can navigate in the different sections located on the right of your screen
+When the process is finished you can navigate in the different sections located on the left of your screen
 
 ![Fetch elements](screenshots/fetch-complete.png)
 
