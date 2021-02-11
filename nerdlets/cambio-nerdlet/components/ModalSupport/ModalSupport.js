@@ -70,7 +70,14 @@ export default class ModalSupport extends React.PureComponent {
           validationSchema={contactSchema}
           onSubmit={this.sendContactEmail}
         >
-          {({ errors, touched, submitForm, values, setFieldValue,resetForm }) => (
+          {({
+            errors,
+            touched,
+            submitForm,
+            values,
+            setFieldValue,
+            resetForm
+          }) => (
             <Form className="formSetup" autoComplete="off">
               <div className="divTextfieldSupport">
                 <Field
@@ -158,7 +165,8 @@ const renderAreaField = ({ onChange, placeholder, value }) => {
 };
 renderAreaField.propTypes = {
   onChange: PropTypes.func.isRequired,
-  placeholder: PropTypes.string.isRequired
+  placeholder: PropTypes.string.isRequired,
+  value: PropTypes.string
 };
 
 const renderTextField = ({ onChange, placeholder, type, value }) => {
@@ -175,7 +183,8 @@ const renderTextField = ({ onChange, placeholder, type, value }) => {
 renderTextField.propTypes = {
   onChange: PropTypes.func.isRequired,
   placeholder: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired
+  type: PropTypes.string.isRequired,
+  value: PropTypes.string
 };
 
 ModalSupport.propTypes = {
