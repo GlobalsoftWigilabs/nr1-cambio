@@ -21,12 +21,13 @@ export default class ModalSupport extends React.PureComponent {
    * @param {Object} actions Form actions
    * @memberof ModalSupport
    */
-  async sendContactEmail(values, actions) {
+  sendContactEmail = async (values, { resetForm }) => {
     const { close } = this.props;
-    actions.setSubmitting(true);
+    // actions.setSubmitting(true);
     this.setState({ sendingEmail: true });
     await sendSupportMicrosoftTeams(values)
       .then(() => {
+        resetForm({});
         this.setState({ sendingEmail: false });
         close();
         Toast.showToast({
@@ -34,7 +35,6 @@ export default class ModalSupport extends React.PureComponent {
           description: 'Thank you, we will contact you shortly',
           type: Toast.TYPE.NORMAL
         });
-        actions.setSubmitting(false);
       })
       .catch(error => {
         logger.error(`${error}`);
@@ -45,9 +45,8 @@ export default class ModalSupport extends React.PureComponent {
           description: 'Sorry, try again later',
           type: Toast.TYPE.NORMAL
         });
-        actions.setSubmitting(false);
       });
-  }
+  };
 
   render() {
     const { hidden, close } = this.props;
@@ -68,21 +67,17 @@ export default class ModalSupport extends React.PureComponent {
         </BlockText>
         <br />
         <Formik
-          initialValues={{
-            name: '',
-            email: '',
-            content: ''
-          }}
           validationSchema={contactSchema}
-          onSubmit={(values, actions) => this.sendContactEmail(values, actions)}
+          onSubmit={this.sendContactEmail}
         >
-          {({ errors, touched, submitForm, values, setFieldValue }) => (
+          {({ errors, touched, submitForm, values, setFieldValue,resetForm }) => (
             <Form className="formSetup" autoComplete="off">
               <div className="divTextfieldSupport">
                 <Field
                   component={renderTextField}
                   type="text"
                   name="name"
+                  value={values.name || ''}
                   onChange={event => setFieldValue('name', event.target.value)}
                   placeholder="Name"
                 />
@@ -97,6 +92,7 @@ export default class ModalSupport extends React.PureComponent {
                   component={renderTextField}
                   type="email"
                   name="email"
+                  value={values.email || ''}
                   onChange={event => setFieldValue('email', event.target.value)}
                   placeholder="Email"
                 />
@@ -111,7 +107,7 @@ export default class ModalSupport extends React.PureComponent {
                   component={renderAreaField}
                   name="content"
                   placeholder="Description"
-                  value={values.content}
+                  value={values.content || ''}
                   onChange={event =>
                     setFieldValue('content', event.target.value)
                   }
@@ -134,6 +130,7 @@ export default class ModalSupport extends React.PureComponent {
                   <Button
                     onClick={() => {
                       close();
+                      resetForm({});
                     }}
                     style={{ marginLeft: '10px' }}
                   >
@@ -149,9 +146,10 @@ export default class ModalSupport extends React.PureComponent {
   }
 }
 
-const renderAreaField = ({ onChange, placeholder }) => {
+const renderAreaField = ({ onChange, placeholder, value }) => {
   return (
     <FormControl
+      value={value}
       onChange={onChange}
       componentClass="textarea"
       placeholder={placeholder}
@@ -163,9 +161,14 @@ renderAreaField.propTypes = {
   placeholder: PropTypes.string.isRequired
 };
 
-const renderTextField = ({ onChange, placeholder, type }) => {
+const renderTextField = ({ onChange, placeholder, type, value }) => {
   return (
-    <FormControl onChange={onChange} type={type} placeholder={placeholder} />
+    <FormControl
+      value={value}
+      onChange={onChange}
+      type={type}
+      placeholder={placeholder}
+    />
   );
 };
 

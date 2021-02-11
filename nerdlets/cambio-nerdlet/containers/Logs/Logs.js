@@ -124,6 +124,7 @@ export default class Logs extends React.PureComponent {
 
   downloadData = async () => {
     try {
+      const date = new Date();
       const zip = new JSZip(); // Object that contains the zip files
       const {
         dataArchives = [],
@@ -201,11 +202,15 @@ export default class Logs extends React.PureComponent {
         zip.file(`Logs Pipeline.csv`, csv);
         zip.generateAsync({ type: 'blob' }).then(function(content) {
           // see FileSaver.js
-          saveAs(content, 'Logs.zip');
+          saveAs(
+            content,
+            `Logs ${date.getDate()}-${date.getMonth() +
+              1}-${date.getFullYear()}.zip`
+          );
         });
       });
     } catch (error) {
-      logger.error(error);
+      logger.error(`${error}`);
     }
   };
 
