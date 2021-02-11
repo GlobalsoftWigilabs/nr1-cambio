@@ -6,7 +6,7 @@
 Allows you to connect to the Datadog API and show you important information such as your Dashboards, Alerts, integrations and much more
 
 ## Usage
-Enter you api keys from datadog
+Enter you api keys from datadog,these will be saved in [NerdStorageVault](https://developer.newrelic.com/explore-docs/nerdstoragevault)
 
 ![Enter apis keys](screenshots/enter-apis.png)
 
@@ -115,6 +115,13 @@ Visit [https://one.newrelic.com](https://one.newrelic.com), navigate to the Nerd
 ## Issues / enhancement requests
 
 Issues and enhancement requests can be submitted in the [Issues tab of this repository](../../issues). Please search for and review the existing open issues before submitting a new issue.
+
+## Contributing
+
+Contributions are encouraged! If you submit an enhancement request, we'll invite you to contribute the change yourself. Please review our [Contributors Guide](CONTRIBUTING.md).
+
+if you have any questions, please drop us an email at opensource+cambio@wigilabs.com.
+
 
 ## License
 
