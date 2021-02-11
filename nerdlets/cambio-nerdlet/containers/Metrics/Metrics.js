@@ -28,7 +28,7 @@ const KEYS_TO_FILTERS = [
   'unit',
   'aggr'
 ];
-export default class Metrics extends React.Component {
+export default class Metrics extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {

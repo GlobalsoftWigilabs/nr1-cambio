@@ -5,7 +5,7 @@ import TableWidgets from './TableWidgets';
 import TableVariables from './TableVariables';
 import { PropTypes } from 'prop-types';
 
-export default class ModalContent extends React.Component {
+export default class ModalContent extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {

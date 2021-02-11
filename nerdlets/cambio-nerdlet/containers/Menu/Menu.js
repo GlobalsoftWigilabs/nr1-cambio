@@ -114,7 +114,7 @@ Item.propTypes = {
   handleChangeMenu: PropTypes.func.isRequired,
   identifier: PropTypes.number.isRequired
 };
-class Menu extends React.Component {
+class Menu extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {

@@ -37,7 +37,7 @@ export default class ModalSupport extends React.PureComponent {
         actions.setSubmitting(false);
       })
       .catch(error => {
-        logger.error(error);
+        logger.error(`${error}`);
         this.setState({ sendingEmail: false });
         close();
         Toast.showToast({

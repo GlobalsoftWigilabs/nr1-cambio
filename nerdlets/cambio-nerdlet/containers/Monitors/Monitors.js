@@ -27,7 +27,7 @@ const KEYS_TO_FILTERS = [
   'priority'
 ];
 
-export default class Monitors extends React.Component {
+export default class Monitors extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {

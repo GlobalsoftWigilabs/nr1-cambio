@@ -35,9 +35,9 @@ const KEYS_TO_FILTERS = [
  *
  * @export
  * @class Dashboard
- * @extends {React.Component}
+ * @extends {React.PureComponent}
  */
-export default class Dashboard extends React.Component {
+export default class Dashboard extends React.PureComponent {
   /**
    * Creates an instance of Dashboard.
    *

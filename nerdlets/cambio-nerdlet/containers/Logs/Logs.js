@@ -10,7 +10,7 @@ import TablePipelines from './TablePipelines';
 import ModalLog from './ModalLog';
 
 const greenColor = '#007E8A';
-export default class Logs extends React.Component {
+export default class Logs extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {

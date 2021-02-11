@@ -11,7 +11,7 @@ import ArrowUnion from '../../components/ArrowsTable/ArrowUnion';
 
 const KEYS_TO_FILTERS = ['name', 'destination', 'query', 'tags', 'state'];
 
-export default class TableArchives extends React.Component {
+export default class TableArchives extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {

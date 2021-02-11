@@ -7,7 +7,7 @@ import { qregExr } from './expressionsRegular';
 import { Modal } from 'react-bootstrap';
 import { PropTypes } from 'prop-types';
 
-export default class TableWidgets extends React.Component {
+export default class TableWidgets extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {

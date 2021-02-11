@@ -11,7 +11,7 @@ import ArrowUnion from '../../components/ArrowsTable/ArrowUnion';
 
 const KEYS_TO_FILTERS = ['name', 'enabled', 'order', 'processors'];
 
-export default class TablePipelines extends React.Component {
+export default class TablePipelines extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {

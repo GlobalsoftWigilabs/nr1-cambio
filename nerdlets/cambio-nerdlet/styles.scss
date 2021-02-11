@@ -14,12 +14,11 @@
 @import './containers/Synthetics/styles.scss';
 
 @import './components/Modal/styles.scss';
-@import './components/Checkbox/style.scss';
 @import './components/ModalSupport/style.scss';
 @import './components//Pagination/style.scss';
 @import './components/ModalSetup/styles.scss';
 @import './components/Bar/styles.scss';
-//////////////// Metrics
+
 .box--metrics .popup-content {
   background: none !important;
   border: none !important;
@@ -49,7 +48,7 @@
   width: 50% !important;
   height: auto !important;
 }
-/////////////STYLES COMMON
+// STYLES COMMON
 .fontSmall {
   font-family: Open Sans;
   font-size: 10px !important;
@@ -144,12 +143,6 @@ input[type='search'] {
   background: white !important;
 }
 
-a[target='_blank']:after {
-  background-image: none !important;
-  margin-left: 0px !important;
-  position: unset !important;
-  width: 0px !important;
-}
 
 .flex {
   display: flex;
@@ -187,7 +180,7 @@ a[target='_blank']:after {
   align-items: center;
 }
 
-///STYLES TABLE
+// STYLES TABLE
 .stycky {
   position: sticky !important;
   z-index: 100;
@@ -204,7 +197,6 @@ a[target='_blank']:after {
   min-height: 30px;
   align-items: center;
   padding-left: 5px !important;
-  /* justify-content: center; */
 }
 .table__headerAlignRight {
   background: #f7f7f8;
