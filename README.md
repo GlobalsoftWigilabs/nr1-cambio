@@ -47,7 +47,7 @@ Next, to clone this repository and run the code locally against your New Relic d
 
 ```bash
 
-nr1 nerdpack:clone -r https://github.com/GlobalsoftWigilabs/nr-cambio
+nr1 nerdpack:clone -r https://github.com/GlobalsoftWigilabs/nr1-cambio
 
 cd nr-cambio
 

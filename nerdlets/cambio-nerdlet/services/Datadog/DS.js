@@ -385,19 +385,6 @@ const _parseLogs = async (
     if (data) {
       obj.data.metricsLogs = data;
     }
-    // let sizeData = await functionReaderCollection('Get all indexes');
-    // let data = [];
-    // for (let i = 0; i < sizeData.length; i++) {
-    //   let listo = [];
-    //   listo = await functionReader('Get all indexes', `Get all indexes-${i}`);
-    //   for (const iterator of listo) {
-    //     data.push(iterator);
-    //   }
-    // }
-    // if (data) {
-    //   obj.data.indexes = data.length;
-    // }
-
     // pipelines
     sizeData = await functionReaderCollection('Get Pipeline Order');
     data = [];

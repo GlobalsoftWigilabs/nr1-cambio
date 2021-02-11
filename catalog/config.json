@@ -1,14 +1,14 @@
 {
   "tagline": "Datadog new relic migration",
   "details": "Cambio allows you to connect to the Datadog API and show you important information such as your Dashboards, Alerts, integrations and much more",
-  "repository": "https://github.com/GlobalsoftWigilabs/nr-cambio.git",
+  "repository": "https://github.com/GlobalsoftWigilabs/nr1-cambio.git",
   "whatsNew": "First release!",
   "support": {
     "email": {
       "address": "opensource-cambio@wigilabs.com"
     },
     "issues": {
-      "url": "https://github.com/GlobalsoftWigilabs/nr-cambio/issues/new"
+      "url": "https://github.com/GlobalsoftWigilabs/nr1-cambio/issues/new"
     },
     "community": {
       "url": ""

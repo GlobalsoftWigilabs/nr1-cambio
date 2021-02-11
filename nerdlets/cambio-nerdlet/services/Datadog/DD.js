@@ -93,44 +93,6 @@ const callApis = async (
               }
               await callbackDataWritter(list[i].name, obj.data);
               break;
-            case 'Get all users':
-              if (obj.data.meta.page.total_count > 100) {
-                const pages = Math.ceil(obj.data.meta.page.total_count / 100);
-                for (let j = 1; j < pages; j++) {
-                  const pageUser = await getPageUser(j, reportLog).catch(
-                    err => {
-                      throw err;
-                    }
-                  );
-                  if (
-                    pageUser.data.data &&
-                    pageUser.data.data instanceof Array
-                  ) {
-                    for (const user of pageUser.data.data) {
-                      obj.data.data.push(user);
-                    }
-                    for (const included of pageUser.data.included) {
-                      if (
-                        !obj.data.included.find(incl => incl.id === included.id)
-                      ) {
-                        obj.data.included.push(included);
-                      }
-                    }
-                  }
-                }
-              }
-              for (const user of obj.data.data) {
-                user.roles = [];
-                for (const rolId of user.relationships.roles.data) {
-                  const role = obj.data.included.find(
-                    rolObj => rolObj.id === rolId.id
-                  );
-                  user.roles.push(role.attributes.name);
-                }
-                user.organizations = user.relationships.org.data.id;
-              }
-              await callbackDataWritter(list[i].name, obj.data);
-              break;
             case 'Get Dashboards Manual':
               for (let j = 0; j < obj.data.dashboard_lists.length; j++) {
                 const response = await getManualDashboard(

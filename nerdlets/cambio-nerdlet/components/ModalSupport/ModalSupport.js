@@ -1,26 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, HeadingText, BlockText, Toast, Button, logger } from 'nr1';
-import * as Yup from 'yup';
 import { Formik, Form, Field } from 'formik';
 import { FormControl } from 'react-bootstrap';
 import { sendSupportMicrosoftTeams } from '../../services/Wigilabs/api';
+import { contactSchema } from '../../constants/ValidationSchemas';
 
-/**
- * Validation Schema for the contact form
- */
-const contactSchema = Yup.object().shape({
-  name: Yup.string()
-    .min(4, 'Name too short')
-    .max(50, 'Name too long')
-    .required('Required'),
-  email: Yup.string()
-    .email()
-    .required('Required'),
-  content: Yup.string().required('Required')
-});
-
-export default class ModalSupport extends React.Component {
+export default class ModalSupport extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
