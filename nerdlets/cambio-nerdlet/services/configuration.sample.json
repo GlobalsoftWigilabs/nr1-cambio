@@ -1,0 +1,4 @@
+{
+    "proxy":"YOUR PROXY CORS",
+    "webhook_url_teams":"YOUR LINK WEBHOOK TO MICROSOFT TEAMS CHANNEL "
+}
