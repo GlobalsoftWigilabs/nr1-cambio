@@ -8,17 +8,17 @@ Allows you to connect to the Datadog API and show you important information such
 ## Usage
 Enter you api keys from datadog,these will be saved in [NerdStorageVault](https://developer.newrelic.com/explore-docs/nerdstoragevault)
 
-![Enter apis keys](screenshots/enter-apis.png)
+![Enter apis keys](screenshots/nr1-cambio-1.png)
 
 Once validated, press the continue button and then the fetch elements button
 
-![Valid keys](screenshots/valid-keys.png)
+![Valid keys](screenshots/nr1-cambio-2.png)
 
-![Fetch elements](screenshots/fetch-elements.png)
+![Fetch elements](screenshots/nr1-cambio-3.png)
 
 When the process is finished you can navigate in the different sections located on the left of your screen
 
-![Fetch elements](screenshots/fetch-complete.png)
+![Fetch elements](screenshots/nr1-cambio-4.png)
 
 
 ## Install
