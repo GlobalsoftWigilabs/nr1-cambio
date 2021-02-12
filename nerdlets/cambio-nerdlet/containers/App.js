@@ -1139,7 +1139,8 @@ export default class App extends React.PureComponent {
       await this.loadViewData();
       this.setState({
         fetchingData: false,
-        lastUpdate
+        lastUpdate,
+        completed: 100
       });
     }
   };
