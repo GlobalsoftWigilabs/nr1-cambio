@@ -52,12 +52,7 @@ export default class ModalSupport extends React.PureComponent {
     const { hidden, close } = this.props;
     const { sendingEmail } = this.state;
     return (
-      <Modal
-        hidden={hidden}
-        onClose={() => {
-          close();
-        }}
-      >
+      <Modal hidden={hidden} onClose={close}>
         <HeadingText type={HeadingText.TYPE.HEADING_1}>
           Need support ?
         </HeadingText>
@@ -88,7 +83,7 @@ export default class ModalSupport extends React.PureComponent {
                   onChange={event => setFieldValue('name', event.target.value)}
                   placeholder="Name"
                 />
-                {errors.name && touched.name ? (
+                {(errors.name && touched.name) || errors.name ? (
                   <div style={{ color: 'red' }}>{errors.name}</div>
                 ) : (
                   <div style={{ color: 'white' }}>.....</div>
@@ -103,7 +98,7 @@ export default class ModalSupport extends React.PureComponent {
                   onChange={event => setFieldValue('email', event.target.value)}
                   placeholder="Email"
                 />
-                {errors.email && touched.email ? (
+                {(errors.email && touched.email) || errors.email ? (
                   <div style={{ color: 'red' }}>{errors.email}</div>
                 ) : (
                   <div style={{ color: 'white' }}>.....</div>
@@ -119,7 +114,7 @@ export default class ModalSupport extends React.PureComponent {
                     setFieldValue('content', event.target.value)
                   }
                 />
-                {errors.content && touched.content ? (
+                {(errors.content && touched.content) || errors.content ? (
                   <div style={{ color: 'red' }}>{errors.content}</div>
                 ) : (
                   <div style={{ color: 'white' }}>.....</div>

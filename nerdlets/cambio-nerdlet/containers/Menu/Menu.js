@@ -127,10 +127,10 @@ class Menu extends React.PureComponent {
    *
    * @memberof Menu
    */
-  onCloseSupport() {
+  onCloseSupport = () => {
     const { hiddenModal } = this.state;
     this.setState({ hiddenModal: !hiddenModal });
-  }
+  };
 
   render() {
     const { hiddenModal } = this.state;
@@ -215,20 +215,9 @@ class Menu extends React.PureComponent {
         <div className="mainMenu__support fontSmall">
           <div style={{ marginBottom: '10px' }}>
             <li key={11}>
-              <Link
-                onClick={() => {
-                  this.onCloseSupport();
-                }}
-              >
-                Support
-              </Link>
+              <Link onClick={this.onCloseSupport}>Support</Link>
             </li>
-            <ModalSupport
-              close={() => {
-                this.onCloseSupport();
-              }}
-              hidden={hiddenModal}
-            />
+            <ModalSupport close={this.onCloseSupport} hidden={hiddenModal} />
           </div>
           <div className="support__logoWigi">
             <img width="125px" height="35px" src={logo} />
