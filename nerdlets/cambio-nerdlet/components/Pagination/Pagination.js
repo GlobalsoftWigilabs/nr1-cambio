@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import arrowLeft from '../../images/arrowPaginationLeft.svg';
 import arrowRight from '../../images/arrowPaginationRight.svg';
 
-export default class Pagination extends React.Component {
+export default class Pagination extends React.PureComponent {
   /**
    *Creates an instance of Pagination.
    * @param {*} props

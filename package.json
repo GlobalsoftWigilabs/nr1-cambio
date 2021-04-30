@@ -1,7 +1,7 @@
 {
     "private": true,
-    "name": "Cambio",
-    "version": "1.1.0",
+    "name": "cambio",
+    "version": "1.8.2",
     "scripts": {
         "start": "nr1 nerdpack:serve",
         "test": "jest",
@@ -15,9 +15,9 @@
         "uuid": "3857d19f-c17e-4ee9-b4f1-8056801d5430"
     },
     "dependencies": {
-        "axios": "^0.19.2",
+        "axios": "^0.21.1",
         "file-saver": "^2.0.2",
-        "formik": "^1.5.7",
+        "formik": "^1.5.8",
         "json-2-csv": "^3.7.8",
         "jszip": "^3.5.0",
         "moment": "^2.29.1",
@@ -52,7 +52,7 @@
         "babel-preset-stage-2": "^6.24.1",
         "eslint": "^6.8.0",
         "eslint-plugin-react": "^7.20.0",
-        "jest": "^20.0.4",
+        "jest": "^26.6.3",
         "prettier": "^1.19.1"
     }
 }

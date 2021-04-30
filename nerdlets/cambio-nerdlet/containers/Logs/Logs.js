@@ -10,7 +10,7 @@ import TablePipelines from './TablePipelines';
 import ModalLog from './ModalLog';
 
 const greenColor = '#007E8A';
-export default class Logs extends React.Component {
+export default class Logs extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -53,7 +53,8 @@ export default class Logs extends React.Component {
           enabled: element.is_enabled,
           type: element.type,
           processors: processors,
-          dataProcessors: element.processors
+          dataProcessors: element.processors,
+          order: element.order
         });
       });
       this.setState({
@@ -123,6 +124,7 @@ export default class Logs extends React.Component {
 
   downloadData = async () => {
     try {
+      const date = new Date();
       const zip = new JSZip(); // Object that contains the zip files
       const {
         dataArchives = [],
@@ -134,7 +136,7 @@ export default class Logs extends React.Component {
         dataArchives.forEach(element => {
           archives.push({
             NAME: element.name ? element.name : '-----',
-            DESTINATION: element.type ? element.type : '-----',
+            DESTINATION: element.destination ? element.destination : '-----',
             QUERY_USED: element.query ? element.query : '-----',
             TAGS: element.tags ? element.tags : '-----',
             STATE: element.state ? element.state : '-----'
@@ -187,7 +189,7 @@ export default class Logs extends React.Component {
           pipeline.push({
             NAME: element.name ? element.name : '-----',
             ENABLED: element.enabled ? element.enabled : '-----',
-            TYPE: element.type ? element.type : '-----',
+            ORDER: element.order ? element.order : '-----',
             ORDER_PROCESSORS: processors
           });
         }
@@ -200,11 +202,15 @@ export default class Logs extends React.Component {
         zip.file(`Logs Pipeline.csv`, csv);
         zip.generateAsync({ type: 'blob' }).then(function(content) {
           // see FileSaver.js
-          saveAs(content, 'Logs.zip');
+          saveAs(
+            content,
+            `Logs ${date.getDate()}-${date.getMonth() +
+              1}-${date.getFullYear()}.zip`
+          );
         });
       });
     } catch (error) {
-      logger.error(error);
+      logger.error(`${error}`);
     }
   };
 

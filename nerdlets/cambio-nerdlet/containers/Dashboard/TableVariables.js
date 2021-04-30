@@ -6,7 +6,7 @@ import closeIcon from '../../images/close.svg';
 import { Modal } from 'react-bootstrap';
 import { PropTypes } from 'prop-types';
 
-export default class TableVariables extends React.Component {
+export default class TableVariables extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {

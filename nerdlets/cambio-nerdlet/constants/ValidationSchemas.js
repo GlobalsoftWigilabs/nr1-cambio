@@ -25,4 +25,18 @@ const DatadogTempSchema = Yup.object().shape({
     .required('Required')
 });
 
-export { DatadogSchema, DatadogTempSchema };
+/**
+ * Validation Schema for the contact form
+ */
+const contactSchema = Yup.object().shape({
+  name: Yup.string()
+    .min(4, 'Name too short')
+    .max(50, 'Name too long')
+    .required('Required'),
+  email: Yup.string()
+    .email()
+    .required('Required'),
+  content: Yup.string().required('Required')
+});
+
+export { DatadogSchema, DatadogTempSchema, contactSchema };

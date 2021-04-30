@@ -15,7 +15,7 @@ import { saveAs } from 'file-saver';
 const greenColor = '#007E8A';
 const KEYS_TO_FILTERS = ['name', 'type', 'location', 'status', 'message'];
 
-export default class Synthetics extends React.Component {
+export default class Synthetics extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {

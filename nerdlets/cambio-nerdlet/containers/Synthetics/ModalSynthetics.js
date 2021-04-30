@@ -7,7 +7,7 @@ import ReactTable from 'react-table-v6';
 import { Modal } from 'react-bootstrap';
 import closeIcon from '../../images/close.svg';
 
-export default class ModalSynthetics extends React.Component {
+export default class ModalSynthetics extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {

@@ -6,9 +6,9 @@ import { nerdlet } from 'nr1';
  * Class that renders the main component
  *
  * @class Index
- * @extends {React.Component}
+ * @extends {React.PureComponent}
  */
-class Index extends React.Component {
+class Index extends React.PureComponent {
   constructor(props) {
     super(props);
 

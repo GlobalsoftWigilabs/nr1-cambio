@@ -3,7 +3,7 @@ import { Modal } from 'react-bootstrap';
 import closeIcon from '../../images/close.svg';
 import PropTypes from 'prop-types';
 
-export default class ModalAlert extends React.Component {
+export default class ModalAlert extends React.PureComponent {
   renderCelll = (cell, content, color) => {
     return (
       <>

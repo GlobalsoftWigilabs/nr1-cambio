@@ -49,7 +49,7 @@
     },
     {
         "name": "Get all embeddable graphs",
-        "enable": true
+        "enable": false
     },
     {
         "name": "Get a specific embed",

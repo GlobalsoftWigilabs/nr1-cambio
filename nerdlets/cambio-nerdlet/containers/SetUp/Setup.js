@@ -51,9 +51,9 @@ CustomInputComponent.propTypes = {
  * Class that render the setup Container
  * @export
  * @class Setup
- * @extends {React.Component}
+ * @extends {React.PureComponent}
  */
-export default class Setup extends React.Component {
+export default class Setup extends React.PureComponent {
   /**
    * Creates an instance of Setup
    * @param {*} props
@@ -88,6 +88,14 @@ export default class Setup extends React.Component {
     this.setState({ enableDownload: false });
   };
 
+  openTab = () => {
+    const win = window.open(
+      'https://docs.datadoghq.com/account_management/api-app-keys/',
+      '_blank'
+    );
+    win.focus();
+  };
+
   returnStep = step => {
     const {
       appkeyS,
@@ -113,14 +121,12 @@ export default class Setup extends React.Component {
           <div className="apiKeys__stepOne">
             <div className="stepOne__title">
               <div className="stepOne--title fontMedium">Datadog API</div>
-              <a
-                href="https://docs.datadoghq.com/account_management/api-app-keys/"
+              <span
                 className="apiKeys--learnMore fontSmall"
-                rel="noreferrer"
-                target="_blank"
+                onClick={this.openTab}
               >
                 Learn more
-              </a>
+              </span>
             </div>
             <div className="stepOne__form">
               <Formik
@@ -189,9 +195,16 @@ export default class Setup extends React.Component {
                           disabled={setupComplete}
                         />
                         {errors.apikey && touched.apikey ? (
-                          <div style={{ color: 'red' }}>{errors.apikey}</div>
+                          <div className="fontNormal" style={{ color: 'red' }}>
+                            {errors.apikey}
+                          </div>
                         ) : (
-                          <div style={{ color: 'white' }}>....</div>
+                          <div
+                            className="fontNormal"
+                            style={{ color: 'white' }}
+                          >
+                            ....
+                          </div>
                         )}
                       </div>
                       <div className="setup__textfield">
@@ -240,9 +253,16 @@ export default class Setup extends React.Component {
                           disabled={setupComplete}
                         />
                         {errors.appkey && touched.appkey ? (
-                          <div style={{ color: 'red' }}>{errors.appkey}</div>
+                          <div className="fontNormal" style={{ color: 'red' }}>
+                            {errors.appkey}
+                          </div>
                         ) : (
-                          <div style={{ color: 'white' }}>....</div>
+                          <div
+                            className="fontNormal"
+                            style={{ color: 'white' }}
+                          >
+                            ....
+                          </div>
                         )}
                       </div>
                     </div>
@@ -434,12 +454,7 @@ export default class Setup extends React.Component {
   };
 
   render() {
-    const {
-      handlePlatformChange,
-      setupComplete,
-      fetchingData,
-      deleteSetup
-    } = this.props;
+    const { setupComplete, fetchingData, deleteSetup } = this.props;
     const { stepActive, hidden } = this.state;
     return (
       <div className="mainSetup">
@@ -489,9 +504,6 @@ export default class Setup extends React.Component {
                 className="setup__iconOfPlatafform"
                 style={{ border: '1px solid #007E8A' }}
                 key={0}
-                onClick={() => {
-                  handlePlatformChange(stepActive);
-                }}
               >
                 <div className="iconOfPlatafform__content">
                   <img width="46px" height="46px" src={datadogAIcon} />

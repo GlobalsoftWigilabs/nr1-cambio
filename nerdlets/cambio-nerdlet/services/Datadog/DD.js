@@ -93,44 +93,6 @@ const callApis = async (
               }
               await callbackDataWritter(list[i].name, obj.data);
               break;
-            case 'Get all users':
-              if (obj.data.meta.page.total_count > 100) {
-                const pages = Math.ceil(obj.data.meta.page.total_count / 100);
-                for (let j = 1; j < pages; j++) {
-                  const pageUser = await getPageUser(j, reportLog).catch(
-                    err => {
-                      throw err;
-                    }
-                  );
-                  if (
-                    pageUser.data.data &&
-                    pageUser.data.data instanceof Array
-                  ) {
-                    for (const user of pageUser.data.data) {
-                      obj.data.data.push(user);
-                    }
-                    for (const included of pageUser.data.included) {
-                      if (
-                        !obj.data.included.find(incl => incl.id === included.id)
-                      ) {
-                        obj.data.included.push(included);
-                      }
-                    }
-                  }
-                }
-              }
-              for (const user of obj.data.data) {
-                user.roles = [];
-                for (const rolId of user.relationships.roles.data) {
-                  const role = obj.data.included.find(
-                    rolObj => rolObj.id === rolId.id
-                  );
-                  user.roles.push(role.attributes.name);
-                }
-                user.organizations = user.relationships.org.data.id;
-              }
-              await callbackDataWritter(list[i].name, obj.data);
-              break;
             case 'Get Dashboards Manual':
               for (let j = 0; j < obj.data.dashboard_lists.length; j++) {
                 const response = await getManualDashboard(
@@ -624,73 +586,6 @@ const getManualDashboard = async (id, reportLog) => {
           message: error.response.data.errors
             ? error.response.data.errors[0]
             : `${error.response.status} - /api/v2/dashboard/lists/manual/`,
-          type: 'Error',
-          event: 'Fetch',
-          date: new Date().toLocaleString()
-        };
-        await reportLog(response);
-        throw error;
-      }
-    } else if (error.request) {
-      // The request was made but no response was received
-      throw error;
-    } else {
-      // Something happened in setting up the request that triggered an Error
-      throw error;
-    }
-  });
-  return ret;
-};
-
-const getPageUser = async (page, reportLog) => {
-  let ret = null;
-  const endpoint =
-    'https://api.datadoghq.{{datadog_site}}/api/v2/users?page[size]=100';
-  const headers = [
-    {
-      key: 'Content-Type',
-      value: 'application/json'
-    },
-    {
-      key: 'DD-API-KEY',
-      value: '{{datadog_api_key}}'
-    },
-    {
-      key: 'DD-APPLICATION-KEY',
-      value: '{{datadog_application_key}}'
-    }
-  ];
-  const options = {
-    baseURL: `${configuration.proxy}${endpoint.replace(
-      '{{datadog_site}}',
-      config.API_SITE
-    )}`,
-    headers: _setHttpHeaders(headers),
-    method: 'get',
-    params: {
-      'page[number]': page
-    }
-  };
-  ret = await axios(options).catch(async error => {
-    if (error.response) {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx
-      if (error.response.status >= 400 && error.response.status <= 499) {
-        const response = {
-          message: error.response.data.errors
-            ? error.response.data.errors[0]
-            : `${error.response.status} - /api/v2/users}`,
-          type: 'Warning',
-          event: 'Fetch',
-          date: new Date().toLocaleString()
-        };
-        await reportLog(response);
-      }
-      if (error.response.status >= 500) {
-        const response = {
-          message: error.response.data.errors
-            ? error.response.data.errors[0]
-            : `${error.response.status} - /api/v2/users`,
           type: 'Error',
           event: 'Fetch',
           date: new Date().toLocaleString()

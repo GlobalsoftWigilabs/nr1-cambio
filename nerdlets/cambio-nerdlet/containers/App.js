@@ -29,13 +29,13 @@ import DatadogService from '../services/Datadog/DatadogService';
 import { Spinner, Toast } from 'nr1';
 
 /**
- * Class that render de dashboard
+ * Class that render de content
  *
  * @export
  * @class App
- * @extends {React.Component}
+ * @extends {React.PureComponent}
  */
-export default class App extends React.Component {
+export default class App extends React.PureComponent {
   /**
    * Constructor for the class
    *
@@ -1139,7 +1139,8 @@ export default class App extends React.Component {
       await this.loadViewData();
       this.setState({
         fetchingData: false,
-        lastUpdate
+        lastUpdate,
+        completed: 100
       });
     }
   };

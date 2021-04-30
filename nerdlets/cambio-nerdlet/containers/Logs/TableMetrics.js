@@ -18,7 +18,7 @@ const KEYS_TO_FILTERS = [
   'tagName'
 ];
 
-export default class TableMetrics extends React.Component {
+export default class TableMetrics extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {

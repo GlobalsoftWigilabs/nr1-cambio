@@ -15,7 +15,7 @@ import Pagination from '../../components/Pagination/Pagination';
 import JSZip from 'jszip';
 import jsoncsv from 'json-2-csv';
 import { saveAs } from 'file-saver';
-import { qregExr } from '../../dd2nr/transpiler/regexr';
+import { qregExr } from './expressionsRegular';
 
 const KEYS_TO_FILTERS = [
   'name',
@@ -35,9 +35,9 @@ const KEYS_TO_FILTERS = [
  *
  * @export
  * @class Dashboard
- * @extends {React.Component}
+ * @extends {React.PureComponent}
  */
-export default class Dashboard extends React.Component {
+export default class Dashboard extends React.PureComponent {
   /**
    * Creates an instance of Dashboard.
    *
@@ -145,6 +145,11 @@ export default class Dashboard extends React.Component {
       for (const widget of dd.widgets) {
         if (widget.definition.type === 'group') {
           widgets.push(widget);
+          if (widget.definition && widget.definition.widgets instanceof Array) {
+            for (const widgetG of widget.definition.widgets) {
+              widgetG.haveGroup = true;
+            }
+          }
           widgets = widgets.concat(widget.definition.widgets);
         } else {
           widgets.push(widget);
@@ -309,10 +314,10 @@ export default class Dashboard extends React.Component {
     switch (column) {
       case 'name': {
         const sortName = finalList.sort(function(a, b) {
-          if (a.name > b.name) {
+          if (a.name.toLowerCase() > b.name.toLowerCase()) {
             return valueOne;
           }
-          if (a.name < b.name) {
+          if (a.name.toLowerCase() < b.name.toLowerCase()) {
             return valueTwo;
           }
           return 0;
@@ -321,10 +326,10 @@ export default class Dashboard extends React.Component {
       }
       case 'autor': {
         const sortAutor = finalList.sort(function(a, b) {
-          if (a.autor > b.autor) {
+          if (a.autor.toLowerCase() > b.autor.toLowerCase()) {
             return valueOne;
           }
-          if (a.autor < b.autor) {
+          if (a.autor.toLowerCase() < b.autor.toLowerCase()) {
             return valueTwo;
           }
           return 0;
@@ -805,7 +810,8 @@ export default class Dashboard extends React.Component {
                             >
                               <span
                                 style={{
-                                  marginLeft: '15px'
+                                  marginLeft: '15px',
+                                  textTransform: 'capitalize'
                                 }}
                               >
                                 {props.value}
@@ -854,7 +860,10 @@ export default class Dashboard extends React.Component {
                         Cell: props => (
                           <div
                             className="h100 flex flexCenterVertical "
-                            style={{ marginLeft: '15px' }}
+                            style={{
+                              marginLeft: '15px',
+                              textTransform: 'capitalize'
+                            }}
                           >
                             {props.value}
                           </div>
